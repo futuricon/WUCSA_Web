@@ -8,12 +8,10 @@ namespace WUCSA.Core.Entities.GalleryModel
 {
     public class Media
     {
+        [StringLength(32)]
         public string Id { get; set; } = GeneratorId.GenerateLong();
 
         public string MediaPath { get; set; }
-
-        [Required(ErrorMessage = "Please enter Tags")]
-        public string TagLine { get; set; }
 
         public DateTime UploadDate { get; set; }
 

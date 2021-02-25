@@ -4,8 +4,8 @@ using System.Text;
 
 namespace WUCSA.Core.Interfaces
 {
-    public interface IEntity<TKey>
+    public interface ISlugifiedEntity
     {
-        TKey Id { get; set; }
+        string Slug { get; set; }
     }
 }

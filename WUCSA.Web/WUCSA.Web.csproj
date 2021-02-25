@@ -21,4 +21,10 @@
     <ProjectReference Include="..\WUCSA.Infrastructure\WUCSA.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\Admin\" />
+    <Folder Include="Pages\Blog\" />
+    <Folder Include="Pages\Gallery\" />
+  </ItemGroup>
+
 </Project>

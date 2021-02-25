@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
-using WUCSA.Core.Interfaces;
 
 namespace WUCSA.Core.Entities.UserModel
 {
@@ -13,7 +12,7 @@ namespace WUCSA.Core.Entities.UserModel
         Admin
     }
 
-    public class UserRole : IdentityRole, IEntity<string>
+    public class UserRole : IdentityRole
     {
         public UserRole(Role role) : base(role.ToString())
         {
@@ -21,7 +20,7 @@ namespace WUCSA.Core.Entities.UserModel
         }
 
         [StringLength(32)]
-        public sealed override string Id { get; set; }
+        public override string Id { get; set; }
 
         public Role Role { get; set; }
     }

@@ -12,6 +12,10 @@ using WUCSA.Infrastructure.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WUCSA.Core.Interfaces;
+using WUCSA.Infrastructure.Repositories;
+using WUCSA.Infrastructure.Services;
+using WUCSA.Core.Entities.UserModel;
 
 namespace WUCSA.Web
 {
@@ -27,12 +31,17 @@ namespace WUCSA.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(
+            //        Configuration.GetConnectionString("WUCSA_DB")));
+            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages();
+
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddScoped<IGalleryRepository, GalleryRepository>();
+            services.AddScoped<IBlogRepository, BlogRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,6 +70,33 @@ namespace WUCSA.Web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+            });
+        }
+        private void ConfigureDatabases(IServiceCollection services)
+        {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                        Configuration.GetConnectionString("LocalDbConnection")));
+        }
+
+        private void ConfigureIdentity(IServiceCollection services)
+        {
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddDefaultIdentity<AppUser>()
+                .AddRoles<UserRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequiredLength = 8;
+                options.Password.RequireDigit = true;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.User.AllowedUserNameCharacters = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789_.-";
+                options.User.RequireUniqueEmail = true;
+                //options.SignIn.RequireConfirmedAccount = true;
             });
         }
     }
