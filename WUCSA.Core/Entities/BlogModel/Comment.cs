@@ -4,10 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using WUCSA.Core.Entities.Base;
 using WUCSA.Core.Entities.UserModel;
+using WUCSA.Core.Interfaces;
 
 namespace WUCSA.Core.Entities.BlogModel
 {
-    public class Comment
+    public class Comment : IEntity<string>
     {
         [StringLength(32)]
         public string Id { get; set; } = GeneratorId.GenerateLong();

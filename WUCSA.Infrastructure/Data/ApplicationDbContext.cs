@@ -19,6 +19,10 @@ namespace WUCSA.Infrastructure.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
+        //public DbSet<Blog> Blogs { get; set; }
+        //public DbSet<Comment> Comments { get; set; }
+        //public DbSet<BlogTag> BlogTags { get; set; }
+        //public DbSet<MediaTag> MediaTags { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

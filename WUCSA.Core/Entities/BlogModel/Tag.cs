@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using WUCSA.Core.Entities.Base;
+using WUCSA.Core.Interfaces;
 
 namespace WUCSA.Core.Entities.BlogModel
 {
-    public class Tag
+    public class Tag : IEntity<string>
     {
         public Tag()
         {

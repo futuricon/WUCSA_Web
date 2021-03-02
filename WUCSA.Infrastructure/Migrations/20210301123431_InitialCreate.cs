@@ -272,8 +272,7 @@ namespace WUCSA.Infrastructure.Migrations
                 name: "Certificate",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(maxLength: 32, nullable: false),
                     CertPath = table.Column<string>(nullable: true),
                     CertName = table.Column<string>(nullable: true),
                     StaffId = table.Column<int>(nullable: false),

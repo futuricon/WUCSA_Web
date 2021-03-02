@@ -11,12 +11,12 @@ using WUCSA.Infrastructure.Data;
 
 namespace WUCSA.Infrastructure.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : Repository, IUserRepository
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<AppUser> _userManager;
 
-        public UserRepository(UserManager<AppUser> userManager, ApplicationDbContext context)
+        public UserRepository(UserManager<AppUser> userManager, ApplicationDbContext context) : base(context)
         {
             _userManager = userManager;
             _context = context;

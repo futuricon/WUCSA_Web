@@ -5,36 +5,34 @@ using System.Text;
 using System.Threading.Tasks;
 using WUCSA.Core.Entities.GalleryModel;
 using WUCSA.Core.Interfaces;
+using WUCSA.Infrastructure.Data;
 
 namespace WUCSA.Infrastructure.Repositories
 {
-    public class GalleryRepository : IGalleryRepository
+    public class GalleryRepository : Repository, IGalleryRepository
     {
-        public IQueryable<Media> Medias => throw new NotImplementedException();
+        private readonly ApplicationDbContext _context;
 
-        public IQueryable<MediaTag> MediaTags => throw new NotImplementedException();
-
-        public Task AddBlogAsync(Media media)
+        public GalleryRepository(ApplicationDbContext context) : base(context)
+        {
+            _context = context;
+        }
+        public Task AddMediaAsync(Media media)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteBlogAsync(Media media)
+        public Task DeleteMediaAsync(Media media)
         {
             throw new NotImplementedException();
         }
 
-        public Task GetByIdAsync(string id)
+        public Task UpdateMediaAsync(Media media)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateBlogAsync(Media media)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateTagsAsync(Media media, params MTag[] tags)
+        public Task UpdateTagsAsync(Media media, bool saveChanges = true, params MTag[] tags)
         {
             throw new NotImplementedException();
         }

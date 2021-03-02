@@ -6,7 +6,7 @@ using WUCSA.Core.Entities.UserModel;
 
 namespace WUCSA.Core.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepository
     {
         Task UpdateUserRolesAsync(AppUser user, IEnumerable<string> roles);
 

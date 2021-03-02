@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
+using WUCSA.Core.Entities.Base;
 
 namespace WUCSA.Core.Entities.StaffModel
 {
     public class Certificate
     {
-        public int Id { get; set; }
+        [StringLength(32)]
+        public string Id { get; set; } = GeneratorId.GenerateComplex();
 
         public string CertPath { get; set; }
 

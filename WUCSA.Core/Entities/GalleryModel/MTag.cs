@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using WUCSA.Core.Entities.Base;
+using WUCSA.Core.Interfaces;
 
 namespace WUCSA.Core.Entities.GalleryModel
 {
-    public class MTag
+    public class MTag : IEntity<string>
     {
         public MTag()
         {

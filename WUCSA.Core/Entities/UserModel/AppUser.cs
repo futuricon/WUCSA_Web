@@ -6,7 +6,7 @@ using WUCSA.Core.Interfaces;
 
 namespace WUCSA.Core.Entities.UserModel
 {
-    public class AppUser : IdentityUser<string>
+    public class AppUser : IdentityUser<string>, IEntity<string>
     {
         public AppUser()
         {

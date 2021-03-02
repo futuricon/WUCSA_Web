@@ -10,7 +10,7 @@ using WUCSA.Infrastructure.Data;
 namespace WUCSA.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210225161444_InitialCreate")]
+    [Migration("20210301123431_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -302,10 +302,9 @@ namespace WUCSA.Infrastructure.Migrations
 
             modelBuilder.Entity("WUCSA.Core.Entities.StaffModel.Certificate", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<string>("CertName")
                         .HasColumnType("nvarchar(max)");

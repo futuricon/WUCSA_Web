@@ -10,7 +10,7 @@ using WUCSA.Core.Interfaces;
 
 namespace WUCSA.Core.Entities.BlogModel
 {
-    public class Blog : ISlugifiedEntity
+    public class Blog : ISlugifiedEntity, IEntity<string>
     {
         public Blog()
         {
@@ -27,6 +27,8 @@ namespace WUCSA.Core.Entities.BlogModel
         public string CoverPhotoPath { get; set; }
 
         public virtual AppUser Author { get; set; }
+
+        public DateTime PostedDate { get; set; }
 
         [Required(ErrorMessage = "Please enter the article topic name")]
         [StringLength(80, ErrorMessage = "Characters must be less than 80")]
