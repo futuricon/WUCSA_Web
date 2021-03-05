@@ -1,5 +1,7 @@
 ﻿@page
+@using Microsoft.Extensions.Configuration
 @model RegisterModel
+@inject IConfiguration configuration
 @{
     ViewData["Title"] = "Register";
 }
@@ -7,8 +9,9 @@
 <h1>@ViewData["Title"]</h1>
 
 <div class="row">
+    <div class="gixi gixi-md" data-gixiseed="such as username @DateTime.Now.Ticks.ToString()"></div>
     <div class="col-md-4">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <form id="reg-form" asp-route-returnUrl="@Model.ReturnUrl" enctype="multipart/form-data" method="post">
             <h4>Create a new account.</h4>
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
@@ -19,8 +22,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" class="form-control" />
+                <input asp-for="Input.Email" class="form-control" id="gixiSeed" onchange="gixiFunc()" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input id="select_photo" asp-for="Input.UploadPhoto" type="hidden" />
             </div>
             <div class="form-group">
                 <label asp-for="Input.Password"></label>
@@ -32,9 +38,17 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button id="submitBtn" class="g-recaptcha btn btn-primary"
+                    data-sitekey="@configuration.GetSection("reCAPTCHA:SiteKey").Value"
+                    data-callback='onSubmit'
+                    type="submit">
+                Register
+            </button>
+            @*<div class="g-recaptcha" data-sitekey="@Configuration.GetSection("GoogleRecaptchaV2:SiteKey").Value"></div>
+        @*<button type="submit" class="btn btn-primary">Register</button>*@
         </form>
     </div>
+    <img id="imgl" width="0" height="0"/>
     <div class="col-md-6 col-md-offset-2">
         <section>
             <h4>Use another service to register.</h4>
@@ -69,4 +83,58 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+    <script src="~/js/gixi-min.js"></script>
+    <script>
+        function onSubmit(token) {
+            document.getElementById("reg-form").submit();
+        }
+
+        var fl;
+        function gixiFunc() {
+            var emailx = document.getElementById("gixiSeed").value;
+            $('#imgl').gixi({ seed: emailx, color: undefined, size: 300 })
+            //fl = new File([dataURItoBlob(document.getElementById("imgl").src)], emailx + ".png", { type: "image/png" });
+            document.getElementById('select_photo').src = document.getElementById("imgl").src;
+        }
+
+        function dataURItoBlob(dataURI) {
+            var mime = dataURI.split(',')[0].split(':')[1].split(';')[0];
+            var binary = atob(dataURI.split(',')[1]);
+            var array = [];
+            for (var i = 0; i < binary.length; i++) {
+                array.push(binary.charCodeAt(i));
+            }
+            return new Blob([new Uint8Array(array)], { type: mime });
+        }
+
+        $("#submitBtnx").click(function () {
+            formData = new FormData();
+            formData.append("MyUploader", fl);
+
+            jQuery.ajax({
+                type: 'POST',
+                url: '/Identity/Account/Register?handler=MyUploader',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("XSRF-TOKEN",
+                        $('input:hidden[name="__RequestVerificationToken"]').val());
+                }
+                //,
+                //success: function (repo) {
+                //    if (repo.status == "success") {
+                //        alert("File : " + repo.filename + " is uploaded successfully");
+                //    }
+                //},
+                //error: function () {
+                //    alert("Error occurs");
+                //}
+            });
+        });
+
+    </script>
 }

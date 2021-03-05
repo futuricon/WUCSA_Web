@@ -11,6 +11,7 @@ using WUCSA.Core.Entities.Base;
 using WUCSA.Core.Entities.BlogModel;
 using WUCSA.Core.Entities.UserModel;
 using WUCSA.Core.Interfaces;
+using WUCSA.Core.Interfaces.Repositories;
 
 namespace WUCSA.Web.Pages.Blog
 {

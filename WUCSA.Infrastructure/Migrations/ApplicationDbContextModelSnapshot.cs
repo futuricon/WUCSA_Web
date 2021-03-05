@@ -219,7 +219,8 @@ namespace WUCSA.Infrastructure.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
 
                     b.Property<string>("ParentCommentId")
                         .HasColumnType("nvarchar(32)");
@@ -251,6 +252,69 @@ namespace WUCSA.Infrastructure.Migrations
                     b.ToTable("Tag");
                 });
 
+            modelBuilder.Entity("WUCSA.Core.Entities.EventModel.Event", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
+
+                    b.Property<string>("CompetitionType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(80)")
+                        .HasMaxLength(80);
+
+                    b.Property<string>("CoverPhotoPath")
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(160)")
+                        .HasMaxLength(160);
+
+                    b.Property<string>("DescriptionRu")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(160)")
+                        .HasMaxLength(160);
+
+                    b.Property<string>("DescriptionUz")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(80)")
+                        .HasMaxLength(80);
+
+                    b.Property<DateTime>("EventDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(80)")
+                        .HasMaxLength(80);
+
+                    b.Property<DateTime>("PostedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Event");
+                });
+
+            modelBuilder.Entity("WUCSA.Core.Entities.EventModel.EventParticipant", b =>
+                {
+                    b.Property<string>("EventId")
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
+
+                    b.Property<string>("ParticipantId")
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
+
+                    b.HasKey("EventId", "ParticipantId");
+
+                    b.HasIndex("ParticipantId");
+
+                    b.ToTable("EventParticipant");
+                });
+
             modelBuilder.Entity("WUCSA.Core.Entities.GalleryModel.MTag", b =>
                 {
                     b.Property<string>("Id")
@@ -273,13 +337,18 @@ namespace WUCSA.Infrastructure.Migrations
                         .HasColumnType("nvarchar(32)")
                         .HasMaxLength(32);
 
+                    b.Property<string>("AuthorId")
+                        .HasColumnType("nvarchar(32)");
+
                     b.Property<string>("MediaPath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UploadDate")
+                    b.Property<DateTime>("PostedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("Media");
                 });
@@ -301,91 +370,126 @@ namespace WUCSA.Infrastructure.Migrations
                     b.ToTable("MediaTag");
                 });
 
-            modelBuilder.Entity("WUCSA.Core.Entities.StaffModel.Certificate", b =>
+            modelBuilder.Entity("WUCSA.Core.Entities.ParticipantModel.Certificate", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(32)")
                         .HasMaxLength(32);
 
                     b.Property<string>("CertName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(40)")
+                        .HasMaxLength(40);
 
                     b.Property<string>("CertPath")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
-                    b.Property<int>("StaffId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("StaffId1")
+                    b.Property<string>("ParticipantId")
                         .HasColumnType("nvarchar(32)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StaffId1");
+                    b.HasIndex("ParticipantId");
 
                     b.ToTable("Certificate");
                 });
 
-            modelBuilder.Entity("WUCSA.Core.Entities.StaffModel.Staff", b =>
+            modelBuilder.Entity("WUCSA.Core.Entities.ParticipantModel.Participant", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(400)")
+                        .HasMaxLength(400);
+
+                    b.Property<string>("DescriptionRu")
+                        .HasColumnType("nvarchar(400)")
+                        .HasMaxLength(400);
+
+                    b.Property<string>("DescriptionUz")
+                        .HasColumnType("nvarchar(400)")
+                        .HasMaxLength(400);
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(40)")
+                        .HasMaxLength(40);
+
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Height")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(40)")
+                        .HasMaxLength(40);
+
+                    b.Property<string>("ProfilePhotoPath")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<int>("Weight")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Participant");
+                });
+
+            modelBuilder.Entity("WUCSA.Core.Entities.RankModel.Rank", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(32)")
                         .HasMaxLength(32);
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(400)")
+                        .HasMaxLength(400);
 
                     b.Property<string>("DescriptionRu")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(400)")
+                        .HasMaxLength(400);
 
                     b.Property<string>("DescriptionUz")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(400)")
+                        .HasMaxLength(400);
 
-                    b.Property<string>("Name")
+                    b.Property<string>("RankName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NameRu")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NameUz")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Position")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PositionRu")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PositionUz")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProfilePhotoPath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Surname")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SurnameRu")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SurnameUz")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(40)")
+                        .HasMaxLength(40);
 
                     b.HasKey("Id");
 
-                    b.ToTable("Staff");
+                    b.ToTable("Rank");
+                });
+
+            modelBuilder.Entity("WUCSA.Core.Entities.RankModel.RankParticipant", b =>
+                {
+                    b.Property<string>("RankId")
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
+
+                    b.Property<string>("ParticipantId")
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
+
+                    b.Property<int>("PositionNumber")
+                        .HasColumnType("int");
+
+                    b.HasKey("RankId", "ParticipantId");
+
+                    b.HasIndex("ParticipantId");
+
+                    b.ToTable("RankParticipant");
                 });
 
             modelBuilder.Entity("WUCSA.Core.Entities.UserModel.AppUser", b =>
@@ -440,8 +544,8 @@ namespace WUCSA.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("ProfilePhotoPath")
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -585,6 +689,28 @@ namespace WUCSA.Infrastructure.Migrations
                         .HasForeignKey("ParentCommentId");
                 });
 
+            modelBuilder.Entity("WUCSA.Core.Entities.EventModel.EventParticipant", b =>
+                {
+                    b.HasOne("WUCSA.Core.Entities.EventModel.Event", "Event")
+                        .WithMany("EventParticipants")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WUCSA.Core.Entities.ParticipantModel.Participant", "Participant")
+                        .WithMany("EventParticipants")
+                        .HasForeignKey("ParticipantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WUCSA.Core.Entities.GalleryModel.Media", b =>
+                {
+                    b.HasOne("WUCSA.Core.Entities.UserModel.AppUser", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId");
+                });
+
             modelBuilder.Entity("WUCSA.Core.Entities.GalleryModel.MediaTag", b =>
                 {
                     b.HasOne("WUCSA.Core.Entities.GalleryModel.MTag", "MTag")
@@ -600,11 +726,26 @@ namespace WUCSA.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WUCSA.Core.Entities.StaffModel.Certificate", b =>
+            modelBuilder.Entity("WUCSA.Core.Entities.ParticipantModel.Certificate", b =>
                 {
-                    b.HasOne("WUCSA.Core.Entities.StaffModel.Staff", "Staff")
+                    b.HasOne("WUCSA.Core.Entities.ParticipantModel.Participant", "Participant")
                         .WithMany("Certificates")
-                        .HasForeignKey("StaffId1");
+                        .HasForeignKey("ParticipantId");
+                });
+
+            modelBuilder.Entity("WUCSA.Core.Entities.RankModel.RankParticipant", b =>
+                {
+                    b.HasOne("WUCSA.Core.Entities.ParticipantModel.Participant", "Participant")
+                        .WithMany("RankParticipants")
+                        .HasForeignKey("ParticipantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WUCSA.Core.Entities.RankModel.Rank", "Rank")
+                        .WithMany("RankParticipants")
+                        .HasForeignKey("RankId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

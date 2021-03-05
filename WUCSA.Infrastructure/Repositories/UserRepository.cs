@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WUCSA.Core.Entities.BlogModel;
 using WUCSA.Core.Entities.UserModel;
 using WUCSA.Core.Interfaces;
+using WUCSA.Core.Interfaces.Repositories;
 using WUCSA.Infrastructure.Data;
 
 namespace WUCSA.Infrastructure.Repositories

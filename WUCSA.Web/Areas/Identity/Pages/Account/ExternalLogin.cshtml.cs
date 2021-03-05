@@ -112,7 +112,16 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new AppUser { UserName = Input.Email, Email = Input.Email };
+                string firstsName = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
+                string firstName = info.Principal.FindFirstValue(ClaimTypes.GivenName);
+                string lastName = info.Principal.FindFirstValue(ClaimTypes.Surname);
+                var profilePhotoPath = info.Principal.FindFirst("image")?.Value;
+                var user = new AppUser { 
+                    UserName = Input.Email, 
+                    FirstName = firstName,
+                    LastName = lastName,
+                    ProfilePhotoPath = profilePhotoPath,
+                    Email = Input.Email };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

@@ -1,18 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using WUCSA.Core.Entities.UserModel;
+using WUCSA.Web.Utils;
 
 namespace WUCSA.Web.Areas.Identity.Pages.Account
 {
@@ -23,17 +31,26 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
         private readonly UserManager<AppUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IConfiguration _configuration;
+        private readonly ImageHelper _imageHelper;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public RegisterModel(
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender, 
+            IConfiguration configuration,
+            ImageHelper imageHelper,
+            IWebHostEnvironment webHostEnvironment)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _configuration = configuration;
+            _imageHelper = imageHelper;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [BindProperty]
@@ -64,6 +81,8 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            public IFormFile UploadPhoto { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -75,10 +94,21 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
+
+            var validCaptcha = await CheckCaptchaResponseAsync();
+
+            if (!validCaptcha)
+                ModelState.AddModelError("captcha", "Invalid captcha verification");
+
+            if (!ModelState.IsValid)
+                return Page();
+
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new AppUser { UserName = Input.Email, Email = Input.Email };
+                var profilePhotoPath = Input.UploadPhoto;
+                //, ProfilePhotoPath = profilePhotoPath 
+                var user = new AppUser { UserName = Input.UserName, Email = Input.Email};
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
@@ -113,6 +143,43 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
+        }
+
+        private async Task<bool> CheckCaptchaResponseAsync()
+        {
+            const string captchaApiUrl = "https://www.google.com/recaptcha/api/siteverify";
+            var captchaResponse = HttpContext.Request.Form["g-recaptcha-response"].ToString();
+            var secretKey = _configuration.GetSection("reCAPTCHA:SecretKey").Value;
+            var httpClient = new HttpClient();
+            var postQueries = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("secret", secretKey),
+                new KeyValuePair<string, string>("response", captchaResponse)
+            };
+
+            var response = await httpClient.PostAsync(new Uri(captchaApiUrl), new FormUrlEncodedContent(postQueries));
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var jsonData = JObject.Parse(responseContent);
+
+            // ReSharper disable once PossibleNullReferenceException
+            return bool.Parse(jsonData["success"].ToString());
+        }
+
+        public IActionResult OnPostMyUploader(IFormFile MyUploader)
+        {
+            if (MyUploader != null)
+            {
+                _imageHelper.UploadImage(MyUploader, $"{MyUploader.FileName}_profile");
+                //string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "mediaUpload");
+                //string filePath = Path.Combine(uploadsFolder, MyUploader.FileName);
+                //using (var fileStream = new FileStream(filePath, FileMode.Create))
+                //{
+                //    MyUploader.CopyTo(fileStream);
+                //}
+                return new ObjectResult(new { status = "success" });
+            }
+            return new ObjectResult(new { status = "fail" });
+
         }
     }
 }

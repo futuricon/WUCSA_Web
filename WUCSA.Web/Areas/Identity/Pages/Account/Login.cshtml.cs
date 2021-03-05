@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using WUCSA.Core.Entities.UserModel;
+using System.Text.RegularExpressions;
 
 namespace WUCSA.Web.Areas.Identity.Pages.Account
 {
@@ -44,8 +45,8 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress]
-            public string Email { get; set; }
+            [Display(Name = "Username or email")]
+            public string Username { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
@@ -76,34 +77,98 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
         {
             returnUrl = returnUrl ?? Url.Content("~/");
 
-            if (ModelState.IsValid)
+            // Match input is username or email
+            if (Input.Username.IndexOf('@') > -1)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
+                //Validate email format
+                const string emailRegex = @"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +
+                                          @"\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\" +
+                                          @".)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$";
+                var re = new Regex(emailRegex);
+                if (!re.IsMatch(Input.Username))
                 {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    ModelState.AddModelError("Email", "Email is not valid");
                 }
-                if (result.RequiresTwoFactor)
+            }
+            else
+            {
+                //validate Username format
+                const string emailRegex = @"^[a-zA-Z0-9]*$";
+                var re = new Regex(emailRegex);
+                if (!re.IsMatch(Input.Username))
                 {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                    ModelState.AddModelError("Email", "Username is not valid");
                 }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
-                }
-                else
+            }
+
+            if (!ModelState.IsValid)
+                return Page();
+
+            var userName = Input.Username;
+            if (userName.IndexOf('@') > -1)
+            {
+                var user = await _userManager.FindByEmailAsync(Input.Username);
+                if (user == null)
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return Page();
                 }
+
+                userName = user.UserName;
             }
 
+            var result = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, true);
+
+            if (result.Succeeded)
+            {
+                _logger.LogInformation("User logged in.");
+                return LocalRedirect(returnUrl);
+            }
+            if (result.RequiresTwoFactor)
+            {
+                return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+            }
+            if (result.IsLockedOut)
+            {
+                _logger.LogWarning("User account locked out.");
+                return RedirectToPage("./Lockout");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                return Page();
+            }
+
+            #region trash
+            //if (ModelState.IsValid)
+            //{
+            //    // This doesn't count login failures towards account lockout
+            //    // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+            //    var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+            //    if (result.Succeeded)
+            //    {
+            //        _logger.LogInformation("User logged in.");
+            //        return LocalRedirect(returnUrl);
+            //    }
+            //    if (result.RequiresTwoFactor)
+            //    {
+            //        return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+            //    }
+            //    if (result.IsLockedOut)
+            //    {
+            //        _logger.LogWarning("User account locked out.");
+            //        return RedirectToPage("./Lockout");
+            //    }
+            //    else
+            //    {
+            //        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+            //        return Page();
+            //    }
+            //}
+            #endregion trash
+
             // If we got this far, something failed, redisplay form
-            return Page();
+            //return Page();
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using WUCSA.Core.Entities.Base;
-using WUCSA.Core.Interfaces;
+using WUCSA.Core.Interfaces.Repositories;
 
 namespace WUCSA.Web.Pages.Blog
 {

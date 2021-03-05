@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using WUCSA.Core.Interfaces;
+using WUCSA.Core.Interfaces.Repositories;
 using WUCSA.Infrastructure.Data;
 
 namespace WUCSA.Infrastructure.Repositories

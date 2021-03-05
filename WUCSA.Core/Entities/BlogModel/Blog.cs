@@ -14,7 +14,7 @@ namespace WUCSA.Core.Entities.BlogModel
     {
         public Blog()
         {
-            CoverPhotoPath = "/img/default_blog_cover.png";
+            CoverPhotoPath = "/img/blog_image.png";
         }
 
         [StringLength(32)]
@@ -30,31 +30,37 @@ namespace WUCSA.Core.Entities.BlogModel
 
         public DateTime PostedDate { get; set; }
 
-        [Required(ErrorMessage = "Please enter the article topic name")]
+        [Required(ErrorMessage = "Please enter the article title")]
         [StringLength(80, ErrorMessage = "Characters must be less than 80")]
+        [Display(Name = "Title")]
         public string Title { get; set; }
 
-        [Required(ErrorMessage = "Please enter the article topic name")]
-        [StringLength(80, ErrorMessage = "Characters must be less than 80")]
+        [Required(ErrorMessage = "Пожалуйста, введите заголовок статьи")]
+        [StringLength(80, ErrorMessage = "Символов должно быть меньше 80")]
+        [Display(Name = "Заголовок")]
         public string TitleRu { get; set; }
 
-        [Required(ErrorMessage = "Please enter the article topic name")]
-        [StringLength(80, ErrorMessage = "Characters must be less than 80")]
+        [Required(ErrorMessage = "Iltimos, maqola sarlavhasini kiriting")]
+        [StringLength(80, ErrorMessage = "Belgilar 80 dan kam bo'lishi kerak")]
+        [Display(Name = "Sarlavha")]
         public string TitleUz { get; set; }
 
-        [Required(ErrorMessage = "Please enter the summary of article")]
+        [Required(ErrorMessage = "Please enter a summary of the article")]
+        [Display(Name = "Summary")]
         public string Summary { get; set; }
 
-        [Required(ErrorMessage = "Please enter the summary of article")]
+        [Required(ErrorMessage = "Пожалуйста, введите содержание статьи")]
+        [Display(Name = "Содержание")]
         public string SummaryRu { get; set; }
 
-        [Required(ErrorMessage = "Please enter the summary of article")]
+        [Required(ErrorMessage = "Iltimos, maqolaning mazmunini kiriting")]
+        [Display(Name = "Mazmunin")]
         public string SummaryUz { get; set; }
 
         public int ViewCount { get; set; }
 
-        public ICollection<BlogTag> BlogTags { get; set; }
-        public ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<BlogTag> BlogTags { get; set; } = new List<BlogTag>();
+        public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
         public static string GetShortContent(string articleContent, int length)
         {

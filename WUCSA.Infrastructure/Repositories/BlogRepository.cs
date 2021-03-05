@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WUCSA.Core.Entities.BlogModel;
 using WUCSA.Core.Interfaces;
+using WUCSA.Core.Interfaces.Repositories;
 using WUCSA.Infrastructure.Data;
 
 namespace WUCSA.Infrastructure.Repositories
@@ -48,7 +49,6 @@ namespace WUCSA.Infrastructure.Repositories
         {
             foreach (var tag in tags)
             {
-                // ReSharper disable once SpecifyStringComparison
                 var originTag = await GetAsync<Tag>(i => i.Name.ToLower() == tag.Name.ToLower());
 
                 if (originTag == null)
@@ -57,7 +57,6 @@ namespace WUCSA.Infrastructure.Repositories
                     await _context.Set<Tag>().AddAsync(originTag);
                 }
 
-                // ReSharper disable once SpecifyStringComparison
                 if (blog.BlogTags.Any(i => i.Tag.Name.ToLower() == originTag.Name.ToLower()))
                 {
                     continue;

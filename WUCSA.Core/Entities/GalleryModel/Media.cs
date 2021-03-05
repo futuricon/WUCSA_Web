@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using WUCSA.Core.Entities.Base;
+using WUCSA.Core.Entities.UserModel;
 using WUCSA.Core.Interfaces;
 
 namespace WUCSA.Core.Entities.GalleryModel
@@ -14,8 +15,10 @@ namespace WUCSA.Core.Entities.GalleryModel
 
         public string MediaPath { get; set; }
 
-        public DateTime UploadDate { get; set; }
+        public DateTime PostedDate { get; set; }
 
-        public ICollection<MediaTag> MediaTags { get; set; }
+        public virtual ICollection<MediaTag> MediaTags { get; set; } = new List<MediaTag>();
+
+        public virtual AppUser Author { get; set; }
     }
 }

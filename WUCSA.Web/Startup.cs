@@ -16,6 +16,15 @@ using WUCSA.Core.Interfaces;
 using WUCSA.Infrastructure.Repositories;
 using WUCSA.Infrastructure.Services;
 using WUCSA.Core.Entities.UserModel;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using WUCSA.Web.Utils;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using System.Reflection;
+using WUCSA.Web.Resources;
+using Microsoft.Extensions.Options;
+using WUCSA.Core.Interfaces.Repositories;
 
 namespace WUCSA.Web
 {
@@ -36,15 +45,45 @@ namespace WUCSA.Web
             //        Configuration.GetConnectionString("WUCSA_DB")));
             //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
             //    .AddEntityFrameworkStores<ApplicationDbContext>();
-            
+
+            services.AddLocalization(options => options.ResourcesPath = "resources");
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[]
+                {
+                    new CultureInfo("en"),
+                    new CultureInfo("ru"),
+                    new CultureInfo("uz")
+                };
+                options.DefaultRequestCulture = new RequestCulture("en");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
+            services.AddSingleton<CommonLocalizationService>();
+
+            services.AddMvc().AddViewLocalization().AddDataAnnotationsLocalization(options =>
+            {
+                options.DataAnnotationLocalizerProvider = (type, factory) =>
+                {
+                    var assemblyName = new AssemblyName(typeof(CommonResources).GetTypeInfo().Assembly.FullName);
+                    return factory.Create(nameof(CommonResources), assemblyName.Name);
+                };
+            });
+
             ConfigureDatabases(services);
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddScoped<IRepository, Repository>();
-            services.AddScoped<IGalleryRepository, GalleryRepository>();
             services.AddScoped<IBlogRepository, BlogRepository>();
+            services.AddScoped<IEventRepository, EventRepository>();
+            services.AddScoped<IGalleryRepository, GalleryRepository>();
+            services.AddScoped<IRankRepository, RankRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             ConfigureIdentity(services);
 
+            services.AddScoped<ImageHelper>();
+
+            services.AddHttpContextAccessor();
+            services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
             services.AddRazorPages();
             services.AddRazorPages(options =>
             {
@@ -78,7 +117,11 @@ namespace WUCSA.Web
             {
                 endpoints.MapRazorPages();
             });
+
+            var localizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value;
+            app.UseRequestLocalization(localizationOptions);
         }
+        
         private void ConfigureDatabases(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -103,7 +146,8 @@ namespace WUCSA.Web
                 options.Password.RequireNonAlphanumeric = false;
                 options.User.AllowedUserNameCharacters = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789_.-@";
                 options.User.RequireUniqueEmail = true;
-                options.SignIn.RequireConfirmedAccount = false;
+                options.SignIn.RequireConfirmedAccount = true;
+                options.SignIn.RequireConfirmedEmail = true;
             });
 
             services.AddAuthentication()
@@ -114,6 +158,8 @@ namespace WUCSA.Web
 
                 options.ClientId = googleAuthNSection["ClientId"];
                 options.ClientSecret = googleAuthNSection["ClientSecret"];
+                options.ClaimActions.MapJsonKey("image", "picture");
+                options.AccessDeniedPath = "/AccessDeniedPathInfo";
             })
             .AddFacebook(options =>
             {

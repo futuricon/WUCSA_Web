@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WUCSA.Core.Entities.GalleryModel;
 using WUCSA.Core.Interfaces;
+using WUCSA.Core.Interfaces.Repositories;
 using WUCSA.Infrastructure.Data;
 
 namespace WUCSA.Infrastructure.Repositories
@@ -17,24 +18,49 @@ namespace WUCSA.Infrastructure.Repositories
         {
             _context = context;
         }
+
         public Task AddMediaAsync(Media media)
         {
-            throw new NotImplementedException();
+            return AddAsync(media);
         }
 
-        public Task DeleteMediaAsync(Media media)
+        public async Task DeleteMediaAsync(Media media)
         {
-            throw new NotImplementedException();
+            await DeleteAsync(media);
         }
 
         public Task UpdateMediaAsync(Media media)
         {
-            throw new NotImplementedException();
+            return UpdateAsync(media);
         }
 
-        public Task UpdateTagsAsync(Media media, bool saveChanges = true, params MTag[] tags)
+        public async Task UpdateTagsAsync(Media media, bool saveChanges = true, params MTag[] tags)
         {
-            throw new NotImplementedException();
+            foreach (var tag in tags)
+            {
+                var originTag = await GetAsync<MTag>(i => i.Name.ToLower() == tag.Name.ToLower());
+
+                if (originTag == null)
+                {
+                    originTag = new MTag(tag);
+                    await _context.Set<MTag>().AddAsync(originTag);
+                }
+
+                if (media.MediaTags.Any(i => i.MTag.Name.ToLower() == originTag.Name.ToLower()))
+                {
+                    continue;
+                }
+
+                media.MediaTags.Add(new MediaTag
+                {
+                    MTag = originTag
+                });
+            }
+
+            if (saveChanges)
+            {
+                await UpdateAsync(media);
+            }
         }
     }
 }
