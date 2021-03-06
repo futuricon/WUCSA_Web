@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using WUCSA.Core.Entities.Base;
 using WUCSA.Core.Interfaces;
 
 namespace WUCSA.Core.Entities.UserModel
@@ -18,11 +19,12 @@ namespace WUCSA.Core.Entities.UserModel
     {
         public UserRole(Role role) : base(role.ToString())
         {
+            Id = GeneratorId.GenerateLong();
             Role = role;
         }
 
         [StringLength(32)]
-        public override string Id { get; set; }
+        public sealed override string Id { get; set; }
 
         public Role Role { get; set; }
     }

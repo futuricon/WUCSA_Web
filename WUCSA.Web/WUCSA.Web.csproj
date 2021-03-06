@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\mediaUpload\**" />
+    <Content Remove="wwwroot\mediaUpload\**" />
+    <EmbeddedResource Remove="wwwroot\mediaUpload\**" />
+    <None Remove="wwwroot\mediaUpload\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="7.23.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="3.1.12" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.12" />
@@ -29,11 +36,9 @@
 
   <ItemGroup>
     <Folder Include="Pages\Gallery\" />
-    <Folder Include="Pages\Rank\" />
     <Folder Include="wwwroot\img\certificates\" />
     <Folder Include="wwwroot\img\profile_imgs\" />
     <Folder Include="wwwroot\img\gallery_imgs\" />
-    <Folder Include="wwwroot\mediaUpload\" />
   </ItemGroup>
 
 </Project>

@@ -2,11 +2,13 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Threading.Tasks;
 using Devcorner.NIdenticon;
 using Devcorner.NIdenticon.BrushGenerators;
 using ImageMagick;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+
 namespace WUCSA.Web.Utils
 {
     public class ImageHelper
@@ -33,7 +35,17 @@ namespace WUCSA.Web.Utils
         {
             return Convert.ToUInt16(new Random().Next(new Random().Next(0, 14), new Random().Next(16, 200)));
         }
-        
+
+        public void DeleteFile(string fname)
+        {
+            fname = fname.Remove(0, 18);
+            var absolutePath = Path.Combine(_env.WebRootPath, "img", "profile_imgs", fname);
+            if (File.Exists(absolutePath))
+            {
+               File.Delete(absolutePath);
+            }
+        }
+
         public string GenerateImage(string fileName, string size = "small")
         {
             int height = 228, width = 228;
@@ -48,14 +60,16 @@ namespace WUCSA.Web.Utils
                 .WithBrushGenerator(statColor)
                 .WithBlockGenerators(IdenticonGenerator.DefaultBlockGeneratorsConfig);
             var mybitmap = g.Create(fileName);
-            var absolutePath = Path.Combine(_env.WebRootPath, "img", "profile_imgs", fileName + ".png");
+            var imagePath = $"{fileName}{".png"}";
+            var absolutePath = Path.Combine(_env.WebRootPath, "img", "profile_imgs", imagePath);
             mybitmap.Save(absolutePath, ImageFormat.Png);
-            return absolutePath;
+            return $"/img/profile_imgs/{imagePath}";
         }
 
-        public string UploadImage(IFormFile image, string imageFileName,
+        public string UploadImage(IFormFile image, string imageFileName, string previousFilePath,
             bool resizeToQuadratic = false, bool resizeToRectangle = false)
         {
+            DeleteFile(previousFilePath);
             try
             {
                 var fileExtension = Path.GetExtension(image.FileName);

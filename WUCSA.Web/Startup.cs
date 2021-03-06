@@ -84,7 +84,6 @@ namespace WUCSA.Web
 
             services.AddHttpContextAccessor();
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
-            services.AddRazorPages();
             services.AddRazorPages(options =>
             {
                 options.Conventions.AddPageRoute("/Blog/List", "/Blog");

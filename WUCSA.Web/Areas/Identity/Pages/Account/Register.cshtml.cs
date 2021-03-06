@@ -81,8 +81,6 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
-
-            public IFormFile UploadPhoto { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -106,9 +104,8 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var profilePhotoPath = Input.UploadPhoto;
-                //, ProfilePhotoPath = profilePhotoPath 
-                var user = new AppUser { UserName = Input.UserName, Email = Input.Email};
+                var profileImage = _imageHelper.GenerateImage(Input.Email);
+                var user = new AppUser { UserName = Input.UserName, Email = Input.Email, ProfilePhotoPath = profileImage };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
@@ -163,23 +160,6 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
 
             // ReSharper disable once PossibleNullReferenceException
             return bool.Parse(jsonData["success"].ToString());
-        }
-
-        public IActionResult OnPostMyUploader(IFormFile MyUploader)
-        {
-            if (MyUploader != null)
-            {
-                _imageHelper.UploadImage(MyUploader, $"{MyUploader.FileName}_profile");
-                //string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "mediaUpload");
-                //string filePath = Path.Combine(uploadsFolder, MyUploader.FileName);
-                //using (var fileStream = new FileStream(filePath, FileMode.Create))
-                //{
-                //    MyUploader.CopyTo(fileStream);
-                //}
-                return new ObjectResult(new { status = "success" });
-            }
-            return new ObjectResult(new { status = "fail" });
-
         }
     }
 }

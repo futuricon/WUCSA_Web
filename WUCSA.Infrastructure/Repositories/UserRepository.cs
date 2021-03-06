@@ -17,7 +17,8 @@ namespace WUCSA.Infrastructure.Repositories
         private readonly ApplicationDbContext _context;
         private readonly UserManager<AppUser> _userManager;
 
-        public UserRepository(UserManager<AppUser> userManager, ApplicationDbContext context) : base(context)
+        public UserRepository(UserManager<AppUser> userManager, 
+            ApplicationDbContext context) : base(context)
         {
             _userManager = userManager;
             _context = context;

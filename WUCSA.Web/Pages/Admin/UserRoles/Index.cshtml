@@ -1,0 +1,52 @@
+﻿@page
+@model WUCSA.Web.Pages.Admin.UserRoles.IndexModel
+@{
+}
+
+@{ ViewData["Title"] = "User Roles"; }
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <span class="float-right mx-2">Total records: &nbsp; @Model.UserRoles.Count</span>
+</p>
+
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead class="bg-info">
+            <tr class="text-white">
+                <th>
+                    @Html.DisplayNameFor(model => model.UserRoles[0].Name)
+                </th>
+                <th>
+                    Users
+                </th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody class="bg-white">
+            @foreach (var item in Model.UserRoles)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @((await Model.UserManager.GetUsersInRoleAsync(item.Name)).Count)
+                    </td>
+                    <td>
+                        <ul class="list-group list-group-horizontal">
+                            <li class="list-group-item p-0 mx-1 border-0">
+                                <a class="btn btn-sm btn-info" asp-page="./Edit" asp-route-id="@item.Id"><i class="fa fa-pencil"></i> &nbsp;Edit</a>
+                            </li>
+                            <li class="list-group-item p-0 mx-1 border-0">
+                                <a class="btn btn-sm btn-info" asp-page="./Details" asp-route-id="@item.Id"><i class="fa fa-info"></i> &nbsp;Details</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+             }
+        </tbody>
+    </table>
+</div>
