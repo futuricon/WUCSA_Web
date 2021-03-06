@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Net.Mail;
+using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -16,11 +17,14 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IEmailSender _sender;
+        private readonly IEmailService _service;
 
-        public RegisterConfirmationModel(UserManager<AppUser> userManager, IEmailSender sender)
+        public RegisterConfirmationModel(UserManager<AppUser> userManager, 
+            IEmailSender sender, IEmailService service)
         {
             _userManager = userManager;
             _sender = sender;
+            _service = service;
         }
 
         public string EmailConfirmationUrl { get; set; }
@@ -48,8 +52,11 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
                 values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                 protocol: Request.Scheme);
 
-            await _sender.SendEmailAsync(email, "Confirm your email",
+            await _service.SendAsync(email, "Confirm your email",
                 $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(EmailConfirmationUrl)}'>clicking here</a>.");
+
+            //await _sender.SendEmailAsync(email, "Confirm your email",
+            //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(EmailConfirmationUrl)}'>clicking here</a>.");
 
             return Page();
         }

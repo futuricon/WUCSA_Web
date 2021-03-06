@@ -10,15 +10,18 @@
     <meta name="author" content="WUCSA" />
     <meta name="description" content="WUCSA official blog" />
     <meta name="keywords" content="WUCSA, blog" />
-    <meta name="image" content="http://www.wucsa.net/img/about/profile_2.jpg" />
+    @*<meta name="image" content="http://www.wucsa.com/img/about/profile_2.jpg" />*@
 }
 
 <div class="row">
     <div class="d-flex mx-auto">
         <h1>Blog</h1>
         @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
-        {
-<a role="button" class="btn btn-sm btn-dark ml-2 my-auto" asp-page="/Blog/Create" data-toggle="tooltip" data-placement="bottom" title="Add new article"><i class="fa fa-plus"></i></a>}
+         {
+            <a role="button" class="btn btn-sm btn-dark ml-2 my-auto" asp-page="/Blog/Create" data-toggle="tooltip" data-placement="bottom" title="Add new article">
+                <i class="fa fa-plus"></i>
+            </a>
+         }
     </div>
     <hr class="w-100" />
 </div>
@@ -105,10 +108,14 @@
                 <div class="card-body p-0">
                     <div class="p-2">
                         @foreach (var tag in Model.PopularTags)
-                        {
-        <a asp-page="/Blog/List" asp-route-tag="@tag.Trim()"><span class="badge badge-dark text-white">@tag</span></a>}
+                         {
+                            <a asp-page="/Blog/List" asp-route-tag="@tag.Trim()">
+                                <span class="badge badge-dark text-white">@tag</span>
+                            </a>
+                         }
                     </div>
                 </div>
             </div>
-        </div>}
+        </div>
+    }
 </div>

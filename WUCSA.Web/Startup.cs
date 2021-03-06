@@ -1,30 +1,23 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
-using WUCSA.Infrastructure.Data;
+using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using WUCSA.Core.Interfaces;
-using WUCSA.Infrastructure.Repositories;
-using WUCSA.Infrastructure.Services;
-using WUCSA.Core.Entities.UserModel;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
-using WUCSA.Web.Utils;
+using System.Reflection;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
-using System.Reflection;
+using WUCSA.Web.Utils;
 using WUCSA.Web.Resources;
-using Microsoft.Extensions.Options;
+using WUCSA.Core.Interfaces;
+using WUCSA.Core.Entities.UserModel;
 using WUCSA.Core.Interfaces.Repositories;
+using WUCSA.Infrastructure.Data;
+using WUCSA.Infrastructure.Services;
+using WUCSA.Infrastructure.Repositories;
 
 namespace WUCSA.Web
 {
@@ -40,13 +33,6 @@ namespace WUCSA.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(
-            //        Configuration.GetConnectionString("WUCSA_DB")));
-            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            //    .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            services.AddLocalization(options => options.ResourcesPath = "resources");
             services.Configure<RequestLocalizationOptions>(options =>
             {
                 var supportedCultures = new[]
@@ -59,19 +45,11 @@ namespace WUCSA.Web
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
             });
-            services.AddSingleton<CommonLocalizationService>();
-
-            services.AddMvc().AddViewLocalization().AddDataAnnotationsLocalization(options =>
-            {
-                options.DataAnnotationLocalizerProvider = (type, factory) =>
-                {
-                    var assemblyName = new AssemblyName(typeof(CommonResources).GetTypeInfo().Assembly.FullName);
-                    return factory.Create(nameof(CommonResources), assemblyName.Name);
-                };
-            });
+            services.AddLocalization(options => options.ResourcesPath = "resources");
 
             ConfigureDatabases(services);
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IEmailService, EmailService>();
             services.AddScoped<IRepository, Repository>();
             services.AddScoped<IBlogRepository, BlogRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
@@ -81,6 +59,13 @@ namespace WUCSA.Web
             ConfigureIdentity(services);
 
             services.AddScoped<ImageHelper>();
+            services.AddRazorPages()
+                .AddViewLocalization()
+                .AddDataAnnotationsLocalization(options =>
+                {
+                    options.DataAnnotationLocalizerProvider = (type, factory) =>
+                        factory.Create(typeof(SharedResource));
+                });
 
             services.AddHttpContextAccessor();
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
@@ -108,17 +93,18 @@ namespace WUCSA.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
+
+            var localizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value;
+            app.UseRequestLocalization(localizationOptions);
+
+            app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
-            });
-
-            var localizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value;
-            app.UseRequestLocalization(localizationOptions);
+            });  
         }
         
         private void ConfigureDatabases(IServiceCollection services)
@@ -130,9 +116,6 @@ namespace WUCSA.Web
 
         private void ConfigureIdentity(IServiceCollection services)
         {
-            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            //    .AddEntityFrameworkStores<ApplicationDbContext>();
-
             services.AddDefaultIdentity<AppUser>()
                 .AddRoles<UserRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();

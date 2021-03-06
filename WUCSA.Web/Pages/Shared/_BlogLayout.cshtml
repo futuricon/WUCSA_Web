@@ -33,10 +33,11 @@
                             <a class="nav-link p-2" asp-page="/Blog/List">Blog</a>
                         </li>
                         @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
-                        {
-            <li class="nav-item">
-                <a class="nav-link p-2" asp-page="/Admin/Index">Dashboard</a>
-            </li>}
+                         {
+                            <li class="nav-item">
+                                <a class="nav-link p-2" asp-page="/Admin/Index">Dashboard</a>
+                            </li>
+                         }
                     </ul>
                 </div>
                 <partial name="_LoginPartial" />

@@ -36,6 +36,12 @@
 
   <ItemGroup>
     <Folder Include="Pages\Gallery\" />
+    <Folder Include="Resources\Areas\Identity\Pages\Account\" />
+    <Folder Include="Resources\Pages\Admin\" />
+    <Folder Include="Resources\Pages\Blog\" />
+    <Folder Include="Resources\Pages\Gallery\" />
+    <Folder Include="Resources\Pages\Rank\" />
+    <Folder Include="Resources\Pages\Shared\" />
     <Folder Include="wwwroot\img\certificates\" />
     <Folder Include="wwwroot\img\profile_imgs\" />
     <Folder Include="wwwroot\img\gallery_imgs\" />

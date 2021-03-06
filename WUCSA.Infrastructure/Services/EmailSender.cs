@@ -1,8 +1,8 @@
-﻿using System.Net;
-using System.Net.Mail;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Configuration;
 using WUCSA.Core.Interfaces;
-using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
+using System.Net.Mail;
+using System.Net;
 
 namespace WUCSA.Infrastructure.Services
 {
@@ -18,7 +18,7 @@ namespace WUCSA.Infrastructure.Services
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
             const string username = "sport.wucsa@gmail.com";
-            var password = _config.GetSection("EmailPassword").Value;
+            var password = _config.GetSection("SMTPConfig:Password").Value;
 
             using var mailMessage = new MailMessage(username, email)
             {
@@ -27,10 +27,10 @@ namespace WUCSA.Infrastructure.Services
                 IsBodyHtml = true
             };
 
-            using var smtpClient = new SmtpClient("smtp.gmail.com", 587)
+            using var smtpClient = new SmtpClient("smtp.gmail.com", 465)
             {
                 EnableSsl = true,
-                UseDefaultCredentials = true,
+                UseDefaultCredentials = false,
                 Credentials = new NetworkCredential(username, password)
             };
 

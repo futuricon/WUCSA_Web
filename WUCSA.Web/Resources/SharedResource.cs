@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WUCSA.Web.Resources
 {
-    public class CommonResources
+    public class SharedResource
     {
     }
 }

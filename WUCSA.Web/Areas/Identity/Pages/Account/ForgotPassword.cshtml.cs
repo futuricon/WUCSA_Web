@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using WUCSA.Core.Entities.UserModel;
+using WUCSA.Core.Interfaces;
 
 namespace WUCSA.Web.Areas.Identity.Pages.Account
 {
@@ -16,12 +17,12 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
     public class ForgotPasswordModel : PageModel
     {
         private readonly UserManager<AppUser> _userManager;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailService _service;
 
-        public ForgotPasswordModel(UserManager<AppUser> userManager, IEmailSender emailSender)
+        public ForgotPasswordModel(UserManager<AppUser> userManager, IEmailService service)
         {
             _userManager = userManager;
-            _emailSender = emailSender;
+            _service = service;
         }
 
         [BindProperty]
@@ -55,7 +56,7 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
                     values: new { area = "Identity", code },
                     protocol: Request.Scheme);
 
-                await _emailSender.SendEmailAsync(
+                await _service.SendAsync(
                     Input.Email,
                     "Reset Password",
                     $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
