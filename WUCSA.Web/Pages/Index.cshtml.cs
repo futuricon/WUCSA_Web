@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using WUCSA.Core.Entities.UserModel;
 using WUCSA.Web.Utils;
 
 namespace WUCSA.Web.Pages
@@ -12,12 +14,10 @@ namespace WUCSA.Web.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-        private readonly ImageHelper _imageHelper;
 
-        public IndexModel(ILogger<IndexModel> logger, ImageHelper imageHelper)
+        public IndexModel(ILogger<IndexModel> logger)
         {
             _logger = logger;
-            _imageHelper = imageHelper;
         }
 
         public void OnGet()
@@ -25,9 +25,5 @@ namespace WUCSA.Web.Pages
 
         }
 
-        public void OnPostImgtest()
-        {
-            _imageHelper.GenerateImage("keepline@inbox.ru");
-        }
     }
 }

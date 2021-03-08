@@ -1,0 +1,33 @@
+﻿@model CultureSwitcherViewModel
+
+<il hidden>
+    <form hidden id="culture-switcher">
+        <select hidden name="culture">
+            <option id="culture-selected" value="" selected>""</option>
+        </select>
+    </form>
+</il>
+
+<li class="nav-item culture-nav"><a>@(Model.CurrentUICulture.Name)</a>
+    <ul class="sub-menu">
+        @foreach (var culture in Model.SupportedCultures)
+        {
+            if (Model.CurrentUICulture.Name != culture.Name)
+            {
+                <li><a class="culture-options">@culture.Name</a></li>
+            }
+        }
+    </ul>
+</li>
+
+<script>
+    var items = document.getElementsByClassName('culture-options');
+    for (var i = 0; i < items.length; i++) {
+        items[i].addEventListener('click', printDetails);
+    }
+
+    function printDetails(e) {
+        document.getElementById("culture-selected").value = this.text;
+        document.getElementById("culture-switcher").submit();
+    }
+</script>
