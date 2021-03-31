@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WUCSA.Infrastructure.Data;
 
 namespace WUCSA.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210311074043_init5")]
+    partial class init5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -148,9 +150,6 @@ namespace WUCSA.Infrastructure.Migrations
                         .HasColumnType("nvarchar(64)")
                         .HasMaxLength(64);
 
-                    b.Property<bool>("IsCommentsLocked")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime>("PostedDate")
                         .HasColumnType("datetime2");
 
@@ -225,14 +224,8 @@ namespace WUCSA.Infrastructure.Migrations
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
-                    b.Property<bool>("IsLocked")
-                        .HasColumnType("bit");
-
                     b.Property<string>("ParentCommentId")
                         .HasColumnType("nvarchar(32)");
-
-                    b.Property<DateTime>("PostedDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

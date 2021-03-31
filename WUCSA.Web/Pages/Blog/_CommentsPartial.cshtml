@@ -1,0 +1,48 @@
+﻿@model WUCSA.Core.Entities.BlogModel.Comment
+
+<li>
+    <div class="comment-img">
+        @if (Model.Author != null)
+        {
+            <img src="@Model.Author.ProfilePhotoPath" class="rounded-circle" alt="img">
+        }
+        else
+        { <img src="~/img/profile_image.png" class="rounded-circle" alt="img">}
+    </div>
+    <div class="comment-desc">
+        <div class="desc-top">
+            @if (Model.Author != null)
+            {
+                @if (Model.Author.FirstName != null)
+                {
+                    <h6>@Model.Author.FirstName @Model.Author.LastName</h6>
+                }
+                else
+                { <h6>@Model.Author.UserName</h6>}
+            }
+            else
+            { <h6>@Model.AuthorName</h6>}
+            <span class="date">@Model.PostedDate.ToString("MMMM dd, yyyy")</span>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <button class="reply-link"><i class="lni lni-reply"></i>Reply</button>
+            }
+        </div>
+        <p>
+            @Model.Content
+        </p>
+    </div>
+</li>
+
+@if (Model.Replies.Count > 0)
+{
+    <ul class="comments-list">
+        @foreach (var reply in Model.Replies)
+        {
+            if (reply.IsLocked == false)
+            {
+                <partial name="_CommentsPartial" model="reply" />
+            }
+        }
+    </ul>
+}

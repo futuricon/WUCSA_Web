@@ -28,6 +28,8 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
     <PackageReference Include="NIdenticon" Version="1.4.0" />
+    <PackageReference Include="SuxrobGM.Sdk" Version="0.3.9" />
+    <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="18.4.0.47" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,7 +38,6 @@
 
   <ItemGroup>
     <Folder Include="Pages\Gallery\" />
-    <Folder Include="Resources\Areas\Identity\Pages\Account\" />
     <Folder Include="Resources\Pages\Admin\" />
     <Folder Include="Resources\Pages\Blog\" />
     <Folder Include="Resources\Pages\Gallery\" />
@@ -45,6 +46,24 @@
     <Folder Include="wwwroot\img\certificates\" />
     <Folder Include="wwwroot\img\profile_imgs\" />
     <Folder Include="wwwroot\img\gallery_imgs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\LoginModel.uz.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\LoginModel.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\Login.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\IndexModel.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Resources.SharedResource.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

@@ -24,6 +24,10 @@ namespace WUCSA.Core.Entities.BlogModel
         [StringLength(64, ErrorMessage = "Characters must be less than 64")]
         public string AuthorEmail { get; set; }
 
+        public DateTime PostedDate { get; set; }
+
+        public bool IsLocked { get; set; }
+
         public virtual AppUser Author { get; set; }
 
         public virtual Comment ParentComment { get; set; }

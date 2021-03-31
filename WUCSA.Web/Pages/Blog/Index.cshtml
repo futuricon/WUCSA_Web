@@ -1,25 +1,20 @@
-﻿@*@page
-    @model WUCSA.Web.Pages.Blog.IndexModel
-    @{
-    }*@
-@page "{slug}"
+﻿@page "{slug}"
 @using WUCSA.Core.Entities.BlogModel
 @model WUCSA.Web.Pages.Blog.IndexModel
 
 @{ ViewData["Title"] = Model.Blog.Title;
-                Layout = "_BlogLayout"; }
+    Layout = "_Layout"; }
 
 @section Head {
     @{ var imgUrl = $"https://wucsa.com{Model.Blog.CoverPhotoPath}";
-                        var articleUrl = $"https://wucsa.net/blog/{Model.Blog.Slug}";
-                        var shortContent = Blog.GetShortContent(Model.Blog.Summary, 200); }
+        var articleUrl = $"https://wucsa.net/blog/{Model.Blog.Slug}";
+        /*var shortContent = Blog.GetShortContent(Model.Blog.Summary, 200);*/ }
 
     <meta name="author" content="@Model.Blog.Author" />
-    <meta name="description" content="@shortContent" />
+    <
     <meta name="keywords" content="@Model.Tags" />
     <meta name="image" content="@imgUrl" />
     <meta property="og:title" content="@Model.Blog.Title" />
-    <meta property="og:description" content="@shortContent" />
     <meta property="og:site_name" content="WUCSA Blog" />
     <meta property="og:type" content="article" />
     <meta property="og:image" content="@imgUrl" />
@@ -28,106 +23,283 @@
     <meta property="article:author" content="@Model.Blog.Author" />
     <meta property="article:tags" content="@Model.Tags" />
     <meta name="twitter:title" content="@Model.Blog.Title" />
-    <meta name="twitter:description" content="@shortContent" />
     <meta name="twitter:creator" content="@Model.Blog.Author" />
-    <meta name="twitter:card" content="@Model.Blog.Summary" />
     <meta name="twitter:site" content="WUCSA Blog" />
     <meta name="twitter:image" content="@imgUrl" />
 }
 
 @section CSS {
-    <link href="https://cdn.syncfusion.com/ej2/ej2-richtexteditor/styles/material.css" rel="stylesheet" />
-    <script async src="https://platform-api.sharethis.com/js/sharethis.js#property=5d20ee636d20a10012251ae5"></script>
+    @*<link href="https://cdn.syncfusion.com/ej2/ej2-richtexteditor/styles/material.css" rel="stylesheet" />
+    <script async src="https://platform-api.sharethis.com/js/sharethis.js#property=5d20ee636d20a10012251ae5"></script>*@
+    <link rel="stylesheet" href="~/css/post_style.css" />
 }
-
-<div class="card shadow-sm mb-4">
-    <div class="card-header">
-        <b>@Model.Blog.Title</b>
-        <div class="float-right">
-            <span class="font-italic">@Model.Blog.PostedDate.ToString("MMMM dd, yyyy")</span>
-            <span class="mx-3"><i class="fa fa-eye"></i>&nbsp;@Model.Blog.ViewCount</span>
-            @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
-            {
-<span class="mx-2">
-    <a asp-page="/Blog/Edit" asp-route-id="@Model.Blog.Id" data-toggle="tooltip" data-placement="top" title="Edit this article" style="color: black"><i class="fa fa-wrench"></i></a>
-    <a asp-page="/Blog/Delete" asp-route-Id="@Model.Blog.Id" data-toggle="tooltip" data-placement="top" title="Delete this article" style="color: black"><i class="fa fa-times"></i></a>
-</span>            }
+<div class="breadcrumbs overlay">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title">Blog Single Sidebar</h1>
+                    <p>
+                        Business plan draws on a wide range of knowledge from different business<br> disciplines.
+                        Business draws on a wide range of different business .
+                    </p>
+                </div>
+                <ul class="breadcrumb-nav">
+                    <li><a asp-area="" asp-page="/Index">Home</a></li>
+                    <li>Blog Single Sidebar</li>
+                    @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                    {
+                        <li><a asp-page="/Blog/Edit" asp-route-id="@Model.Blog.Id" data-toggle="tooltip" data-placement="top" style="color: black">Edit this article</a></li>
+                        <li><a asp-page="/Blog/Delete" asp-route-Id="@Model.Blog.Id" data-toggle="tooltip" data-placement="top" title="Delete this article" style="color: black"><i class="fa fa-times"></i></a></li>
+                    }
+                </ul>
+            </div>
         </div>
+    </div>
+</div>
 
-    </div>
-    <div class="card-body mb-2 p-2 p-sm-3 p-lg-4">
-        @Html.Raw(Model.Blog.Summary)
-    </div>
-    <div class="card-footer">
-        <b>Tags</b><br />
-        @{ var tags = Model.Blog.BlogTags.Select(i => i.Tag);
-                        foreach (var tag in tags)
+
+<section class="section blog-single">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="single-inner">
+                    <div class="post-thumbnils">
+                        <img src="assets/images/blog/blog-single.jpg" alt="#">
+                    </div>
+                    <div class="post-details">
+                        <div class="detail-inner">
+                            <h2 class="post-title">
+                                @Model.Blog.Title
+                            </h2>
+
+                            <ul class="custom-flex post-meta">
+                                <li>
+                                    <a href="#">
+                                        <i class="lni lni-calendar"></i>
+                                        @Model.Blog.PostedDate.ToString("MMMM dd, yyyy")
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="lni lni-comments"></i>
+                                        @Model.Comments.Count Comments
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="lni lni-eye"></i>
+                                        @Model.Blog.ViewCount View
+                                    </a>
+                                </li>
+                            </ul>
+                            @Html.Raw(Model.Blog.Content)
+                            <div class="post-tags-media">
+                                <div class="post-tags popular-tag-widget mb-xl-40">
+                                    <h5 class="tag-title">Related Tags</h5>
+                                    <div class="tags">
+                                        @{
+                                            var tags = Model.Blog.BlogTags.Select(i => i.Tag);
+                                            foreach (var tag in tags)
+                                            {
+                                                <a href="#">@tag</a>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                                <div class="post-social-media">
+                                    <h5 class="share-title">Social Share</h5>
+                                    <ul class="custom-flex">
+                                        <li>
+                                            <a href="#">
+                                                <i class="lni lni-twitter-original"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="lni lni-facebook-oval"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="lni lni-instagram"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (Model.Blog.Comments.Count > 0 && Model.Blog.IsCommentsLocked == false)
                         {
-            <span class="badge badge-dark mr-2">@tag</span> } }
-    </div>
-</div>
+                            <div class="post-comments">
+                                <h3 class="comment-title"><span>@Model.Blog.Comments.Count comments on this post</span></h3>
+                                <ul class="comments-list">
+                                    @foreach (var comment in Model.Comments)
+                                    {
+                                        if (comment.IsLocked == false)
+                                        {
+                                            @if (ViewData["RootCommentId"] == null)
+                                            {
+                                                ViewData.Add("RootCommentId", comment.Id);
+                                            }
+                                            else
+                                            {
+                                                ViewData["RootCommentId"] = comment.Id;
+                                            }
+                                            <partial name="_CommentsPartial" for="@comment" view-data="ViewData" />
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        }
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <form method="post">
+                                <h4>Post as a guest or <a asp-area="Identity" asp-page="/Account/Login">Sign In</a></h4>
+                                <div class="form-group">
+                                    <b><label asp-for="@Model.CommentAuthorName"></label></b>
+                                    <input class="form-control" asp-for="@Model.CommentAuthorName" required />
+                                    <span class="text-danger" asp-validation-for="@Model.CommentAuthorName"></span>
+                                </div>
+                                <div class="form-group">
+                                    <b><label class="mb-0" asp-for="@Model.CommentAuthorEmail"></label></b><br />
+                                    <label style="font-size:small">Required, but newer shown</label>
+                                    <input class="form-control" asp-for="@Model.CommentAuthorEmail" required />
+                                    <span class="text-danger" asp-validation-for="@Model.CommentAuthorEmail"></span>
+                                </div>
 
-@if (Model.Blog.Comments.Count > 0)
-{
-<div id="comments" class="mb-2">
-    @foreach (var comment in Model.Comments)
-    {
-@if (ViewData["RootCommentId"] == null)
-{
-    ViewData.Add("RootCommentId", comment.Id);
-}
-else
-{
-    ViewData["RootCommentId"] = comment.Id;
-}
+                                <div id="comment_textbox" class="card card-header shadow-sm my-4 p-2">
+                                    <label><b>Post a comment</b></label>
+                                    <span asp-validation-for="@Model.CommentContent" class="text-danger"></span>
+                                    <div class="bg-white p-2">
+                                        <textarea asp-for="@Model.CommentContent" class="comment-editor" rows="4" placeholder="Type message..." required></textarea>
+                                    </div>
+                                    <input type="submit" class="btn btn-sm btn-info shadow-sm mt-2 col-5 col-sm-4 col-md-3" value="Save comment" />
+                                </div>
+                            </form>
+                        }
+                        else
+                        {
+                            <div class="comment-form">
+                                <h3 class="comment-reply-title"><span>Leave a comment as a guest or <a asp-area="Identity" asp-page="/Account/Login">Sign In</a></span></h3>
+                                <form method="post">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <span asp-validation-for="@Model.CommentContent" class="text-danger"></span>
+                                            <div class="form-box form-group">
+                                                <textarea asp-for="@Model.CommentContent" rows="6" class="form-control form-control-custom"
+                                                          placeholder="Your Comments"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="button">
+                                                <button type="submit" class="btn mouse-dir white-bg">
+                                                    Post Comment <span class="dir-part"></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
 
-                    <partial name="_CommentsPartial" for="@comment" view-data="ViewData" />}
-
-    <div id="pagination" class="d-flex">
-        <pagination class="mx-auto" page-index="@Model.Comments.PageIndex"
-                    total-pages="@Model.Comments.TotalPages"
-                    page-method="pageIndex" page-fragment="pagination"
-                    base-url="@Model.Blog.Slug" />
-    </div>
-</div>}
-
-<div class="col-12 col-sm-10 col-md-8 mt-4">
-    @if (!User.Identity.IsAuthenticated)
-    {
-<form method="post">
-    <h4>Post as a guest or <a asp-area="Identity" asp-page="/Account/Login">Sign In</a></h4>
-    <div class="form-group">
-        <b><label asp-for="@Model.CommentAuthorName"></label></b>
-        <input class="form-control" asp-for="@Model.CommentAuthorName" required />
-        <span class="text-danger" asp-validation-for="@Model.CommentAuthorName"></span>
-    </div>
-    <div class="form-group">
-        <b><label class="mb-0" asp-for="@Model.CommentAuthorEmail"></label></b><br />
-        <label style="font-size:small">Required, but newer shown</label>
-        <input class="form-control" asp-for="@Model.CommentAuthorEmail" required />
-        <span class="text-danger" asp-validation-for="@Model.CommentAuthorEmail"></span>
-    </div>
-
-    <div id="comment_textbox" class="card card-header shadow-sm my-4 p-2">
-        <label><b>Post a comment</b></label>
-        <span asp-validation-for="@Model.CommentContent" class="text-danger"></span>
-        <div class="bg-white p-2">
-            <textarea asp-for="@Model.CommentContent" class="comment-editor" rows="4" placeholder="Type message..." required></textarea>
+            <aside class="col-lg-4 col-md-12 col-12">
+                <div class="sidebar">
+                    <div class="widget search-widget">
+                        <h5 class="widget-title"><span>Search This Site</span></h5>
+                        <form action="#">
+                            <input type="text" placeholder="Search Here...">
+                            <button type="submit"><i class="lni lni-search-alt"></i></button>
+                        </form>
+                    </div>
+                    <div class="widget popular-feeds">
+                        <h5 class="widget-title"><span>Popular Feeds</span></h5>
+                        <div class="popular-feed-loop">
+                            <div class="single-popular-feed">
+                                <div class="feed-desc">
+                                    <h6 class="post-title">
+                                        <a href="#">
+                                            Tips to write an impressive resume online for
+                                            beginner
+                                        </a>
+                                    </h6>
+                                    <span class="time"><i class="lni lni-calendar"></i> 05th Nov 2023</span>
+                                </div>
+                            </div>
+                            <div class="single-popular-feed">
+                                <div class="feed-desc">
+                                    <h6 class="post-title">
+                                        <a href="#">
+                                            10 most important SEO focus areas for
+                                            colleges
+                                            and universities
+                                        </a>
+                                    </h6>
+                                    <span class="time"><i class="lni lni-calendar"></i> 24th March 2023</span>
+                                </div>
+                            </div>
+                            <div class="single-popular-feed">
+                                <div class="feed-desc">
+                                    <h6 class="post-title">
+                                        <a href="#">
+                                            7 things you should never say to your boss in
+                                            your joblife
+                                        </a>
+                                    </h6>
+                                    <span class="time"><i class="lni lni-calendar"></i> 30th Jan 2023</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget categories-widget">
+                        <h5 class="widget-title"><span>Categories</span></h5>
+                        <ul class="custom">
+                            <li>
+                                <a href="#">Announcement<span>26</span></a>
+                            </li>
+                            <li>
+                                <a href="#">Indeed Events<span>30</span></a>
+                            </li>
+                            <li>
+                                <a href="#">Tips &amp; Tricks<span>71</span></a>
+                            </li>
+                            <li>
+                                <a href="#">Experiences<span>56</span></a>
+                            </li>
+                            <li>
+                                <a href="#">Case Studies<span>15</span></a>
+                            </li>
+                            <li>
+                                <a href="#">Labor Market News<span>12</span></a>
+                            </li>
+                            <li>
+                                <a href="#">HR Best Practices<span>17</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="widget popular-tag-widget">
+                        <h5 class="widget-title"><span>Popular Tags</span></h5>
+                        <div class="tags">
+                            <a href="#">Jobpress</a>
+                            <a href="#">Design</a>
+                            <a href="#">HR</a>
+                            <a href="#">Recruiter</a>
+                            <a href="#">Interview</a>
+                            <a href="#">Employee</a>
+                            <a href="#">Labor</a>
+                            <a href="#">Salary</a>
+                            <a href="#">Consult</a>
+                            <a href="#">Business</a>
+                            <a href="#">Candidates</a>
+                        </div>
+                    </div>
+                </div>
+            </aside>
         </div>
-        <input type="submit" class="btn btn-sm btn-info shadow-sm mt-2 col-5 col-sm-4 col-md-3" value="Save comment" />
     </div>
-</form> }
-            else
-            {
-<div id="comment_textbox" class="card card-header shadow-sm my-4 p-2">
-    <label><b>Post a comment</b></label>
-    <span asp-validation-for="@Model.CommentContent" class="text-danger"></span>
-    <form method="post">
-        <div class="bg-white p-2">
-            <textarea asp-for="@Model.CommentContent" class="comment-editor" rows="4" placeholder="Type message..." required></textarea>
-        </div>
-        <input type="submit" class="btn btn-sm btn-info shadow-sm mt-2" value="Save comment" />
-    </form>
-</div>}
-</div>
+</section>
 

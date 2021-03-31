@@ -7,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authentication;
-using System.Reflection;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using WUCSA.Web.Utils;
@@ -18,6 +17,8 @@ using WUCSA.Core.Interfaces.Repositories;
 using WUCSA.Infrastructure.Data;
 using WUCSA.Infrastructure.Services;
 using WUCSA.Infrastructure.Repositories;
+using WUCSA.Web.ViewComponents;
+using Microsoft.AspNetCore.Localization.Routing;
 
 namespace WUCSA.Web
 {
@@ -33,6 +34,11 @@ namespace WUCSA.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddRazorPages(options => {
+                options.Conventions.Add(new CultureTemplatePageRouteModelConvention());
+            });
+            services.AddLocalization(opts => opts.ResourcesPath = "Resources");
+
             services.Configure<RequestLocalizationOptions>(options =>
             {
                 var supportedCultures = new[]
@@ -44,8 +50,9 @@ namespace WUCSA.Web
                 options.DefaultRequestCulture = new RequestCulture("en");
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
+                options.RequestCultureProviders.Insert(0, new RouteDataRequestCultureProvider { Options = options });
             });
-            services.AddLocalization(options => options.ResourcesPath = "resources");
+            
 
             ConfigureDatabases(services);
             services.AddTransient<IEmailSender, EmailSender>();

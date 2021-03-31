@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using WUCSA.Core.Entities.UserModel;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.Localization;
 
 namespace WUCSA.Web.Areas.Identity.Pages.Account
 {
@@ -22,14 +20,16 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly IStringLocalizer<LoginModel> _localizer;
 
         public LoginModel(SignInManager<AppUser> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<AppUser> userManager)
+            UserManager<AppUser> userManager, IStringLocalizer<LoginModel> Localizer)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _localizer = Localizer;
         }
 
         [BindProperty]
@@ -44,11 +44,12 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Username or email Required")]
             [Display(Name = "Username or email")]
             public string Username { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Password Required")]
+            [Display(Name = "Password")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
@@ -97,7 +98,8 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
                 var re = new Regex(emailRegex);
                 if (!re.IsMatch(Input.Username))
                 {
-                    ModelState.AddModelError("Email", "Username is not valid");
+                    //ModelState.AddModelError("Email", "Username is not valid");
+                    ModelState.AddModelError("Email", _localizer["Username is not valid"]);
                 }
             }
 
@@ -110,7 +112,8 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
                 var user = await _userManager.FindByEmailAsync(Input.Username);
                 if (user == null)
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    /*"Invalid login attempt."*/
+                    ModelState.AddModelError(string.Empty, _localizer["Invalid login attempt."]);
                     return Page();
                 }
 
@@ -135,7 +138,7 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                ModelState.AddModelError(string.Empty, _localizer["Invalid login attempt."]);
                 return Page();
             }
 

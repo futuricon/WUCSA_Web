@@ -65,11 +65,17 @@ namespace WUCSA.Web.Utils
             mybitmap.Save(absolutePath, ImageFormat.Png);
             return $"/img/profile_imgs/{imagePath}";
         }
-
-        public string UploadImage(IFormFile image, string imageFileName, string previousFilePath,
+        public string UploadNextImage(IFormFile image, string imageFileName, string previousFilePath,
             bool resizeToQuadratic = false, bool resizeToRectangle = false)
         {
             DeleteFile(previousFilePath);
+            return UploadImage(image, imageFileName, resizeToQuadratic, resizeToRectangle);
+        }
+
+        public string UploadImage(IFormFile image, string imageFileName,
+            bool resizeToQuadratic = false, bool resizeToRectangle = false)
+        {
+           
             try
             {
                 var fileExtension = Path.GetExtension(image.FileName);

@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @await RenderSectionAsync("Head", required: false).ConfigureAwait(false)
     <title>@ViewData["Title"] - WUCSA</title>
     <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.svg" />
 
@@ -44,11 +45,11 @@
                                 <ul id="nav" class="navbar-nav ml-auto">
                                     <li class="nav-item"><a id="header_home_id" asp-area="" asp-page="/Index">Home</a></li>
                                     @*<li class="nav-item">
-                                        <a href="#">Pages</a>
-                                        <ul class="sub-menu">
-                                            <li><a href="">About Us</a></li>
-                                        </ul>
-                                    </li>*@
+                                            <a href="#">Pages</a>
+                                            <ul class="sub-menu">
+                                                <li><a href="">About Us</a></li>
+                                            </ul>
+                                        </li>*@
                                     <li class="nav-item"><a id="header_about_id" asp-page="/About">About</a></li>
                                     <li class="nav-item"><a id="header_members_id" asp-fragment="memberx">Members</a></li>
                                     <li class="nav-item"><a id="header_events_id" href="#">Events</a></li>
@@ -82,63 +83,13 @@
         <!-- navbar area -->
     </header>
     <!-- End Header Area -->
-    @*<header>
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                <div class="container">
-                    <a class="navbar-brand" asp-area="" asp-page="/Index">WUCSA.Web</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                        <partial name="_LoginPartial" />
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-page="/Blog/List">Blog</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <vc:culture-switcher />
-                </div>
-            </nav>
-        </header>*@
 
-
-    <main role="main" >
+    <main role="main">
         @RenderBody()
     </main>
-  
+
     <!-- Start Footer Area -->
     <footer class="footer">
-        <div class="footer-top">
-            <div class="container">
-                <div class="row align-items-center justify-content-center">
-                    <div class="col-lg-6 col-12">
-                        <div class="download-text">
-                            <h3>Download Our Best Apps</h3>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do<br> eiusmod tempor
-                                incididunt ut labore et dolore
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-12">
-                        <div class="download-button">
-                            <div class="button">
-                                <a class="btn" href="#"><i class="lni lni-apple"></i> App Store</a>
-                                <a class="btn" href="#"><i class="lni lni-play-store"></i> Google Play</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- Start Middle Top -->
         <div class="footer-middle">
             <div class="container">
@@ -255,7 +206,7 @@
     </a>
 
     <script src="~/js/bootstrap.min.js"></script>
-    @*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/wow.min.js"></script>
     <script src="~/js/tiny-slider.js"></script>
     <script src="~/js/glightbox.min.js"></script>
@@ -263,5 +214,6 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false).ConfigureAwait(false)
+
 </body>
 </html>

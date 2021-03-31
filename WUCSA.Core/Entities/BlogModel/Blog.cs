@@ -45,28 +45,35 @@ namespace WUCSA.Core.Entities.BlogModel
         [Display(Name = "Sarlavha")]
         public string TitleUz { get; set; }
 
-        [Required(ErrorMessage = "Please enter a summary of the article")]
-        [Display(Name = "Summary")]
-        public string Summary { get; set; }
+        [Required(ErrorMessage = "Please enter a content of the article")]
+        [Display(Name = "Content")]
+        public string Content { get; set; }
 
         [Required(ErrorMessage = "Пожалуйста, введите содержание статьи")]
         [Display(Name = "Содержание")]
-        public string SummaryRu { get; set; }
+        public string ContentRu { get; set; }
 
         [Required(ErrorMessage = "Iltimos, maqolaning mazmunini kiriting")]
-        [Display(Name = "Mazmunin")]
-        public string SummaryUz { get; set; }
+        [Display(Name = "Mazmuni")]
+        public string ContentUz { get; set; }
 
         public int ViewCount { get; set; }
+
+        public bool IsCommentsLocked { get; set; }
 
         public virtual ICollection<BlogTag> BlogTags { get; set; } = new List<BlogTag>();
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
         public static string GetShortContent(string articleContent, int length)
         {
+
             var content = HttpUtility.HtmlDecode(articleContent);
             content = Regex.Replace(content, @"<(.|\n)*?>", "");
-            content = content.Substring(0, length).Trim() + "...";
+            if (content.Length >500)
+            {
+                content = content.Substring(0, length).Trim() + "...";
+            }
+            
             return content;
         }
     }
