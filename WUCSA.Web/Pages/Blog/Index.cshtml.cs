@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Encodings.Web;
@@ -19,14 +17,14 @@ namespace WUCSA.Web.Pages.Blog
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IBlogRepository _blogRepository;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailService _emailService;
 
         public IndexModel(UserManager<AppUser> userManager,
-            IBlogRepository blogRepository, IEmailSender emailSender)
+            IBlogRepository blogRepository, IEmailService emailService)
         {
             _userManager = userManager;
             _blogRepository = blogRepository;
-            _emailSender = emailSender;
+            _emailService = emailService;
         }
 
         [Required]
@@ -52,7 +50,7 @@ namespace WUCSA.Web.Pages.Blog
         {
             var blogSlug = RouteData.Values["slug"].ToString();
             Blog = await _blogRepository.GetAsync<Core.Entities.BlogModel.Blog>(i => i.Slug == blogSlug);
-            //Tags = Tag.JoinTags(Blog.BlogTags.Select(i => i.Tag));
+            Tags = Tag.JoinTags(Blog.BlogTags.Select(i => i.Tag));
 
             if (!Request.Headers["User-Agent"].ToString().ToLower().Contains("bot"))
             {
@@ -95,12 +93,12 @@ namespace WUCSA.Web.Pages.Blog
             }
 
             var htmlMsg = $@"<h3>Good day, <b>{Blog.Author.UserName}</b></h3>
-                                <p>Posted comment in your blog in wucsa.com <a href='{HtmlEncoder.Default.Encode($"http://wucsa.com/{Blog.Slug}?pageIndex={pageNumber}#{comment.Id}")}'>{Blog.Title}</a></p>
-                                <br />
-                                ";
+                                <p>Posted comment in your blog in wucsa.com 
+                                <a href='{HtmlEncoder.Default.Encode($"http://wucsa.com/{Blog.Slug}?pageIndex={pageNumber}#{comment.Id}")}'>{Blog.Title}</a></p>
+                                <br />";
 
             await _blogRepository.AddCommentAsync(Blog, comment);
-            await _emailSender.SendEmailAsync(Blog.Author.Email, "Posted comment in your blog", htmlMsg);
+            await _emailService.SendAsync(Blog.Author.Email, "Posted comment in your blog", htmlMsg);
             return RedirectToPage("", "", new { pageIndex = pageNumber }, comment.Id);
         }
 
@@ -133,12 +131,12 @@ namespace WUCSA.Web.Pages.Blog
             var commentEmail = parentComment.Author == null ? parentComment.AuthorEmail : parentComment.Author.Email;
 
             var htmlMsg = $@"<h3>Good day, <b>{commentAuthor}</b></h3>
-                                <p>Replied to your comment in this wucsa.com blog <a href='{HtmlEncoder.Default.Encode($"http://suxrobgm.net/blog/{blog.Slug}?pageIndex={pageNumber}#{commentId}")}'>{blog.Title}</a></p>
+                                <p>Replied to your comment in this wucsa.com blog <a href='{HtmlEncoder.Default.Encode($"http://wucsa.com/blog/{blog.Slug}?pageIndex={pageNumber}#{commentId}")}'>{blog.Title}</a></p>
                                 <br />
                                 ";
 
             await _blogRepository.AddReplyToCommentAsync(parentComment, childComment);
-            await _emailSender.SendEmailAsync(commentEmail, "Replied to your comment", htmlMsg);
+            await _emailService.SendAsync(commentEmail, "Replied to your comment", htmlMsg);
             return RedirectToPage("", "", new { pageIndex = pageNumber }, commentId);
         }
 

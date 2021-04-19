@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WUCSA.Infrastructure.Migrations
 {
-    public partial class init : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -231,10 +231,11 @@ namespace WUCSA.Infrastructure.Migrations
                     Title = table.Column<string>(maxLength: 80, nullable: false),
                     TitleRu = table.Column<string>(maxLength: 80, nullable: false),
                     TitleUz = table.Column<string>(maxLength: 80, nullable: false),
-                    Summary = table.Column<string>(nullable: false),
-                    SummaryRu = table.Column<string>(nullable: false),
-                    SummaryUz = table.Column<string>(nullable: false),
-                    ViewCount = table.Column<int>(nullable: false)
+                    Content = table.Column<string>(nullable: false),
+                    ContentRu = table.Column<string>(nullable: false),
+                    ContentUz = table.Column<string>(nullable: false),
+                    ViewCount = table.Column<int>(nullable: false),
+                    IsCommentsLocked = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -384,6 +385,8 @@ namespace WUCSA.Infrastructure.Migrations
                     Content = table.Column<string>(maxLength: 200, nullable: false),
                     AuthorName = table.Column<string>(maxLength: 64, nullable: true),
                     AuthorEmail = table.Column<string>(maxLength: 64, nullable: true),
+                    PostedDate = table.Column<DateTime>(nullable: false),
+                    IsLocked = table.Column<bool>(nullable: false),
                     AuthorId = table.Column<string>(nullable: true),
                     ParentCommentId = table.Column<string>(nullable: true),
                     BlogId = table.Column<string>(nullable: true)

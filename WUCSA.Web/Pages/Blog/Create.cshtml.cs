@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -35,7 +31,7 @@ namespace WUCSA.Web.Pages.Blog
         public class InputModel
         {
             public Core.Entities.BlogModel.Blog Blog { get; set; }
-            public IFormFile UploadCoverPhoto { get; set; }
+            public string UploadCoverPhoto { get; set; }
             public string Tags { get; set; }
         }
 
@@ -56,7 +52,7 @@ namespace WUCSA.Web.Pages.Blog
 
             if (Input.UploadCoverPhoto != null)
             {
-                Input.Blog.CoverPhotoPath = _imageHelper.UploadImage(Input.UploadCoverPhoto, $"{Input.Blog.Id}_blog_cover");
+                Input.Blog.CoverPhotoPath = _imageHelper.UploadPostCoverImage(Input.UploadCoverPhoto, $"{Input.Blog.Id}_blog_cover");
             }
 
             await _blogRepository.UpdateTagsAsync(Input.Blog, false, tags);

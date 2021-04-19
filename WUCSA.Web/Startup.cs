@@ -1,14 +1,12 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authentication;
-using System.Globalization;
-using Microsoft.AspNetCore.Localization;
 using WUCSA.Web.Utils;
 using WUCSA.Web.Resources;
 using WUCSA.Core.Interfaces;
@@ -18,6 +16,8 @@ using WUCSA.Infrastructure.Data;
 using WUCSA.Infrastructure.Services;
 using WUCSA.Infrastructure.Repositories;
 using WUCSA.Web.ViewComponents;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Localization.Routing;
 
 namespace WUCSA.Web
@@ -55,7 +55,6 @@ namespace WUCSA.Web
             
 
             ConfigureDatabases(services);
-            services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IEmailService, EmailService>();
             services.AddScoped<IRepository, Repository>();
             services.AddScoped<IBlogRepository, BlogRepository>();
@@ -118,7 +117,8 @@ namespace WUCSA.Web
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                        Configuration.GetConnectionString("WUCSA_DB")));
+                        Configuration.GetConnectionString("WUCSA_DB"))
+                        .UseLazyLoadingProxies());
         }
 
         private void ConfigureIdentity(IServiceCollection services)

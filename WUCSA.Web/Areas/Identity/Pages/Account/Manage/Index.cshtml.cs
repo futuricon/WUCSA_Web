@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using WUCSA.Core.Entities.UserModel;
+using WUCSA.Core.Interfaces;
 using WUCSA.Web.Utils;
 
 namespace WUCSA.Web.Areas.Identity.Pages.Account.Manage
@@ -19,13 +20,13 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ImageHelper _imageHelper;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailService _emailSender;
 
         public IndexModel(
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             ImageHelper imageHelper,
-            IEmailSender emailSender)
+            IEmailService emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -148,7 +149,7 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account.Manage
                 new { userId = user.Id, code },
                 Request.Scheme);
 
-            await _emailSender.SendEmailAsync(
+            await _emailSender.SendAsync(
                 user.Email,
                 "Confirm your email wucsa.com",
                 $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");

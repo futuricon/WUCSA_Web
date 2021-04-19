@@ -13,7 +13,7 @@ namespace WUCSA.Infrastructure.Data
         {
             await CreateUserRolesAsync(service);
             await AddSuperAdminRoleToSiteOwnerAsync(service);
-            await CreateDeletedUserAccountAsync(service);
+            await CreateUserAccountAsync(service);
         }
 
         private static async Task CreateUserRolesAsync(IServiceProvider serviceProvider)
@@ -49,7 +49,7 @@ namespace WUCSA.Infrastructure.Data
         private static async Task AddSuperAdminRoleToSiteOwnerAsync(IServiceProvider service)
         {
             var userManager = service.GetRequiredService<UserManager<AppUser>>();
-            var siteOwner = await userManager.FindByEmailAsync("keepline@inbox.ru");
+            var siteOwner = await userManager.FindByEmailAsync("kudratovsuhrob@gmail.com");
 
             if (siteOwner == null)
                 return;
@@ -62,19 +62,19 @@ namespace WUCSA.Infrastructure.Data
             }
         }
 
-        private static async Task CreateDeletedUserAccountAsync(IServiceProvider service)
+        private static async Task CreateUserAccountAsync(IServiceProvider service)
         {
             var userManager = service.GetRequiredService<UserManager<AppUser>>();
             var config = service.GetRequiredService<IConfiguration>();
 
-            var deletedUserAccount = await userManager.FindByNameAsync("DELETED_USER");
-            if (deletedUserAccount == null)
+            var UserAccount = await userManager.FindByNameAsync("Futuricon");
+            if (UserAccount == null)
             {
                 try
                 {
                     await userManager.CreateAsync(new AppUser()
                     {
-                        UserName = "DELETED_USER",
+                        UserName = "Futuricon",
                         Email = "kudratovsuhrob@gmail.com",
                         EmailConfirmed = true
                     },
@@ -89,11 +89,11 @@ namespace WUCSA.Infrastructure.Data
 
             try
             {
-                var hasSuperAdminRole = await userManager.IsInRoleAsync(deletedUserAccount, Role.SuperAdmin.ToString());
+                var hasSuperAdminRole = await userManager.IsInRoleAsync(UserAccount, Role.SuperAdmin.ToString());
 
                 if (!hasSuperAdminRole)
                 {
-                    await userManager.AddToRoleAsync(deletedUserAccount, Role.SuperAdmin.ToString());
+                    await userManager.AddToRoleAsync(UserAccount, Role.SuperAdmin.ToString());
                 }
             }
             catch (Exception e)

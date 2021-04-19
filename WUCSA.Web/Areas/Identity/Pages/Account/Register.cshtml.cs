@@ -20,6 +20,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using WUCSA.Core.Entities.UserModel;
+using WUCSA.Core.Interfaces;
 using WUCSA.Web.Utils;
 
 namespace WUCSA.Web.Areas.Identity.Pages.Account
@@ -30,7 +31,7 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailService _emailSender;
         private readonly IConfiguration _configuration;
         private readonly ImageHelper _imageHelper;
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -39,7 +40,7 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender, 
+            IEmailService emailSender, 
             IConfiguration configuration,
             ImageHelper imageHelper,
             IWebHostEnvironment webHostEnvironment)
@@ -119,7 +120,7 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                    await _emailSender.SendAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)

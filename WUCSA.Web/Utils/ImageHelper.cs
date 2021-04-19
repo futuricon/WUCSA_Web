@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using Devcorner.NIdenticon;
 using Devcorner.NIdenticon.BrushGenerators;
 using ImageMagick;
@@ -65,6 +65,21 @@ namespace WUCSA.Web.Utils
             mybitmap.Save(absolutePath, ImageFormat.Png);
             return $"/img/profile_imgs/{imagePath}";
         }
+
+        public string UploadPostCoverImage(string base64img, string fileName)
+        {
+            Regex regex = new Regex(@"^[\w/\:.-]+;base64,");
+            base64img = regex.Replace(base64img, string.Empty);
+
+            var imagePath = $"{fileName}{".png"}";
+            var absolutePath = Path.Combine(_env.WebRootPath, "img", "post_imgs", imagePath);
+
+            byte[] imageBytes = Convert.FromBase64String(base64img);
+            File.WriteAllBytes(absolutePath, imageBytes);
+
+            return $"/img/post_imgs/{imagePath}";
+        }
+        
         public string UploadNextImage(IFormFile image, string imageFileName, string previousFilePath,
             bool resizeToQuadratic = false, bool resizeToRectangle = false)
         {
@@ -75,7 +90,6 @@ namespace WUCSA.Web.Utils
         public string UploadImage(IFormFile image, string imageFileName,
             bool resizeToQuadratic = false, bool resizeToRectangle = false)
         {
-           
             try
             {
                 var fileExtension = Path.GetExtension(image.FileName);

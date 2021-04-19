@@ -1167,8 +1167,12 @@ ol {
   border-color: transparent;
 }
 
+    .disabled {
+        pointer-events: none !important;
+    }
+
 .pagination .pagination-list li a i {
-  font-size: 13px;
+    font-size: 13px;
 }
 
 .blog-grids.pagination {

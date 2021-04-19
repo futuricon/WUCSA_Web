@@ -20,7 +20,7 @@
                     <div class="single-inner">
                         <div class="grid">
                             <div class="col-12">
-                                <input id="bgimagebase64" asp-for="Input.UploadCoverPhoto" type="file" value="" />
+                                <input id="bgimagebase64" asp-for="Input.UploadCoverPhoto" type="hidden" />
                                 <div class="button">
                                     <a style="margin-bottom: 2%;" class="btn file-btn">
                                         <span>Choose an image</span>
@@ -78,10 +78,6 @@
                                 <div class="form-group form-check">
                                     <input type="checkbox" class="form-check-input" asp-for="Input.Blog.IsCommentsLocked">
                                     <label class="form-check-label" for="exampleCheck1">Disable Comments?</label>
-                                </div>
-                                <img id="croppedimg" style="width: 300px; height: auto;" />
-                                <div class="button form-group mt-4">
-                                    <input type="button" onclick="setimg()" value="bb" class="btn" />
                                 </div>
                                 <div class="button form-group mt-4">
                                     <input type="submit" value="Create" class="btn" />
@@ -151,14 +147,11 @@
 
         function setimg () {
             $uploadCrop.croppie('result', {
-                type: 'canvas',
+                type: 'base64',
                 size: 'viewport'
             }).then(function (resp) {
-                //var imageData = resp.toDataURL();
-                document.getElementById('bgimagebase64').value = resp;
+                document.getElementById('bgimagebase64').setAttribute('value', resp);
             });
-            //var xxx = document.getElementById('bgimagebase64').value;
-            alert(document.getElementById('bgimagebase64').value);
         };
 
         tinymce.init({

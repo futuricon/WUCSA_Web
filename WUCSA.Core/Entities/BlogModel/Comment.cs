@@ -22,9 +22,9 @@ namespace WUCSA.Core.Entities.BlogModel
 
         [DataType(DataType.EmailAddress, ErrorMessage = "This is not valid email address")]
         [StringLength(64, ErrorMessage = "Characters must be less than 64")]
-        public string AuthorEmail { get; set; }
+        public string AuthorEmail { get; set; } 
 
-        public DateTime PostedDate { get; set; }
+        public DateTime PostedDate { get; set; } = DateTime.Now;
 
         public bool IsLocked { get; set; }
 

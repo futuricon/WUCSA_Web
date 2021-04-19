@@ -28,7 +28,7 @@ namespace WUCSA.Core.Entities.BlogModel
 
         public virtual AppUser Author { get; set; }
 
-        public DateTime PostedDate { get; set; }
+        public DateTime PostedDate { get; set; } = DateTime.Now;
 
         [Required(ErrorMessage = "Please enter the article title")]
         [StringLength(80, ErrorMessage = "Characters must be less than 80")]

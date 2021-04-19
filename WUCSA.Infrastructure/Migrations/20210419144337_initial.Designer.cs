@@ -10,8 +10,8 @@ using WUCSA.Infrastructure.Data;
 namespace WUCSA.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210305212509_init2")]
-    partial class init2
+    [Migration("20210419144337_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -134,9 +134,24 @@ namespace WUCSA.Infrastructure.Migrations
                     b.Property<string>("AuthorId")
                         .HasColumnType("nvarchar(32)");
 
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContentRu")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContentUz")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CoverPhotoPath")
                         .HasColumnType("nvarchar(64)")
                         .HasMaxLength(64);
+
+                    b.Property<bool>("IsCommentsLocked")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("PostedDate")
                         .HasColumnType("datetime2");
@@ -144,18 +159,6 @@ namespace WUCSA.Infrastructure.Migrations
                     b.Property<string>("Slug")
                         .HasColumnType("nvarchar(80)")
                         .HasMaxLength(80);
-
-                    b.Property<string>("Summary")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SummaryRu")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SummaryUz")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -224,8 +227,14 @@ namespace WUCSA.Infrastructure.Migrations
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
+                    b.Property<bool>("IsLocked")
+                        .HasColumnType("bit");
+
                     b.Property<string>("ParentCommentId")
                         .HasColumnType("nvarchar(32)");
+
+                    b.Property<DateTime>("PostedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

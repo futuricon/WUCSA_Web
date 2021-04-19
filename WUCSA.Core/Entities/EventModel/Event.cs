@@ -18,7 +18,7 @@ namespace WUCSA.Core.Entities.EventModel
 
         public virtual ICollection<EventParticipant> EventParticipants { get; set; } = new List<EventParticipant>();
 
-        public DateTime PostedDate { get; set; }
+        public DateTime PostedDate { get; set; } = DateTime.Now;
 
         [Required(ErrorMessage = "Please enter the event date")]
         public DateTime EventDate { get; set; }

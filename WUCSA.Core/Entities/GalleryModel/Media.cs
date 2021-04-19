@@ -15,7 +15,7 @@ namespace WUCSA.Core.Entities.GalleryModel
 
         public string MediaPath { get; set; }
 
-        public DateTime PostedDate { get; set; }
+        public DateTime PostedDate { get; set; } = DateTime.Now;
 
         public virtual ICollection<MediaTag> MediaTags { get; set; } = new List<MediaTag>();
 

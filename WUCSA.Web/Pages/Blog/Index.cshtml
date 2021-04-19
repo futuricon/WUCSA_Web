@@ -62,10 +62,17 @@
 <section class="section blog-single">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-12">
                 <div class="single-inner">
                     <div class="post-thumbnils">
-                        <img src="assets/images/blog/blog-single.jpg" alt="#">
+                        @if (!string.IsNullOrEmpty(Model.Blog.CoverPhotoPath))
+                        {
+                            <img src="@Model.Blog.CoverPhotoPath" alt="@Model.Blog.Title cover photo" />
+                        }
+                        else
+                        {
+                            <img src="~/img/blog_image.png" alt="default cover photo" />
+                        }
                     </div>
                     <div class="post-details">
                         <div class="detail-inner">
@@ -182,7 +189,7 @@
                         else
                         {
                             <div class="comment-form">
-                                <h3 class="comment-reply-title"><span>Leave a comment as a guest or <a asp-area="Identity" asp-page="/Account/Login">Sign In</a></span></h3>
+                                <h3 class="comment-reply-title"><span>Leave a comment</span></h3>
                                 <form method="post">
                                     <div class="row">
                                         <div class="col-12">
@@ -207,7 +214,7 @@
                 </div>
             </div>
 
-            <aside class="col-lg-4 col-md-12 col-12">
+            @*<aside class="col-lg-4 col-md-12 col-12">
                 <div class="sidebar">
                     <div class="widget search-widget">
                         <h5 class="widget-title"><span>Search This Site</span></h5>
@@ -284,6 +291,10 @@
                     <div class="widget popular-tag-widget">
                         <h5 class="widget-title"><span>Popular Tags</span></h5>
                         <div class="tags">
+                            @foreach (var tag in Model.PopularTags)
+                            {
+                                <a asp-page="/Blog/List" asp-route-tag="@tag.Trim()"><span class="badge badge-dark text-white">@tag</span></a>
+                            }
                             <a href="#">Jobpress</a>
                             <a href="#">Design</a>
                             <a href="#">HR</a>
@@ -298,7 +309,7 @@
                         </div>
                     </div>
                 </div>
-            </aside>
+            </aside>*@
         </div>
     </div>
 </section>

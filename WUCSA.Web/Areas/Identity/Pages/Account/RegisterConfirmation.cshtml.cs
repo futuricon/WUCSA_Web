@@ -16,14 +16,11 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
     public class RegisterConfirmationModel : PageModel
     {
         private readonly UserManager<AppUser> _userManager;
-        private readonly IEmailSender _sender;
         private readonly IEmailService _service;
 
-        public RegisterConfirmationModel(UserManager<AppUser> userManager, 
-            IEmailSender sender, IEmailService service)
+        public RegisterConfirmationModel(UserManager<AppUser> userManager, IEmailService service)
         {
             _userManager = userManager;
-            _sender = sender;
             _service = service;
         }
 

@@ -61,7 +61,11 @@
                                     <div class="image">
                                         @if (!string.IsNullOrEmpty(blog.CoverPhotoPath))
                                         {
-                                            <img class="thumb" src="assets/images/blog/blog1.jpg" alt="#">
+                                            <img class="thumb" src="@blog.CoverPhotoPath" alt="@blog.Title cover photo" />
+                                        }
+                                        else
+                                        {
+                                            <img src="~/img/blog_image.png" alt="default cover photo" />
                                         }
                                     </div>
                                     <div class="content-body">
@@ -74,7 +78,7 @@
                                         <div class="meta-details">
                                             <ul>
                                                 <li><a href="#"><i class="lni lni-tag"></i> Job skills</a></li>
-                                                <li><a href="#"><i class="lni lni-calendar"></i> @blog.PostedDate.ToLongDateString()</a></li>
+                                                <li><a href="#"><i class="lni lni-calendar"></i> @blog.PostedDate.ToString(DateTimeFormatInfo.CurrentInfo.ShortDatePattern)</a></li>
                                                 <li><a href="#"><i class="lni lni-eye"></i> @blog.ViewCount</a></li>
                                             </ul>
                                         </div>
@@ -95,18 +99,14 @@
 
                 <div class="pagination center">
                     <ul class="pagination-list">
-                        <li><a href="#"><i class="lni lni-chevron-left"></i></a></li>
-                        <li class="active"><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#"><i class="lni lni-chevron-right"></i></a></li>
+                        <pagination class="mx-auto" page-index="@Model.Blogs.PageIndex" total-pages="@Model.Blogs.TotalPages" base-url="/Blog/List" />
                     </ul>
                 </div>
 
             </div>
             <aside class="col-lg-4 col-md-5 col-12">
                 <div class="sidebar">
+
                     <div class="widget search-widget">
                         <h5 class="widget-title"><span>Search This Site</span></h5>
                         <form action="#">
@@ -114,85 +114,34 @@
                             <button type="submit"><i class="lni lni-search-alt"></i></button>
                         </form>
                     </div>
+
                     <div class="widget popular-feeds">
                         <h5 class="widget-title"><span>Popular Feeds</span></h5>
                         <div class="popular-feed-loop">
-                            <div class="single-popular-feed">
-                                <div class="feed-desc">
-                                    <h6 class="post-title">
-                                        <a href="#">
-                                            Tips to write an impressive resume online for
-                                            beginner
-                                        </a>
-                                    </h6>
-                                    <span class="time"><i class="lni lni-calendar"></i> 05th Nov 2023</span>
+                            @foreach (var article in Model.PopularArticles)
+                            {
+                                <div class="single-popular-feed">
+                                    <div class="feed-desc">
+                                        <h6 class="post-title">
+                                            <a asp-page="/Blog/Index" asp-route-slug="@article.Slug">
+                                                @article.Title
+                                            </a>
+                                        </h6>
+                                        <span class="time"><i class="lni lni-calendar"></i>@article.PostedDate.ToString(DateTimeFormatInfo.CurrentInfo.ShortDatePattern)</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="single-popular-feed">
-                                <div class="feed-desc">
-                                    <h6 class="post-title">
-                                        <a href="#">
-                                            10 most important SEO focus areas for
-                                            colleges
-                                            and universities
-                                        </a>
-                                    </h6>
-                                    <span class="time"><i class="lni lni-calendar"></i> 24th March 2023</span>
-                                </div>
-                            </div>
-                            <div class="single-popular-feed">
-                                <div class="feed-desc">
-                                    <h6 class="post-title">
-                                        <a href="#">
-                                            7 things you should never say to your boss in
-                                            your joblife
-                                        </a>
-                                    </h6>
-                                    <span class="time"><i class="lni lni-calendar"></i> 30th Jan 2023</span>
-                                </div>
-                            </div>
+                            }
+                            
                         </div>
                     </div>
-                    <div class="widget categories-widget">
-                        <h5 class="widget-title"><span>Categories</span></h5>
-                        <ul class="custom">
-                            <li>
-                                <a href="#">Announcement<span>26</span></a>
-                            </li>
-                            <li>
-                                <a href="#">Indeed Events<span>30</span></a>
-                            </li>
-                            <li>
-                                <a href="#">Tips &amp; Tricks<span>71</span></a>
-                            </li>
-                            <li>
-                                <a href="#">Experiences<span>56</span></a>
-                            </li>
-                            <li>
-                                <a href="#">Case Studies<span>15</span></a>
-                            </li>
-                            <li>
-                                <a href="#">Labor Market News<span>12</span></a>
-                            </li>
-                            <li>
-                                <a href="#">HR Best Practices<span>17</span></a>
-                            </li>
-                        </ul>
-                    </div>
+                    
                     <div class="widget popular-tag-widget">
                         <h5 class="widget-title"><span>Popular Tags</span></h5>
                         <div class="tags">
-                            <a href="#">Jobpress</a>
-                            <a href="#">Design</a>
-                            <a href="#">HR</a>
-                            <a href="#">Recruiter</a>
-                            <a href="#">Interview</a>
-                            <a href="#">Employee</a>
-                            <a href="#">Labor</a>
-                            <a href="#">Salary</a>
-                            <a href="#">Consult</a>
-                            <a href="#">Business</a>
-                            <a href="#">Candidates</a>
+                            @foreach (var tag in Model.PopularTags)
+                            {
+                                <a asp-page="/Blog/List" asp-route-tag="@tag.Trim()">@tag</a>
+                            }                            
                         </div>
                     </div>
                 </div>
@@ -200,111 +149,3 @@
         </div>
     </div>
 </section>
-
-@*<div class="row">
-        <div class="d-flex mx-auto">
-            <h1>Blog</h1>
-            @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
-             {
-                <a role="button" class="btn btn-sm btn-dark ml-2 my-auto" asp-page="/Blog/Create" data-toggle="tooltip" data-placement="bottom" title="Add new article">
-                    <i class="fa fa-plus"></i>
-                </a>
-             }
-        </div>
-        <hr class="w-100" />
-    </div>
-
-    <div class="row">
-        @if (!Model.Blogs.Any())
-        {
-            <h4>There have not any articles ;(</h4>
-        }
-        else
-        {
-            <div class="col-12 col-md-7 col-lg-8">
-                @foreach (var blog in Model.Blogs)
-                {
-                    <div class="card card-shadow my-4">
-
-                        @if (!string.IsNullOrEmpty(blog.CoverPhotoPath))
-                        {
-                            <img class="card-img-top" src="@blog.CoverPhotoPath" alt="@blog.Title cover photo" />
-                        }
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                @blog.Title
-                                @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
-                                {
-                                    <span class="float-right mx-2">
-                                        <a asp-page="/Blog/Edit" asp-route-id="@blog.Id" data-toggle="tooltip" data-placement="top" title="Edit this article" style="color: black"><i class="fa fa-wrench"></i></a>
-                                        <a asp-page="/Blog/Delete" asp-route-Id="@blog.Id" data-toggle="tooltip" data-placement="top" title="Delete this article" style="color: black"><i class="fa fa-times"></i></a>
-                                    </span>}
-                            </h4>
-                            <h5 class="card-title">@blog.Summary &nbsp;<span class="font-italic" style="color:grey; font-size:smaller">@blog.PostedDate.ToString("MMMM dd, yyyy")</span></h5>
-                            <p id="shorttext_@blog.Id" class="card-text mt-3">
-                                @Blog.GetShortContent(blog.Summary, 500)
-                            </p>
-                            <div>
-                                <a role="button" class="btn bg-light btn-outline-dark text-dark font-weight-bolder mt-3" asp-page="/Blog/Index" asp-route-slug="@blog.Slug">Read More »</a>
-                                <span class="float-right mt-3">
-                                    <span class="mx-3"><i class="fa fa-eye"></i>&nbsp;@blog.ViewCount</span>
-                                    <a class="text-dark" asp-page="/Article/Index" asp-route-slug="@blog.Slug" asp-fragment="comments">
-                                        <span>
-                                            Comments <span class="badge badge-dark rounded-circle">@blog.Comments.Count</span>
-                                        </span>
-                                    </a>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                 }
-                 <div id="pagination" class="d-flex">
-                     <pagination class="mx-auto" page-index="@Model.Blogs.PageIndex" total-pages="@Model.Blogs.TotalPages" base-url="/Blog/List" />
-                 </div>
-            </div>
-            <div class="col-12 col-md-5 col-lg-4">
-                <div class="card card-shadow my-4">
-                    <img class="card-img-top" src="~/img/about/profile_2.jpg" alt="blog author's photo" />
-                    <div class="card-body">
-                        <h4 class="card-title">Sukhrob Ilyosbekov</h4>
-                        <h6>Software Developer <br />Traveler</h6>
-                        <p>I am just funny software developer who loves to explore the world of unknown.</p>
-                        <p class="font-italic">&quot;Every failure is one step closer to success&quot;</p>
-                    </div>
-                </div>
-
-                <div class="card card-shadow my-4">
-                    <div class="card-header">
-                        Popular Posts
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="list-group">
-                            @foreach (var article in Model.PopularArticles)
-                            {
-                                <a asp-page="/Blog/Index" asp-route-slug="@article.Slug" class="list-group-item list-group-item-action">
-                                    <img class="rounded" style="width: 75px; height: 50px" src="@article.CoverPhotoPath" alt="cover photo" />
-                                    <span class="ml-2" style="font-size:smaller">@article.Title</span>
-                                </a>
-                            }
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card card-shadow my-4">
-                    <div class="card-header">
-                        Popular Tags
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="p-2">
-                            @foreach (var tag in Model.PopularTags)
-                             {
-                                <a asp-page="/Blog/List" asp-route-tag="@tag.Trim()">
-                                    <span class="badge badge-dark text-white">@tag</span>
-                                </a>
-                             }
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>*@

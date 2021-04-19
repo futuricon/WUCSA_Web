@@ -109,11 +109,11 @@ namespace WUCSA.Infrastructure.Repositories
             }
         }
 
-        private string GetVerifiedBlogSlug(ISlugifiedEntity slugifiedEntity)
+        private string GetVerifiedBlogSlug(Blog slugifiedEntity)
         {
             var slug = slugifiedEntity.Slug;
             var verifiedSlug = slug;
-            var hasSameSlug = _context.Set<Blog>().Any(i => i.Slug == verifiedSlug);
+            var hasSameSlug = _context.Set<Blog>().Where(x => x.Id != slugifiedEntity.Id).Any(i => i.Slug == verifiedSlug);
 
             var count = 0;
             while (hasSameSlug)
