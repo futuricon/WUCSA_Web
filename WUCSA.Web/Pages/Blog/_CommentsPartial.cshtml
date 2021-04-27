@@ -1,13 +1,15 @@
 ﻿@model WUCSA.Core.Entities.BlogModel.Comment
 
-<li>
+<li id="rep-@Model.Id">
     <div class="comment-img">
         @if (Model.Author != null)
         {
             <img src="@Model.Author.ProfilePhotoPath" class="rounded-circle" alt="img">
         }
         else
-        { <img src="~/img/profile_image.png" class="rounded-circle" alt="img">}
+        { 
+            <img src="~/img/profile_image.png" class="rounded-circle" alt="img">
+        }
     </div>
     <div class="comment-desc">
         <div class="desc-top">
@@ -21,11 +23,13 @@
                 { <h6>@Model.Author.UserName</h6>}
             }
             else
-            { <h6>@Model.AuthorName</h6>}
-            <span class="date">@Model.PostedDate.ToString("MMMM dd, yyyy")</span>
+            { 
+                <h6>@Model.AuthorName</h6>
+            }
+            <span class="date">@Model.PostedDate.ToString("dd MMMM, yyyy")</span>
             @if (User.Identity.IsAuthenticated)
             {
-                <button class="reply-link"><i class="lni lni-reply"></i>Reply</button>
+                <a href="#rep-@Model.Id"  onclick="appToFun('@Model.Id')" class="reply-link"><i class="lni lni-reply"></i>Reply</a>
             }
         </div>
         <p>

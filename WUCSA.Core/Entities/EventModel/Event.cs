@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using WUCSA.Core.Entities.Base;
+using WUCSA.Core.Entities.RankModel;
 using WUCSA.Core.Entities.UserModel;
 using WUCSA.Core.Interfaces;
 
@@ -17,6 +18,14 @@ namespace WUCSA.Core.Entities.EventModel
         public string CoverPhotoPath { get; set; }
 
         public virtual ICollection<EventParticipant> EventParticipants { get; set; } = new List<EventParticipant>();
+
+        public string EventPartsFileUrl { get; set; }
+
+        public string RulesFileUrl { get; set; }
+
+        [Required(ErrorMessage = "Please select kind of sport")]
+        [Display(Name = "Sport Type")]
+        public virtual SportType SportType { get; set; }
 
         public DateTime PostedDate { get; set; } = DateTime.Now;
 

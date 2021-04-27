@@ -5,6 +5,7 @@ using MailKit.Net.Smtp;
 using WUCSA.Core.Interfaces;
 using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
+using System;
 
 namespace WUCSA.Infrastructure.Services
 {
@@ -75,6 +76,19 @@ namespace WUCSA.Infrastructure.Services
             catch (System.Exception e)
             {
                 System.Console.WriteLine(e.InnerException.Message);
+            }
+        }
+
+        public async Task SendTGAsync(string msg)
+        {
+            try
+            {
+                var bot = new Telegram.Bot.TelegramBotClient(_config.GetSection("TelegramAPIToken").Value);
+                await bot.SendTextMessageAsync("258995364", msg);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("err");
             }
         }
     }

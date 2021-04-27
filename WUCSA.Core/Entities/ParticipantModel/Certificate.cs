@@ -21,5 +21,7 @@ namespace WUCSA.Core.Entities.ParticipantModel
         public string CertName { get; set; }
 
         public virtual Participant Participant { get; set; }
+
+        public virtual Staff Staff { get; set; }
     }
 }

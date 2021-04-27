@@ -1,22 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using WUCSA.Core.Entities.Base;
-using WUCSA.Core.Entities.ParticipantModel;
 using WUCSA.Core.Interfaces;
 
 namespace WUCSA.Core.Entities.RankModel
 {
+    public enum RankLocation
+    {
+        World,
+        National
+    }
+
     public class Rank : IEntity<string>
     {
         [StringLength(32)]
         public string Id { get; set; } = GeneratorId.GenerateLong();
 
-        [Required(ErrorMessage = "Please enter the ranking name")]
-        [StringLength(40, ErrorMessage = "Characters must be less than 40")]
-        [Display(Name = "Rank name")]
-        public string RankName { get; set; }
+        [Required(ErrorMessage = "Please select kind of sport")]
+        [Display(Name = "Sport Type")]
+        public virtual SportType SportType { get; set; }
+
+        [Required(ErrorMessage = "Please enter the ranking year")]
+        [Display(Name = "Rank Year")]
+        public DateTime RankYear { get; set; }
+
+        [Required(ErrorMessage = "Please select location")]
+        [Display(Name = "Location")]
+        public RankLocation RankLocation { get; set; }
 
         [StringLength(400, ErrorMessage = "Characters must be less than 400")]
         [Display(Name = "Description")]
@@ -31,5 +42,7 @@ namespace WUCSA.Core.Entities.RankModel
         public string DescriptionUz { get; set; }
 
         public virtual ICollection<RankParticipant> RankParticipants { get; set; } = new List<RankParticipant>();
+
+        public string RankPartsFileUrl { get; set; }
     }
 }

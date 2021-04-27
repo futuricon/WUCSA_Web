@@ -29,8 +29,6 @@
 }
 
 @section CSS {
-    @*<link href="https://cdn.syncfusion.com/ej2/ej2-richtexteditor/styles/material.css" rel="stylesheet" />
-    <script async src="https://platform-api.sharethis.com/js/sharethis.js#property=5d20ee636d20a10012251ae5"></script>*@
     <link rel="stylesheet" href="~/css/post_style.css" />
 }
 <div class="breadcrumbs overlay">
@@ -46,11 +44,11 @@
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a asp-area="" asp-page="/Index">Home</a></li>
-                    <li>Blog Single Sidebar</li>
+                    <li><a asp-page="/Blog/List">Blog</a></li>
                     @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                     {
-                        <li><a asp-page="/Blog/Edit" asp-route-id="@Model.Blog.Id" data-toggle="tooltip" data-placement="top" style="color: black">Edit this article</a></li>
-                        <li><a asp-page="/Blog/Delete" asp-route-Id="@Model.Blog.Id" data-toggle="tooltip" data-placement="top" title="Delete this article" style="color: black"><i class="fa fa-times"></i></a></li>
+                        <li><a asp-page="/Blog/Edit" asp-route-id="@Model.Blog.Id" style="color: yellow">Edit this post</a></li>
+                        <li><a asp-page="/Blog/Delete" asp-route-Id="@Model.Blog.Id" style="color: red">Delete this post</a></li>
                     }
                 </ul>
             </div>
@@ -82,19 +80,19 @@
 
                             <ul class="custom-flex post-meta">
                                 <li>
-                                    <a href="#">
+                                    <a class="a-none">
                                         <i class="lni lni-calendar"></i>
-                                        @Model.Blog.PostedDate.ToString("MMMM dd, yyyy")
+                                        @Model.Blog.PostedDate.ToString("dd MMMM, yyyy")
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a class="a-none">
                                         <i class="lni lni-comments"></i>
                                         @Model.Comments.Count Comments
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a class="a-none">
                                         <i class="lni lni-eye"></i>
                                         @Model.Blog.ViewCount View
                                     </a>
@@ -109,7 +107,7 @@
                                             var tags = Model.Blog.BlogTags.Select(i => i.Tag);
                                             foreach (var tag in tags)
                                             {
-                                                <a href="#">@tag</a>
+                                                <a>@tag</a>
                                             }
                                         }
                                     </div>
@@ -160,56 +158,65 @@
                                 </ul>
                             </div>
                         }
-                        @if (!User.Identity.IsAuthenticated)
-                        {
-                            <form method="post">
-                                <h4>Post as a guest or <a asp-area="Identity" asp-page="/Account/Login">Sign In</a></h4>
-                                <div class="form-group">
-                                    <b><label asp-for="@Model.CommentAuthorName"></label></b>
-                                    <input class="form-control" asp-for="@Model.CommentAuthorName" required />
-                                    <span class="text-danger" asp-validation-for="@Model.CommentAuthorName"></span>
-                                </div>
-                                <div class="form-group">
-                                    <b><label class="mb-0" asp-for="@Model.CommentAuthorEmail"></label></b><br />
-                                    <label style="font-size:small">Required, but newer shown</label>
-                                    <input class="form-control" asp-for="@Model.CommentAuthorEmail" required />
-                                    <span class="text-danger" asp-validation-for="@Model.CommentAuthorEmail"></span>
-                                </div>
+                        <div id="respond-nest">
+                            <div id="respond" class="comment-form">
+                                @if (!User.Identity.IsAuthenticated)
+                                {                                   
+                                    <h3 class="comment-reply-title"><span>Leave a comment as a guest or</span><a style="color: #2042e3 !important" asp-area="Identity" asp-page="/Account/Login">Sign In</a></h3>
+                                    <form method="post">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-12">
+                                                <div class="form-box form-group">
+                                                    <input type="text" asp-for="@Model.CommentAuthorName" required class="form-control form-control-custom" placeholder="Your Name">
+                                                    <span class="text-danger" asp-validation-for="@Model.CommentAuthorName"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-12">
+                                                <div class="form-box form-group">
+                                                    <input type="email" asp-for="@Model.CommentAuthorEmail" required class="form-control form-control-custom" placeholder="Your Email">
+                                                    <span class="text-danger" asp-validation-for="@Model.CommentAuthorEmail"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-box form-group">
+                                                    <span asp-validation-for="@Model.CommentContent" class="text-danger"></span>
+                                                    <textarea asp-for="@Model.CommentContent" rows="6" class="form-control form-control-custom" placeholder="Your Comments"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="button">
+                                                    <button type="submit" class="btn mouse-dir white-bg">Post Comment <span class="dir-part"></span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <h3 class="comment-reply-title"><span>Leave a comment</span></h3>
+                                    <form method="post">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <span asp-validation-for="@Model.CommentContent" class="text-danger"></span>
+                                                <div class="form-box form-group">
+                                                    <textarea asp-for="@Model.CommentContent" rows="6" class="form-control form-control-custom"
+                                                              placeholder="Your Comments"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="button">
+                                                    <button type="submit" class="btn mouse-dir white-bg">
+                                                        Post Comment <span class="dir-part"></span>
+                                                    </button>
+                                                    <a href="#respond" onclick="prepToFun()" class="reply-link">Cancel Reply</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
 
-                                <div id="comment_textbox" class="card card-header shadow-sm my-4 p-2">
-                                    <label><b>Post a comment</b></label>
-                                    <span asp-validation-for="@Model.CommentContent" class="text-danger"></span>
-                                    <div class="bg-white p-2">
-                                        <textarea asp-for="@Model.CommentContent" class="comment-editor" rows="4" placeholder="Type message..." required></textarea>
-                                    </div>
-                                    <input type="submit" class="btn btn-sm btn-info shadow-sm mt-2 col-5 col-sm-4 col-md-3" value="Save comment" />
-                                </div>
-                            </form>
-                        }
-                        else
-                        {
-                            <div class="comment-form">
-                                <h3 class="comment-reply-title"><span>Leave a comment</span></h3>
-                                <form method="post">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <span asp-validation-for="@Model.CommentContent" class="text-danger"></span>
-                                            <div class="form-box form-group">
-                                                <textarea asp-for="@Model.CommentContent" rows="6" class="form-control form-control-custom"
-                                                          placeholder="Your Comments"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="button">
-                                                <button type="submit" class="btn mouse-dir white-bg">
-                                                    Post Comment <span class="dir-part"></span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
+                                }
                             </div>
-                        }
+                        </div>
                     </div>
                 </div>
             </div>
@@ -309,8 +316,21 @@
                         </div>
                     </div>
                 </div>
-            </aside>*@
+                </aside>*@
+
         </div>
     </div>
 </section>
+
+@section Scripts {
+    <script>
+        function appToFun(e) {
+            $("#respond").appendTo($('#rep-' + e));
+        };
+
+        function prepToFun() {
+            $("#respond").appendTo($('#respond-nest'));
+        };
+    </script>
+}
 

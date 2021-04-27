@@ -1,0 +1,218 @@
+﻿@page
+@model WUCSA.Web.Pages.Blog.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "_Layout";
+}
+
+@section CSS {
+    <link rel="stylesheet" href="~/lib/croppie/croppie.css" />
+    <link rel="stylesheet" href="~/css/post_style.css" />
+}
+
+<section class="section blog-single">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <form onsubmit="setimg()" enctype="multipart/form-data" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Input.Blog.Id" />
+                    <div class="single-inner">
+                        <div class="grid">
+                            <div class="col-12">
+                                <input id="bgimagebase64" asp-for="Input.UploadCoverPhoto" type="hidden" />
+                                <div class="button">
+                                    <a style="margin-bottom: 2%;" class="btn file-btn">
+                                        <span>Choose an image</span>
+                                        <input type="file" id="upload" value="Choose a file" accept="image/*" />
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="upload-demo-wrap">
+                                    <div id="upload-demo"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-details">
+                            <div class="detail-inner">
+                                <div class="form-group">
+                                    <label asp-for="Input.Blog.Title" class="control-label"></label>
+                                    <input asp-for="Input.Blog.Title" class="form-control" />
+                                    <span asp-validation-for="Input.Blog.Title" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Input.Blog.TitleRu" class="control-label"></label>
+                                    <input asp-for="Input.Blog.TitleRu" class="form-control" />
+                                    <span asp-validation-for="Input.Blog.TitleRu" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Input.Blog.TitleUz" class="control-label"></label>
+                                    <input asp-for="Input.Blog.TitleUz" class="form-control" />
+                                    <span asp-validation-for="Input.Blog.TitleUz" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mt-4">
+                                    <label asp-for="Input.Blog.Content" class="control-label"></label>
+                                    <span asp-validation-for="Input.Blog.Content" class="text-danger"></span>
+                                    <textarea class="richtexteditor" asp-for="Input.Blog.Content" height="300">
+                                    </textarea>
+                                </div>
+                                <div class="form-group mt-4">
+                                    <label asp-for="Input.Blog.ContentRu" class="control-label"></label>
+                                    <span asp-validation-for="Input.Blog.ContentRu" class="text-danger"></span>
+                                    <textarea class="richtexteditor" asp-for="Input.Blog.ContentRu" height="300">
+                                    </textarea>
+                                </div>
+                                <div class="form-group mt-4">
+                                    <label asp-for="Input.Blog.ContentUz" class="control-label"></label>
+                                    <span asp-validation-for="Input.Blog.ContentUz" class="text-danger"></span>
+                                    <textarea class="richtexteditor" asp-for="Input.Blog.ContentUz" height="300">
+                                    </textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Input.Tags" class="control-label"></label>
+                                    <label class="font-weight-light">&nbsp;(<span class="font-weight-bold text-danger">*</span>Do not duplicate tag names)</label>
+                                    <input asp-for="Input.Tags" class="form-control" />
+                                    <span asp-validation-for="Input.Tags" class="text-danger"></span>
+                                </div>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" asp-for="Input.Blog.IsCommentsLocked">
+                                    <label class="form-check-label" for="exampleCheck1">Disable Comments?</label>
+                                </div>
+                                <div class="button form-group mt-4">
+                                    <input type="submit" value="Create" class="btn" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/lib/croppie/croppie.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/gor58flziaueg8chsw70ufwp3mnxgqytjn0hgvh6agc8q65x/tinymce/5/tinymce.min.js"
+            referrerpolicy="origin">
+    </script>
+    <script>
+        var imgUrl = @Model.Input.Blog.CoverPhotoPath;
+
+        $(document).ready(function () {
+            resizeDiv();
+        });
+        window.onresize = function () {
+            resizeDiv();
+        };
+
+        function resizeDiv() {
+            var cw = $('.upload-demo-wrap').width();
+            $('.upload-demo-wrap').css({
+                'height': cw / 2.125 + 'px'
+            });
+            $('.cr-viewport').css({
+                'height': cw * 0.4 + 'px',
+                'width': cw * 0.85 + 'px'
+            });
+        }
+
+        var $uploadCrop;
+
+        function readFile(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('.upload-demo').addClass('ready');
+                    $uploadCrop.croppie('bind', {
+                        url: e.target.result
+                    }).then(function () {
+                        console.log('jQuery bind complete');
+                    });
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                swal("Sorry - you're browser doesn't support the FileReader API");
+            }
+        }
+
+        $uploadCrop = $('#upload-demo').croppie('bind', {
+            url: imgUrl
+        });
+
+        $('#upload').on('change', function () {
+            readFile(this);
+        });
+
+        function setimg () {
+            $uploadCrop.croppie('result', {
+                type: 'base64',
+                size: 'viewport'
+            }).then(function (resp) {
+                document.getElementById('bgimagebase64').setAttribute('value', resp);
+            });
+        };
+
+        tinymce.init({
+            selector: 'textarea.richtexteditor',
+            menubar: false,
+            plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table paste code help wordcount',
+                'image'
+            ],
+            toolbar: 'undo redo | formatselect | ' +
+                'bold italic backcolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat | image',
+            image_title: true,
+            /* enable automatic uploads of images represented by blob or data URIs*/
+            automatic_uploads: true,
+            file_picker_types: 'image',
+            /* and here's our custom image picker*/
+            file_picker_callback: function (cb, value, meta) {
+                var input = document.createElement('input');
+                input.setAttribute('type', 'file');
+                input.setAttribute('accept', 'image/*');
+
+                /*
+                  Note: In modern browsers input[type="file"] is functional without
+                  even adding it to the DOM, but that might not be the case in some older
+                  or quirky browsers like IE, so you might want to add it to the DOM
+                  just in case, and visually hide it. And do not forget do remove it
+                  once you do not need it anymore.
+                */
+
+                input.onchange = function () {
+                    var file = this.files[0];
+
+                    var reader = new FileReader();
+                    reader.onload = function () {
+                        /*
+                          Note: Now we need to register the blob in TinyMCEs image blob
+                          registry. In the next release this part hopefully won't be
+                          necessary, as we are looking to handle it internally.
+                        */
+                        var id = 'blobid' + (new Date()).getTime();
+                        var blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                        var base64 = reader.result.split(',')[1];
+                        var blobInfo = blobCache.create(id, file, base64);
+                        blobCache.add(blobInfo);
+
+                        /* call the callback and populate the Title field with the file name */
+                        cb(blobInfo.blobUri(), { title: file.name });
+                    };
+                    reader.readAsDataURL(file);
+                };
+
+                input.click();
+            },
+            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+        });
+
+    </script>
+}

@@ -99,6 +99,21 @@ namespace WUCSA.Infrastructure.Data
                     .WithOne(m => m.Participant);
             });
 
+            builder.Entity<Staff>(entity =>
+            {
+                entity.HasMany(m => m.Certificates)
+                    .WithOne(m => m.Staff);
+            });
+
+            builder.Entity<SportType>(entity =>
+            {
+                entity.HasMany(m => m.Ranks)
+                    .WithOne(m => m.SportType);
+
+                entity.HasMany(m => m.Events)
+                    .WithOne(m => m.SportType);
+            });
+
             builder.Entity<RankParticipant>(entity =>
             {
                 entity.HasKey(k => new { k.RankId, k.ParticipantId });

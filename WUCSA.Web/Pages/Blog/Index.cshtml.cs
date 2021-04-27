@@ -92,13 +92,15 @@ namespace WUCSA.Web.Pages.Blog
                 comment.AuthorName = CommentAuthorName;
             }
 
-            var htmlMsg = $@"<h3>Good day, <b>{Blog.Author.UserName}</b></h3>
-                                <p>Posted comment in your blog in wucsa.com 
-                                <a href='{HtmlEncoder.Default.Encode($"http://wucsa.com/{Blog.Slug}?pageIndex={pageNumber}#{comment.Id}")}'>{Blog.Title}</a></p>
-                                <br />";
+            //var htmlMsg = $@"<h3>Good day, <b>{Blog.Author.UserName}</b></h3>
+            //                    <p>Posted comment in your blog in wucsa.com 
+            //                    <a href='{HtmlEncoder.Default.Encode($"http://wucsa.com/{Blog.Slug}?pageIndex={pageNumber}#{comment.Id}")}'>{Blog.Title}</a></p>
+            //                    <br />";
+            var TGMsg = $@"Hi, {Blog.Author.UserName}. There is new comment in your post {Blog.Title}. Check it out http://wucsa.com/{Blog.Slug}?pageIndex={pageNumber}#{comment.Id}";
 
             await _blogRepository.AddCommentAsync(Blog, comment);
-            await _emailService.SendAsync(Blog.Author.Email, "Posted comment in your blog", htmlMsg);
+            await _emailService.SendTGAsync(TGMsg);
+            //await _emailService.SendAsync(Blog.Author.Email, "Posted comment in your blog", htmlMsg);
             return RedirectToPage("", "", new { pageIndex = pageNumber }, comment.Id);
         }
 
