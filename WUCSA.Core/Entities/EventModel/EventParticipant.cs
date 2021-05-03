@@ -1,19 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
-using WUCSA.Core.Entities.ParticipantModel;
+using WUCSA.Core.Entities.Base;
+using WUCSA.Core.Entities.StaffModel;
 
 namespace WUCSA.Core.Entities.EventModel
 {
     public class EventParticipant
     {
         [StringLength(32)]
-        public string EventId { get; set; }
+        public string Id { get; set; } = GeneratorId.GenerateLong();
+
+        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "This is not valid number")]
+        [Display(Name = "Weight category")]
+        public int Weight { get; set; }
+
         public virtual Event Event { get; set; }
 
-        [StringLength(32)]
-        public string ParticipantId { get; set; }
-        public virtual Participant Participant { get; set; }
+        public virtual ICollection<Participant> Participants { get; set; }
     }
 }

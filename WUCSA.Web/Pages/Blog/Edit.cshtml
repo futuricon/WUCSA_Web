@@ -11,6 +11,26 @@
     <link rel="stylesheet" href="~/css/post_style.css" />
 }
 
+<div class="breadcrumbs overlay">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title">Edit Article</h1>
+                    <p>
+                        Business plan draws on a wide range of knowledge from different business<br> disciplines.
+                        Business draws on a wide range of different business .
+                    </p>
+                </div>
+                <ul class="breadcrumb-nav">
+                    <li><a asp-area="" asp-page="/Index">Home</a></li>
+                    <li><a asp-page="/Blog/List">Blog</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
 <section class="section blog-single">
     <div class="container">
         <div class="row">
@@ -29,8 +49,11 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <div class="upload-demo-wrap">
+                            <div class="col-12 upload-demo">
+                                <div class="post-thumbnils upload-msg">
+                                    <img src="@Model.Input.Blog.CoverPhotoPath" alt="@Model.Input.Blog.Title cover photo" />
+                                </div>
+                                <div class="upload-demo-wrap post-thumbnils">
                                     <div id="upload-demo"></div>
                                 </div>
                             </div>
@@ -81,7 +104,7 @@
                                     <label class="form-check-label" for="exampleCheck1">Disable Comments?</label>
                                 </div>
                                 <div class="button form-group mt-4">
-                                    <input type="submit" value="Create" class="btn" />
+                                    <input type="submit" value="Update" class="btn" />
                                 </div>
                             </div>
                         </div>
@@ -98,10 +121,10 @@
             referrerpolicy="origin">
     </script>
     <script>
-        var imgUrl = @Model.Input.Blog.CoverPhotoPath;
+        @*var imgUrl = '@Model.Input.Blog.CoverPhotoPath';*@
 
         $(document).ready(function () {
-            resizeDiv();
+            resizeDivBefore();
         });
         window.onresize = function () {
             resizeDiv();
@@ -109,6 +132,17 @@
 
         function resizeDiv() {
             var cw = $('.upload-demo-wrap').width();
+            $('.upload-demo-wrap').css({
+                'height': cw / 2.125 + 'px'
+            });
+            $('.cr-viewport').css({
+                'height': cw * 0.4 + 'px',
+                'width': cw * 0.85 + 'px'
+            });
+        }
+
+        function resizeDivBefore() {
+            var cw = $('.post-thumbnils').width();
             $('.upload-demo-wrap').css({
                 'height': cw / 2.125 + 'px'
             });
@@ -139,12 +173,17 @@
             }
         }
 
-        $uploadCrop = $('#upload-demo').croppie('bind', {
-            url: imgUrl
+        $uploadCrop = $('#upload-demo').croppie({
+            enableExif: true
         });
+
+        @*$uploadCrop = $('#upload-demo').croppie('bind', {
+            url: '@Model.Input.Blog.CoverPhotoPath'
+        });*@
 
         $('#upload').on('change', function () {
             readFile(this);
+            resizeDivBefore();
         });
 
         function setimg () {
@@ -152,7 +191,9 @@
                 type: 'base64',
                 size: 'viewport'
             }).then(function (resp) {
-                document.getElementById('bgimagebase64').setAttribute('value', resp);
+                if (resp!=null) {
+                    document.getElementById('bgimagebase64').setAttribute('value', resp);
+                }
             });
         };
 

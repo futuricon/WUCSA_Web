@@ -1,15 +1,35 @@
 ﻿@page
 @model WUCSA.Web.Pages.Blog.CreateModel
 
-@{ 
+@{
     ViewData["Title"] = "Create";
-    Layout = "_Layout"; 
+    Layout = "_Layout";
 }
 
 @section CSS {
     <link rel="stylesheet" href="~/lib/croppie/croppie.css" />
     <link rel="stylesheet" href="~/css/post_style.css" />
 }
+
+<div class="breadcrumbs overlay">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title">Create new Article</h1>
+                    <p>
+                        Business plan draws on a wide range of knowledge from different business<br> disciplines.
+                        Business draws on a wide range of different business .
+                    </p>
+                </div>
+                <ul class="breadcrumb-nav">
+                    <li><a asp-area="" asp-page="/Index">Home</a></li>
+                    <li><a asp-page="/Blog/List">Blog</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 
 <section class="section blog-single">
     <div class="container">
@@ -93,11 +113,11 @@
 
 @section Scripts {
     <script src="~/lib/croppie/croppie.min.js"></script>
-    <script src="https://cdn.tiny.cloud/1/gor58flziaueg8chsw70ufwp3mnxgqytjn0hgvh6agc8q65x/tinymce/5/tinymce.min.js" 
+    <script src="https://cdn.tiny.cloud/1/gor58flziaueg8chsw70ufwp3mnxgqytjn0hgvh6agc8q65x/tinymce/5/tinymce.min.js"
             referrerpolicy="origin">
     </script>
     <script>
-        
+
         $(document).ready(function () {
             resizeDiv();
         });
@@ -145,7 +165,7 @@
             readFile(this);
         });
 
-        function setimg () {
+        function setimg() {
             $uploadCrop.croppie('result', {
                 type: 'base64',
                 size: 'viewport'

@@ -6,15 +6,10 @@ using WUCSA.Core.Entities.EventModel;
 using WUCSA.Core.Entities.RankModel;
 using WUCSA.Core.Interfaces;
 
-namespace WUCSA.Core.Entities.ParticipantModel
+namespace WUCSA.Core.Entities.StaffModel
 {
     public class Participant : IEntity<string>
     {
-        public Participant()
-        {
-            ProfilePhotoPath = "/img/profile_image.png";
-        }
-
         [StringLength(32)]
         public string Id { get; set; } = GeneratorId.GenerateComplex();
 
@@ -27,10 +22,6 @@ namespace WUCSA.Core.Entities.ParticipantModel
         [StringLength(40, ErrorMessage = "Characters must be less than 40")]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
-
-        [Required(ErrorMessage = "Please enter gender")]
-        [Display(Name = "Gender")]
-        public string Gender { get; set; }
 
         [Display(Name = "Date of Birth")]
         public DateTime BirthDate { get; set; }
@@ -55,13 +46,18 @@ namespace WUCSA.Core.Entities.ParticipantModel
         [Display(Name = "Height in centimeters")]
         public int Height { get; set; }
 
-        [StringLength(100)]
-        public string ProfilePhotoPath { get; set; }
+        [Required(ErrorMessage = "Please enter the position number in the rank")]
+        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "This is not valid number")]
+        [Display(Name = "Position number")]
+        public int PositionNumber { get; set; }
 
-        public virtual ICollection<Certificate> Certificates { get; set; } = new List<Certificate>();
+        [Required(ErrorMessage = "Please enter the country, state or city of the representative")]
+        [StringLength(100, ErrorMessage = "Characters must be less than 400")]
+        [Display(Name = "Representative from")]
+        public string Location { get; set; }
 
-        public virtual ICollection<EventParticipant> EventParticipants { get; set; } = new List<EventParticipant>();
+        public virtual EventParticipant EventParticipant { get; set; }
 
-        public virtual ICollection<RankParticipant> RankParticipants { get; set; } = new List<RankParticipant>();
+        public virtual RankParticipant RankParticipant { get; set; }
     }
 }

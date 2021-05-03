@@ -88,7 +88,7 @@ namespace WUCSA.Infrastructure.Services
             }
             catch (Exception e)
             {
-                Console.WriteLine("err");
+                Console.WriteLine(e.InnerException.Message);
             }
         }
     }

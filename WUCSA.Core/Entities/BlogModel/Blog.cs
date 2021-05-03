@@ -15,6 +15,7 @@ namespace WUCSA.Core.Entities.BlogModel
         public Blog()
         {
             CoverPhotoPath = "/img/blog_image.png";
+            IsDeleted = false;
         }
 
         [StringLength(32)]
@@ -25,7 +26,7 @@ namespace WUCSA.Core.Entities.BlogModel
 
         [StringLength(64)]
         public string CoverPhotoPath { get; set; }
-
+       
         public virtual AppUser Author { get; set; }
 
         public DateTime PostedDate { get; set; } = DateTime.Now;
@@ -60,6 +61,8 @@ namespace WUCSA.Core.Entities.BlogModel
         public int ViewCount { get; set; }
 
         public bool IsCommentsLocked { get; set; }
+
+        public bool IsDeleted { get; set; }
 
         public virtual ICollection<BlogTag> BlogTags { get; set; } = new List<BlogTag>();
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();

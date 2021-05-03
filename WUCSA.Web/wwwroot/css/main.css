@@ -2573,147 +2573,147 @@ ol {
 }
 
 /*======================================
-    Job Category CSS
+    xs Category CSS
 ========================================*/
-.job-category {
-  background-color: #f6f9fc;
+.xs-category {
+    background-color: #f6f9fc;
 }
 
-.job-category.style2 .cat-head {
-  padding: 0;
-  -webkit-box-shadow: none !important;
-          box-shadow: none !important;
-  background-color: transparent;
+.xs-category.style2 .cat-head {
+    padding: 0;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    background-color: transparent;
 }
 
-.job-category.style2 .single-cat {
-  -webkit-box-shadow: 0 1rem 3rem rgba(35, 38, 45, 0.15) !important;
-          box-shadow: 0 1rem 3rem rgba(35, 38, 45, 0.15) !important;
-  padding: 0;
-  border: none;
-  text-align: left;
-  border-radius: 7px;
-  overflow: hidden;
-  background-color: #fff;
+.xs-category.style2 .single-cat {
+    -webkit-box-shadow: 0 1rem 3rem rgba(35, 38, 45, 0.15) !important;
+    box-shadow: 0 1rem 3rem rgba(35, 38, 45, 0.15) !important;
+    padding: 0;
+    border: none;
+    text-align: left;
+    border-radius: 7px;
+    overflow: hidden;
+    background-color: #fff;
 }
 
-.job-category.style2 .single-cat:hover img {
-  -webkit-transform: scale(1.1);
-          transform: scale(1.1);
+.xs-category.style2 .single-cat:hover img {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
 }
 
-.job-category.style2 .single-cat h3 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-  display: inline-block;
+.xs-category.style2 .single-cat h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    display: inline-block;
 }
 
-.job-category.style2 .single-cat .top-side {
-  position: relative;
-  overflow: hidden;
+.xs-category.style2 .single-cat .top-side {
+    position: relative;
+    overflow: hidden;
 }
 
-.job-category.style2 .single-cat .top-side img {
-  width: 100%;
-  -webkit-transition: all 0.4s ease;
-  transition: all 0.4s ease;
-  z-index: 0;
+.xs-category.style2 .single-cat .top-side img {
+    width: 100%;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+    z-index: 0;
 }
 
-.job-category.style2 .single-cat .top-side::before {
-  position: absolute;
-  content: "";
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  background-color: #2042e3;
-  opacity: 0;
-  visibility: hidden;
-  -webkit-transition: all 0.4s ease;
-  transition: all 0.4s ease;
-  z-index: 2;
+.xs-category.style2 .single-cat .top-side::before {
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #2042e3;
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+    z-index: 2;
 }
 
-.job-category.style2 .single-cat .cat-head {
-  padding: 0;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+.xs-category.style2 .single-cat .cat-head {
+    padding: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
 }
 
-.job-category.style2 .single-cat .bottom-side {
-  padding: 25px 30px;
-  position: relative;
+.xs-category.style2 .single-cat .bottom-side {
+    padding: 25px 30px;
+    position: relative;
 }
 
-.job-category.style2 .single-cat .bottom-side .available-job {
-  background-color: #2042e3;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 600;
-  display: inline-block;
-  padding: 10px 15px;
-  position: absolute;
-  right: 30px;
-  top: -19px;
-  border-radius: 6px;
-  -webkit-box-shadow: 0px 10px 30px 0px rgba(0, 0, 0, 0.08);
-          box-shadow: 0px 10px 30px 0px rgba(0, 0, 0, 0.08);
-  z-index: 3;
+.xs-category.style2 .single-cat .bottom-side .available-job {
+    background-color: #2042e3;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    display: inline-block;
+    padding: 10px 15px;
+    position: absolute;
+    right: 30px;
+    top: -19px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0px 10px 30px 0px rgba(0, 0, 0, 0.08);
+    box-shadow: 0px 10px 30px 0px rgba(0, 0, 0, 0.08);
+    z-index: 3;
 }
 
-.job-category.style2 .single-cat:hover .top-side:before {
-  opacity: 0.5;
-  visibility: visible;
+.xs-category.style2 .single-cat:hover .top-side:before {
+    opacity: 0.5;
+    visibility: visible;
 }
 
-.job-category .cat-head {
-  padding: 35px 50px;
-  background-color: #fff;
-  border-radius: 5px;
-  -webkit-box-shadow: 0 1rem 3rem rgba(35, 38, 45, 0.15) !important;
-          box-shadow: 0 1rem 3rem rgba(35, 38, 45, 0.15) !important;
+.xs-category .cat-head {
+    padding: 35px 50px;
+    background-color: #fff;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1rem 3rem rgba(35, 38, 45, 0.15) !important;
+    box-shadow: 0 1rem 3rem rgba(35, 38, 45, 0.15) !important;
 }
 
-.job-category .single-cat {
-  text-align: center;
-  padding: 30px;
-  border: 1px dashed #eee;
-  margin: 15px 0;
-  -webkit-transition: all 0.4s ease;
-  transition: all 0.4s ease;
-  display: block;
+.xs-category .single-cat {
+    text-align: center;
+    padding: 30px;
+    border: 1px dashed #eee;
+    margin: 15px 0;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+    display: block;
 }
 
-.job-category .single-cat:hover {
-  -webkit-box-shadow: 0 1rem 3rem rgba(35, 38, 45, 0.15) !important;
-          box-shadow: 0 1rem 3rem rgba(35, 38, 45, 0.15) !important;
+.xs-category .single-cat:hover {
+    -webkit-box-shadow: 0 1rem 3rem rgba(35, 38, 45, 0.15) !important;
+    box-shadow: 0 1rem 3rem rgba(35, 38, 45, 0.15) !important;
 }
 
-.job-category .single-cat i {
-  font-size: 26px;
-  height: 60px;
-  width: 60px;
-  line-height: 60px;
-  text-align: center;
-  display: inline-block;
-  background: #2042e31c;
-  color: #2042e3;
-  border-radius: 4px;
+.xs-category .single-cat i {
+    font-size: 26px;
+    height: 60px;
+    width: 60px;
+    line-height: 60px;
+    text-align: center;
+    display: inline-block;
+    background: #2042e31c;
+    color: #2042e3;
+    border-radius: 4px;
 }
 
-.job-category .single-cat h3 {
-  display: block;
-  margin-top: 20px;
-  font-size: 15px;
-  color: #081828;
-  font-weight: 500;
-  -webkit-transition: all 0.4s ease;
-  transition: all 0.4s ease;
+.xs-category .single-cat h3 {
+    display: block;
+    margin-top: 20px;
+    font-size: 15px;
+    color: #081828;
+    font-weight: 500;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
 }
 
-.job-category .single-cat h3:hover {
+.xs-category .single-cat h3:hover {
   color: #2042e3;
 }
 

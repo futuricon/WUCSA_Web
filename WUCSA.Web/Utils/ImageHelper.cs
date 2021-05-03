@@ -80,10 +80,9 @@ namespace WUCSA.Web.Utils
             return $"/img/post_imgs/{imagePath}";
         }
         
-        public string UploadNextImage(IFormFile image, string imageFileName, string previousFilePath,
+        public string UploadNextImage(IFormFile image, string imageFileName,
             bool resizeToQuadratic = false, bool resizeToRectangle = false)
         {
-            DeleteFile(previousFilePath);
             return UploadImage(image, imageFileName, resizeToQuadratic, resizeToRectangle);
         }
 
@@ -145,7 +144,7 @@ namespace WUCSA.Web.Utils
             return (byte[])converter.ConvertTo(img, typeof(byte[]));
         }
 
-        public void RemoveImage(string imgPath)
+        public void RemoveImage(string imgPath, string subFolder)
         {
             if (imgPath == DefaultUserAvatarPath || imgPath == DefaultBlogCoverPhotoPath)
             {
@@ -153,7 +152,7 @@ namespace WUCSA.Web.Utils
             }
 
             var imgFileName = Path.GetFileName(imgPath);
-            var imgFullPath = Path.Combine(_env.WebRootPath, "db_files", "img", imgFileName);
+            var imgFullPath = Path.Combine(_env.WebRootPath, "img", subFolder,  imgFileName);
 
             if (File.Exists(imgFullPath))
             {

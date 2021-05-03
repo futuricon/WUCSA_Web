@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using WUCSA.Core.Entities.EventModel;
-using WUCSA.Core.Entities.ParticipantModel;
+using WUCSA.Core.Entities.StaffModel;
 using WUCSA.Core.Interfaces.Repositories;
 using WUCSA.Infrastructure.Data;
 
@@ -19,47 +15,34 @@ namespace WUCSA.Infrastructure.Repositories
             _context = context;
         }
 
-        public Task AddEventAsync(Event myEevent, IEnumerable<Participant> participants)
+        public Task AddEventAsync(Event myEvent)
         {
-            if (participants != null)
-            {
-                foreach (var participant in participants)
-                {
-                    myEevent.EventParticipants.Add(new EventParticipant
-                    {
-                        Participant = participant
-                    });
-                }
-            }
-
-            return AddAsync(myEevent);
+            throw new System.NotImplementedException();
         }
 
-        public async Task DeleteEventAsync(Event myEevent)
+        public Task AddEventParticipantAsync(EventParticipant eventParticipant, params Participant[] participants)
         {
-            //Test this
-            await DeleteAsync(myEevent);
+            throw new System.NotImplementedException();
         }
 
-        public async Task UpdateEventAsync(Event myEevent, IEnumerable<Participant> participants)
+        public Task DeleteEventAsync(Event myEvent)
         {
-            //Test this
-            myEevent.EventParticipants.Clear();
+            throw new System.NotImplementedException();
+        }
 
-            foreach (var participantId in participants)
-            {
-                var participant = await GetAsync<Participant>(i => i.Id == participantId.Id);
+        public Task DeleteEventParticipantAsync(EventParticipant eventParticipant)
+        {
+            throw new System.NotImplementedException();
+        }
 
-                if (participant != null)
-                {
-                    myEevent.EventParticipants.Add(new EventParticipant()
-                    {
-                        Participant = participant
-                    });
-                }
-            }
+        public Task UpdateEventAsync(Event myEvent)
+        {
+            throw new System.NotImplementedException();
+        }
 
-            await UpdateAsync(myEevent);
+        public Task UpdateEventParticipantAsync(EventParticipant eventParticipant, params Participant[] participants)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

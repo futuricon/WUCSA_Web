@@ -6,7 +6,7 @@ using WUCSA.Core.Entities.Base;
 using WUCSA.Core.Entities.UserModel;
 using WUCSA.Core.Interfaces;
 
-namespace WUCSA.Core.Entities.ParticipantModel
+namespace WUCSA.Core.Entities.StaffModel
 {
     public class Certificate : IEntity<string>
     {
@@ -19,8 +19,6 @@ namespace WUCSA.Core.Entities.ParticipantModel
         [StringLength(40, ErrorMessage = "Characters must be less than 40")]
         [Display(Name = "Certificate Title")]
         public string CertName { get; set; }
-
-        public virtual Participant Participant { get; set; }
 
         public virtual Staff Staff { get; set; }
     }

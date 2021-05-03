@@ -1,17 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using WUCSA.Core.Entities.EventModel;
-using WUCSA.Core.Entities.ParticipantModel;
+﻿using System.Threading.Tasks;
 using WUCSA.Core.Entities.RankModel;
+using WUCSA.Core.Entities.StaffModel;
 
 namespace WUCSA.Core.Interfaces.Repositories
 {
     public interface IRankRepository : IRepository
     {
-        Task AddRankAsync(Rank rank, IEnumerable<Participant> participants);
-        Task UpdateRankAsync(Rank rank, IEnumerable<Participant> participants);
+        Task AddRankAsync(Rank rank);
+        Task UpdateRankAsync(Rank rank);
         Task DeleteRankAsync(Rank rank);
+        
+        Task AddSportTypeAsync(SportType sportType);
+        Task UpdateSportTypeAsync(SportType sportType);
+        Task DeleteSportTypeAsync(SportType sportType);
+
+        Task AddRankParticipantAsync(RankParticipant rankParticipant);
+        Task UpdateRankParticipantAsync(RankParticipant rankParticipant, bool saveChanges = true, params Participant[] participants);
+        Task DeleteRankParticipantAsync(RankParticipant rankParticipant, bool saveChanges = true);
     }
 }

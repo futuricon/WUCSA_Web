@@ -11,7 +11,7 @@ using WUCSA.Web.Utils;
 
 namespace WUCSA.Web.Pages.Blog
 {
-    [Authorize(Roles = "SuperAdmin,Admin,Editor")]
+    [Authorize(Roles = "SuperAdmin,Admin")]
     public class CreateModel : PageModel
     {
         private readonly UserManager<AppUser> _userManager;
@@ -45,8 +45,8 @@ namespace WUCSA.Web.Pages.Blog
                 return Page();
             }
 
-            var currentUser = await _userManager.GetUserAsync(User);
-            var tags = Tag.ParseTags(Input.Tags);
+            AppUser currentUser = await _userManager.GetUserAsync(User);
+            Tag[] tags = Tag.ParseTags(Input.Tags);
             Input.Blog.Slug = Input.Blog.Title.Slugify();
             Input.Blog.Author = currentUser;
 

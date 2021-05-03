@@ -4,13 +4,14 @@ using System.ComponentModel.DataAnnotations;
 using WUCSA.Core.Entities.Base;
 using WUCSA.Core.Interfaces;
 
-namespace WUCSA.Core.Entities.ParticipantModel
+namespace WUCSA.Core.Entities.StaffModel
 {
     public class Staff : IEntity<string>
     {
         public Staff()
         {
             ProfilePhotoPath = "/img/profile_image.png";
+            IsDeleted = false;
         }
 
         [StringLength(32)]
@@ -18,18 +19,18 @@ namespace WUCSA.Core.Entities.ParticipantModel
 
         [StringLength(100)]
         public string ProfilePhotoPath { get; set; }
-
-        [Required(ErrorMessage = "Please enter Name")]
+        
+        [Required(ErrorMessage = "Please enter name")]
         [StringLength(40, ErrorMessage = "Characters must be less than 40")]
         [Display(Name = "Name")]
         public string FirstName { get; set; }
 
-        [Required(ErrorMessage = "Please enter Last Name")]
+        [Required(ErrorMessage = "Please enter last name")]
         [StringLength(40, ErrorMessage = "Characters must be less than 40")]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Required(ErrorMessage = "Please enter positiron")]
+        [Required(ErrorMessage = "Please enter a positiron")]
         [StringLength(80, ErrorMessage = "Characters must be less than 80")]
         [Display(Name = "Position")]
         public string Position { get; set; }
@@ -39,10 +40,15 @@ namespace WUCSA.Core.Entities.ParticipantModel
         [Display(Name = "Должность")]
         public string PositionRu { get; set; }
 
-        [Required(ErrorMessage = "Iltimos, kiriting")]
+        [Required(ErrorMessage = "Iltimos, mansabni kiriting")]
         [StringLength(80, ErrorMessage = "Belgilar 80 dan kam bo'lishi kerak")]
-        [Display(Name = "Position")]
+        [Display(Name = "Mansab")]
         public string PositionUz { get; set; }
+
+        [Required(ErrorMessage = "Please enter the country, state or city of the representative")]
+        [StringLength(100, ErrorMessage = "Characters must be less than 400")]
+        [Display(Name = "Representative from")]
+        public string Location { get; set; }
 
         [Display(Name = "Date of Birth")]
         public DateTime BirthDate { get; set; }
@@ -61,6 +67,32 @@ namespace WUCSA.Core.Entities.ParticipantModel
 
         public bool IsMember { get; set; }
 
+        [StringLength(50, ErrorMessage = "Characters must be less than 50")]
+        [Display(Name = "Facebook")]
+        public string FacebookUrl { get; set; }
+
+        [StringLength(50, ErrorMessage = "Characters must be less than 50")]
+        [Display(Name = "Instagram")]
+        public string InstagramUrl { get; set; }
+
+        [StringLength(50, ErrorMessage = "Characters must be less than 50")]
+        [Display(Name = "Twitter")]
+        public string TwitterUrl { get; set; }
+
+        [StringLength(50, ErrorMessage = "Characters must be less than 50")]
+        [Display(Name = "Telegram")]
+        public string TelegramUrl { get; set; }
+
+        [StringLength(20, ErrorMessage = "Characters must be less than 20")]
+        [Display(Name = "Phone Number")]
+        public string PhoneNumber { get; set; }
+
+        [StringLength(30, ErrorMessage = "Characters must be less than 30")]
+        [Display(Name = "E-mail")]
+        public string Email { get; set; }
+
         public virtual ICollection<Certificate> Certificates { get; set; } = new List<Certificate>();
+
+        public bool IsDeleted { get; set; }
     }
 }

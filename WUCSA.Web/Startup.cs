@@ -61,6 +61,7 @@ namespace WUCSA.Web
             services.AddScoped<IEventRepository, EventRepository>();
             services.AddScoped<IGalleryRepository, GalleryRepository>();
             services.AddScoped<IRankRepository, RankRepository>();
+            services.AddScoped<ISportTypeRepository, SportTypeRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             ConfigureIdentity(services);
 
@@ -78,6 +79,7 @@ namespace WUCSA.Web
             services.AddRazorPages(options =>
             {
                 options.Conventions.AddPageRoute("/Blog/List", "/Blog");
+                options.Conventions.AddPageRoute("/Rank/List", "/Rank");
             });
         }
 

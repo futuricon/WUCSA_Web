@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using WUCSA.Core.Entities.Base;
 using WUCSA.Core.Entities.EventModel;
@@ -9,8 +8,16 @@ namespace WUCSA.Core.Entities.RankModel
 {
     public class SportType : IEntity<string>
     {
+        public SportType()
+        {
+            IsDeleted = false;
+        }
+
         [StringLength(32)]
         public string Id { get; set; } = GeneratorId.GenerateLong();
+
+        [StringLength(64)]
+        public string CoverPhotoPath { get; set; }
 
         [Required(ErrorMessage = "Please enter name")]
         [StringLength(100, ErrorMessage = "Characters must be less than 100")]
@@ -27,8 +34,25 @@ namespace WUCSA.Core.Entities.RankModel
         [Display(Name = "Name of ")]
         public string NameUz { get; set; }
 
+        [StringLength(300, ErrorMessage = "Characters must be less than 300")]
+        [Display(Name = "Description")]
+        public string Description { get; set; }
+
+        [StringLength(300, ErrorMessage = "Символов должно быть меньше 300")]
+        [Display(Name = "Описание")]
+        public string DescriptionRu { get; set; }
+
+        [StringLength(300, ErrorMessage = "Belgilar 300 dan kam bo'lishi kerak")]
+        [Display(Name = "Mazmuni")]
+        public string DescriptionUz { get; set; }
+
+        [Display(Name = "Rules")]
+        public string Rules { get; set; }
+
         public virtual ICollection<Rank> Ranks { get; set; } = new List<Rank>();
 
         public virtual ICollection<Event> Events { get; set; } = new List<Event>();
+
+        public bool IsDeleted { get; set; }
     }
 }

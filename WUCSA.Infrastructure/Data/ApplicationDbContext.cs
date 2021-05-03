@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using WUCSA.Core.Entities.BlogModel;
 using WUCSA.Core.Entities.EventModel;
 using WUCSA.Core.Entities.GalleryModel;
-using WUCSA.Core.Entities.ParticipantModel;
 using WUCSA.Core.Entities.RankModel;
+using WUCSA.Core.Entities.StaffModel;
 using WUCSA.Core.Entities.UserModel;
 
 namespace WUCSA.Infrastructure.Data
@@ -66,19 +66,6 @@ namespace WUCSA.Infrastructure.Data
                     .HasForeignKey(m => m.TagId);
             });
 
-            builder.Entity<EventParticipant>(entity =>
-            {
-                entity.HasKey(k => new { k.EventId, k.ParticipantId });
-
-                entity.HasOne(m => m.Event)
-                    .WithMany(m => m.EventParticipants)
-                    .HasForeignKey(m => m.EventId);
-
-                entity.HasOne(m => m.Participant)
-                    .WithMany(m => m.EventParticipants)
-                    .HasForeignKey(m => m.ParticipantId);
-            });
-
             builder.Entity<MediaTag>(entity =>
             {
                 entity.HasKey(k => new { k.MediaId, k.MTagId });
@@ -93,16 +80,28 @@ namespace WUCSA.Infrastructure.Data
 
             });
 
-            builder.Entity<Participant>(entity =>
-            {
-                entity.HasMany(m => m.Certificates)
-                    .WithOne(m => m.Participant);
-            });
-
             builder.Entity<Staff>(entity =>
             {
                 entity.HasMany(m => m.Certificates)
                     .WithOne(m => m.Staff);
+            });
+
+            builder.Entity<EventParticipant>(entity =>
+            {
+                entity.HasMany(m => m.Participants)
+                    .WithOne(m => m.EventParticipant);
+
+                entity.HasOne(m => m.Event)
+                    .WithMany(m => m.EventParticipants);
+            });
+
+            builder.Entity<RankParticipant>(entity =>
+            {
+                entity.HasMany(m => m.Participants)
+                    .WithOne(m => m.RankParticipant);
+
+                entity.HasOne(m => m.Rank)
+                    .WithMany(m => m.RankParticipants);
             });
 
             builder.Entity<SportType>(entity =>
@@ -112,19 +111,6 @@ namespace WUCSA.Infrastructure.Data
 
                 entity.HasMany(m => m.Events)
                     .WithOne(m => m.SportType);
-            });
-
-            builder.Entity<RankParticipant>(entity =>
-            {
-                entity.HasKey(k => new { k.RankId, k.ParticipantId });
-
-                entity.HasOne(m => m.Rank)
-                    .WithMany(m => m.RankParticipants)
-                    .HasForeignKey(m => m.RankId);
-
-                entity.HasOne(m => m.Participant)
-                    .WithMany(m => m.RankParticipants)
-                    .HasForeignKey(m => m.ParticipantId);
             });
         }
     }

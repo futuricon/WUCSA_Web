@@ -1,4 +1,5 @@
-﻿.upload-demo .upload-demo-wrap,
+﻿
+.upload-demo .upload-demo-wrap,
 .upload-demo .upload-result,
 .upload-demo.ready .upload-msg {
     display: none;
@@ -8,9 +9,6 @@
     display: block;
 }
 
-.upload-demo.ready .upload-result {
-    display: inline-block;
-}
 
 .upload-demo-wrap {
     /* width: 100%; */

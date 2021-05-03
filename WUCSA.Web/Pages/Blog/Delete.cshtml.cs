@@ -57,7 +57,7 @@ namespace WUCSA.Web.Pages.Blog
             if (Blog != null)
             {
                 await _blogRepository.DeleteBlogAsync(Blog);
-                _imageHelper.RemoveImage(Blog.CoverPhotoPath);
+                _imageHelper.RemoveImage(Blog.CoverPhotoPath, "post_imgs");
             }
 
             return RedirectToPage("/Blog/List");

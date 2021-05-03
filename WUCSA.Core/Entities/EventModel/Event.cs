@@ -1,27 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using WUCSA.Core.Entities.Base;
 using WUCSA.Core.Entities.RankModel;
-using WUCSA.Core.Entities.UserModel;
 using WUCSA.Core.Interfaces;
 
 namespace WUCSA.Core.Entities.EventModel
 {
     public class Event : IEntity<string>
     {
+        public Event()
+        {
+            IsDeleted = false;
+        }
         [StringLength(32)]
         public string Id { get; set; } = GeneratorId.GenerateLong();
 
         [StringLength(64)]
         public string CoverPhotoPath { get; set; }
-
-        public virtual ICollection<EventParticipant> EventParticipants { get; set; } = new List<EventParticipant>();
-
-        public string EventPartsFileUrl { get; set; }
-
-        public string RulesFileUrl { get; set; }
 
         [Required(ErrorMessage = "Please select kind of sport")]
         [Display(Name = "Sport Type")]
@@ -51,5 +47,13 @@ namespace WUCSA.Core.Entities.EventModel
         [Required(ErrorMessage = "Please enter the event location")]
         [StringLength(80, ErrorMessage = "Characters must be less than 80")]
         public string Location { get; set; }
+
+        public virtual ICollection<EventParticipant> EventParticipants { get; set; } = new List<EventParticipant>();
+
+        public string EventPartsFilePath { get; set; }
+
+        public string RulesFilePath { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

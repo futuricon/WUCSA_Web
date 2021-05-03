@@ -107,7 +107,7 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account.Manage
             if (Input.UploadPhoto != null)
             {
                 var prevProfilePhotoPath = Input.ProfilePhotoUrl;
-                user.ProfilePhotoPath = _imageHelper.UploadNextImage(Input.UploadPhoto, $"{user.Id}_profile", prevProfilePhotoPath, true);
+                user.ProfilePhotoPath = _imageHelper.UploadNextImage(Input.UploadPhoto, $"{user.Id}_profile", true);
             }
 
             var result = await _userManager.UpdateAsync(user);

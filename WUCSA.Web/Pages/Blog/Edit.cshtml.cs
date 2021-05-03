@@ -57,11 +57,16 @@ namespace WUCSA.Web.Pages.Blog
 
             var blog = await _blogRepository.GetByIdAsync<Core.Entities.BlogModel.Blog>(Input.Blog.Id);
             blog.Title = Input.Blog.Title;
+            blog.TitleRu = Input.Blog.TitleRu;
+            blog.TitleUz = Input.Blog.TitleUz;
             blog.Content = Input.Blog.Content;
+            blog.ContentRu = Input.Blog.ContentRu;
+            blog.ContentUz = Input.Blog.ContentUz;
+            blog.IsCommentsLocked = Input.Blog.IsCommentsLocked;
             blog.Slug = Input.Blog.Title.Slugify();
             var tags = Tag.ParseTags(Input.Tags);
 
-            if (Input.UploadCoverPhoto != null)
+            if (Input.UploadCoverPhoto != null && Input.UploadCoverPhoto.Length > 6)
             {
                 Input.Blog.CoverPhotoPath = _imageHelper.UploadPostCoverImage(Input.UploadCoverPhoto, $"{Input.Blog.Id}_blog_cover");
             }

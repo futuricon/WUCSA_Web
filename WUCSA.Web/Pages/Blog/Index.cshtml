@@ -1,5 +1,4 @@
 ﻿@page "{slug}"
-@using WUCSA.Core.Entities.BlogModel
 @model WUCSA.Web.Pages.Blog.IndexModel
 
 @{ ViewData["Title"] = Model.Blog.Title;
@@ -36,7 +35,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="breadcrumbs-content">
-                    <h1 class="page-title">Blog Single Sidebar</h1>
+                    <h1 class="page-title">@Model.Blog.Title</h1>
                     <p>
                         Business plan draws on a wide range of knowledge from different business<br> disciplines.
                         Business draws on a wide range of different business .
@@ -47,8 +46,8 @@
                     <li><a asp-page="/Blog/List">Blog</a></li>
                     @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                     {
-                        <li><a asp-page="/Blog/Edit" asp-route-id="@Model.Blog.Id" style="color: yellow">Edit this post</a></li>
-                        <li><a asp-page="/Blog/Delete" asp-route-Id="@Model.Blog.Id" style="color: red">Delete this post</a></li>
+                        <li><a asp-page="/Blog/Edit" asp-route-id="@Model.Blog.Id">Edit this Article</a></li>
+                        <li><a asp-page="/Blog/Delete" asp-route-Id="@Model.Blog.Id">Delete this Article</a></li>
                     }
                 </ul>
             </div>

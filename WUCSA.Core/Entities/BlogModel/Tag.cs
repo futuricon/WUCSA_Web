@@ -31,14 +31,14 @@ namespace WUCSA.Core.Entities.BlogModel
         public static implicit operator Tag(string tagName) => new Tag(tagName);
         public static implicit operator string(Tag tag) => tag.Name;
 
-        public static Tag[] ParseTags(string tagsString, char separator = '#')
+        public static Tag[] ParseTags(string tagsString, char separator = ',')
         {
             var tags = tagsString.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             var tagsArray = tags.Select(tag => (Tag)tag).ToArray();
             return tagsArray;
         }
 
-        public static string JoinTags(IEnumerable<Tag> tags, char separator = '#')
+        public static string JoinTags(IEnumerable<Tag> tags, char separator = ',')
         {
             return string.Join(separator, tags);
         }
