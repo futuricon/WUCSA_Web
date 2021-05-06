@@ -19,6 +19,8 @@ using WUCSA.Web.ViewComponents;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Localization.Routing;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace WUCSA.Web
 {
@@ -65,7 +67,9 @@ namespace WUCSA.Web
             services.AddScoped<IUserRepository, UserRepository>();
             ConfigureIdentity(services);
 
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<ImageHelper>();
+            services.AddScoped<PDFFileHelper>();
             services.AddRazorPages()
                 .AddViewLocalization()
                 .AddDataAnnotationsLocalization(options =>
@@ -80,6 +84,9 @@ namespace WUCSA.Web
             {
                 options.Conventions.AddPageRoute("/Blog/List", "/Blog");
                 options.Conventions.AddPageRoute("/Rank/List", "/Rank");
+                options.Conventions.AddPageRoute("/RankParticipant/List", "/Rank-Participant");
+                options.Conventions.AddPageRoute("/Event/List", "/Event");
+                options.Conventions.AddPageRoute("/SportType/List", "/SportType");
             });
         }
 

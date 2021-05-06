@@ -1,37 +1,32 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using WUCSA.Core.Entities.BlogModel;
 using WUCSA.Core.Entities.UserModel;
 using WUCSA.Core.Interfaces.Repositories;
 using WUCSA.Web.Utils;
 
-namespace WUCSA.Web.Pages.Blog
+namespace WUCSA.Web.Pages.SportType
 {
     [Authorize(Roles = "SuperAdmin,Admin")]
     public class DeleteModel : PageModel
     {
         private readonly UserManager<AppUser> _userManager;
-        private readonly ImageHelper _imageHelper;
-        private readonly IBlogRepository _blogRepository;
+        private readonly PDFFileHelper _pdfFileHelper;
+        private readonly IRankRepository _rankRepositor;
 
         public DeleteModel(UserManager<AppUser> userManager, 
-            ImageHelper imageHelper, IBlogRepository blogRepository)
+            PDFFileHelper pdfFileHelper, IRankRepository rankRepositor)
         {
             _userManager = userManager;
-            _blogRepository = blogRepository;
-            _imageHelper = imageHelper;
+            _pdfFileHelper = pdfFileHelper;
+            _rankRepositor = rankRepositor;
         }
 
         [BindProperty]
-        public Core.Entities.BlogModel.Blog Blog { get; set; }
+        public Core.Entities.RankModel.SportType SportType { get; set; }
 
-        public string Tags { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
@@ -40,12 +35,17 @@ namespace WUCSA.Web.Pages.Blog
                 return NotFound();
             }
 
-            Blog = await _blogRepository.GetByIdAsync<Core.Entities.BlogModel.Blog>(id);
-            Tags = Tag.JoinTags(Blog.BlogTags.Select(i => i.Tag));
+            SportType = await _rankRepositor.GetByIdAsync<Core.Entities.RankModel.SportType>(id);
 
-            if (Blog == null)
+            if (SportType == null)
             {
                 return NotFound();
+            }
+
+            if (SportType.Events.Count > 0 || SportType.Ranks.Count > 0)
+            {
+                ViewData.Add("ErrorMsg", "This Type of Sport is associated with an Event and/or a Rank. Please break these associations before deleting");
+                return Page();
             }
             return Page();
         }
@@ -57,24 +57,28 @@ namespace WUCSA.Web.Pages.Blog
                 return NotFound();
             }
 
-            Blog = await _blogRepository.GetByIdAsync<Core.Entities.BlogModel.Blog>(id);
+            SportType = await _rankRepositor.GetByIdAsync<Core.Entities.RankModel.SportType>(id);
 
             AppUser currentUser = await _userManager.GetUserAsync(User);
             var currentRole = await _userManager.GetRolesAsync(currentUser);
 
             if (currentRole.Contains(Role.SuperAdmin.ToString()))
             {
-                if (Blog != null)
+                if (SportType != null)
                 {
-                    await _blogRepository.DeleteBlogAsync(Blog);
-                    _imageHelper.RemoveImage(Blog.CoverPhotoPath, "post_imgs");
+                    await _rankRepositor.DeleteSportTypeAsync(SportType);
+                    if (SportType.RulesFilePath != null)
+                    {
+                        _pdfFileHelper.DeleteFile(SportType.RulesFilePath, "sportTypes");
+                    }
                 }
             }
             else
             {
-                Blog.IsDeleted = true;
+                SportType.IsDeleted = true;
             }
-            return RedirectToPage("/Blog/List");
+            
+            return RedirectToPage("/SportType/List");
         }
     }
 }

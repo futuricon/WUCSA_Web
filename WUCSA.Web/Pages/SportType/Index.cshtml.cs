@@ -2,15 +2,32 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using WUCSA.Core.Entities.UserModel;
+using WUCSA.Core.Interfaces.Repositories;
 
 namespace WUCSA.Web.Pages.SportType
 {
     public class IndexModel : PageModel
     {
-        public void OnGet()
+        private readonly IRankRepository _rankRepository;
+
+        public IndexModel(IRankRepository rankRepository)
         {
+            _rankRepository = rankRepository;
+        }
+
+        public Core.Entities.RankModel.SportType SportType { get; set; }
+        public string RCName { get; set; }
+
+        public async Task OnGetAsync()
+        {
+            RCName = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.UICulture.Name;
+            var sportTypeSlug = RouteData.Values["slug"].ToString();
+            SportType = await _rankRepository.GetAsync<Core.Entities.RankModel.SportType>(i => i.Slug == sportTypeSlug);
         }
     }
 }

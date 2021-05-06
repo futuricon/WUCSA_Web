@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using WUCSA.Core.Entities.Base;
+using WUCSA.Core.Entities.UserModel;
 using WUCSA.Core.Interfaces;
 
 namespace WUCSA.Core.Entities.RankModel
@@ -18,35 +19,41 @@ namespace WUCSA.Core.Entities.RankModel
         {
             IsDeleted = false;
         }
+
         [StringLength(32)]
         public string Id { get; set; } = GeneratorId.GenerateLong();
+
+        [StringLength(80)]
+        public string Slug { get; set; }
 
         [Required(ErrorMessage = "Please select kind of sport")]
         [Display(Name = "Sport Type")]
         public virtual SportType SportType { get; set; }
 
-        [Required(ErrorMessage = "Please enter the ranking year")]
-        [Display(Name = "Rank Year")]
-        public DateTime RankYear { get; set; }
+        public virtual AppUser Author { get; set; }
+
+        [Required(ErrorMessage = "Please enter the ranking Date")]
+        [Display(Name = "Rank Date")]
+        public DateTime RankDate { get; set; }
 
         [Required(ErrorMessage = "Please select location")]
         [Display(Name = "Location")]
         public RankLocation RankLocation { get; set; }
 
-        [Required(ErrorMessage = "Please enter name")]
+        [Required(ErrorMessage = "Please enter title")]
         [StringLength(100, ErrorMessage = "Characters must be less than 100")]
-        [Display(Name = "Name of the type of sport")]
-        public string Name { get; set; }
+        [Display(Name = "Title of the type of sport")]
+        public string Title { get; set; }
 
         [Required(ErrorMessage = "Пожалуйста, введите название")]
         [StringLength(100, ErrorMessage = "Символов должно быть меньше 100")]
         [Display(Name = "Название направления")]
-        public string NameRu { get; set; }
+        public string TitleRu { get; set; }
 
         [Required(ErrorMessage = "Iltimos, y'onalishni nomini kiriting")]
         [StringLength(100, ErrorMessage = "Belgilar 100 dan kam bo'lishi kerak")]
         [Display(Name = "Name of ")]
-        public string NameUz { get; set; }
+        public string TitleUz { get; set; }
 
         [StringLength(400, ErrorMessage = "Characters must be less than 400")]
         [Display(Name = "Description")]

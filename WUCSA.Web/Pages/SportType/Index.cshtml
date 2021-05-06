@@ -1,4 +1,106 @@
-﻿@page
+﻿@page "{slug}"
 @model WUCSA.Web.Pages.SportType.IndexModel
+@inject IViewLocalizer Localizer
 @{
+    string sportName;
+    @switch (Model.RCName)
+    {
+        case "ru":
+            sportName = @Model.SportType.NameRu;
+            break;
+        case "uz":
+            sportName = @Model.SportType.NameUz;
+            break;
+        default:
+            sportName = @Model.SportType.Name;
+            break;
+    }
+    ViewData["Title"] = sportName;
+    Layout = "_Layout";
 }
+
+@section Head {
+    @{
+        var typeUrl = $"https://wucsa.net/SportType/{Model.SportType.Slug}";
+    }
+    <meta name="keywords" content="@sportName" />
+    <meta property="og:title" content="@sportName" />
+    <meta property="og:site_name" content="Type of Sport" />
+    <meta property="og:url" content="@typeUrl" />
+    <meta property="article:tags" content="@sportName" />
+    <meta name="twitter:title" content="@sportName" />
+    <meta name="twitter:site" content="WUCSA" />
+}
+
+@section CSS {
+    <link rel="stylesheet" href="~/css/rank_style.css" />
+}
+
+<div class="breadcrumbs overlay">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title">
+                        @sportName
+                    </h1>
+                    <p>
+                        Business plan draws on a wide range of knowledge from different business<br> disciplines.
+                        Business draws on a wide range of different business .
+                    </p>
+                </div>
+                <ul class="breadcrumb-nav">
+                    <li><a asp-area="" asp-page="/Index">@Localizer["Home"]</a></li>
+                    <li><a asp-page="/SportType/List">@Localizer["Types of Sport"]</a></li>
+                    @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                    {
+                        <li><a asp-page="/SportType/Edit" asp-route-id="@Model.SportType.Id">@Localizer["Edit this Type of Sport"]</a></li>
+                        <li><a asp-page="/SportType/Delete" asp-route-Id="@Model.SportType.Id">@Localizer["Delete this Type of Sport"]</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="section sport-single">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1 col-12">
+                <div class="single-inner">
+                    <div class="type-details">
+                        <div class="detail-inner">
+                            <h2 class="type-title">
+                                @sportName
+                            </h2>
+                            <p>
+                                @switch (Model.RCName)
+                                {
+                                    case "ru":
+                                        @Model.SportType.DescriptionRu
+                                        break;
+                                    case "uz":
+                                        @Model.SportType.DescriptionUz
+                                        break;
+                                    default:
+                                        @Model.SportType.Description
+                                        break;
+                                }
+                            </p>
+
+                            <div class="type-tags-media">
+                                <div class="type-tags popular-tag-widget mb-xl-40">
+                                    <h5 class="tag-title">@Localizer["Rules (PDF)"]</h5>
+                                    <div class="tags">
+                                        <a href="@ViewData["PDFFilePath"]"><i class="lni lni-download"></i>  @Localizer["Download"]</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

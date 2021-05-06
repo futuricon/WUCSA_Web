@@ -17,6 +17,9 @@ namespace WUCSA.Core.Entities.StaffModel
         [StringLength(32)]
         public string Id { get; set; } = GeneratorId.GenerateLong();
 
+        [StringLength(80)]
+        public string Slug { get; set; }
+
         [StringLength(100)]
         public string ProfilePhotoPath { get; set; }
         

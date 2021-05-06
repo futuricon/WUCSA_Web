@@ -1,0 +1,122 @@
+﻿@page
+@model WUCSA.Web.Pages.SportType.EditModel
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer["Edit"];
+    Layout = "_Layout";
+}
+
+@section CSS {
+    <link rel="stylesheet" href="~/css/rank_style.css" />
+}
+
+<div class="breadcrumbs overlay">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title">@Localizer["Edit Type of Sport"]</h1>
+                    <p>
+                        Business plan draws on a wide range of knowledge from different business<br> disciplines.
+                        Business draws on a wide range of different business .
+                    </p>
+                </div>
+                <ul class="breadcrumb-nav">
+                    <li><a asp-area="" asp-page="/Index">@Localizer["Home"]</a></li>
+                    <li><a asp-page="/SportType/List">@Localizer["Types of Sport"]</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<section class="rank-post section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1 col-12">
+                <div class="rank-information">
+                    <h3 class="title">@Localizer["Type of Sport Information"]</h3>
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="Input.SportType.Id" />
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label id="uploadFileLabel" class="control-label">@Localizer["Rules (PDF)"]</label>
+                                    <ul class="pdf_editors">
+                                        <li><a href="@ViewData["PDFFilePath"]"><i class="lni lni-download"></i>  Download</a></li>
+                                        <li>
+                                            <a class="file-btn">
+                                                <i class="lni lni-upload"></i>  @Localizer["Upload"]
+                                                <input onchange="getFileData(this);" type="file" asp-for="Input.UploadPdf" accept="application/pdf" />
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label asp-for="Input.SportType.Name" class="control-label"></label>
+                                    <input asp-for="Input.SportType.Name" class="form-control" />
+                                    <span asp-validation-for="Input.SportType.Name" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label asp-for="Input.SportType.NameRu" class="control-label"></label>
+                                    <input asp-for="Input.SportType.NameRu" class="form-control" />
+                                    <span asp-validation-for="Input.SportType.NameRu" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label asp-for="Input.SportType.NameUz" class="control-label"></label>
+                                    <input asp-for="Input.SportType.NameUz" class="form-control" />
+                                    <span asp-validation-for="Input.SportType.NameUz" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label asp-for="Input.SportType.Description" class="control-label"></label>
+                                    <span asp-validation-for="Input.SportType.Description" class="text-danger"></span>
+                                    <textarea asp-for="Input.SportType.Description" class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label asp-for="Input.SportType.DescriptionRu" class="control-label"></label>
+                                    <span asp-validation-for="Input.SportType.DescriptionRu" class="text-danger"></span>
+                                    <textarea asp-for="Input.SportType.DescriptionRu" class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label asp-for="Input.SportType.DescriptionUz" class="control-label"></label>
+                                    <span asp-validation-for="Input.SportType.DescriptionUz" class="text-danger"></span>
+                                    <textarea asp-for="Input.SportType.DescriptionUz" class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 button">
+                                <button class="btn">
+                                    @Localizer["Update"]
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        function getFileData(myFile) {
+            var file = myFile.files[0];
+            document.getElementById("uploadFileLabel").innerHTML = file.name;
+        }
+    </script>
+}

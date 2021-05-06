@@ -35,10 +35,34 @@
                 @Html.DisplayFor(model => model.Blog.Title)
             </dd>
             <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Blog.TitleRu)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Blog.TitleRu)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Blog.TitleUz)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Blog.TitleUz)
+            </dd>
+            <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.Blog.Content)
             </dt>
             <dd class="col-sm-10">
                 @Html.Raw(Model.Blog.Content)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Blog.ContentRu)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.Raw(Model.Blog.ContentRu)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Blog.ContentUz)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.Raw(Model.Blog.ContentUz)
             </dd>
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.Blog.Slug)

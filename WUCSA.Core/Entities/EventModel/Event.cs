@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using WUCSA.Core.Entities.Base;
 using WUCSA.Core.Entities.RankModel;
+using WUCSA.Core.Entities.UserModel;
 using WUCSA.Core.Interfaces;
 
 namespace WUCSA.Core.Entities.EventModel
@@ -13,8 +14,12 @@ namespace WUCSA.Core.Entities.EventModel
         {
             IsDeleted = false;
         }
+
         [StringLength(32)]
         public string Id { get; set; } = GeneratorId.GenerateLong();
+
+        [StringLength(80)]
+        public string Slug { get; set; }
 
         [StringLength(64)]
         public string CoverPhotoPath { get; set; }
@@ -22,6 +27,8 @@ namespace WUCSA.Core.Entities.EventModel
         [Required(ErrorMessage = "Please select kind of sport")]
         [Display(Name = "Sport Type")]
         public virtual SportType SportType { get; set; }
+
+        public virtual AppUser Author { get; set; }
 
         public DateTime PostedDate { get; set; } = DateTime.Now;
 

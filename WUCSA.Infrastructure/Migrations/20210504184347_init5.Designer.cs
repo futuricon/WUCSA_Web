@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WUCSA.Infrastructure.Data;
 
 namespace WUCSA.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210504184347_init5")]
+    partial class init5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -317,10 +319,6 @@ namespace WUCSA.Infrastructure.Migrations
                     b.Property<string>("RulesFilePath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Slug")
-                        .HasColumnType("nvarchar(80)")
-                        .HasMaxLength(80);
-
                     b.Property<string>("SportTypeId")
                         .IsRequired()
                         .HasColumnType("nvarchar(32)");
@@ -520,6 +518,10 @@ namespace WUCSA.Infrastructure.Migrations
                         .HasColumnType("nvarchar(32)")
                         .HasMaxLength(32);
 
+                    b.Property<string>("CoverPhotoPath")
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(300)")
                         .HasMaxLength(300);
@@ -550,12 +552,8 @@ namespace WUCSA.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<string>("RulesFilePath")
+                    b.Property<string>("Rules")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Slug")
-                        .HasColumnType("nvarchar(80)")
-                        .HasMaxLength(80);
 
                     b.HasKey("Id");
 
@@ -722,10 +720,6 @@ namespace WUCSA.Infrastructure.Migrations
                     b.Property<string>("ProfilePhotoPath")
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
-
-                    b.Property<string>("Slug")
-                        .HasColumnType("nvarchar(80)")
-                        .HasMaxLength(80);
 
                     b.Property<string>("TelegramUrl")
                         .HasColumnType("nvarchar(50)")

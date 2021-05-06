@@ -1,0 +1,302 @@
+﻿
+/*======================================
+    Rank Post CSS
+========================================*/
+
+#xs-cat {
+    display: none;
+}
+
+.rank-post {
+    background-color: #f6f9fc;
+}
+
+    .rank-post .rank-information {
+        padding: 40px;
+        border: 1px solid #eee;
+        border-radius: 6px;
+        background-color: #fff;
+    }
+
+        .rank-post .rank-information .form-group {
+            display: block;
+            margin-bottom: 20px;
+        }
+
+            .rank-post .rank-information .form-group input {
+                height: 50px;
+                width: 100%;
+                border: 1px solid #eee;
+                border-radius: 5px;
+                padding: 0px 20px;
+                font-size: 14px;
+            }
+
+            .rank-post .rank-information .form-group textarea {
+                height: 200px;
+                border: 1px solid #eee;
+                border-radius: 5px;
+                padding: 20px;
+                font-size: 14px;
+            }
+
+            .rank-post .rank-information .form-group .checkboxs {
+                width: auto !important;
+                display: inline-block !important;
+            }
+
+            .rank-post .rank-information .form-group .select {
+                width: 100%;
+                height: 50px;
+                border-radius: 0;
+                border: 1px solid #ebebeb;
+                padding-left: 20px;
+                padding-right: 20px;
+                font-weight: 400;
+            }
+
+                .rank-post .rank-information .form-group .select option {
+                    color: #081828;
+                    padding: 10px 10px;
+                    font-weight: 400;
+                }
+
+            .rank-post .rank-information .form-group label {
+                font-size: 14px;
+                color: #081828;
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            .rank-post .rank-information .form-group.checkboxs {
+                position: relative;
+                padding-left: 25px;
+                color: #081828;
+            }
+
+                .rank-post .rank-information .form-group.checkboxs #chb2 {
+                    position: absolute;
+                    top: -13px;
+                    left: 0;
+                }
+
+        .rank-post .rank-information .choose-img {
+            margin-bottom: 30px;
+        }
+
+            .rank-post .rank-information .choose-img p {
+                margin: 10px 0;
+                display: block;
+                color: #081828;
+            }
+
+            .rank-post .rank-information .choose-img label {
+                display: block;
+                margin-bottom: 10px;
+                color: #081828;
+            }
+
+    .rank-post .title {
+        font-size: 22px;
+        font-weight: 600;
+        display: block;
+        margin-bottom: 20px;
+    }
+
+
+
+input[type="file"] {
+    cursor: pointer;
+}
+
+.file-btn {
+    position: relative;
+}
+
+    .file-btn input[type="file"] {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+    }
+
+
+/*======================================
+    Sport Type CSS
+========================================*/
+
+
+.pdf_editors {
+    margin-top: 20px;
+}
+
+    .pdf_editors li {
+        display: inline-block;
+        margin-right: 8px;
+    }
+
+        .pdf_editors li a {
+            font-size: 15px;
+            color: #081828;
+            padding: 10px;
+            text-align: center;
+            display: block !important;
+            line-height: 30px;
+            background: #E8ECF1;
+            border: none;
+            border-radius: 4px;
+            position: relative;
+            z-index: 3;
+        }
+
+            .pdf_editors li a:hover {
+                color: #fff;
+                background-color: #2042e3;
+            }
+
+input[type="file"] {
+    cursor: pointer;
+}
+
+.file-btn {
+    position: relative;
+}
+
+    .file-btn input[type="file"] {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+    }
+
+
+/*======================================
+    Sport Type Index CSS
+========================================*/
+
+.sport-single {
+    background: #f6f9fc
+}
+
+    .sport-single .single-inner {
+        background-color: #fff;
+        padding: 30px;
+        border: 1px solid #eee;
+        border-radius: 6px
+    }
+
+.type-details .detail-inner {
+    background-color: #fff;
+    padding: 0;
+    margin-top: 40px
+}
+
+.type-details .type-thumbnils {
+    margin-bottom: 30px
+}
+
+.type-details .type-title {
+    font-weight: 700;
+    margin-bottom: 25px;
+    line-height: 32px
+}
+
+    .type-details .type-title a {
+        font-size: 25px;
+        font-weight: 600
+    }
+
+        .type-details .type-title a:hover {
+            color: #2042e3
+        }
+
+ul.custom-flex {
+    list-style: none;
+    padding: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap
+}
+
+.type-details .type-meta li {
+    font-weight: 500;
+    font-size: 15px;
+    margin-right: 25px
+}
+
+    .type-details .type-meta li a i {
+        font-weight: 400;
+        margin-right: 3px
+    }
+
+    .type-details .type-meta li a:hover {
+        color: #2042e3
+    }
+
+.type-details p {
+    font-size: 15px;
+    margin: 30px 0
+}
+
+.type-details h3 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    line-height: 28px
+}
+
+.type-details p:last-child {
+    margin-bottom: 0
+}
+
+.popular-tag-widget .tag-title {
+    margin-bottom: 20px;
+    font-weight: 500;
+    font-size: 17px
+}
+
+.type-tags-media .share-title {
+    margin-bottom: 20px;
+    font-weight: 500;
+    font-size: 17px
+}
+
+.type-details .type-tags-media {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    margin-bottom: 30px
+}
+
+.type-details > p {
+    font-size: 14px
+}
+
+.type-details > ul > li {
+    font-weight: 500
+}
+
+.type-details .type-tags-media .type-tags .tags a {
+    color: #333;
+    background: 0 0
+}
+
+    .type-details .type-tags-media .type-tags .tags a:hover {
+        color: #fff;
+        background-color: #2042e3
+    }

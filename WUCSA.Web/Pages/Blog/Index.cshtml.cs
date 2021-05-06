@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using WUCSA.Core.Entities.Base;
@@ -44,10 +46,12 @@ namespace WUCSA.Web.Pages.Blog
         public int PageIndex { get; set; }
         public Core.Entities.BlogModel.Blog Blog { get; set; }
         public PaginatedList<Comment> Comments { get; set; }
-
+        public string RCName { get; set; }
 
         public async Task OnGetAsync(int pageIndex = 1)
         {
+            RCName = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.UICulture.Name;
+
             var blogSlug = RouteData.Values["slug"].ToString();
             Blog = await _blogRepository.GetAsync<Core.Entities.BlogModel.Blog>(i => i.Slug == blogSlug);
             Tags = Tag.JoinTags(Blog.BlogTags.Select(i => i.Tag));
@@ -152,6 +156,25 @@ namespace WUCSA.Web.Pages.Blog
             var comment = await _blogRepository.GetAsync<Comment>(i => i.Id == commentId);
             await _blogRepository.DeleteCommentAsync(comment);
             return RedirectToPage("", "", new { pageIndex = pageNumber }, rootCommentId);
+        }
+
+        public Task<string[]> GetPopularTagsAsync(IQueryable<Core.Entities.BlogModel.Blog> blogs)
+        {
+            return Task.Run(() =>
+            {
+                var tags = new List<string>();
+
+                foreach (var blog in blogs)
+                {
+                    tags.AddRange(blog.BlogTags.Select(i => i.Tag.Name));
+                }
+
+                var popularTags = tags.GroupBy(str => str)
+                    .Select(i => new { Name = i.Key, Count = i.Count() })
+                    .OrderByDescending(k => k.Count).Select(i => i.Name).Take(6).ToArray();
+
+                return popularTags;
+            });
         }
     }
 }

@@ -18,7 +18,6 @@
     <link rel="stylesheet" href="~/css/tiny-slider.css" />
     <link rel="stylesheet" href="~/css/glightbox.min.css" />
     <link rel="stylesheet" href="~/css/main.css" />
-    @*<link rel="stylesheet" href="~/css/site.css" />*@
 
     @await RenderSectionAsync("CSS", required: false).ConfigureAwait(false)
 </head>
@@ -43,35 +42,24 @@
                             </button>
                             <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
                                 <ul id="nav" class="navbar-nav ml-auto">
-                                    <li class="nav-item"><a id="header_home_id" asp-area="" asp-page="/Index">Home</a></li>
-                                    @*<li class="nav-item">
-                                            <a href="#">Pages</a>
-                                            <ul class="sub-menu">
-                                                <li><a href="">About Us</a></li>
-                                            </ul>
-                                        </li>*@
-                                    <li class="nav-item"><a id="header_about_id" asp-page="/About">About</a></li>
-                                    <li class="nav-item"><a id="header_members_id" asp-fragment="memberx">Members</a></li>
-                                    <li class="nav-item"><a id="header_events_id" href="#">Events</a></li>
-                                    <li class="nav-item"><a id="header_ranking_id" asp-page="/Rank/List">Ranking</a></li>
-                                    <li class="nav-item"><a id="header_gallery_id" href="#">Gallery </a></li>
-                                    <li class="nav-item"><a id="header_blog_id" asp-page="/Blog/List">Blog</a></li>
-                                    <li class="nav-item"><a id="header_contacts_id" asp-page="/Contacts">Contacts</a></li>
+                                    <li class="nav-item"><a is-active-page id="header_home_id" asp-area="" asp-page="/Index">Home</a></li>
+                                    <li class="nav-item">
+                                        <a is-active-page id="header_about_id" asp-page="/About/Index">About</a>
+                                        <ul class="sub-menu">
+                                            <li><a is-active-page id="header_history_id" asp-page="/History/Index">History</a></li>
+                                            <li><a is-active-page id="header_members_id" asp-page="/Members/List">Members</a></li>
+                                            <li><a is-active-page id="header_sportType_id" asp-page="/SportType/List">Types of Sport</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item"><a is-active-page id="header_events_id" asp-page="/Events/List">Events</a></li>
+                                    <li class="nav-item"><a is-active-page id="header_ranking_id" asp-page="/Rank/List">Ranking</a></li>
+                                    <li class="nav-item"><a is-active-page id="header_gallery_id" asp-page="/Gallery/List">Gallery </a></li>
+                                    <li class="nav-item"><a is-active-page id="header_blog_id" asp-page="/Blog/List">Blog</a></li>
+                                    <li class="nav-item"><a is-active-page id="header_contacts_id" asp-page="/Contacts/Index">Contacts</a></li>
                                     <vc:culture-switcher />
                                 </ul>
                             </div>
-                            @*<a class="navbar-brand logo" asp-area="" asp-page="/Index">
-                                    <img class="logo1" src="~/images/logo/logo.svg" alt="Logo" />
-                                </a>*@
-                            <!-- navbar collapse -->
                             <partial name="_LoginPartial" />
-
-                            @*<div class="button">
-                                    <a href="javacript:" data-toggle="modal" data-target="#login" class="login">
-                                        <i class="lni lni-lock-alt"></i> Login
-                                    </a>
-                                    <a href="javacript:" data-toggle="modal" data-target="#signup" class="btn">Sign Up</a>
-                                </div>*@
                         </nav>
                         <!-- navbar -->
                     </div>
@@ -212,6 +200,13 @@
     <script src="~/js/glightbox.min.js"></script>
     <script src="~/js/main.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function () {
+            if ($("#header_history_id").hasClass("active") || $("#header_members_id").hasClass("active") || $("#header_sportType_id").hasClass("active")) {
+                $("#header_about_id").addClass("active");
+            }
+        });
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false).ConfigureAwait(false)
 

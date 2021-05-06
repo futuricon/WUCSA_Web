@@ -50,10 +50,11 @@ namespace WUCSA.Infrastructure.Repositories
 
         public async Task UpdateRankParticipantAsync(RankParticipant rankParticipant, bool saveChanges = true, params Participant[] participants)
         {
+
             
             foreach (var participant in participants)
             {
-                
+                var originTag = await GetAsync<Participant>(i => i.Id == participant.Id);
             }
 
             if (saveChanges)
@@ -83,17 +84,17 @@ namespace WUCSA.Infrastructure.Repositories
 
         public Task AddSportTypeAsync(SportType sportType)
         {
-            throw new NotImplementedException();
+            return AddAsync(sportType);
         }
 
         public Task UpdateSportTypeAsync(SportType sportType)
         {
-            throw new NotImplementedException();
+            return UpdateAsync(sportType);
         }
 
-        public Task DeleteSportTypeAsync(SportType sportType)
+        public async Task DeleteSportTypeAsync(SportType sportType)
         {
-            throw new NotImplementedException();
+            await DeleteAsync(sportType);
         }        
     }
 }

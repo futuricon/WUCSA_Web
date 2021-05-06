@@ -16,8 +16,8 @@ namespace WUCSA.Core.Entities.RankModel
         [StringLength(32)]
         public string Id { get; set; } = GeneratorId.GenerateLong();
 
-        [StringLength(64)]
-        public string CoverPhotoPath { get; set; }
+        [StringLength(80)]
+        public string Slug { get; set; }
 
         [Required(ErrorMessage = "Please enter name")]
         [StringLength(100, ErrorMessage = "Characters must be less than 100")]
@@ -46,8 +46,7 @@ namespace WUCSA.Core.Entities.RankModel
         [Display(Name = "Mazmuni")]
         public string DescriptionUz { get; set; }
 
-        [Display(Name = "Rules")]
-        public string Rules { get; set; }
+        public string RulesFilePath { get; set; }
 
         public virtual ICollection<Rank> Ranks { get; set; } = new List<Rank>();
 
