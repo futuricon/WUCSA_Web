@@ -40,7 +40,6 @@
     <Folder Include="Resources\Pages\Admin\" />
     <Folder Include="Resources\Pages\Blog\" />
     <Folder Include="Resources\Pages\Gallery\" />
-    <Folder Include="Resources\Pages\SportType\" />
     <Folder Include="Resources\Pages\Rank\" />
     <Folder Include="Resources\Pages\Shared\" />
     <Folder Include="wwwroot\img\certificates\" />
@@ -50,6 +49,14 @@
     <Folder Include="wwwroot\pdfFiles\events\" />
     <Folder Include="wwwroot\pdfFiles\sportTypes\" />
     <Folder Include="wwwroot\pdfFiles\ranks\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\Pages\SportType\Delete.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Delete.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -64,6 +71,10 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Pages\IndexModel.ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\SportType\Delete.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Delete.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Resources.SharedResource.ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

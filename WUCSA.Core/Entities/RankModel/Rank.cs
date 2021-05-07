@@ -26,7 +26,7 @@ namespace WUCSA.Core.Entities.RankModel
         [StringLength(80)]
         public string Slug { get; set; }
 
-        [Required(ErrorMessage = "Please select kind of sport")]
+        
         [Display(Name = "Sport Type")]
         public virtual SportType SportType { get; set; }
 

@@ -1,5 +1,125 @@
-﻿@page "{slug}"
+﻿@page "{loc}_{stype}"
 @model WUCSA.Web.Pages.Rank.IndexModel
+@inject IViewLocalizer Localizer
+@{
+    string basePath = $"./{Model.BasePath}";
+    ViewData["Title"] = Localizer["WUCSA Ranking"];
+    Layout = "_Layout";
+}
 
-@{ ViewData["Title"] = Model.Rank.Title;
-    Layout = "_Layout"; }
+@section Head {
+    <meta name="author" content="WUCSA" />
+    <meta name="description" content="WUCSA official ranking" />
+    <meta name="keywords" content="WUCSA, rank" />
+}
+@section CSS {
+    <link rel="stylesheet" href="~/css/rank_style.css" />
+}
+
+<div class="breadcrumbs overlay">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title">
+                        @switch (Model.RCName)
+                        {
+                            case "ru":
+                                @Model.Ranks.Select(i => i.SportType.NameRu).FirstOrDefault()
+                                break;
+                            case "uz":
+                                @Model.Ranks.Select(i => i.SportType.NameUz).FirstOrDefault()
+                                break;
+                            default:
+                                @Model.Ranks.Select(i => i.SportType.Name).FirstOrDefault()
+                                break;
+                        }
+                        @Localizer["Ranking List"]
+                    </h1>
+                    <p>
+                        Business plan draws on a wide range of knowledge from different business<br> disciplines.
+                        Business draws on a wide range of different business .
+                    </p>
+                </div>
+                <ul class="breadcrumb-nav">
+                    <li><a asp-area="" asp-page="/Index">@Localizer["Home"]</a></li>
+                    <li><a asp-page="/Rank/List">@Localizer["Rank"]</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="find-rank rank-list section">
+    <div class="container">
+        <div class="single-head">
+            <div class="row">
+                @foreach (var rank in Model.Ranks)
+                {
+                    <div class="single-rank col-lg-5 col-md-10 col-sm-11 mx-auto">
+                        @*<div class="rank-image">
+                                <img src="assets/images/jobs/img1.png" alt="#">
+                            </div>*@
+                        <div class="rank-content">
+                            <h4>
+                                <a href="rank-details.html">
+                                    @switch (Model.RCName)
+                                    {
+                                        case "ru":
+                                            @rank.TitleRu
+                                            break;
+                                        case "uz":
+                                            @rank.TitleUz
+                                            break;
+                                        default:
+                                            @rank.Title
+                                            break;
+                                    }
+                                </a>
+                            </h4>
+                            <p>
+                                @switch (Model.RCName)
+                                {
+                                    case "ru":
+                                        @rank.DescriptionRu
+                                        break;
+                                    case "uz":
+                                        @rank.DescriptionUz
+                                        break;
+                                    default:
+                                        @rank.Description
+                                        break;
+                                }
+                            </p>
+                            <ul>
+                                <li><i class="lni lni-calendar"></i> @rank.RankDate.ToString("dd MMMM, yyyy")</li>
+                                 @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                                 {
+                                    <li><i class="lni lni-pencil"></i><a asp-page="/Rank/Edit" asp-route-Id="@rank.Id"> @Localizer["Edit"]</a></li>
+                                    <li><i class="lni lni-trash"></i><a asp-page="/Rank/Delete" asp-route-Id="@rank.Id"> @Localizer["Delete"]</a></li>
+                                 }
+                            </ul>
+                        </div>
+                        <div class="rank-button">
+                            <ul>
+                                <li><a asp-page="/RankParticipant/Index" asp-route-Id="@rank.Id">More</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="pagination center">
+                        <ul class="pagination-list">
+                            <pagination class="mx-auto" page-index="@Model.Ranks.PageIndex" total-pages="@Model.Ranks.TotalPages" page-path="@basePath" />
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

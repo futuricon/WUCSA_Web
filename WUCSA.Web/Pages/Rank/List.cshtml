@@ -1,14 +1,15 @@
 ﻿@page
 @using WUCSA.Core.Entities.RankModel
 @model WUCSA.Web.Pages.Rank.ListModel
+@inject IViewLocalizer Localizer
 @namespace WUCSA.Models
 
-@{ ViewData["Title"] = "WUCSA Ranking";
+@{ ViewData["Title"] = Localizer["WUCSA Ranking"];
     Layout = "_Layout"; }
 
 @section Head {
     <meta name="author" content="WUCSA" />
-    <meta name="description" content="WUCSA official Ranking" />
+    <meta name="description" content="@Localizer["WUCSA official Ranking"]" />
     <meta name="keywords" content="WUCSA, Ranking, Rank" />
 }
 
@@ -22,19 +23,19 @@
         <div class="row">
             <div class="col-12">
                 <div class="breadcrumbs-content">
-                    <h1 class="page-title">Ranking List</h1>
+                    <h1 class="page-title">@Localizer["Ranking List"]</h1>
                     <p>
                         Business plan draws on a wide range of knowledge from different business<br> disciplines.
                         Business draws on a wide range of different business .
                     </p>
                 </div>
                 <ul class="breadcrumb-nav">
-                    <li><a asp-page="/Index">Home</a></li>
-                    <li><a href="#">Rank</a></li>
+                    <li><a asp-page="/Index">@Localizer["Home"]</a></li>
+                    <li><a asp-page="Rank/List">@Localizer["Rank"]</a></li>
                     <li>
                         @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                         {
-                            <a asp-page="/Rank/Create">Add new Rank</a>
+                            <a asp-page="/Rank/Create">@Localizer["Add new Rank"]</a>
                         }
                     </li>
                 </ul>
@@ -63,8 +64,8 @@
                                     </ul>
                                 </div>
                                 <div class="mt-20">
-                                    <input type="radio" name="rankLoc" class="btn-check" id="btn-check-w" autocomplete="off" onclick="locationCheck()">
-                                    <label class="btn btn-outline-primary" for="btn-check-w">World Ranking</label>
+                                    <input type="radio" name="rankLoc" class="btn-check" id="btn-check-w" autocomplete="off" onclick="locationCheck(this.id)">
+                                    <label class="btn btn-outline-primary" for="btn-check-w">@Localizer["World Ranking"]</label>
                                 </div>
                             </div>
                         </div>
@@ -84,8 +85,8 @@
                                     </ul>
                                 </div>
                                 <div class="mt-20">
-                                    <input type="radio" name="rankLoc" class="btn-check" id="btn-check-n" autocomplete="off" onclick="locationCheck()">
-                                    <label class="btn btn-outline-primary" for="btn-check-n">National Ranking</label>
+                                    <input type="radio" name="rankLoc" class="btn-check" id="btn-check-n" autocomplete="off" onclick="locationCheck(this.id)">
+                                    <label class="btn btn-outline-primary" for="btn-check-n">@Localizer["National Ranking"]</label>
                                 </div>
                             </div>
                         </div>
@@ -93,7 +94,7 @@
                 </div>
 
             </div>
-           
+
         </div>
     </div>
 </section>
@@ -103,21 +104,60 @@
         <div class="row">
             <div class="col-12">
                 <div class="section-title">
-                    <span class="wow fadeInDown" data-wow-delay=".2s">Sport Types</span>
-                    <h2 class="wow fadeInUp" data-wow-delay=".4s">Choose Sport Type</h2>
+                    <span class="wow fadeInDown" data-wow-delay=".2s">@Localizer["Sport Types"]</span>
+                    <h2 class="wow fadeInUp" data-wow-delay=".4s">@Localizer["Choose Sport Type"]</h2>
                 </div>
             </div>
         </div>
         <div class="cat-head">
-            <div class="row">
-                @foreach (var sportTypes in Model.SportTypes)
+            <div id="optionW" class="row">
+                @foreach (var sportType in Model.SportTypes)
                 {
                     <div class="col-lg-3 col-md-6 col-12">
-                        <a href="job-details.html" class="single-cat wow fadeInUp" data-wow-delay=".6s">
+                        <a asp-page="/Rank/Index" asp-route-loc="world" asp-route-stype="@sportType.Name.ToLower()" class="single-cat wow fadeInUp" data-wow-delay=".6s">
                             <div class="icon">
-                                <i class="lni lni-home"></i>
+                                <i class="lni lni-eye"></i>
                             </div>
-                            <h3>Some kind of sport</h3>
+                            <h3>
+                                @switch (Model.RCName)
+                                {
+                                    case "ru":
+                                        @sportType.NameRu;
+                                        break;
+                                    case "uz":
+                                        @sportType.NameUz;
+                                        break;
+                                    default:
+                                        @sportType.Name;
+                                        break;
+                                }
+                            </h3>
+                        </a>
+                    </div>
+                }
+            </div>
+            <div id="optionN" class="row">
+                @foreach (var sportType in Model.SportTypes)
+                {
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <a asp-page="/Rank/Index" asp-route-loc="national" asp-route-stype="@sportType.Name.ToLower()" class="single-cat wow fadeInUp" data-wow-delay=".6s">
+                            <div class="icon">
+                                <i class="lni lni-eye"></i>
+                            </div>
+                            <h3>
+                                @switch (Model.RCName)
+                                {
+                                    case "ru":
+                                        @sportType.NameRu;
+                                        break;
+                                    case "uz":
+                                        @sportType.NameUz;
+                                        break;
+                                    default:
+                                        @sportType.Name;
+                                        break;
+                                }
+                            </h3>
                         </a>
                     </div>
                 }
@@ -128,7 +168,17 @@
 
 
 <script>
-    function locationCheck() {
+    function locationCheck(e) {
         document.getElementById("xs-cat").style.display = "block";
+        if (e == "btn-check-w") {
+            document.getElementById("optionN").style.display = "none";
+            document.getElementById("optionW").style.display = "block";
+        }
+        else if (e == "btn-check-n") {
+            document.getElementById("optionW").style.display = "none";
+            document.getElementById("optionN").style.display = "block";
+        }
+        var element_to_scroll_to = document.getElementById("xs-cat");
+        element_to_scroll_to.scrollIntoView(true);
     }
 </script>

@@ -1,9 +1,9 @@
 ﻿@page
 @using WUCSA.Core.Entities.RankModel
-@model WUCSA.Web.Pages.Rank.CreateModel
+@model WUCSA.Web.Pages.Rank.EditModel
 @inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = Localizer["Create"];
+    ViewData["Title"] = Localizer["Edit"];
     Layout = "_Layout";
 }
 
@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="breadcrumbs-content">
-                    <h1 class="page-title">@Localizer["Create new Article"]</h1>
+                    <h1 class="page-title">@Localizer["Edit new Article"]</h1>
                     <p>
                         Business plan draws on a wide range of knowledge from different business<br> disciplines.
                         Business draws on a wide range of different business .
@@ -39,11 +39,13 @@
                     <h3 class="title">@Localizer["Rank Information"]</h3>
                     <form method="post" enctype="multipart/form-data">
                         <div class="row">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="Input.Rank.Id" />
                             <div class="col-lg-6 col-md-6">
                                 <div class="form-group">
                                     <label asp-for="Input.Rank.SportType" class="control-label"></label>
                                     <select class="select" asp-for="SelectedSTypeId" asp-items="@Model.Options">
-                                        <option value="" selected disabled>@Localizer["Please select Type of Sport"]</option>
+                                        <option value="" disabled>@Localizer["Please select Type of Sport"]</option>
                                     </select>
                                     <span asp-validation-for="SelectedSTypeId" class="text-danger"></span>
                                 </div>
@@ -52,7 +54,7 @@
                                 <div class="form-group">
                                     <label asp-for="Input.Rank.RankLocation" class="control-label"></label>
                                     <select class="select" asp-for="Input.Rank.RankLocation" asp-items="Html.GetEnumSelectList<RankLocation>()">
-                                        <option value="" selected disabled>@Localizer["Please select Location"]</option>
+                                        <option value="" disabled>@Localizer["Please select Location"]</option>
                                     </select>
                                     <span asp-validation-for="Input.Rank.RankLocation" class="text-danger"></span>
                                 </div>
@@ -66,13 +68,16 @@
                             </div>
                             <div class="col-lg-4 col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label">@Localizer["Ranking List (PDF)"]</label>
-                                    <div class="button">
-                                        <a style="margin-bottom: 2%;" class="btn file-btn">
-                                            <span>@Localizer["Choose File"]</span>
-                                            <input type="file" asp-for="Input.UploadPdf" accept="application/pdf" />
-                                        </a>
-                                    </div>
+                                    <label id="uploadFileLabel" class="control-label">@Localizer["Ranking List (PDF)"]</label>
+                                    <ul class="pdf_editors">
+                                        <li><a href="@ViewData["PDFFilePath"]"><i class="lni lni-download"></i>  Download</a></li>
+                                        <li>
+                                            <a class="file-btn">
+                                                <i class="lni lni-upload"></i>  @Localizer["Upload"]
+                                                <input onchange="getFileData(this);" type="file" asp-for="Input.UploadPdf" accept="application/pdf" />
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                             <div class="col-lg-12">
@@ -120,7 +125,7 @@
                             </div>
                             <div class="col-lg-12 button">
                                 <button class="btn">
-                                    @Localizer["Create"]
+                                    @Localizer["Edit"]
                                 </button>
                             </div>
                         </div>
@@ -130,3 +135,11 @@
         </div>
     </div>
 </section>
+@section Scripts {
+    <script>
+        function getFileData(myFile) {
+            var file = myFile.files[0];
+            document.getElementById("uploadFileLabel").innerHTML = file.name;
+        }
+    </script>
+}

@@ -42,7 +42,7 @@ namespace WUCSA.Web.ViewComponents
         public PaginationTagHelper()
         {
             PageHandler = "pageIndex";
-            PagePath = "./blog";
+            //PagePath = "./blog";
             TotalPages = 10;
             PageIndex = 1;
         }

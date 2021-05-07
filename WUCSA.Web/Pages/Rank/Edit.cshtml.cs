@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using SuxrobGM.Sdk.Extensions;
 using WUCSA.Core.Entities.UserModel;
 using WUCSA.Core.Interfaces.Repositories;
 using WUCSA.Web.Utils;
@@ -17,32 +16,18 @@ using WUCSA.Web.Utils;
 namespace WUCSA.Web.Pages.Rank
 {
     [Authorize(Roles = "SuperAdmin,Admin")]
-    public class CreateModel : PageModel
+    public class EditModel : PageModel
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IRankRepository _rankRepository;
         private readonly PDFFileHelper _pdfFileHelper;
 
-        public CreateModel(UserManager<AppUser> userManager, 
+        public EditModel(UserManager<AppUser> userManager,
             IRankRepository rankRepository, PDFFileHelper pdfFileHelper)
         {
             _rankRepository = rankRepository;
             _userManager = userManager;
             _pdfFileHelper = pdfFileHelper;
-        }
-
-        [BindProperty]
-        [Required(ErrorMessage = "Please select kind of sport")]
-        public string SelectedSTypeId { set; get; }
-        public List<SelectListItem> Options { set; get; }
-        public string RCName { get; set; }
-
-        public async Task<IActionResult> OnGetAsync()
-        {
-            RCName = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.UICulture.Name;
-            await GetOptionAsync();
-
-            return Page();
         }
 
         public class InputModel
@@ -53,31 +38,41 @@ namespace WUCSA.Web.Pages.Rank
 
         [BindProperty]
         public InputModel Input { get; set; }
-
-        public async Task<IActionResult> OnPostAsync()
+        public string RCName { get; set; }
+        [BindProperty]
+        [Required(ErrorMessage = "Please select kind of sport")]
+        public string SelectedSTypeId { set; get; }
+        public List<SelectListItem> Options { set; get; }
+        public string rankSportType { get; set; }
+        public async Task<IActionResult> OnGetAsync(string id)
         {
-            if (!ModelState.IsValid)
+            RCName = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.UICulture.Name;
+            await GetOptionAsync();
+            var rank = await _rankRepository.GetByIdAsync<Core.Entities.RankModel.Rank>(id);
+            if (rank.RankPartsFilePath != null)
             {
-                await GetOptionAsync();
-                return Page();
+                ViewData["PDFFilePath"] = rank.RankPartsFilePath;
             }
-            Input.Rank.SportType = await _rankRepository.GetAsync<Core.Entities.RankModel.SportType>(i=> i.Id == SelectedSTypeId);
-            if (Input.Rank.SportType == null)
+            Input = new InputModel()
             {
-                await GetOptionAsync();
-                return Page();
-            }
-            AppUser currentUser = await _userManager.GetUserAsync(User);
-            var tempSlug = $"{Input.Rank.RankLocation.ToString()}_{Input.Rank.SportType.Name.ToString()}_{Input.Rank.RankDate.ToString("yyyy_MM_dd")}";
-            Input.Rank.Slug = tempSlug.Slugify();
-            if (Input.UploadPdf != null)
-            {
-                Input.Rank.RankPartsFilePath = await _pdfFileHelper.SaveFile(Input.UploadPdf, Input.Rank.Slug, "ranks");
-            }
-            Input.Rank.Author = currentUser;
+                Rank = rank
+            };
 
-            await _rankRepository.AddRankAsync(Input.Rank);
-            return RedirectToPage("/Rank/Index", new { loc = Input.Rank.RankLocation.ToString().ToLower(), stype = Input.Rank.SportType.Name.ToLower()});
+            switch (RCName)
+            {
+                case "ru":
+                    rankSportType = rank.SportType.NameRu;
+                    break;
+                case "uz":
+                    rankSportType = rank.SportType.NameUz;
+                    break;
+                default:
+                    rankSportType = rank.SportType.Name;
+                    break;
+            }
+            SelectedSTypeId = rank.SportType.Id;
+
+            return Page();
         }
 
         private async Task GetOptionAsync()
