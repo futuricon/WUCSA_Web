@@ -46,7 +46,7 @@
                     @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                     {
                         <li><a asp-page="/Blog/Edit" asp-route-id="@Model.Blog.Id">Edit this Article</a></li>
-                        <li><a asp-page="/Blog/Delete" asp-route-Id="@Model.Blog.Id">Delete this Article</a></li>
+                        <li><a asp-page="/Blog/Delete" asp-route-id="@Model.Blog.Id">Delete this Article</a></li>
                     }
                 </ul>
             </div>

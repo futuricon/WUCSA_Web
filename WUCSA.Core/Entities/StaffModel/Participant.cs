@@ -52,7 +52,7 @@ namespace WUCSA.Core.Entities.StaffModel
         public int PositionNumber { get; set; }
 
         [Required(ErrorMessage = "Please enter the country, state or city of the representative")]
-        [StringLength(100, ErrorMessage = "Characters must be less than 400")]
+        [StringLength(100, ErrorMessage = "Characters must be less than 100")]
         [Display(Name = "Representative from")]
         public string Location { get; set; }
 

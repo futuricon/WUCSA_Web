@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SuxrobGM.Sdk.Extensions;
 using WUCSA.Core.Entities.UserModel;
 using WUCSA.Core.Interfaces.Repositories;
 using WUCSA.Web.Utils;
@@ -74,7 +75,46 @@ namespace WUCSA.Web.Pages.Rank
 
             return Page();
         }
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                await GetOptionAsync();
+                return Page();
+            }
+            var sportType = await _rankRepository.GetAsync<Core.Entities.RankModel.SportType>(i => i.Id == SelectedSTypeId);
+            if (sportType == null)
+            {
+                await GetOptionAsync();
+                return Page();
+            }
+            Input.Rank.SportType = sportType;
 
+            var tempSlug = $"{Input.Rank.RankLocation.ToString()}-{Input.Rank.SportType.Name.ToString()}-{Input.Rank.RankDate.ToString("yyyy-MM-dd")}";
+            
+            var rank = await _rankRepository.GetByIdAsync<Core.Entities.RankModel.Rank>(Input.Rank.Id);
+            rank.Title = Input.Rank.Title;
+            rank.TitleRu = Input.Rank.TitleRu;
+            rank.TitleUz = Input.Rank.TitleUz;
+            rank.Description = Input.Rank.Description;
+            rank.DescriptionRu = Input.Rank.DescriptionRu;
+            rank.DescriptionUz = Input.Rank.DescriptionUz;
+            rank.RankLocation = Input.Rank.RankLocation;
+            rank.RankDate = Input.Rank.RankDate;
+            rank.Slug = tempSlug.Slugify();
+
+            if (Input.UploadPdf != null)
+            {
+                if (rank.RankPartsFilePath != null)
+                {
+                    _pdfFileHelper.DeleteFile(rank.RankPartsFilePath, "ranks");
+                }
+                rank.RankPartsFilePath = await _pdfFileHelper.SaveFile(Input.UploadPdf, rank.Slug, "ranks");
+            }
+
+            await _rankRepository.UpdateRankAsync(rank);
+            return RedirectToPage("/Rank/SubList", new { loc = Input.Rank.RankLocation.ToString().ToLower(), stype = Input.Rank.SportType.Name.ToLower() });
+        }
         private async Task GetOptionAsync()
         {
             var SportTypes = await _rankRepository.GetListAsync<Core.Entities.RankModel.SportType>();

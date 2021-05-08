@@ -1,5 +1,4 @@
 ﻿@page
-@using WUCSA.Core.Entities.RankModel
 @model WUCSA.Web.Pages.Rank.ListModel
 @inject IViewLocalizer Localizer
 @namespace WUCSA.Models
@@ -114,7 +113,7 @@
                 @foreach (var sportType in Model.SportTypes)
                 {
                     <div class="col-lg-3 col-md-6 col-12">
-                        <a asp-page="/Rank/Index" asp-route-loc="world" asp-route-stype="@sportType.Name.ToLower()" class="single-cat wow fadeInUp" data-wow-delay=".6s">
+                        <a asp-page="/Rank/SubList" asp-route-loc="world" asp-route-stype="@sportType.Name.ToLower()" class="single-cat wow fadeInUp" data-wow-delay=".6s">
                             <div class="icon">
                                 <i class="lni lni-eye"></i>
                             </div>
@@ -140,7 +139,7 @@
                 @foreach (var sportType in Model.SportTypes)
                 {
                     <div class="col-lg-3 col-md-6 col-12">
-                        <a asp-page="/Rank/Index" asp-route-loc="national" asp-route-stype="@sportType.Name.ToLower()" class="single-cat wow fadeInUp" data-wow-delay=".6s">
+                        <a asp-page="/Rank/SubList" asp-route-loc="national" asp-route-stype="@sportType.Name.ToLower()" class="single-cat wow fadeInUp" data-wow-delay=".6s">
                             <div class="icon">
                                 <i class="lni lni-eye"></i>
                             </div>

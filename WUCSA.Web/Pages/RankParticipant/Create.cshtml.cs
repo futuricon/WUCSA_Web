@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -20,17 +21,25 @@ namespace WUCSA.Web.Pages.RankParticipant
             _userManager = userManager;
         }
 
-
         public class InputModel
         {
+            public Core.Entities.RankModel.RankParticipant RankParticipant { get; set; }
+            public Core.Entities.StaffModel.Participant Participant { get; set; }
         }
 
         [BindProperty]
         public InputModel Input { get; set; }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
-            return RedirectToPage("/Blog/Index");
+            var x = await _rankRepository.GetListAsync<Core.Entities.RankModel.RankParticipant>();
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync(IList partsList)
+        {
+
+            return RedirectToPage();
         }
     }
 }

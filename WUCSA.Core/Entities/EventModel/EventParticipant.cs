@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using WUCSA.Core.Entities.Base;
 using WUCSA.Core.Entities.StaffModel;
 using WUCSA.Core.Entities.UserModel;
+using WUCSA.Core.Interfaces;
 
 namespace WUCSA.Core.Entities.EventModel
 {
@@ -12,7 +13,7 @@ namespace WUCSA.Core.Entities.EventModel
         Woman
     }
 
-    public class EventParticipant
+    public class EventParticipant : IEntity<string>
     {
         public EventParticipant()
         {

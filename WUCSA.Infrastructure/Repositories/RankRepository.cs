@@ -50,8 +50,6 @@ namespace WUCSA.Infrastructure.Repositories
 
         public async Task UpdateRankParticipantAsync(RankParticipant rankParticipant, bool saveChanges = true, params Participant[] participants)
         {
-
-            
             foreach (var participant in participants)
             {
                 var originTag = await GetAsync<Participant>(i => i.Id == participant.Id);

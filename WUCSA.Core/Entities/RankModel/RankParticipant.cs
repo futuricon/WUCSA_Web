@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using WUCSA.Core.Entities.Base;
 using WUCSA.Core.Entities.StaffModel;
 using WUCSA.Core.Entities.UserModel;
+using WUCSA.Core.Interfaces;
 
 namespace WUCSA.Core.Entities.RankModel
 {
@@ -12,7 +13,7 @@ namespace WUCSA.Core.Entities.RankModel
         Woman
     }
 
-    public class RankParticipant
+    public class RankParticipant : IEntity<string>
     {
         public RankParticipant()
         {

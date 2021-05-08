@@ -1,8 +1,8 @@
-﻿@page "{loc}_{stype}"
+﻿@page "{slug}/{gender}/{weight?}"
+@using WUCSA.Core.Entities.RankModel
 @model WUCSA.Web.Pages.Rank.IndexModel
 @inject IViewLocalizer Localizer
 @{
-    string basePath = $"./{Model.BasePath}";
     ViewData["Title"] = Localizer["WUCSA Ranking"];
     Layout = "_Layout";
 }
@@ -22,18 +22,18 @@
             <div class="col-12">
                 <div class="breadcrumbs-content">
                     <h1 class="page-title">
-                        @switch (Model.RCName)
-                        {
-                            case "ru":
-                                @Model.Ranks.Select(i => i.SportType.NameRu).FirstOrDefault()
-                                break;
-                            case "uz":
-                                @Model.Ranks.Select(i => i.SportType.NameUz).FirstOrDefault()
-                                break;
-                            default:
-                                @Model.Ranks.Select(i => i.SportType.Name).FirstOrDefault()
-                                break;
-                        }
+                        @*@switch (Model.RCName)
+                            {
+                                case "ru":
+                                    @Model.Ranks.Select(i => i.SportType.NameRu).FirstOrDefault()
+                                    break;
+                                case "uz":
+                                    @Model.Ranks.Select(i => i.SportType.NameUz).FirstOrDefault()
+                                    break;
+                                default:
+                                    @Model.Ranks.Select(i => i.SportType.Name).FirstOrDefault()
+                                    break;
+                            }*@
                         @Localizer["Ranking List"]
                     </h1>
                     <p>
@@ -43,83 +43,273 @@
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a asp-area="" asp-page="/Index">@Localizer["Home"]</a></li>
-                    <li><a asp-page="/Rank/List">@Localizer["Rank"]</a></li>
+                    <li><a asp-page="@Model.PrevPath">@Localizer["Rank List"]</a></li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
 
-<section class="find-rank rank-list section">
-    <div class="container">
-        <div class="single-head">
-            <div class="row">
-                @foreach (var rank in Model.Ranks)
-                {
-                    <div class="single-rank col-lg-5 col-md-10 col-sm-11 mx-auto">
-                        @*<div class="rank-image">
-                                <img src="assets/images/jobs/img1.png" alt="#">
-                            </div>*@
-                        <div class="rank-content">
-                            <h4>
-                                <a href="rank-details.html">
-                                    @switch (Model.RCName)
-                                    {
-                                        case "ru":
-                                            @rank.TitleRu
-                                            break;
-                                        case "uz":
-                                            @rank.TitleUz
-                                            break;
-                                        default:
-                                            @rank.Title
-                                            break;
-                                    }
-                                </a>
-                            </h4>
-                            <p>
-                                @switch (Model.RCName)
-                                {
-                                    case "ru":
-                                        @rank.DescriptionRu
-                                        break;
-                                    case "uz":
-                                        @rank.DescriptionUz
-                                        break;
-                                    default:
-                                        @rank.Description
-                                        break;
-                                }
-                            </p>
-                            <ul>
-                                <li><i class="lni lni-calendar"></i> @rank.RankDate.ToString("dd MMMM, yyyy")</li>
-                                 @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
-                                 {
-                                    <li><i class="lni lni-pencil"></i><a asp-page="/Rank/Edit" asp-route-Id="@rank.Id"> @Localizer["Edit"]</a></li>
-                                    <li><i class="lni lni-trash"></i><a asp-page="/Rank/Delete" asp-route-Id="@rank.Id"> @Localizer["Delete"]</a></li>
-                                 }
-                            </ul>
+@*<section class="find-rank section">
+    <div class="search-rank">
+        <div class="container">
+            <div class="search-nner">
+                <div class="row">
+                    <form method="get">
+                        <div class="col-lg-5 col-md-5 col-xs-12">
+                            <div class="form-group">
+                                <label asp-for="Input.RankParticipant.Gender" class="control-label"></label>
+                                <select class="select" asp-for="Input.RankParticipant.Gender" asp-items="Html.GetEnumSelectList<Gender>()">
+                                    <option value="" selected disabled>@Localizer["Please select Location"]</option>
+                                </select>
+                                <span asp-validation-for="Input.RankParticipant.Gender" class="text-danger"></span>
+                            </div>
                         </div>
-                        <div class="rank-button">
-                            <ul>
-                                <li><a asp-page="/RankParticipant/Index" asp-route-Id="@rank.Id">More</a></li>
+                        <div class="col-lg-5 col-md-5 col-xs-12">
+                            <div class="form-group">
+                                <label asp-for="Input.RankParticipant.Weight" class="control-label"></label>
+                                <select class="select" asp-for="SelectedWeightId" asp-items="@Model.WieghtOptions">
+                                    <option value="" selected disabled>@Localizer["Please select Weight"]</option>
+                                </select>
+                                <span asp-validation-for="SelectedWeightId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-xs-12 button">
+                            <button type="submit" class="btn btn-common float-right">Filter</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>*@
+
+<section class="find-rank section-rank">
+    <div class="search-rank">
+        <div class="container">
+            <div class="search-nner">
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-xs-12">
+                        <label asp-for="Input.RankParticipant.Gender" class="control-label"></label>
+                        <select class="select" asp-for="Input.RankParticipant.Gender" asp-items="Html.GetEnumSelectList<Gender>()">
+                            <option value="" selected="" disabled="">@Localizer["Please select Location"]</option>
+                        </select>
+                        <span asp-validation-for="Input.RankParticipant.Gender" class="text-danger"></span>
+
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-xs-12">
+                        <label asp-for="Input.RankParticipant.Gender" class="control-label"></label>
+                        <select class="select" asp-for="Input.RankParticipant.Gender" asp-items="Html.GetEnumSelectList<Gender>()">
+                            <option value="" selected="" disabled="">@Localizer["Please select Location"]</option>
+                        </select>
+                        <span asp-validation-for="Input.RankParticipant.Gender" class="text-danger"></span>
+
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-xs-12 button">
+                        <button type="submit" class="btn btn-common float-right">Filter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div class="rank-details section-rank pb-50">
+    <div class="container">
+        <div class="row mb-n5">
+
+            <div class="col-lg-8 col-12">
+                <div class="rank-details-inner">
+                    <div class="rank-details-head row mx-0">
+                        <div class="company-logo col-auto">
+                            <a href="#" style="border-radius: 4px; overflow: hidden;"><img src="assets/images/universal-image/job-details.png" alt="Company Logo"></a>
+                        </div>
+                        <div class="salary-type col-auto order-sm-3">
+                            <span class="salary-range">$5000 - $8000</span>
+                            <span class="badge badge-success">Full Time</span>
+                        </div>
+                        <div class="content col">
+                            <h5 class="title">Website front end development</h5>
+                            <ul class="meta">
+                                <li>
+                                    <strong class="text-primary"><a href="http://www.graygrids.com">GrayGrids</a></strong>
+                                </li>
+                                <li><i class="lni lni-map-marker"></i> 2023 Willshire Glen, GA-30009</li>
                             </ul>
                         </div>
                     </div>
-                }
+                    <div class="rank-details-body">
+                        <h6 class="mb-3">Job Description</h6>
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique, ex iusto! Tenetur
+                            iusto dolore amet voluptates esse? Ut debitis perferendis, impedit ullam ea officia
+                            sapiente soluta cupiditate molestiae eius enim aut laboriosam, saepe deleniti. Excepturi
+                            nobis amet fugit ipsa corrupti!
+                        </p>
+                        <div class="rank-items">
 
+                            <div class="manage-list">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <p>Name</p>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <p>Contract Type</p>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <p>Candidates</p>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <p>Featured</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="manage-content">
+                                <div class="row align-items-center justify-content-center">
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <h3>Web Designer</h3>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <p><span class="time">Full-Time</span></p>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <div class="can-img">
+                                            <a href="#"><img src="assets/images/jobs/candidates.png" alt="#"></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <p><i class="lni lni-star"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="manage-content">
+                                <div class="row align-items-center justify-content-center">
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <h3>UI/UX designer</h3>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <p><span class="time">Full-Time</span></p>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <div class="can-img">
+                                            <a href="#"><img src="assets/images/jobs/candidates.png" alt="#"></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <p><i class="lni lni-star"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="manage-content">
+                                <div class="row align-items-center justify-content-center">
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <h3>Developer</h3>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <p><span class="time">Full-Time</span></p>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <div class="can-img">
+                                            <a href="#"><img src="assets/images/jobs/candidates.png" alt="#"></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <p><i class="lni lni-star"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="manage-content">
+                                <div class="row align-items-center justify-content-center">
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <h3>Senior UX Designer</h3>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <p><span class="time">Full-Time</span></p>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <div class="can-img">
+                                            <a href="#"><img src="assets/images/jobs/candidates.png" alt="#"></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <p><i class="lni lni-star"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="manage-content">
+                                <div class="row align-items-center justify-content-center">
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <h3>Graphics Design</h3>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <p><span class="time">Full-Time</span></p>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <div class="can-img">
+                                            <a href="#"><img src="assets/images/jobs/candidates.png" alt="#"></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <p><i class="lni lni-star"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="manage-content">
+                                <div class="row align-items-center justify-content-center">
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <h3>Sales Manager</h3>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <p><span class="time">Part-Time</span></p>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <div class="can-img">
+                                            <a href="#"><img src="assets/images/jobs/candidates.png" alt="#"></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <p><i class="lni lni-star"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="row">
-                <div class="col-12">
-                    <div class="pagination center">
-                        <ul class="pagination-list">
-                            <pagination class="mx-auto" page-index="@Model.Ranks.PageIndex" total-pages="@Model.Ranks.TotalPages" page-path="@basePath" />
-                        </ul>
+
+            <div class="col-lg-4 col-12">
+                <div class="rank-details-sidebar">
+
+                    <div class="sidebar-widget">
+                        <div class="inner">
+                            <h6 class="title">Facebook</h6>
+                            <div id="fb-root"></div>
+                            <script async defer crossorigin="anonymous" src="https://connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v5.0"></script>
+                            <div class="fb-page" data-href="https://www.facebook.com/International-Combat-Aikido-Association-434807793270681/"
+                                 data-tabs="timeline" data-width="" data-height=""
+                                 data-small-header="false" data-adapt-container-width="true"
+                                 data-hide-cover="false" data-show-facepile="true">
+                                <blockquote cite="https://www.facebook.com/International-Combat-Aikido-Association-434807793270681/" class="fb-xfbml-parse-ignore">
+                                    <a href="https://www.facebook.com/International-Combat-Aikido-Association-434807793270681/">International Combat Aikido Association</a>
+                                </blockquote>
+                            </div>
+                        </div>
                     </div>
+
+                    <div class="sidebar-widget">
+                        <div class="inner">
+                            <h6 class="title">Instagram</h6>
+                            <div id="pixlee_container"></div>
+                            <script type="text/javascript">window.PixleeAsyncInit = function () { Pixlee.init({ apiKey: 'ploM-QKD99wEZtxbFXVa' }); Pixlee.addSimpleWidget({ widgetId: '32803' }); };</script>
+                            <script src="//instafeed.assets.pxlecdn.com/assets/pixlee_widget_1_0_0.js"></script>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
         </div>
     </div>
-</section>
+</div>

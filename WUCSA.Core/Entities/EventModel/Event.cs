@@ -24,11 +24,13 @@ namespace WUCSA.Core.Entities.EventModel
         [StringLength(64)]
         public string CoverPhotoPath { get; set; }
 
-        [Required(ErrorMessage = "Please select kind of sport")]
         [Display(Name = "Sport Type")]
         public virtual SportType SportType { get; set; }
 
         public virtual AppUser Author { get; set; }
+
+        [Display(Name = "Results of the passed event")]
+        public virtual Rank Rank { get; set; }
 
         public DateTime PostedDate { get; set; } = DateTime.Now;
 

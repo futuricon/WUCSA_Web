@@ -61,14 +61,16 @@ namespace WUCSA.Web.Pages.Rank
                 await GetOptionAsync();
                 return Page();
             }
-            Input.Rank.SportType = await _rankRepository.GetAsync<Core.Entities.RankModel.SportType>(i=> i.Id == SelectedSTypeId);
-            if (Input.Rank.SportType == null)
+            var sportType = await _rankRepository.GetAsync<Core.Entities.RankModel.SportType>(i=> i.Id == SelectedSTypeId);
+            if (sportType == null)
             {
                 await GetOptionAsync();
                 return Page();
             }
+            Input.Rank.SportType = sportType;
+
             AppUser currentUser = await _userManager.GetUserAsync(User);
-            var tempSlug = $"{Input.Rank.RankLocation.ToString()}_{Input.Rank.SportType.Name.ToString()}_{Input.Rank.RankDate.ToString("yyyy_MM_dd")}";
+            var tempSlug = $"{Input.Rank.RankLocation.ToString()}-{Input.Rank.SportType.Name.ToString()}-{Input.Rank.RankDate.ToString("yyyy-MM-dd")}";
             Input.Rank.Slug = tempSlug.Slugify();
             if (Input.UploadPdf != null)
             {
@@ -77,7 +79,7 @@ namespace WUCSA.Web.Pages.Rank
             Input.Rank.Author = currentUser;
 
             await _rankRepository.AddRankAsync(Input.Rank);
-            return RedirectToPage("/Rank/Index", new { loc = Input.Rank.RankLocation.ToString().ToLower(), stype = Input.Rank.SportType.Name.ToLower()});
+            return RedirectToPage("/Rank/SubList", new { loc = Input.Rank.RankLocation.ToString().ToLower(), stype = Input.Rank.SportType.Name.ToLower()});
         }
 
         private async Task GetOptionAsync()
@@ -91,21 +93,21 @@ namespace WUCSA.Web.Pages.Rank
                     {
                         Value = a.Id.ToString(),
                         Text = a.NameRu
-                    }).ToList(); ;
+                    }).ToList(); 
                     break;
                 case "uz":
                     Options = SportTypes.Select(a => new SelectListItem
                     {
                         Value = a.Id.ToString(),
                         Text = a.NameUz
-                    }).ToList(); ;
+                    }).ToList(); 
                     break;
                 default:
                     Options = SportTypes.Select(a => new SelectListItem
                     {
                         Value = a.Id.ToString(),
                         Text = a.Name
-                    }).ToList(); ;
+                    }).ToList(); 
                     break;
             }
         }
