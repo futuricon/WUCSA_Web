@@ -31,12 +31,12 @@
                 <ul class="breadcrumb-nav">
                     <li><a asp-page="/Index">@Localizer["Home"]</a></li>
                     <li><a asp-page="Rank/List">@Localizer["Rank"]</a></li>
-                    <li>
-                        @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
-                        {
-                            <a asp-page="/Rank/Create">@Localizer["Add new Rank"]</a>
-                        }
-                    </li>
+                    @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                    {
+                        <li>
+                            <a asp-page="/Rank/Create">@Localizer["Add new Rank"]</a> 
+                        </li>
+                    }
                 </ul>
             </div>
         </div>

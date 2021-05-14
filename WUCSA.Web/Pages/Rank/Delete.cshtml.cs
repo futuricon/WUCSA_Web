@@ -44,6 +44,17 @@ namespace WUCSA.Web.Pages.Rank
                 return NotFound();
             }
 
+            AppUser currentUser = await _userManager.GetUserAsync(User);
+            var currentRole = await _userManager.GetRolesAsync(currentUser);
+
+            if (!currentRole.Contains(Role.SuperAdmin.ToString()))
+            {
+                if (Rank.IsDeleted)
+                {
+                    return NotFound();
+                }
+            }
+
             if (Rank.RankParticipants.Count > 0)
             {
                 ViewData.Add("ErrorMsg", "This Rank is associated with Participants");

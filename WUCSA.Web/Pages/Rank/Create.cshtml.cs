@@ -26,10 +26,19 @@ namespace WUCSA.Web.Pages.Rank
         public CreateModel(UserManager<AppUser> userManager, 
             IRankRepository rankRepository, PDFFileHelper pdfFileHelper)
         {
-            _rankRepository = rankRepository;
             _userManager = userManager;
+            _rankRepository = rankRepository;
             _pdfFileHelper = pdfFileHelper;
         }
+
+        public class InputModel
+        {
+            public Core.Entities.RankModel.Rank Rank { get; set; }
+            public IFormFile UploadPdf { get; set; }
+        }
+
+        [BindProperty]
+        public InputModel Input { get; set; }
 
         [BindProperty]
         [Required(ErrorMessage = "Please select kind of sport")]
@@ -44,15 +53,6 @@ namespace WUCSA.Web.Pages.Rank
 
             return Page();
         }
-
-        public class InputModel
-        {
-            public Core.Entities.RankModel.Rank Rank { get; set; }
-            public IFormFile UploadPdf { get; set; }
-        }
-
-        [BindProperty]
-        public InputModel Input { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -84,7 +84,7 @@ namespace WUCSA.Web.Pages.Rank
 
         private async Task GetOptionAsync()
         {
-            var SportTypes = await _rankRepository.GetListAsync<Core.Entities.RankModel.SportType>();
+            var SportTypes = await _rankRepository.GetListAsync<Core.Entities.RankModel.SportType>(i => i.IsDeleted == false);
 
             switch (RCName)
             {

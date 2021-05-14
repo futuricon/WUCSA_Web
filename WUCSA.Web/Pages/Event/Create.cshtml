@@ -1,0 +1,202 @@
+﻿@page
+@using WUCSA.Core.Entities.EventModel
+@model WUCSA.Web.Pages.Event.CreateModel
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_Layout";
+}
+
+@section CSS {
+    <link rel="stylesheet" href="~/css/event_style.css" />
+    <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/material.css" />
+}
+
+<div class="breadcrumbs overlay">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title">Create new Event</h1>
+                    <p>
+                        Business plan draws on a wide range of knowledge from different business<br> disciplines.
+                        Business draws on a wide range of different business .
+                    </p>
+                </div>
+                <ul class="breadcrumb-nav">
+                    <li><a asp-area="" asp-page="/Index">Home</a></li>
+                    <li><a asp-page="/Event/List" asp-route-location="World">Event List</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="section event-single">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-md-12 col-12 mx-auto">
+                <form enctype="multipart/form-data" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="single-inner">
+                        <div class="grid">
+                            <div class="col-12">
+                                <div id="uploadBtn" class="button">
+                                    <a style="margin-bottom: 2%;" class="btn file-btn">
+                                        <span>Choose an image</span>
+                                        <input id="uploadInput" type="file" asp-for="Input.UploadCoverPhoto" onchange="readURL(this);" value="Choose a file" accept="image/*" />
+                                    </a>
+                                </div>
+                                <div id="removeBtn" class="button">
+                                    <button type="button" class="btn mouse-dir white-bg" onclick="removeUpload()">Delete <span id="img-text"></span></button>
+                                </div>
+                                <div class="post-event">
+                                    <img id="uploadedImg" src="assets/images/blog/blog-single.jpg" alt="#">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="event-details mt-30">
+                            <div class="detail-inner row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Types of Sport</label>
+                                        <ejs-multiselect dataSource="@Model.SportTypes" placeholder="Select Types of Sport" ejs-for="SelectedStypesId">
+                                            <e-multiselect-fields text="Name" value="Id"></e-multiselect-fields>
+                                        </ejs-multiselect>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label asp-for="Input.Event.EventLocation" class="control-label"></label>
+                                        <select class="select" asp-for="Input.Event.EventLocation" asp-items="Html.GetEnumSelectList<EventLocation>()">
+                                            <option value="" selected disabled>@Localizer["Please select Location"]</option>
+                                        </select>
+                                        <span asp-validation-for="Input.Event.EventLocation" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label asp-for="Input.Event.EventDate" class="control-label">s</label>
+                                        <input class="form-control" type="date" asp-for="Input.Event.EventDate">
+                                        <span asp-validation-for="Input.Event.EventDate" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label class="control-label">@Localizer["Rules (PDF)"]</label>
+                                        <div class="button">
+                                            <a style="margin-bottom: 2%;" class="btn file-btn">
+                                                <span>@Localizer["Choose File"]</span>
+                                                <input type="file" asp-for="Input.UploadPdfRules" accept="application/pdf" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label class="control-label">@Localizer["List of Participants (PDF)"]</label>
+                                        <div class="button">
+                                            <a style="margin-bottom: 2%;" class="btn file-btn">
+                                                <span>@Localizer["Choose File"]</span>
+                                                <input type="file" asp-for="Input.UploadPdfParts" accept="application/pdf" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Input.Event.Title" class="control-label"></label>
+                                    <input asp-for="Input.Event.Title" class="form-control" />
+                                    <span asp-validation-for="Input.Event.Title" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Input.Event.TitleRu" class="control-label"></label>
+                                    <input asp-for="Input.Event.TitleRu" class="form-control" />
+                                    <span asp-validation-for="Input.Event.TitleRu" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Input.Event.TitleUz" class="control-label"></label>
+                                    <input asp-for="Input.Event.TitleUz" class="form-control" />
+                                    <span asp-validation-for="Input.Event.TitleUz" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mt-4">
+                                    <label asp-for="Input.Event.Description" class="control-label"></label>
+                                    <span asp-validation-for="Input.Event.Description" class="text-danger"></span>
+                                    <textarea class="richtexteditor" asp-for="Input.Event.Description" height="300">
+                                        </textarea>
+                                </div>
+                                <div class="form-group mt-4">
+                                    <label asp-for="Input.Event.DescriptionRu" class="control-label"></label>
+                                    <span asp-validation-for="Input.Event.DescriptionRu" class="text-danger"></span>
+                                    <textarea class="richtexteditor" asp-for="Input.Event.DescriptionRu" height="300">
+                                        </textarea>
+                                </div>
+                                <div class="form-group mt-4">
+                                    <label asp-for="Input.Event.DescriptionUz" class="control-label"></label>
+                                    <span asp-validation-for="Input.Event.DescriptionUz" class="text-danger"></span>
+                                    <textarea class="richtexteditor" asp-for="Input.Event.DescriptionUz" height="300">
+                                        </textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Input.Event.Location" class="control-label"></label>
+                                    <input asp-for="Input.Event.Location" class="form-control" />
+                                    <span asp-validation-for="Input.Event.Location" class="text-danger"></span>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group mt-4">
+                                        <label class="control-label">Ranking List</label>
+                                        <select class="select" asp-for="SelectedRankId" asp-items="@Model.OptionsRank">
+                                            <option value="" selected disabled>@Localizer["Please select Ranking List"]</option>
+                                        </select>
+                                        <span asp-validation-for="SelectedRankId" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4 mx-auto">
+                                    <div class="button form-group mt-4">
+                                        <input type="submit" value="Create" class="btn" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js"></script> 
+    <script src="https://cdn.tiny.cloud/1/gor58flziaueg8chsw70ufwp3mnxgqytjn0hgvh6agc8q65x/tinymce/5/tinymce.min.js"
+            referrerpolicy="origin">
+    </script>
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#uploadBtn').hide();
+
+                    $('#uploadedImg').attr('src', e.target.result);
+                    $('.post-event').show();
+                    $('#removeBtn').show();
+
+                    $('#img-text').html(input.files[0].name);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+
+            } else {
+                removeUpload();
+            }
+        }
+        function removeUpload() {
+            $('#uploadInput').replaceWith($('#uploadInput').clone());
+            $('#removeBtn').hide();
+            $('.post-event').hide();
+            $('#uploadBtn').show();
+        }
+    </script>
+}

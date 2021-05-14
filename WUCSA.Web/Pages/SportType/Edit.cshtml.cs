@@ -4,9 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SuxrobGM.Sdk.Extensions;
+using WUCSA.Core.Entities.UserModel;
 using WUCSA.Core.Interfaces.Repositories;
 using WUCSA.Web.Utils;
 
@@ -15,11 +17,13 @@ namespace WUCSA.Web.Pages.SportType
     [Authorize(Roles = "SuperAdmin,Admin")]
     public class EditModel : PageModel
     {
+        private readonly UserManager<AppUser> _userManager;
         private readonly IRankRepository _rankRepository;
         private readonly PDFFileHelper _pdfFileHelper;
 
-        public EditModel(IRankRepository rankRepository, PDFFileHelper pdfFileHelper)
+        public EditModel(UserManager<AppUser> userManager, IRankRepository rankRepository, PDFFileHelper pdfFileHelper)
         {
+            _userManager = userManager;
             _rankRepository = rankRepository;
             _pdfFileHelper = pdfFileHelper;
         }
@@ -35,7 +39,25 @@ namespace WUCSA.Web.Pages.SportType
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
             var sportType = await _rankRepository.GetByIdAsync<Core.Entities.RankModel.SportType>(id);
+            if (sportType == null)
+            {
+                return NotFound();
+            }
+            AppUser currentUser = await _userManager.GetUserAsync(User);
+            var currentRole = await _userManager.GetRolesAsync(currentUser);
+
+            if (!currentRole.Contains(Role.SuperAdmin.ToString()))
+            {
+                if (sportType.IsDeleted)
+                {
+                    return NotFound();
+                }
+            }
             if (sportType.RulesFilePath != null)
             {
                 ViewData["PDFFilePath"] = sportType.RulesFilePath;

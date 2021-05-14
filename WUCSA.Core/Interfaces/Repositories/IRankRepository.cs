@@ -15,7 +15,9 @@ namespace WUCSA.Core.Interfaces.Repositories
         Task DeleteSportTypeAsync(SportType sportType);
 
         Task AddRankParticipantAsync(RankParticipant rankParticipant);
-        Task UpdateRankParticipantAsync(RankParticipant rankParticipant, bool saveChanges = true, params Participant[] participants);
+        Task UpdateRankParticipantAsync(RankParticipant rankParticipant);
         Task DeleteRankParticipantAsync(RankParticipant rankParticipant, bool saveChanges = true);
+
+        Task UpdateParticipantAsync(RankParticipant rankParticipant, bool saveChanges = true, params Participant[] participant);
     }
 }

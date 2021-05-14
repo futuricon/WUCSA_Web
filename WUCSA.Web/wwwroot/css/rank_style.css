@@ -2,6 +2,55 @@
     rank Details CSS
 ========================================*/
 
+.actionBtn ul {
+    margin-top: 25px;
+}
+
+    .actionBtn ul li {
+        display: inline-block;
+        font-size: 12px;
+        margin-bottom: 5px;
+        margin-right: 3px;
+        position: relative;
+        background: #2042e314;
+        color: #2042e3;
+        padding: 5px 10px;
+        border-radius: 3px;
+    }
+
+        .actionBtn ul li:last-child {
+            margin-bottom: 0;
+            margin-right: 0;
+        }
+
+        .actionBtn ul li i {
+            font-size: 13px;
+            display: inline-block;
+            margin-right: 3px;
+        }
+
+        .actionBtn ul li a {
+            color: #777;
+        }
+
+            .actionBtn ul li a:hover {
+                color: #2042e3;
+            }
+
+#file-upload {
+    display: inline-block;
+    font-size: 12px;
+    margin-bottom: 5px;
+    margin-right: 3px;
+    position: relative;
+    background: #2042e314;
+    color: #2042e3;
+    padding: 8px 12px;
+    border-radius: 3px;
+    font-weight: 400;
+    display: inline-block;
+    margin-top: 5px;
+}
 
 .section-rank {
     padding-top: 50px;
@@ -45,7 +94,7 @@
             margin-top: 10px;
         }
 
-        .rank-details .rank-details-head .salary-type .salary-range {
+        .rank-details .rank-details-head .file-type .file-range {
             font-weight: 500;
             line-height: 1;
             display: block;
@@ -188,6 +237,10 @@
             text-transform: capitalize;
         }
 
+            .rank-details .rank-items .manage-list p {
+                text-align: center;
+            }
+
         .rank-details .rank-items .manage-content {
             padding: 25px 0;
             border-bottom: 1px solid #f1f1f1;
@@ -213,13 +266,10 @@
                 border-radius: 50%;
             }
 
-            .rank-details .rank-items .manage-content p i {
-                font-size: 14px;
-            }
-
             .rank-details .rank-items .manage-content h3 {
                 font-size: 15px;
                 font-weight: 500;
+                text-align: center;
             }
 
             .rank-details .rank-items .manage-content .location {
@@ -233,6 +283,7 @@
                     margin-right: 3px;
                     color: #2042e3;
                 }
+
 
 /*======================================
     Find rank CSS
@@ -392,11 +443,11 @@
             width: 100%;
         }
 
-        .find-rank .search-rank .search-nner .form-group {
+        /*.find-rank .search-rank .search-nner .form-group {
             display: block;
             margin-bottom: 20px;
-        }
-            .find-rank .search-rank .search-nner .form-group .select {
+        }*/
+            .find-rank .search-rank .search-nner  .select {
                 width: 100%;
                 height: 50px;
                 border-radius: 0;
@@ -406,7 +457,7 @@
                 font-weight: 400;
             }
 
-                .find-rank .search-rank .search-nner .form-group .select option {
+                .find-rank .search-rank .search-nner  .select option {
                     color: #081828;
                     padding: 10px 10px;
                     font-weight: 400;
@@ -722,6 +773,36 @@ ul.custom-flex {
 
 
 
+.popular-tag-widget .tags > a {
+    /*display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;*/
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    padding: 8px 20px;
+    text-transform: capitalize;
+    font-size: 13px;
+    font-weight: 500;
+    background: #2042e3;
+    margin-right: 7px;
+    margin-bottom: 10px;
+    color: #fff;
+    background: transparent;
+    color: #888;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+    .popular-tag-widget .tags > a:hover {
+        background-color: #2042e3;
+        color: #fff;
+        border-color: transparent;
+    }
+
+
+
 /*======================================
     Add Participant CSS
 ========================================*/
@@ -802,6 +883,22 @@ ul.custom-flex {
                 color: #081828;
             }
 
+            .add-part .add-part-inner .form-ad .form-group .select {
+                width: 100%;
+                height: 50px;
+                border-radius: 0;
+                border: 1px solid #ebebeb;
+                padding-left: 20px;
+                padding-right: 20px;
+                font-weight: 400;
+            }
+
+                .add-part .add-part-inner .form-ad .form-group .select option {
+                    color: #081828;
+                    padding: 10px 10px;
+                    font-weight: 400;
+                }
+
             .add-part .add-part-inner .form-ad .form-group input {
                 height: 50px;
                 width: 100%;
@@ -836,4 +933,61 @@ ul.custom-flex {
                 z-index: 100;
                 cursor: pointer;
                 padding: 0;
+            }
+
+
+/*======================================
+    Manage blog CSS
+========================================*/
+
+.delete-rank {
+    background-color: #f6f9fc;
+}
+
+    .delete-rank .rank-items {
+        padding: 30px;
+        background-color: #fff;
+        border: 1px solid #eee;
+        border-radius: 6px;
+    }
+
+        .delete-rank .rank-items .manage-list {
+            padding: 15px 0;
+            padding-top: 0;
+            border-bottom: 1px solid #f1f1f1;
+            text-transform: capitalize;
+        }
+
+        .delete-rank .rank-items .manage-content {
+            padding: 25px 0;
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+            .delete-rank .rank-items .manage-content:last-child {
+                margin-bottom: 0;
+                padding-bottom: 0;
+                border-bottom: none;
+            }
+
+            .delete-rank .rank-items .manage-content p i {
+                font-size: 14px;
+                text-align: center;
+            }
+
+            .delete-rank .rank-items .manage-content h2 {
+                font-size: 18px;
+                font-weight: 500;
+                text-align: center;
+            }
+
+            .delete-rank .rank-items .manage-content h3 {
+                font-size: 15px;
+                font-weight: 500;
+                text-align: center;
+            }
+
+            .delete-rank .rank-items .manage-content h4 {
+                font-size: 15px;
+                font-weight: 300;
+                text-align: center;
             }

@@ -53,7 +53,7 @@ namespace WUCSA.Web.Pages.Blog
             RCName = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.UICulture.Name;
 
             var blogSlug = RouteData.Values["slug"].ToString();
-            Blog = await _blogRepository.GetAsync<Core.Entities.BlogModel.Blog>(i => i.Slug == blogSlug);
+            Blog = await _blogRepository.GetAsync<Core.Entities.BlogModel.Blog>(i => i.Slug == blogSlug && i.IsDeleted == false);
             Tags = Tag.JoinTags(Blog.BlogTags.Select(i => i.Tag));
 
             if (!Request.Headers["User-Agent"].ToString().ToLower().Contains("bot"))

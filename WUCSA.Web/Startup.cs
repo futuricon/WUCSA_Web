@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Localization.Routing;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Syncfusion.Licensing;
 
 namespace WUCSA.Web
 {
@@ -36,6 +37,8 @@ namespace WUCSA.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            SyncfusionLicenseProvider.RegisterLicense(Configuration.GetSection("SyncfusionLicenseKey").Value);
+
             services.AddRazorPages(options => {
                 options.Conventions.Add(new CultureTemplatePageRouteModelConvention());
             });
@@ -63,7 +66,7 @@ namespace WUCSA.Web
             services.AddScoped<IEventRepository, EventRepository>();
             services.AddScoped<IGalleryRepository, GalleryRepository>();
             services.AddScoped<IRankRepository, RankRepository>();
-            services.AddScoped<ISportTypeRepository, SportTypeRepository>();
+            services.AddScoped<IStaffRepository, StaffRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             ConfigureIdentity(services);
 
@@ -83,10 +86,8 @@ namespace WUCSA.Web
             services.AddRazorPages(options =>
             {
                 options.Conventions.AddPageRoute("/Blog/List", "/Blog");
-                options.Conventions.AddPageRoute("/Rank/List", "/Rank");
                 options.Conventions.AddPageRoute("/Rank/SubList/{loc}/{stype}", "/Rank/List/{loc}/{stype}");
                 options.Conventions.AddPageRoute("/Rank/Index/{slug}/{gender}/{weight?}", "/Rank/{slug}/{gender}/{weight?}");
-                options.Conventions.AddPageRoute("/Event/List", "/Event");
                 options.Conventions.AddPageRoute("/SportType/List", "/SportType");
             });
         }

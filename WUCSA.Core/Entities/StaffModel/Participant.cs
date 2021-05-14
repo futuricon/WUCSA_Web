@@ -42,10 +42,6 @@ namespace WUCSA.Core.Entities.StaffModel
         [Display(Name = "Weight in kilograms")]
         public int Weight { get; set; }
 
-        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "This is not valid number")]
-        [Display(Name = "Height in centimeters")]
-        public int Height { get; set; }
-
         [Required(ErrorMessage = "Please enter the position number in the rank")]
         [RegularExpression("([1-9][0-9]*)", ErrorMessage = "This is not valid number")]
         [Display(Name = "Position number")]

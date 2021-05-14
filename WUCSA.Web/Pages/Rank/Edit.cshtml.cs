@@ -50,6 +50,18 @@ namespace WUCSA.Web.Pages.Rank
             RCName = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.UICulture.Name;
             await GetOptionAsync();
             var rank = await _rankRepository.GetByIdAsync<Core.Entities.RankModel.Rank>(id);
+
+            AppUser currentUser = await _userManager.GetUserAsync(User);
+            var currentRole = await _userManager.GetRolesAsync(currentUser);
+
+            if (!currentRole.Contains(Role.SuperAdmin.ToString()))
+            {
+                if (rank.IsDeleted)
+                {
+                    return NotFound();
+                }
+            }
+
             if (rank.RankPartsFilePath != null)
             {
                 ViewData["PDFFilePath"] = rank.RankPartsFilePath;
@@ -117,7 +129,7 @@ namespace WUCSA.Web.Pages.Rank
         }
         private async Task GetOptionAsync()
         {
-            var SportTypes = await _rankRepository.GetListAsync<Core.Entities.RankModel.SportType>();
+            var SportTypes = await _rankRepository.GetListAsync<Core.Entities.RankModel.SportType>(i => i.IsDeleted == false);
 
             switch (RCName)
             {

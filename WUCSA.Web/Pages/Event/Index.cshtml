@@ -1,0 +1,222 @@
+﻿@page  "{slug}"
+@model WUCSA.Web.Pages.Event.IndexModel
+
+@{
+    ViewData["Title"] = Model.Event.Title;
+    Layout = "_Layout";
+    string eventName;
+    string eventInfo;
+    @switch (Model.RCName)
+    {
+        case "ru":
+            eventName = @Model.Event.TitleRu;
+            eventInfo = @Model.Event.DescriptionRu;
+            break;
+        case "uz":
+            eventName = @Model.Event.TitleUz;
+            eventInfo = @Model.Event.DescriptionUz;
+            break;
+        default:
+            eventName = @Model.Event.Title;
+            eventInfo = @Model.Event.Description;
+            break;
+    }
+}
+
+@section Head {
+    @{ 
+        var imgUrl = $"https://wucsa.com{Model.Event.CoverPhotoPath}";
+        var articleUrl = $"https://wucsa.net/Event/{Model.Event.Slug}";
+     }
+
+    <meta name="keywords" content="@eventInfo" />
+    <meta name="image" content="@imgUrl" />
+    <meta property="og:title" content="@eventName" />
+    <meta property="og:site_name" content="WUCSA Event" />
+    <meta property="og:type" content="event" />
+    <meta property="og:image" content="@imgUrl" />
+    <meta property="og:url" content="@articleUrl" />
+    <meta property="event:date" content="@Model.Event.EventDate" />
+    <meta name="twitter:title" content="@eventName" />
+    <meta name="twitter:site" content="WUCSA Event" />
+    <meta name="twitter:image" content="@imgUrl" />
+}
+
+@section CSS {
+    <link rel="stylesheet" href="~/css/event_style.css" />
+}
+<div class="breadcrumbs overlay">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title">@eventName</h1>
+                    <p>
+                        Business plan draws on a wide range of knowledge from different business<br> disciplines.
+                        Business draws on a wide range of different business .
+                    </p>
+                </div>
+                <ul class="breadcrumb-nav">
+                    <li><a asp-area="" asp-page="/Index">Home</a></li>
+                    <li><a asp-page="/Event/List" asp-route-location="World">Event List</a></li>
+                    @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                    {
+                        <li><a asp-page="/Event/Edit" asp-route-id="@Model.Event.Id">Edit this Article</a></li>
+                        <li><a asp-page="/Event/Delete" asp-route-id="@Model.Event.Id">Delete this Article</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="section event-single">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-12 col-12">
+                <div class="single-inner">
+                    <div class="event-thumbnils">
+                        <img src="assets/images/blog/blog-single.jpg" alt="#">
+                    </div>
+                    <div class="event-details">
+                        <div class="detail-inner">
+                            <h2 class="event-title">
+                                <a asp-page="/Event/Index" asp-route-slug="@Model.Event.Slug">@eventName</a>
+                            </h2>
+
+                            <p>@eventInfo</p>
+                            <h4>Event Date: @Model.Event.EventDate.ToString("dd MMMM, yyyy")</h4>
+                            <h4>Location: @Model.Event.Location</h4>
+                            <ul class="custom-flex event-meta mb-20">
+                                @switch (Model.RCName)
+                                {
+                                    case "ru":
+                                        @foreach (var eventSportType in Model.Event.EventSportTypes)
+                                        {
+                                            <li><a asp-page="/SportType/Index" asp-route-slug="@eventSportType.SportType.Slug">@eventSportType.SportType.NameRu</a></li>
+                                        }
+                                        break;
+                                    case "uz":
+                                        @foreach (var eventSportType in Model.Event.EventSportTypes)
+                                        {
+                                            <li><a asp-page="/SportType/Index" asp-route-slug="@eventSportType.SportType.Slug">@eventSportType.SportType.NameUz</a></li>
+                                        }
+                                        break;
+                                    default:
+                                        @foreach (var eventSportType in Model.Event.EventSportTypes)
+                                        {
+                                            <li><a asp-page="/SportType/Index" asp-route-slug="@eventSportType.SportType.Slug">@eventSportType.SportType.Name</a></li>
+                                        }
+                                        break;
+                                }
+                            </ul>
+
+                            <div class="event-tags-media">
+                                <div class="event-tags popular-tag-widget mb-xl-40">
+                                    <div class="tags">
+                                        <a href="@Model.Event.RulesFilePath"><i class="lni lni-download"></i>&nbsp;&nbsp;Rules</a>
+                                        <a href="@Model.Event.EventPartsFilePath"><i class="lni lni-download"></i>&nbsp;&nbsp;Participants</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="event-tags-media">
+                                <div class="event-social-media">
+                                    <h5 class="share-title">Social Share</h5>
+                                    <ul class="custom-flex">
+                                        <li>
+                                            <a href="#">
+                                                <i class="lni lni-twitter-original"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="lni lni-facebook-oval"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="lni lni-instagram"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <aside class="col-lg-4 col-md-12 col-12">
+                <div class="sidebar">
+                    <div class="widget popular-feeds">
+                        <h5 class="widget-title"><span>Popular Feeds</span></h5>
+                        <div class="popular-feed-loop">
+                            @switch (Model.RCName)
+                            {
+                                case "ru":
+                                    @foreach (var latestEvent in Model.LatestEvents)
+                                    {
+                                        <div class="single-popular-feed">
+                                            <div class="feed-desc">
+                                                <h6 class="post-title">
+                                                    <a asp-page="/Event/Index" asp-route-slug="@latestEvent.Slug">
+                                                        @latestEvent.TitleRu
+                                                    </a>
+                                                </h6>
+                                                <span class="time"><i class="lni lni-calendar"></i>&nbsp;@latestEvent.PostedDate.ToString("dd MMMM, yyyy")</span>
+                                            </div>
+                                        </div>
+                                    }
+                                    break;
+                                case "uz":
+                                    @foreach (var latestEvent in Model.LatestEvents)
+                                    {
+                                        <div class="single-popular-feed">
+                                            <div class="feed-desc">
+                                                <h6 class="post-title">
+                                                    <a asp-page="/Event/Index" asp-route-slug="@latestEvent.Slug">
+                                                        @latestEvent.TitleUz
+                                                    </a>
+                                                </h6>
+                                                <span class="time"><i class="lni lni-calendar"></i>&nbsp;@latestEvent.PostedDate.ToString("dd MMMM, yyyy")</span>
+                                            </div>
+                                        </div>
+                                    }
+                                    break;
+                                default:
+                                    @foreach (var latestEvent in Model.LatestEvents)
+                                    {
+                                        <div class="single-popular-feed">
+                                            <div class="feed-desc">
+                                                <h6 class="post-title">
+                                                    <a asp-page="/Event/Index" asp-route-slug="@latestEvent.Slug">
+                                                        @latestEvent.Title
+                                                    </a>
+                                                </h6>
+                                                <span class="time"><i class="lni lni-calendar"></i>&nbsp;@latestEvent.PostedDate.ToString("dd MMMM, yyyy")</span>
+                                            </div>
+                                        </div>
+                                    }
+                                    break;
+                            }
+
+                        </div>
+                    </div>
+                    
+                    <div class="widget popular-tag-widget">
+                        <h5 class="widget-title"><span>Facebook</span></h5>
+                        <div id="fb-root"></div>
+                        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v5.0"></script>
+                        <div class="fb-page" data-href="https://www.facebook.com/International-Combat-Aikido-Association-434807793270681/"
+                             data-tabs="timeline" data-width="" data-height=""
+                             data-small-header="false" data-adapt-container-width="true"
+                             data-hide-cover="false" data-show-facepile="true">
+                            <blockquote cite="https://www.facebook.com/International-Combat-Aikido-Association-434807793270681/" class="fb-xfbml-parse-ignore">
+                                <a href="https://www.facebook.com/International-Combat-Aikido-Association-434807793270681/">International Combat Aikido Association</a>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>

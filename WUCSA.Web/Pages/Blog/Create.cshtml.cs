@@ -22,9 +22,9 @@ namespace WUCSA.Web.Pages.Blog
             ImageHelper imageHelper,
             IBlogRepository blogRepository)
         {
-            _blogRepository = blogRepository;
             _userManager = userManager;
             _imageHelper = imageHelper;
+            _blogRepository = blogRepository;
         }
 
 

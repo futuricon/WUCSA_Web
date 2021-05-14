@@ -50,7 +50,7 @@ namespace WUCSA.Core.Entities.RankModel
 
         public virtual ICollection<Rank> Ranks { get; set; } = new List<Rank>();
 
-        public virtual ICollection<Event> Events { get; set; } = new List<Event>();
+        public virtual ICollection<EventSportType> EventSportTypes { get; set; }
 
         public bool IsDeleted { get; set; }
     }

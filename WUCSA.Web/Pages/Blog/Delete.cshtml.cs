@@ -47,6 +47,17 @@ namespace WUCSA.Web.Pages.Blog
             {
                 return NotFound();
             }
+
+            AppUser currentUser = await _userManager.GetUserAsync(User);
+            var currentRole = await _userManager.GetRolesAsync(currentUser);
+
+            if (!currentRole.Contains(Role.SuperAdmin.ToString()))
+            {
+                if (Blog.IsDeleted)
+                {
+                    return NotFound();
+                }
+            }
             return Page();
         }
 

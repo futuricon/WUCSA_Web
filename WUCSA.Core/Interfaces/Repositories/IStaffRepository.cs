@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using WUCSA.Core.Entities.RankModel;
 using WUCSA.Core.Entities.StaffModel;
 
 namespace WUCSA.Core.Interfaces.Repositories

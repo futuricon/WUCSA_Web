@@ -30,7 +30,7 @@ namespace WUCSA.Web.Pages.Blog
         public async Task<IActionResult> OnGetAsync(int pageIndex = 1, string tag = null)
         {
             RCName = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.UICulture.Name;
-            var blogs = _blogRepository.GetAll<Core.Entities.BlogModel.Blog>();
+            var blogs = _blogRepository.GetAll<Core.Entities.BlogModel.Blog>().Where(i=>i.IsDeleted == false);
             if (!string.IsNullOrEmpty(SearchString))
             {
                 blogs = blogs.Where(s => s.Title.Contains(SearchString) || 

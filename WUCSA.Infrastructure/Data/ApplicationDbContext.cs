@@ -95,6 +95,19 @@ namespace WUCSA.Infrastructure.Data
                     .WithMany(m => m.EventParticipants);
             });
 
+            builder.Entity<EventSportType>(entity =>
+            {
+                entity.HasKey(k => new { k.EventId, k.SportTypeId });
+
+                entity.HasOne(m => m.Event)
+                    .WithMany(m => m.EventSportTypes)
+                    .HasForeignKey(m => m.EventId);
+
+                entity.HasOne(m => m.SportType)
+                    .WithMany(m => m.EventSportTypes)
+                    .HasForeignKey(m => m.SportTypeId);
+            });
+
             builder.Entity<RankParticipant>(entity =>
             {
                 entity.HasMany(m => m.Participants)
@@ -107,9 +120,6 @@ namespace WUCSA.Infrastructure.Data
             builder.Entity<SportType>(entity =>
             {
                 entity.HasMany(m => m.Ranks)
-                    .WithOne(m => m.SportType);
-
-                entity.HasMany(m => m.Events)
                     .WithOne(m => m.SportType);
             });
         }

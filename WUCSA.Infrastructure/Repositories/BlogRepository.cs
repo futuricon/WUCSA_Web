@@ -149,13 +149,10 @@ namespace WUCSA.Infrastructure.Repositories
                 });
             }
             
-
             if (saveChanges)
             {
                 await UpdateAsync(blog);
             }
         }
-               
-        
     }
 }

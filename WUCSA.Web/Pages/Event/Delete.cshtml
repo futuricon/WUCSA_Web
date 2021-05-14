@@ -1,0 +1,150 @@
+﻿@page
+@model WUCSA.Web.Pages.Event.DeleteModel
+
+@{ ViewData["Title"] = "Delete";
+    Layout = "_Layout"; }
+
+@section CSS {
+    <link rel="stylesheet" href="~/css/event_style.css" />
+}
+
+<div class="breadcrumbs overlay">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title">Delete Event</h1>
+                    <p>
+                        Business plan draws on a wide range of knowledge from different business<br> disciplines.
+                        Business draws on a wide range of different business .
+                    </p>
+                </div>
+                <ul class="breadcrumb-nav">
+                    <li><a asp-area="" asp-page="/Index">Home</a></li>
+                    <li><a asp-page="/Event/List" asp-route-location="World">Event List</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="manage-event section">
+    <div class="container">
+        <div class="alerts-inner">
+            <div class="row">
+                <div class="col-lg-8 col-12 mx-auto">
+                    <div class="event-items">
+                        <div class="manage-content">
+                            <div class="row align-items-center justify-content-center">
+                                <div class="col-12">
+                                    <h2>Are you sure you want to delete this event?</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="manage-content">
+                            <div class="row align-items-center justify-content-center">
+                                <div class="col-lg-3 col-md-3 col-12">
+                                    <h3>@Html.DisplayNameFor(model => model.Event.Title)</h3>
+                                </div>
+                                <div class="col-lg-9 col-md-9 col-12">
+                                    <h4>@Html.DisplayFor(model => model.Event.Title)</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="manage-content">
+                            <div class="row align-items-center justify-content-center">
+                                <div class="col-lg-3 col-md-3 col-12">
+                                    <h3>@Html.DisplayNameFor(model => model.Event.TitleRu)</h3>
+                                </div>
+                                <div class="col-lg-9 col-md-9 col-12">
+                                    <h4>@Html.DisplayFor(model => model.Event.TitleRu)</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="manage-content">
+                            <div class="row align-items-center justify-content-center">
+                                <div class="col-lg-3 col-md-3 col-12">
+                                    <h3>@Html.DisplayNameFor(model => model.Event.TitleUz)</h3>
+                                </div>
+                                <div class="col-lg-9 col-md-9 col-12">
+                                    <h4>@Html.DisplayFor(model => model.Event.TitleUz)</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="manage-content">
+                            <div class="row align-items-center justify-content-center">
+                                <div class="col-lg-3 col-md-3 col-12">
+                                    <h3>@Html.DisplayNameFor(model => model.Event.Description)</h3>
+                                </div>
+                                <div class="col-lg-9 col-md-9 col-12">
+                                    <h4>@Html.Raw(Model.Event.Description)</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="manage-content">
+                            <div class="row align-items-center justify-content-center">
+                                <div class="col-lg-3 col-md-3 col-12">
+                                    <h3>@Html.DisplayNameFor(model => model.Event.DescriptionRu)</h3>
+                                </div>
+                                <div class="col-lg-9 col-md-9 col-12">
+                                    <h4>@Html.Raw(Model.Event.DescriptionRu)</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="manage-content">
+                            <div class="row align-items-center justify-content-center">
+                                <div class="col-lg-3 col-md-3 col-12">
+                                    <h3>@Html.DisplayNameFor(model => model.Event.DescriptionUz)</h3>
+                                </div>
+                                <div class="col-lg-9 col-md-9 col-12">
+                                    <h4>@Html.Raw(Model.Event.DescriptionUz)</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="manage-content">
+                            <div class="row align-items-center justify-content-center">
+                                <div class="col-lg-3 col-md-3 col-12">
+                                    <h3>@Html.DisplayNameFor(model => model.Event.Slug)</h3>
+                                </div>
+                                <div class="col-lg-9 col-md-9 col-12">
+                                    <h4>
+                                        https://wucsa.com/event/
+                                        @Html.DisplayFor(model => model.Event.Slug)
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="manage-content">
+                            <div class="row align-items-center justify-content-center">
+                                <div class="col-lg-3 col-md-3 col-12">
+                                    <h3>@Html.DisplayNameFor(model => model.Event.EventDate)</h3>
+                                </div>
+                                <div class="col-lg-9 col-md-9 col-12">
+                                    <h4>@Html.DisplayFor(model => model.Event.EventDate)</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="manage-content">
+                            <div class="row align-items-center justify-content-center">
+                                <div class="col-lg-3 col-md-3 col-12">
+                                    <h3>@Html.DisplayNameFor(model => model.Event.Author)</h3>
+                                </div>
+                                <div class="col-lg-9 col-md-9 col-12">
+                                    <h4>@Html.DisplayFor(model => model.Event.Author.UserName)</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form method="post">
+                        <input type="hidden" asp-for="Event.Id" />
+                        <div class="button form-group mt-4">
+                            <input type="submit" value="Delete" class="btn" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id}"
 @using Core.Entities.RankModel
 @model WUCSA.Web.Pages.RankParticipant.CreateModel
 @inject IViewLocalizer Localizer
@@ -40,12 +40,12 @@
                     <div class="post-header align-items-center justify-content-center">
                         <h3>Ranking List information</h3>
                     </div>
-                    <form class="form-ad needs-validation" novalidate>
+                    <form class="form-ad needs-validation" method="post" novalidate>
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="validationCustom" class="control-label">Weight Category</label>
-                                    <input id="validationCustom" type="number" class="form-control" required min="1" max="200" />
+                                    <input id="validationCustom" asp-for="Input.RankParticipant.Weight" type="number" class="form-control" required min="1" max="200" />
                                     <div class="invalid-feedback">
                                         Please enter weight category
                                     </div>
@@ -55,7 +55,7 @@
                                 <div class="form-group">
                                     <label asp-for="Input.RankParticipant.Gender" class="control-label"></label>
                                     <select class="select" asp-for="Input.RankParticipant.Gender" asp-items="Html.GetEnumSelectList<Gender>()">
-                                        <option value="" selected disabled>Please select Location</option>
+                                        <option value="" selected disabled>Please select Gender</option>
                                     </select>
                                     <span asp-validation-for="Input.RankParticipant.Gender" class="text-danger"></span>
                                 </div>
@@ -64,7 +64,7 @@
                         <div id="main_row">
                         </div>
                         <div>
-                            <div class="add-post-btn float-right">
+                            <div class="add-post-btn mt-20">
                                 <a type="button" id="btn-add-new" class="btn-added">
                                     <i class="lni lni-add-files"></i> Add New
                                     Participant
@@ -118,74 +118,74 @@
             $("#totalContacts").val(tc)
 
             $("#main_row").append(
-                '<div class="row part_row">' +
-                    '<h3 class="single-section-title">Participant ' + (tc) + '</h3>' +
-                '<div class="row">' +
-                    '<div class="col-lg-3 col-md-3 col-12">' +
-                '<div class="form-group">' +
-                    '<label for="validationCustom' + (tc - 1) + '" class="control-label">Position Number</label>' +
-                '<input id="validationCustom' + (tc - 1) + '" type="number" name="[' + (tc - 1) + '].PositionNumber class="form-control" required min="1" max="200" />' +
-                '<div class="invalid-feedback">' +
-                        'Please enter the position number in the rank' +
-                '</div > ' +
-                    '</div > ' +
-                '</div > ' +
-            '<div class="col-lg-6 col-md-6 col-12">' +
-                '<div class="form-group">' +
-                    '<label class="control-label">Birth Date</label>' +
-                '<input type="date" name="[' + (tc - 1) + '].BirthDate class="form-control" />' +
-                '</div > ' +
-                '</div > ' +
-            '<div class="col-lg-3 col-md-3 col-12">' +
-                '<div class="form-group">' +
-                    '<label class="control-label">Participant Weight</label>' +
-                '<input type="number" name="[' + (tc - 1) + '].Weight class="form-control" min="1" max="400" />' +
-                '</div > ' +
-                '</div > ' +
-            '</div > ' +
-        '<div class="form-group">' +
-            '<div class="row">' +
-                '<div class="col-md-6">' +
-                    '<label for="validationCustom' + (tc - 1) + '" class="control-label">First Name</label>' +
-                '<input id="validationCustom' + (tc - 1) + '" type="text" name="[' + (tc - 1) + '].FirstName class="form-control" required maxlength="40" />' +
-                '<div class="invalid-feedback">' +
-                        'Please enter First Name' +
-                '</div > ' +
-                    '</div > ' +
-                '<div class="col-md-6">' +
-                    '<label for="validationCustom' + (tc - 1) + '" class="control-label">Last Name</label>' +
-                '<input id="validationCustom' + (tc - 1) + '" type="text" name="[' + (tc - 1) + '].LastName class="form-control" required maxlength="40" />' +
-                '<div class="invalid-feedback">' +
-                        'Please enter Last Name' +
-                '</div > ' +
-                    '</div > ' +
-                '</div > ' +
-            '</div > ' +
-        '<div class="form-group">' +
-            '<label for="validationCustom' + (tc - 1) + '" class="control-label">Location</label>' +
-                '<input id="validationCustom' + (tc - 1) + '" type="text" name="[' + (tc - 1) + '].Location class="form-control" required maxlength="100" />' +
-                '<div class="invalid-feedback">' +
-                'Please enter the country, state or city of the representative' +
-                '</div > ' +
-            '</div > ' +
-        '<div class="form-group">' +
-            '<label class="control-label">Description</label>' +
-                '<textarea class="form-control h-75" name="[' + (tc - 1) + '].Description rows="4" maxlength="400"></textarea>' +
-                '</div > ' +
-        '<div class="form-group">' +
-            '<label class="control-label">Описание</label>' +
-                '<textarea class="form-control h-75" rows="4" name="[' + (tc - 1) + '].DescriptionRu maxlength="400"></textarea>' +
-                '</div > ' +
-        '<div class="form-group">' +
-            '<label class="control-label">Tavsif</label>' +
-                '<textarea class="form-control h-75" rows="4" name="[' + (tc - 1) + '].DescriptionUz maxlength="400"></textarea>' +
-                '</div > ' +
-        '<div class="add-post-btn float-right">' +
-            '<a type="button" class="btn-delete">< i class= "lni lni-remove-file" ></i > ' +
-                'Delete This Participant' +
-                '</a > ' +
-            '</div > ' +
-                '</div > '
+                `<div class="row part_row">
+                    <h3 class="single-section-title">Participant ${tc}</h3>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-12">
+                            <div class="form-group">
+                                <label for="validationCustom${tc - 1}" class="control-label">Position Number</label>
+                                <input id="validationCustom${tc - 1}" type="number" name="Model[${tc - 1}].PositionNumber" class="form-control" required min="1" max="200" />
+                                <div class="invalid-feedback">
+                                    Please enter the position number in the rank
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <div class="form-group">
+                                <label class="control-label">Birth Date</label>
+                                <input type="date" name="Model[${tc - 1}].BirthDate" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-12">
+                            <div class="form-group">
+                                <label class="control-label">Participant Weight</label>
+                                <input type="number" name="Model[${tc - 1}].Weight" class="form-control" min="1" max="400" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="validationCustom${tc - 1}" class="control-label">First Name</label>
+                                <input id="validationCustom${tc - 1}" type="text" name="Model[${tc - 1}].FirstName" class="form-control" required maxlength="40" />
+                                <div class="invalid-feedback">
+                                    Please enter First Name
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="validationCustom${tc - 1}" class="control-label">Last Name</label>
+                                <input id="validationCustom${tc - 1}" type="text" name="Model[${tc - 1}].LastName" class="form-control" required maxlength="40" />
+                                <div class="invalid-feedback">
+                                    Please enter Last Name
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="validationCustom${tc - 1}" class="control-label">Location</label>
+                        <input id="validationCustom${tc - 1}" type="text" name="Model[${tc - 1}].Location" class="form-control" required maxlength="100" />
+                        <div class="invalid-feedback">
+                            Please enter the country, state or city of the representative
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Description</label>
+                        <textarea class="form-control h-75" rows="4" name="Model[${tc - 1}].Description" maxlength="400"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Описание</label>
+                        <textarea class="form-control h-75" rows="4" name="Model[${tc - 1}].DescriptionRu" maxlength="400"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Tavsif</label>
+                        <textarea class="form-control h-75" rows="4" name="Model[${tc - 1}].DescriptionUz" maxlength="400"></textarea>
+                    </div>
+                    <div class="add-post-btn float-right">
+                        <a type="button" class="btn-delete"><i class="lni lni-remove-file"></i>
+                            Delete This Participant
+                        </a>
+                    </div>
+                </div>`
         )});
 
         $(document).on('click', '.btn-delete', function () {

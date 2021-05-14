@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using WUCSA.Core.Entities.EventModel;
-using WUCSA.Core.Entities.StaffModel;
 
 namespace WUCSA.Core.Interfaces.Repositories
 {
@@ -9,9 +9,6 @@ namespace WUCSA.Core.Interfaces.Repositories
         Task AddEventAsync(Event myEvent);
         Task UpdateEventAsync(Event myEvent);
         Task DeleteEventAsync(Event myEvent);
-
-        Task AddEventParticipantAsync(EventParticipant eventParticipant, params Participant[] participants);
-        Task UpdateEventParticipantAsync(EventParticipant eventParticipant, params Participant[] participants);
-        Task DeleteEventParticipantAsync(EventParticipant eventParticipant);
+        Task UpdateSportTypesAsync(Event myEvent, bool saveChanges = true, params string[] sportTypesId);
     }
 }

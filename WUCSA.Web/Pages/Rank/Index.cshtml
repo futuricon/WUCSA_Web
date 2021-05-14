@@ -1,5 +1,4 @@
 ﻿@page "{slug}/{gender}/{weight?}"
-@using WUCSA.Core.Entities.RankModel
 @model WUCSA.Web.Pages.Rank.IndexModel
 @inject IViewLocalizer Localizer
 @{
@@ -22,18 +21,18 @@
             <div class="col-12">
                 <div class="breadcrumbs-content">
                     <h1 class="page-title">
-                        @*@switch (Model.RCName)
-                            {
-                                case "ru":
-                                    @Model.Ranks.Select(i => i.SportType.NameRu).FirstOrDefault()
-                                    break;
-                                case "uz":
-                                    @Model.Ranks.Select(i => i.SportType.NameUz).FirstOrDefault()
-                                    break;
-                                default:
-                                    @Model.Ranks.Select(i => i.SportType.Name).FirstOrDefault()
-                                    break;
-                            }*@
+                        @switch (Model.RCName)
+                        {
+                            case "ru":
+                                @Model.Rank.SportType.NameRu
+                                break;
+                            case "uz":
+                                @Model.Rank.SportType.NameUz
+                                break;
+                            default:
+                                @Model.Rank.SportType.Name
+                                break;
+                        }
                         @Localizer["Ranking List"]
                     </h1>
                     <p>
@@ -44,76 +43,43 @@
                 <ul class="breadcrumb-nav">
                     <li><a asp-area="" asp-page="/Index">@Localizer["Home"]</a></li>
                     <li><a asp-page="@Model.PrevPath">@Localizer["Rank List"]</a></li>
+                    @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                    {
+                        <li>
+                            <a asp-page="/RankParticipant/Create" asp-route-id="@Model.Rank.Id" >@Localizer["Add new Ranking List"]</a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>
     </div>
 </div>
 
-@*<section class="find-rank section">
-    <div class="search-rank">
-        <div class="container">
-            <div class="search-nner">
-                <div class="row">
-                    <form method="get">
-                        <div class="col-lg-5 col-md-5 col-xs-12">
-                            <div class="form-group">
-                                <label asp-for="Input.RankParticipant.Gender" class="control-label"></label>
-                                <select class="select" asp-for="Input.RankParticipant.Gender" asp-items="Html.GetEnumSelectList<Gender>()">
-                                    <option value="" selected disabled>@Localizer["Please select Location"]</option>
-                                </select>
-                                <span asp-validation-for="Input.RankParticipant.Gender" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="col-lg-5 col-md-5 col-xs-12">
-                            <div class="form-group">
-                                <label asp-for="Input.RankParticipant.Weight" class="control-label"></label>
-                                <select class="select" asp-for="SelectedWeightId" asp-items="@Model.WieghtOptions">
-                                    <option value="" selected disabled>@Localizer["Please select Weight"]</option>
-                                </select>
-                                <span asp-validation-for="SelectedWeightId" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-xs-12 button">
-                            <button type="submit" class="btn btn-common float-right">Filter</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>*@
-
 <section class="find-rank section-rank">
     <div class="search-rank">
         <div class="container">
             <div class="search-nner">
-                <div class="row">
-                    <div class="col-lg-5 col-md-5 col-xs-12">
-                        <label asp-for="Input.RankParticipant.Gender" class="control-label"></label>
-                        <select class="select" asp-for="Input.RankParticipant.Gender" asp-items="Html.GetEnumSelectList<Gender>()">
-                            <option value="" selected="" disabled="">@Localizer["Please select Location"]</option>
-                        </select>
-                        <span asp-validation-for="Input.RankParticipant.Gender" class="text-danger"></span>
-
+                <form method="get" asp-route-slug="@Model.Rank.Slug">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-xs-12">
+                            <label class="control-label">@Localizer["Gender"]</label>
+                            <select class="select" asp-for="SelectedGenderId" asp-items="@Model.GenderOptions">
+                            </select>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-xs-12">
+                            <label class="control-label">@Localizer["Weight Category"]</label>
+                            <select class="select" asp-items="@Model.WeightOptions">
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-xs-12 mt-20 button">
+                            <button type="submit" class="btn btn-common float-right">@Localizer["Filter"]</button>
+                        </div>
                     </div>
-                    <div class="col-lg-5 col-md-5 col-xs-12">
-                        <label asp-for="Input.RankParticipant.Gender" class="control-label"></label>
-                        <select class="select" asp-for="Input.RankParticipant.Gender" asp-items="Html.GetEnumSelectList<Gender>()">
-                            <option value="" selected="" disabled="">@Localizer["Please select Location"]</option>
-                        </select>
-                        <span asp-validation-for="Input.RankParticipant.Gender" class="text-danger"></span>
-
-                    </div>
-                    <div class="col-lg-2 col-md-2 col-xs-12 button">
-                        <button type="submit" class="btn btn-common float-right">Filter</button>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
 </section>
-
 
 <div class="rank-details section-rank pb-50">
     <div class="container">
@@ -122,159 +88,120 @@
             <div class="col-lg-8 col-12">
                 <div class="rank-details-inner">
                     <div class="rank-details-head row mx-0">
-                        <div class="company-logo col-auto">
-                            <a href="#" style="border-radius: 4px; overflow: hidden;"><img src="assets/images/universal-image/job-details.png" alt="Company Logo"></a>
-                        </div>
-                        <div class="salary-type col-auto order-sm-3">
-                            <span class="salary-range">$5000 - $8000</span>
-                            <span class="badge badge-success">Full Time</span>
+
+                        <div class="file-type col-auto order-sm-3">
+                            <span class="file-range">@Localizer["Ranking List (PDF)"]</span>
+                            <a href="@ViewData["PDFFilePath"]" id="file-upload"><i class="lni lni-download"></i> @Localizer["Download"]</a>
                         </div>
                         <div class="content col">
-                            <h5 class="title">Website front end development</h5>
+                            <h5 class="title">
+                                @switch (Model.RCName)
+                                {
+                                    case "ru":
+                                        @Model.Rank.TitleRu
+                                        break;
+                                    case "uz":
+                                        @Model.Rank.TitleUz
+                                        break;
+                                    default:
+                                        @Model.Rank.Title
+                                        break;
+                                }
+                            </h5>
                             <ul class="meta">
                                 <li>
-                                    <strong class="text-primary"><a href="http://www.graygrids.com">GrayGrids</a></strong>
+                                    <strong class="text-primary">
+                                        <a href="@Model.Rank.SportType.Slug">
+                                            @switch (Model.RCName)
+                                            {
+                                                case "ru":
+                                                    @Model.Rank.SportType.NameRu
+                                                    break;
+                                                case "uz":
+                                                    @Model.Rank.SportType.NameUz
+                                                    break;
+                                                default:
+                                                    @Model.Rank.SportType.Name
+                                                    break;
+                                            }
+                                        </a>
+                                    </strong>
                                 </li>
-                                <li><i class="lni lni-map-marker"></i> 2023 Willshire Glen, GA-30009</li>
+                                <li><i class="lni lni-map-marker"></i> @Model.Rank.Location</li>
                             </ul>
                         </div>
                     </div>
                     <div class="rank-details-body">
-                        <h6 class="mb-3">Job Description</h6>
+                        @*<h6 class="mb-3">Job Description</h6>*@
                         <p>
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique, ex iusto! Tenetur
-                            iusto dolore amet voluptates esse? Ut debitis perferendis, impedit ullam ea officia
-                            sapiente soluta cupiditate molestiae eius enim aut laboriosam, saepe deleniti. Excepturi
-                            nobis amet fugit ipsa corrupti!
+                            @switch (Model.RCName)
+                            {
+                                case "ru":
+                                    @Model.Rank.DescriptionRu
+                                    break;
+                                case "uz":
+                                    @Model.Rank.DescriptionUz
+                                    break;
+                                default:
+                                    @Model.Rank.Description
+                                    break;
+                            }
                         </p>
-                        <div class="rank-items">
+                        @if (Model.RankParticipant != null && Model.RankParticipant.Participants.Count > 0)
+                        {
 
-                            <div class="manage-list">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <p>Name</p>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <p>Contract Type</p>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <p>Candidates</p>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <p>Featured</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="manage-content">
-                                <div class="row align-items-center justify-content-center">
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <h3>Web Designer</h3>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <p><span class="time">Full-Time</span></p>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <div class="can-img">
-                                            <a href="#"><img src="assets/images/jobs/candidates.png" alt="#"></a>
+                            <div class="rank-items">
+
+                                <div class="manage-list">
+                                    <div class="row">
+                                        <div class="col-lg-2 col-md-2 col-12">
+                                            <p>Position</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-6">
+                                            <p>Name</p>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-6">
+                                            <p>Last Name</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-12">
+                                            <p>Birth Date</p>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <p><i class="lni lni-star"></i></p>
-                                    </div>
                                 </div>
-                            </div>
-                            <div class="manage-content">
-                                <div class="row align-items-center justify-content-center">
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <h3>UI/UX designer</h3>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <p><span class="time">Full-Time</span></p>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <div class="can-img">
-                                            <a href="#"><img src="assets/images/jobs/candidates.png" alt="#"></a>
+
+                                @foreach (var participant in Model.RankParticipant.Participants)
+                                {
+                                    <div class="manage-content">
+                                        <div class="row align-items-center justify-content-center">
+                                            <div class="col-lg-2 col-md-2 col-12">
+                                                <h3>@participant.PositionNumber</h3>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-6">
+                                                <h3>@participant.FirstName</h3>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-6">
+                                                <h3>@participant.LastName</h3>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-12">
+                                                <h3>@participant.BirthDate.ToString("dd MMMM, yyyy")</h3>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <p><i class="lni lni-star"></i></p>
-                                    </div>
-                                </div>
+                                }
+
                             </div>
-                            <div class="manage-content">
-                                <div class="row align-items-center justify-content-center">
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <h3>Developer</h3>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <p><span class="time">Full-Time</span></p>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <div class="can-img">
-                                            <a href="#"><img src="assets/images/jobs/candidates.png" alt="#"></a>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <p><i class="lni lni-star"></i></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="manage-content">
-                                <div class="row align-items-center justify-content-center">
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <h3>Senior UX Designer</h3>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <p><span class="time">Full-Time</span></p>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <div class="can-img">
-                                            <a href="#"><img src="assets/images/jobs/candidates.png" alt="#"></a>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <p><i class="lni lni-star"></i></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="manage-content">
-                                <div class="row align-items-center justify-content-center">
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <h3>Graphics Design</h3>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <p><span class="time">Full-Time</span></p>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <div class="can-img">
-                                            <a href="#"><img src="assets/images/jobs/candidates.png" alt="#"></a>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <p><i class="lni lni-star"></i></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="manage-content">
-                                <div class="row align-items-center justify-content-center">
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <h3>Sales Manager</h3>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <p><span class="time">Part-Time</span></p>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <div class="can-img">
-                                            <a href="#"><img src="assets/images/jobs/candidates.png" alt="#"></a>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <p><i class="lni lni-star"></i></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
+                        }
                     </div>
+                    @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin") && Model.RankParticipant != null && Model.RankParticipant.Participants.Count > 0)
+                    {
+                        <div class="row actionBtn">
+                            <ul>
+                                <li><i class="lni lni-pencil"></i><a asp-page="/RankParticipant/Edit" asp-route-rankId="@Model.Rank.Id" asp-route-rankPartId="@Model.RankParticipant.Id"> @Localizer["Edit"]</a></li>
+                                <li><i class="lni lni-trash"></i><a asp-page="/RankParticipant/Delete" asp-route-rankPartId="@Model.RankParticipant.Id"> @Localizer["Delete"]</a></li>
+                            </ul>
+                        </div>
+                    }
                 </div>
             </div>
 

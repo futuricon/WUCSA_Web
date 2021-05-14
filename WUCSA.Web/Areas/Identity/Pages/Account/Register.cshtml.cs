@@ -105,7 +105,7 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var profileImage = _imageHelper.GenerateImage(Input.Email);
+                var profileImage = _imageHelper.GenerateImage(Input.Email, "profile_imgs");
                 var user = new AppUser { UserName = Input.UserName, Email = Input.Email, ProfilePhotoPath = profileImage };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)

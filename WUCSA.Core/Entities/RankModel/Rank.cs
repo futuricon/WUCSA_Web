@@ -66,6 +66,11 @@ namespace WUCSA.Core.Entities.RankModel
         [Display(Name = "Tavsif")]
         public string DescriptionUz { get; set; }
 
+        [Required(ErrorMessage = "Please enter the country, state or city of the rank")]
+        [StringLength(100, ErrorMessage = "Characters must be less than 100")]
+        [Display(Name = "Rank Location")]
+        public string Location { get; set; }
+
         public virtual ICollection<RankParticipant> RankParticipants { get; set; } = new List<RankParticipant>();
 
         public string RankPartsFilePath { get; set; }

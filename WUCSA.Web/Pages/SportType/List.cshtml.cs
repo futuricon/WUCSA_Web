@@ -9,18 +9,18 @@ namespace WUCSA.Web.Pages.SportType
 {
     public class ListModel : PageModel
     {
-        private readonly ISportTypeRepository _sportTypeRepository;
+        private readonly IRankRepository _rankRepository;
 
-        public ListModel(ISportTypeRepository sportTypeRepository)
+        public ListModel(IRankRepository rankRepository)
         {
-            _sportTypeRepository = sportTypeRepository;
+            _rankRepository = rankRepository;
         }
         public ICollection<Core.Entities.RankModel.SportType> SportTypes { get; set; }
         public string RCName { get; set; }
         public async Task<IActionResult> OnGetAsync()
         {
             RCName = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.UICulture.Name;
-            SportTypes = await _sportTypeRepository.GetListAsync<Core.Entities.RankModel.SportType>();
+            SportTypes = await _rankRepository.GetListAsync<Core.Entities.RankModel.SportType>();
             return Page();
         }
     }

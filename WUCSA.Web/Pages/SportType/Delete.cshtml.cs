@@ -42,7 +42,18 @@ namespace WUCSA.Web.Pages.SportType
                 return NotFound();
             }
 
-            if (SportType.Events.Count > 0 || SportType.Ranks.Count > 0)
+            AppUser currentUser = await _userManager.GetUserAsync(User);
+            var currentRole = await _userManager.GetRolesAsync(currentUser);
+
+            if (!currentRole.Contains(Role.SuperAdmin.ToString()))
+            {
+                if (SportType.IsDeleted)
+                {
+                    return NotFound();
+                }
+            }
+
+            if (SportType.EventSportTypes.Count > 0 || SportType.Ranks.Count > 0)
             {
                 ViewData.Add("ErrorMsg", "This Type of Sport is associated with an Event and/or a Rank. Please break these associations before deleting");
                 return Page();
@@ -66,11 +77,11 @@ namespace WUCSA.Web.Pages.SportType
             {
                 if (SportType != null)
                 {
-                    await _rankRepositor.DeleteSportTypeAsync(SportType);
                     if (SportType.RulesFilePath != null)
                     {
                         _pdfFileHelper.DeleteFile(SportType.RulesFilePath, "sportTypes");
                     }
+                    await _rankRepositor.DeleteSportTypeAsync(SportType);
                 }
             }
             else

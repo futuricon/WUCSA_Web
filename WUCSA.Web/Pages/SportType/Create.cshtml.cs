@@ -39,7 +39,7 @@ namespace WUCSA.Web.Pages.SportType
             
             Input.SportType.Slug = Input.SportType.Name.Slugify();
 
-            if (Input.UploadPdf.Length > 0)
+            if (Input.UploadPdf != null) 
             {
                 Input.SportType.RulesFilePath = await _pdfFileHelper.SaveFile(Input.UploadPdf, Input.SportType.Slug, "sportTypes");
             }

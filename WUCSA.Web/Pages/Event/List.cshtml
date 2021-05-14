@@ -1,0 +1,177 @@
+﻿@page "{location}/{sTypeId?}"
+@using WUCSA.Core.Entities.EventModel
+@model WUCSA.Web.Pages.Event.ListModel
+@namespace WUCSA.Models
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer["WUCSA Events"];
+    Layout = "_Layout";
+}
+
+@section Head {
+    <meta name="author" content="WUCSA" />
+    <meta name="description" content="WUCSA official blog" />
+    <meta name="keywords" content="WUCSA, blog" />
+}
+
+@section CSS {
+    <link rel="stylesheet" href="~/css/event_style.css" />
+}
+
+<div class="breadcrumbs overlay">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title">@Localizer["Event List"]</h1>
+                    <p>
+                        Business plan draws on a wide range of knowledge from different business<br> disciplines.
+                        Business draws on a wide range of different business .
+                    </p>
+                </div>
+                <ul class="breadcrumb-nav">
+                    <li><a asp-page="/Index">@Localizer["Home"]</a></li>
+                    <li><a asp-page="/Event/List" asp-route-location="World">@Localizer["Event List"]</a></li>
+                    <li>
+                        @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                        {
+                            <a asp-page="/Event/Create">@Localizer["Add new Event"]</a>
+                        }
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<section class="section latest-event-area event-list">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="select-location">
+                    <div class="inner">
+                        <div class="row col-lg-4 col-md-6 col-12 mx-auto buttonLoc">
+                            <div class="col-xl-auto col-sm-auto col-12 mt-2 mx-auto">
+                                <a asp-page="/Event/List" asp-route-location="World" class="d-block @(Model.SetClass == "world" ? "setActive" : "setDiactive")">World</a>
+                            </div>
+                            <div class="col-xl-auto col-sm-auto col-12 mt-2 mx-auto">
+                                <a asp-page="/Event/List" asp-route-location="National" class="d-block @(Model.SetClass == "national" ? "setActive" : "setDiactive")">National</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-7 col-12">
+                <div class="row">
+                    @if (!Model.Events.Any())
+                    {<h4>@Localizer["There are no any Events yet"]</h4> }
+                else
+                {
+                    foreach (var myEvent in Model.Events)
+                    {
+                        <div class="col-lg-6 col-12">
+                            <div class="single-event wow fadeInUp" data-wow-delay=".3s"
+                                 style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
+                                <div class="image">
+                                    <img class="thumb" src="@myEvent.CoverPhotoPath" alt="@myEvent.Title cover photo" />
+                                </div>
+                                <div class="content-body">
+                                    <h4 class="title">
+                                        <a asp-page="/Event/Index" asp-route-slug="@myEvent.Slug">
+                                            @switch (Model.RCName)
+                                            {
+                                                case "ru":
+                                                    @myEvent.TitleRu
+                                                    break;
+                                                case "uz":
+                                                    @myEvent.TitleUz
+                                                    break;
+                                                default:
+                                                    @myEvent.Title
+                                                    break;
+                                            }
+                                        </a>
+                                    </h4>
+                                    <div class="meta-details">
+                                        <ul>
+                                            <li><a class="a-none"><i class="lni lni-calendar"></i> @myEvent.EventDate.ToString(DateTimeFormatInfo.CurrentInfo.ShortDatePattern)</a></li>
+                                            <li><a class="a-none"><i class="lni lni-map-marker"></i> @myEvent.EventLocation</a></li>
+                                        </ul>
+                                    </div>
+                                    <p>
+                                        @switch (Model.RCName)
+                                        {
+                                            case "ru":
+                                                @Event.GetShortContent(myEvent.DescriptionRu, 200)
+                                                break;
+                                            case "uz":
+                                                @Event.GetShortContent(myEvent.DescriptionUz, 200)
+                                                break;
+                                            default:
+                                                @Event.GetShortContent(myEvent.Description, 200)
+                                                break;
+                                        }
+                                    </p>
+                                    <div class="button">
+                                        <a asp-page="/Event/Index" asp-route-slug="@myEvent.Slug" class="btn">Read More</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+                }
+                </div>
+
+                <div class="pagination center">
+                    <ul class="pagination-list">
+                        <pagination class="mx-auto" page-index="@Model.Events.PageIndex" total-pages="@Model.Events.TotalPages" page-path="@Model.SetClass" base-url="/Event/List"/>
+                    </ul>
+                </div>
+
+            </div>
+
+            <aside class="col-lg-4 col-md-5 col-12">
+                <div class="sidebar">
+                    <div class="widget popular-tag-widget">
+                        <h5 class="widget-title"><span>Types of Sport</span></h5>
+                        <div class="tags">
+                            @foreach (var sportTypes in Model.SportTypes)
+                            {
+                                <a asp-page="/Event/List" asp-route-location="@Model.SetClass" asp-route-sTypeId="@sportTypes.Id">
+                                    @switch (Model.RCName)
+                                    {
+                                        case "ru":
+                                            @sportTypes.NameRu
+                                            break;
+                                        case "uz":
+                                            @sportTypes.NameUz
+                                            break;
+                                        default:
+                                            @sportTypes.Name
+                                            break;
+                                    }
+                                </a>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="widget popular-tag-widget">
+                        <h5 class="widget-title"><span>Facebook</span></h5>
+                        <div id="fb-root"></div>
+                        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v5.0"></script>
+                        <div class="fb-page" data-href="https://www.facebook.com/International-Combat-Aikido-Association-434807793270681/"
+                             data-tabs="timeline" data-width="" data-height=""
+                             data-small-header="false" data-adapt-container-width="true"
+                             data-hide-cover="false" data-show-facepile="true">
+                            <blockquote cite="https://www.facebook.com/International-Combat-Aikido-Association-434807793270681/" class="fb-xfbml-parse-ignore">
+                                <a href="https://www.facebook.com/International-Combat-Aikido-Association-434807793270681/">International Combat Aikido Association</a>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>

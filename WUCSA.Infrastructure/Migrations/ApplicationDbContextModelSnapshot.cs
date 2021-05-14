@@ -273,32 +273,27 @@ namespace WUCSA.Infrastructure.Migrations
                     b.Property<string>("AuthorId")
                         .HasColumnType("nvarchar(32)");
 
-                    b.Property<string>("CompetitionType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(80)")
-                        .HasMaxLength(80);
-
                     b.Property<string>("CoverPhotoPath")
                         .HasColumnType("nvarchar(64)")
                         .HasMaxLength(64);
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(160)")
-                        .HasMaxLength(160);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DescriptionRu")
                         .IsRequired()
-                        .HasColumnType("nvarchar(160)")
-                        .HasMaxLength(160);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DescriptionUz")
                         .IsRequired()
-                        .HasColumnType("nvarchar(80)")
-                        .HasMaxLength(80);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EventDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("EventLocation")
+                        .HasColumnType("int");
 
                     b.Property<string>("EventPartsFilePath")
                         .HasColumnType("nvarchar(max)");
@@ -308,11 +303,14 @@ namespace WUCSA.Infrastructure.Migrations
 
                     b.Property<string>("Location")
                         .IsRequired()
-                        .HasColumnType("nvarchar(80)")
-                        .HasMaxLength(80);
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<DateTime>("PostedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("RankId")
+                        .HasColumnType("nvarchar(32)");
 
                     b.Property<string>("RulesFilePath")
                         .HasColumnType("nvarchar(max)");
@@ -321,15 +319,26 @@ namespace WUCSA.Infrastructure.Migrations
                         .HasColumnType("nvarchar(80)")
                         .HasMaxLength(80);
 
-                    b.Property<string>("SportTypeId")
+                    b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(32)");
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("TitleRu")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("TitleUz")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
 
-                    b.HasIndex("SportTypeId");
+                    b.HasIndex("RankId");
 
                     b.ToTable("Event");
                 });
@@ -362,6 +371,23 @@ namespace WUCSA.Infrastructure.Migrations
                     b.HasIndex("EventId");
 
                     b.ToTable("EventParticipant");
+                });
+
+            modelBuilder.Entity("WUCSA.Core.Entities.EventModel.EventSportType", b =>
+                {
+                    b.Property<string>("EventId")
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
+
+                    b.Property<string>("SportTypeId")
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
+
+                    b.HasKey("EventId", "SportTypeId");
+
+                    b.HasIndex("SportTypeId");
+
+                    b.ToTable("EventSportType");
                 });
 
             modelBuilder.Entity("WUCSA.Core.Entities.GalleryModel.MTag", b =>
@@ -442,6 +468,11 @@ namespace WUCSA.Infrastructure.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<DateTime>("RankDate")
                         .HasColumnType("datetime2");
@@ -613,9 +644,6 @@ namespace WUCSA.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(40)")
                         .HasMaxLength(40);
-
-                    b.Property<int>("Height")
-                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -942,11 +970,9 @@ namespace WUCSA.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("AuthorId");
 
-                    b.HasOne("WUCSA.Core.Entities.RankModel.SportType", "SportType")
-                        .WithMany("Events")
-                        .HasForeignKey("SportTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("WUCSA.Core.Entities.RankModel.Rank", "Rank")
+                        .WithMany()
+                        .HasForeignKey("RankId");
                 });
 
             modelBuilder.Entity("WUCSA.Core.Entities.EventModel.EventParticipant", b =>
@@ -958,6 +984,21 @@ namespace WUCSA.Infrastructure.Migrations
                     b.HasOne("WUCSA.Core.Entities.EventModel.Event", "Event")
                         .WithMany("EventParticipants")
                         .HasForeignKey("EventId");
+                });
+
+            modelBuilder.Entity("WUCSA.Core.Entities.EventModel.EventSportType", b =>
+                {
+                    b.HasOne("WUCSA.Core.Entities.EventModel.Event", "Event")
+                        .WithMany("EventSportTypes")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WUCSA.Core.Entities.RankModel.SportType", "SportType")
+                        .WithMany("EventSportTypes")
+                        .HasForeignKey("SportTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WUCSA.Core.Entities.GalleryModel.Media", b =>

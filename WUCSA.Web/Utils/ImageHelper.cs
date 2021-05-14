@@ -46,24 +46,26 @@ namespace WUCSA.Web.Utils
             }
         }
 
-        public string GenerateImage(string fileName, string size = "small")
+        public string GenerateImage(string fileName,string subFolder, string size = "small")
         {
-            int height = 228, width = 228;
-            if (size == "big"){ height = 648; width = 864; }
+            int height = 228, width = 228, horizontal = 6, vertical = 6;
+            if (size == "big"){ height = 648; width = 864; horizontal = 8; vertical = 6; }
             var randColor = Color.FromArgb(GetRandRgbNum(), GetRandRgbNum(), GetRandRgbNum());
             var statColor = new StaticColorBrushGenerator(randColor);
             var g = new IdenticonGenerator()
-                .WithSize(height, width)
-                .WithBlocks(6, 6)
+                .WithSize(width, height)
+                .WithBlocks(horizontal, vertical)
                 .WithAlgorithm("MD5")
                 .WithBackgroundColor(Color.White)
                 .WithBrushGenerator(statColor)
                 .WithBlockGenerators(IdenticonGenerator.DefaultBlockGeneratorsConfig);
             var mybitmap = g.Create(fileName);
             var imagePath = $"{fileName}{".png"}";
-            var absolutePath = Path.Combine(_env.WebRootPath, "img", "profile_imgs", imagePath);
+            var absolutePath = Path.Combine(_env.WebRootPath, "img", $"{subFolder}", imagePath);
+            //var absolutePath = Path.Combine(_env.WebRootPath, "img", "profile_imgs", imagePath);
             mybitmap.Save(absolutePath, ImageFormat.Png);
-            return $"/img/profile_imgs/{imagePath}";
+            return $"/img/${subFolder}/{imagePath}";
+            //return $"/img/profile_imgs/{imagePath}";
         }
 
         public string UploadPostCoverImage(string base64img, string fileName)
@@ -131,6 +133,33 @@ namespace WUCSA.Web.Utils
                 }
 
                 return $"/img/profile_imgs/{imagePath}";
+            }
+            catch (MagickException)
+            {
+                return DefaultUserAvatarPath;
+            }
+        }
+
+        public string UploadEventCoverImage(IFormFile image, string imageFileName)
+        {
+            try
+            {
+                var fileExtension = Path.GetExtension(image.FileName);
+                var isAnimatedImage = fileExtension != null && fileExtension.ToLower() == ".gif";
+                var imagePath = $"{imageFileName}{fileExtension}";
+                var absolutePath = Path.Combine(_env.WebRootPath, "img", "event_imgs", imagePath);
+                if (isAnimatedImage)
+                {
+                    using var magickAnimatedImage = new MagickImageCollection(image.OpenReadStream());
+                    magickAnimatedImage.Write(absolutePath, MagickFormat.Gif);
+                }
+                else
+                {
+                    using var magickImage = new MagickImage(image.OpenReadStream());
+                    magickImage.Write(absolutePath);
+                }
+
+                return $"/img/event_imgs/{imagePath}";
             }
             catch (MagickException)
             {

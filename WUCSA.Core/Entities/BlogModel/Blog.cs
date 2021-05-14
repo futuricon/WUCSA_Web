@@ -69,7 +69,6 @@ namespace WUCSA.Core.Entities.BlogModel
 
         public static string GetShortContent(string articleContent, int length)
         {
-
             var content = HttpUtility.HtmlDecode(articleContent);
             content = Regex.Replace(content, @"<(.|\n)*?>", "");
             if (content.Length >500)

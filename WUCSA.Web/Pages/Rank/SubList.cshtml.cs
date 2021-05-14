@@ -30,7 +30,7 @@ namespace WUCSA.Web.Pages.Rank
             var ranks = (await _rankRepository.GetListAsync<Core.Entities.RankModel.Rank>())
                 .Where(i => i.RankLocation.ToString().ToLower() == rankLoc.ToLower()
                 && i.SportType.Name.ToLower() == rankSType.ToLower()
-                && i.IsDeleted != true)
+                && i.IsDeleted == false)
                 .OrderByDescending(i => i.RankDate);
             Ranks = PaginatedList<Core.Entities.RankModel.Rank>.Create(ranks, pageIndex, 6);
             return Page();
