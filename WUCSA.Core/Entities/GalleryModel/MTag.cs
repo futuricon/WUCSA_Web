@@ -30,14 +30,14 @@ namespace WUCSA.Core.Entities.GalleryModel
         public static implicit operator MTag(string tagName) => new MTag(tagName);
         public static implicit operator string(MTag tag) => tag.Name;
 
-        public static MTag[] ParseTags(string tagsString, char separator = '#')
+        public static MTag[] ParseTags(string tagsString, char separator = ',')
         {
             var tags = tagsString.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             var tagsArray = tags.Select(tag => (MTag)tag).ToArray();
             return tagsArray;
         }
 
-        public static string JoinTags(IEnumerable<MTag> tags, char separator = '#')
+        public static string JoinTags(IEnumerable<MTag> tags, char separator = ',')
         {
             return string.Join(separator, tags);
         }

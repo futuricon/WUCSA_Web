@@ -135,31 +135,39 @@
 
                         @if (Model.Blog.Comments.Count > 0 && Model.Blog.IsCommentsLocked == false)
                         {
-                            <div class="post-comments">
-                                <h3 class="comment-title"><span>@Model.Blog.Comments.Count comments on this post</span></h3>
-                                <ul class="comments-list">
-                                    @foreach (var comment in Model.Comments)
-                                    {
-                                        if (comment.IsLocked == false)
-                                        {
-                                            @if (ViewData["RootCommentId"] == null)
-                                            {
-                                                ViewData.Add("RootCommentId", comment.Id);
-                                            }
-                                            else
-                                            {
-                                                ViewData["RootCommentId"] = comment.Id;
-                                            }
-                                            <partial name="_CommentsPartial" for="@comment" view-data="ViewData" />
-                                        }
-                                    }
-                                </ul>
-                            </div>
-                        }
-                        <div id="respond-nest">
-                            <div id="respond" class="comment-form">
-                                @if (!User.Identity.IsAuthenticated)
-                                {                                   
+                             <div class="post-comments">
+                                 <h3 class="comment-title"><span>@Model.Blog.Comments.Count comments on this post</span></h3>
+                                 <ul class="comments-list">
+                                     @foreach (var comment in Model.Comments)
+                                     {
+                                         if (comment.IsLocked == false)
+                                         {
+                                             @if (ViewData["RootCommentId"] == null)
+                                             {
+                                                 ViewData.Add("RootCommentId", comment.Id);
+                                             }
+                                             else
+                                             {
+                                                 ViewData["RootCommentId"] = comment.Id;
+                                             }
+                                             <partial name="_CommentsPartial" for="@comment" view-data="ViewData" />
+                                         }
+                                     }
+                                 </ul>
+                                 <div class="pagination center">
+                                     <ul class="pagination-list">
+                                         <pagination class="mx-auto" page-index="@Model.Comments.PageIndex"
+                                                     total-pages="@Model.Comments.TotalPages"
+                                                     page-method="pageIndex" page-fragment="pagination"
+                                                     base-url="@Model.Blog.Slug" />
+                                     </ul>
+                                 </div>
+                             </div>
+
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+
+                                <div id="respond" class="comment-form">
                                     <h3 class="comment-reply-title"><span>Leave a comment as a guest or</span><a style="color: #2042e3 !important" asp-area="Identity" asp-page="/Account/Login">Sign In</a></h3>
                                     <form method="post">
                                         <div class="row">
@@ -188,9 +196,11 @@
                                             </div>
                                         </div>
                                     </form>
-                                }
-                                else
-                                {
+                                </div>
+                            }
+                            else
+                            {
+                                <div id="respond" class="comment-form">
                                     <h3 class="comment-reply-title"><span>Leave a comment</span></h3>
                                     <form method="post">
                                         <div class="row">
@@ -206,15 +216,37 @@
                                                     <button type="submit" class="btn mouse-dir white-bg">
                                                         Post Comment <span class="dir-part"></span>
                                                     </button>
-                                                    <a href="#respond" onclick="prepToFun()" class="reply-link">Cancel Reply</a>
                                                 </div>
                                             </div>
                                         </div>
                                     </form>
+                                </div>
 
-                                }
-                            </div>
-                        </div>
+                                <div id="replyCom-nest" style="display: none;">
+                                    <div id="replyCom" class="comment-form">
+                                        <h3 class="comment-reply-title"><span>Leave a comment</span></h3>
+                                        <form id="replyComForm" method="post">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <span asp-validation-for="@Model.CommentContent" class="text-danger"></span>
+                                                    <div class="form-box form-group">
+                                                        <textarea asp-for="@Model.CommentContent" rows="6" class="form-control form-control-custom"
+                                                                  placeholder="Your Comments"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="button">
+                                                        <button type="submit" class="send-btn mouse-dir white-bg mb-3">Post Comment <span class="dir-part"></span></button>
+                                                        <a href="#respond" onclick="prepToFun()" class="cancel-btn mouse-dir white-bg mb-3">Post Comment <span class="dir-part"></span></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            }
+                        }
+
                     </div>
                 </div>
             </div>
@@ -250,13 +282,27 @@
 
 @section Scripts {
     <script>
+        var pageIndex = '@ViewData["PageIndex"]';
+        var blogSlug = '@ViewData["BlogSlug"]';
+
         function appToFun(e) {
-            $("#respond").appendTo($('#rep-' + e));
+            $("#replyCom").appendTo($('#rep-' + e));
+            $("#replyComForm").attr("action", `/blog/${blogSlug}?commentId=${e}&pageIndex=${pageIndex}&handler=ReplyToComment`);
         };
 
         function prepToFun() {
-            $("#respond").appendTo($('#respond-nest'));
+            $("#replyCom").appendTo($('#replyCom-nest'));
+            $("#replyComForm").removeAttr("href");
         };
+
+        function alertFunc(e) {
+            if (confirm('Are you shure you want delete this comment')) {
+                $('#deleteComForm-'+e).submit();
+            } else {
+                return false;
+            }
+        }
+
     </script>
 }
 

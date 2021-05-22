@@ -1,0 +1,175 @@
+﻿.log-in-us {
+    position: relative;
+    background-color: #f6f9fc;
+}
+
+    .log-in-us .contact-head {
+        background: #fff;
+        border-radius: 7px;
+        overflow: hidden;
+        -webkit-box-shadow: 0 1rem 3rem rgba(35, 38, 45, .15) !important;
+        box-shadow: 0 1rem 3rem rgba(35, 38, 45, .15) !important;
+        position: relative;
+        z-index: 5;
+    }
+
+    .log-in-us .form-main {
+        padding: 50px 35px 50px 50px;
+    }
+
+    .log-in-us .form .form-group {
+        margin-bottom: 15px;
+        display: block;
+    }
+
+        .log-in-us .form .form-group input {
+            height: 55px;
+            line-height: 55px;
+            width: 100%;
+            border: 1px solid #e6e2f5;
+            padding: 0 20px;
+            color: #333;
+            border-radius: 0;
+            font-weight: 400;
+            border-radius: 5px;
+        }
+
+    .log-in-us .form .button {
+        margin: 0;
+    }
+
+        .log-in-us .form .button .btn {
+            height: 50px;
+            border: none;
+        }
+
+    .log-in-us .heading h3 {
+        color: #081828;
+        font-size: 26px;
+        font-weight: 700;
+        position: relative;
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        line-height: 32px;
+    }
+
+        .log-in-us .heading h3::before {
+            position: absolute;
+            content: "";
+            left: 0;
+            bottom: 0;
+            height: 2px;
+            width: 50px;
+            background-color: #2042e3;
+        }
+
+    .log-in-us .social-login {
+        margin-top: 30px;
+    }
+
+        .log-in-us .social-login ul li {
+            margin-bottom: 10px;
+        }
+
+            .log-in-us .social-login ul li:last-child {
+                margin-bottom: 0;
+            }
+
+            .log-in-us .social-login ul li button {
+                text-align: center;
+                position: relative;
+                background-color: #2042e3;
+                padding: 13px 30px;
+                color: #fff;
+                width: 100%;
+                border-radius: 5px;
+                font-size: 14px;
+                text-transform: capitalize;
+                font-weight: 600;
+                z-index: 2;
+            }
+
+                .log-in-us .social-login ul li button::before {
+                    position: absolute;
+                    content: "";
+                    left: 0;
+                    top: 0;
+                    height: 100%;
+                    width: 100%;
+                    background-color: #000;
+                    opacity: 0;
+                    visibility: hidden;
+                    -webkit-transition: all .4s ease;
+                    transition: all .4s ease;
+                    z-index: -1;
+                }
+
+                .log-in-us .social-login ul li button:hover::before {
+                    opacity: .2;
+                    visibility: visible;
+                }
+
+                .log-in-us .social-login ul li button i {
+                    position: absolute;
+                    left: 30px;
+                    top: 14px;
+                    font-size: 20px;
+                }
+
+            .log-in-us .social-login ul li .google {
+                background-color: #dd4b39;
+            }
+
+            .log-in-us .social-login ul li .facebook {
+                background-color: #3b5999;
+            }
+
+    .log-in-us .form-group {
+        margin-bottom: 20px;
+    }
+
+        .log-in-us .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .log-in-us .form-group .label {
+            font-size: 15px;
+            font-weight: 500;
+            color: #081828;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .log-in-us .form-group .form-control {
+            height: 50px;
+            border: 1px solid #eee;
+            padding: 0 30px;
+            color: #081828;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+
+        .log-in-us .form-group .pass {
+            padding-right: 50px;
+        }
+
+    .log-in-us .button {
+        width: 100%;
+    }
+
+        .log-in-us .button .btn {
+            width: 100%;
+        }
+
+    .log-in-us .create-new-account {
+        color: #081828;
+        font-size: 15px;
+    }
+
+        .log-in-us .create-new-account a {
+            color: #2042e3;
+        }
+
+            .log-in-us .create-new-account a:hover {
+                text-decoration: underline;
+            }

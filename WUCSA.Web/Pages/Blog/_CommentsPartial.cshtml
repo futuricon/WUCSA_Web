@@ -1,4 +1,5 @@
 ﻿@model WUCSA.Core.Entities.BlogModel.Comment
+@inject UserManager<AppUser> UserManager
 
 <li id="rep-@Model.Id">
     <div class="comment-img">
@@ -7,7 +8,7 @@
             <img src="@Model.Author.ProfilePhotoPath" class="rounded-circle" alt="img">
         }
         else
-        { 
+        {
             <img src="~/img/profile_image.png" class="rounded-circle" alt="img">
         }
     </div>
@@ -15,38 +16,92 @@
         <div class="desc-top">
             @if (Model.Author != null)
             {
+                var roles = await UserManager.GetRolesAsync(Model.Author);
+                string authName = null;
                 @if (Model.Author.FirstName != null)
                 {
-                    <h6>@Model.Author.FirstName @Model.Author.LastName</h6>
+                    authName = $"{Model.Author.FirstName} {Model.Author.LastName}";
                 }
                 else
-                { <h6>@Model.Author.UserName</h6>}
+                { authName = Model.Author.UserName; }
+
+                <h6>
+                    @authName
+                    @if (roles.Contains("SuperAdmin"))
+                    {
+                        <span class="saved"><i class="lni lni-crown" style="color: gold"></i></span>
+                    }
+                    else if (roles.Contains("Admin"))
+                    {
+                        <span class="saved"><i class="lni lni-star"></i></span>
+                    }
+                </h6>
             }
             else
-            { 
+            {
                 <h6>@Model.AuthorName</h6>
             }
             <span class="date">@Model.PostedDate.ToString("dd MMMM, yyyy")</span>
             @if (User.Identity.IsAuthenticated)
             {
-                <a href="#rep-@Model.Id"  onclick="appToFun('@Model.Id')" class="reply-link"><i class="lni lni-reply"></i>Reply</a>
+                <div class="action-links">
+                    <a href="#replyCom" onclick="appToFun('@Model.Id')" class="reply-link"><i class="lni lni-reply"></i>Reply</a>
+
+                    @*<a href="#rep-@Model.Id" onclick="appToFun('@Model.Id')" class="reply-link"><i class="lni lni-reply"></i>Reply</a>*@
+
+                    @if (Model.Author != null && User.Identity.Name == Model.Author.UserName || User.IsInRole("SuperAdmin") || User.IsInRole("Admin") || User.IsInRole("Moderator"))
+                    {
+                        <form id="deleteComForm-@Model.Id" asp-page-handler="DeleteComment" asp-route-commentId="@Model.Id" asp-route-rootCommentId="@ViewData["RootCommentId"]" asp-route-pageIndex="@ViewData["PageIndex"]" class="float-right" method="post">
+                            <a onclick="alertFunc('@Model.Id')" class="delete-link"><i class="lni lni-trash"></i></a>
+                        </form>
+                    }
+                </div>
             }
         </div>
-        <p>
-            @Model.Content
-        </p>
+        @if (Model.ParentComment != null)
+        {
+            string authName = null;
+            if (Model.ParentComment.Author != null)
+            {
+                authName = $"{Model.ParentComment.Author.FirstName} {Model.ParentComment.Author.LastName}";
+                if (authName.Length < 2){ authName = Model.ParentComment.Author.UserName; }
+            }
+            else
+            {
+                authName = Model.ParentComment.AuthorName;
+            }
+
+        <p><strong>[@authName]</strong>  @Model.Content</p>
+        }
+        else
+        {
+            <p>@Model.Content</p>
+        }
+
+
+
+        @if (Model.ParentComment == null && Model.Replies.Count > 0)
+        {
+            <ul class="comments-list mt-20">
+                @foreach (var reply in Model.Replies)
+                {
+                    if (reply.IsLocked == false)
+                    {
+                        <partial name="_CommentsPartial" model="reply" />
+                    }
+                }
+            </ul>
+        }
     </div>
 </li>
 
-@if (Model.Replies.Count > 0)
+@if (Model.ParentComment != null && Model.Replies.Count > 0)
 {
-    <ul class="comments-list">
-        @foreach (var reply in Model.Replies)
-        {
-            if (reply.IsLocked == false)
-            {
-                <partial name="_CommentsPartial" model="reply" />
-            }
-        }
-    </ul>
+     @foreach (var reply in Model.Replies)
+     {
+         if (reply.IsLocked == false)
+         {
+             <partial name="_CommentsPartial" model="reply" />
+         }
+     }
 }

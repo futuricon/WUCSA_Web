@@ -65,6 +65,7 @@ namespace WUCSA.Web.Pages.Blog
             Comments = PaginatedList<Comment>.Create(Blog.Comments, pageIndex);
             PageIndex = pageIndex;
             ViewData.Add("PageIndex", PageIndex);
+            ViewData.Add("BlogSlug", blogSlug);
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -136,13 +137,16 @@ namespace WUCSA.Web.Pages.Blog
             var commentAuthor = parentComment.Author == null ? parentComment.AuthorName : parentComment.Author.UserName;
             var commentEmail = parentComment.Author == null ? parentComment.AuthorEmail : parentComment.Author.Email;
 
-            var htmlMsg = $@"<h3>Good day, <b>{commentAuthor}</b></h3>
-                                <p>Replied to your comment in this wucsa.com blog <a href='{HtmlEncoder.Default.Encode($"http://wucsa.com/blog/{blog.Slug}?pageIndex={pageNumber}#{commentId}")}'>{blog.Title}</a></p>
-                                <br />
-                                ";
+            //var htmlMsg = $@"<h3>Good day, <b>{commentAuthor}</b></h3>
+            //                    <p>Replied to your comment in this wucsa.com blog <a href='{HtmlEncoder.Default.Encode($"http://wucsa.com/blog/{blog.Slug}?pageIndex={pageNumber}#{commentId}")}'>{blog.Title}</a></p>
+            //                    <br />
+            //                    ";
+            var TGMsg = $@"Hi, {blog.Author.UserName}. {commentAuthor} replied to your comment in this wucsa.com post {blog.Title}. Check it out http://wucsa.com/{blog.Slug}?pageIndex={pageNumber}#{commentId}";
+
 
             await _blogRepository.AddReplyToCommentAsync(parentComment, childComment);
-            await _emailService.SendAsync(commentEmail, "Replied to your comment", htmlMsg);
+            //await _emailService.SendAsync(commentEmail, "Replied to your comment", htmlMsg);
+            await _emailService.SendTGAsync(TGMsg);
             return RedirectToPage("", "", new { pageIndex = pageNumber }, commentId);
         }
 

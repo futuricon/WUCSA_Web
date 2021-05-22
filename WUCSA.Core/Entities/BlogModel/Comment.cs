@@ -10,6 +10,10 @@ namespace WUCSA.Core.Entities.BlogModel
 {
     public class Comment : IEntity<string>
     {
+        public Comment()
+        {
+            IsLocked = false;
+        }
         [StringLength(32)]
         public string Id { get; set; } = GeneratorId.GenerateLong();
 

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Devcorner.NIdenticon;
 using Devcorner.NIdenticon.BrushGenerators;
 using ImageMagick;
@@ -36,10 +37,9 @@ namespace WUCSA.Web.Utils
             return Convert.ToUInt16(new Random().Next(new Random().Next(0, 14), new Random().Next(16, 200)));
         }
 
-        public void DeleteFile(string fname)
+        public void DeleteFile(string filePath)
         {
-            fname = fname.Remove(0, 18);
-            var absolutePath = Path.Combine(_env.WebRootPath, "img", "profile_imgs", fname);
+            var absolutePath = Path.Combine(_env.WebRootPath, filePath);
             if (File.Exists(absolutePath))
             {
                File.Delete(absolutePath);
@@ -61,11 +61,9 @@ namespace WUCSA.Web.Utils
                 .WithBlockGenerators(IdenticonGenerator.DefaultBlockGeneratorsConfig);
             var mybitmap = g.Create(fileName);
             var imagePath = $"{fileName}{".png"}";
-            var absolutePath = Path.Combine(_env.WebRootPath, "img", $"{subFolder}", imagePath);
-            //var absolutePath = Path.Combine(_env.WebRootPath, "img", "profile_imgs", imagePath);
+            var absolutePath = Path.Combine(_env.WebRootPath, "img", subFolder, imagePath);
             mybitmap.Save(absolutePath, ImageFormat.Png);
-            return $"/img/${subFolder}/{imagePath}";
-            //return $"/img/profile_imgs/{imagePath}";
+            return $"/img/{subFolder}/{imagePath}";
         }
 
         public string UploadPostCoverImage(string base64img, string fileName)
@@ -74,80 +72,22 @@ namespace WUCSA.Web.Utils
             base64img = regex.Replace(base64img, string.Empty);
 
             var imagePath = $"{fileName}{".png"}";
-            var absolutePath = Path.Combine(_env.WebRootPath, "img", "post_imgs", imagePath);
+            var absolutePath = Path.Combine(_env.WebRootPath, "img", "profile_imgs", imagePath);
 
             byte[] imageBytes = Convert.FromBase64String(base64img);
             File.WriteAllBytes(absolutePath, imageBytes);
 
-            return $"/img/post_imgs/{imagePath}";
-        }
-        
-        public string UploadNextImage(IFormFile image, string imageFileName,
-            bool resizeToQuadratic = false, bool resizeToRectangle = false)
-        {
-            return UploadImage(image, imageFileName, resizeToQuadratic, resizeToRectangle);
+            return $"/img/profile_imgs/{imagePath}";
         }
 
-        public string UploadImage(IFormFile image, string imageFileName,
-            bool resizeToQuadratic = false, bool resizeToRectangle = false)
+        public string UploadCoverImage(IFormFile image, string imageFileName, string subFolder)
         {
             try
             {
                 var fileExtension = Path.GetExtension(image.FileName);
                 var isAnimatedImage = fileExtension != null && fileExtension.ToLower() == ".gif";
                 var imagePath = $"{imageFileName}{fileExtension}";
-                var absolutePath = Path.Combine(_env.WebRootPath, "img", "profile_imgs", imagePath);
-                if (isAnimatedImage)
-                {
-                    using var magickAnimatedImage = new MagickImageCollection(image.OpenReadStream());
-                    foreach (var imageFrame in magickAnimatedImage)
-                    {
-                        if (resizeToQuadratic)
-                        {
-                            ResizeToQuadratic(imageFrame);
-                        }
-
-                        if (resizeToRectangle)
-                        {
-                            ResizeToRectangle(imageFrame);
-                        }
-                    }
-
-                    magickAnimatedImage.Write(absolutePath, MagickFormat.Gif);
-                }
-                else
-                {
-                    using var magickImage = new MagickImage(image.OpenReadStream());
-
-                    if (resizeToQuadratic)
-                    {
-                        ResizeToQuadratic(magickImage);
-                    }
-
-                    if (resizeToRectangle)
-                    {
-                        ResizeToRectangle(magickImage);
-                    }
-
-                    magickImage.Write(absolutePath);
-                }
-
-                return $"/img/profile_imgs/{imagePath}";
-            }
-            catch (MagickException)
-            {
-                return DefaultUserAvatarPath;
-            }
-        }
-
-        public string UploadEventCoverImage(IFormFile image, string imageFileName)
-        {
-            try
-            {
-                var fileExtension = Path.GetExtension(image.FileName);
-                var isAnimatedImage = fileExtension != null && fileExtension.ToLower() == ".gif";
-                var imagePath = $"{imageFileName}{fileExtension}";
-                var absolutePath = Path.Combine(_env.WebRootPath, "img", "event_imgs", imagePath);
+                var absolutePath = Path.Combine(_env.WebRootPath, "img", subFolder, imagePath);
                 if (isAnimatedImage)
                 {
                     using var magickAnimatedImage = new MagickImageCollection(image.OpenReadStream());
@@ -159,7 +99,7 @@ namespace WUCSA.Web.Utils
                     magickImage.Write(absolutePath);
                 }
 
-                return $"/img/event_imgs/{imagePath}";
+                return $"/img/{subFolder}/{imagePath}";
             }
             catch (MagickException)
             {
@@ -171,6 +111,27 @@ namespace WUCSA.Web.Utils
         {
             ImageConverter converter = new ImageConverter();
             return (byte[])converter.ConvertTo(img, typeof(byte[]));
+        }
+
+        public async Task<string> UploadSatffImage(IFormFile image, string imageFileName, string subFolder)
+        {
+            try
+            {
+                var fileExtension = Path.GetExtension(image.FileName);
+                var imagePath = $"{imageFileName}{fileExtension}";
+                var absolutePath = Path.Combine(_env.WebRootPath, "img", subFolder, imagePath);
+
+                using (var fileStream = new FileStream(absolutePath, FileMode.Create))
+                {
+                    await image.CopyToAsync(fileStream);
+                }
+
+                return $"/img/{subFolder}/{imagePath}";
+            }
+            catch (Exception)
+            {
+                return $"/img/profile_image.png";
+            }
         }
 
         public void RemoveImage(string imgPath, string subFolder)
@@ -186,26 +147,6 @@ namespace WUCSA.Web.Utils
             if (File.Exists(imgFullPath))
             {
                 File.Delete(imgFullPath);
-            }
-        }
-
-        public static void ResizeToQuadratic(IMagickImage<ushort> image, int xySize = 225)
-        {
-            if (image.Height > xySize || image.Width > xySize)
-            {
-                image.Resize(xySize, xySize);
-                image.Strip();
-            }
-        }
-
-        public static void ResizeToRectangle(IMagickImage<ushort> image, int width = 850)
-        {
-            if (image.Width > width)
-            {
-                var proportion = 1 - ((image.Width - width) / image.Width);
-                var resizingHeight = image.Height * proportion;
-                image.Resize(width, resizingHeight);
-                image.Strip();
             }
         }
     }

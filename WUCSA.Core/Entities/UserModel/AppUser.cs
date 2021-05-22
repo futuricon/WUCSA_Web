@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using WUCSA.Core.Entities.Base;
+using WUCSA.Core.Entities.GalleryModel;
 using WUCSA.Core.Interfaces;
 
 namespace WUCSA.Core.Entities.UserModel
@@ -27,5 +28,7 @@ namespace WUCSA.Core.Entities.UserModel
 
         [StringLength(100)]
         public string ProfilePhotoPath { get; set; }
+
+        public virtual ICollection<MediaLike> MediaLikes { get; set; } = new List<MediaLike>();
     }
 }

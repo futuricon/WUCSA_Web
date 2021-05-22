@@ -22,7 +22,11 @@ namespace WUCSA.Core.Entities.StaffModel
 
         [StringLength(100)]
         public string ProfilePhotoPath { get; set; }
-        
+
+        [Required(ErrorMessage = "Please select the country of the representative")]
+        [Display(Name = "Country")]
+        public string CountryCode { get; set; }
+
         [Required(ErrorMessage = "Please enter name")]
         [StringLength(40, ErrorMessage = "Characters must be less than 40")]
         [Display(Name = "Name")]
@@ -48,9 +52,9 @@ namespace WUCSA.Core.Entities.StaffModel
         [Display(Name = "Mansab")]
         public string PositionUz { get; set; }
 
-        [Required(ErrorMessage = "Please enter the country, state or city of the representative")]
+        [Required(ErrorMessage = "Please enter a representative's address")]
         [StringLength(100, ErrorMessage = "Characters must be less than 400")]
-        [Display(Name = "Representative from")]
+        [Display(Name = "Address")]
         public string Location { get; set; }
 
         [Display(Name = "Date of Birth")]

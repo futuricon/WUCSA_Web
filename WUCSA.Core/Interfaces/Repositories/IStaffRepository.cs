@@ -6,8 +6,10 @@ namespace WUCSA.Core.Interfaces.Repositories
 {
     public interface IStaffRepository : IRepository
     {
-        Task AddStaffAsync(Staff staff, Certificate certificate);
-        Task UpdateStaffAsync(Staff staff, Certificate certificate);
+        Task AddStaffAsync(Staff staff);
+        Task UpdateStaffAsync(Staff staff);
         Task DeleteStaffAsync(Staff staff);
+
+        Task UpdateCertificatesAsync(Staff staff, bool saveChanges = true, params Certificate[] certificates);
     }
 }

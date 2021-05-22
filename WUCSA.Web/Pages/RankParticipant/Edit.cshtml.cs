@@ -15,11 +15,9 @@ namespace WUCSA.Web.Pages.RankParticipant
     [Authorize(Roles = "SuperAdmin,Admin")]
     public class EditModel : PageModel
     {
-        private readonly UserManager<AppUser> _userManager;
         private readonly IRankRepository _rankRepository;
-        public EditModel(UserManager<AppUser> userManager, IRankRepository rankRepository)
+        public EditModel(IRankRepository rankRepository)
         {
-            _userManager = userManager;
             _rankRepository = rankRepository;
         }
 
@@ -52,10 +50,7 @@ namespace WUCSA.Web.Pages.RankParticipant
 
             Rank = await _rankRepository.GetByIdAsync<Core.Entities.RankModel.Rank>(rankId);
 
-            AppUser currentUser = await _userManager.GetUserAsync(User);
-            var currentRole = await _userManager.GetRolesAsync(currentUser);
-
-            if (!currentRole.Contains(Role.SuperAdmin.ToString()))
+            if (!User.IsInRole("SuperAdmin"))
             {
                 if (Rank.IsDeleted)
                 {

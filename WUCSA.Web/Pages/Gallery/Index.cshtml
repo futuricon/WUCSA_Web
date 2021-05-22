@@ -1,0 +1,204 @@
+﻿@page "{sortBy?}/{tag?}"
+@using Core.Entities.GalleryModel
+@model WUCSA.Web.Pages.Gallery.IndexModel
+@namespace WUCSA.Models
+@inject IViewLocalizer Localizer
+@inject UserManager<AppUser> UserManager
+@{
+    ViewData["Title"] = Localizer["WUCSA Gallery"];
+    Layout = "_Layout";
+}
+
+@section Head {
+    <meta name="author" content="WUCSA" />
+    <meta name="description" content="WUCSA official gallery" />
+    <meta name="keywords" content="WUCSA, gallery" />
+}
+
+@section CSS {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
+    <link rel="stylesheet" href="~/css/gallery_style.css" />
+}
+
+<div class="breadcrumbs overlay">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title">@Localizer["Gallery"]</h1>
+                    <p>
+                        Business plan draws on a wide range of knowledge from different business<br> disciplines.
+                        Business draws on a wide range of different business .
+                    </p>
+                </div>
+                <ul class="breadcrumb-nav">
+                    <li><a asp-page="/Index">@Localizer["Home"]</a></li>
+                    <li><a asp-page="/Gallery/Index">@Localizer["Gallery"]</a></li>
+                    <li>
+                        @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                        {
+                            <a asp-page="/Gallery/Create">@Localizer["Add new Media"]</a>
+                        }
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<section class="section latest-news-area gallery-list">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-7 col-12">
+                <div class="row grid">
+                    @if (!Model.Medias.Any())
+                    {
+                        <h4>@Localizer["There are no any media yet"]</h4>
+                    }
+                    else
+                    {
+                        foreach (var media in Model.Medias)
+                        {
+                            <div class="col-lg-6 col-12 grid-item">
+                                <div class="single-news wow fadeInUp" data-wow-delay=".3s">
+                                    <div class="image">
+                                        @if (media.MediaType.ToString().ToLower() == "image")
+                                        {
+                                            <a href="@media.MediaPath" class="glightbox">
+                                                <img class="thumb" src="@media.MediaPath" alt="@media.PostedDate.ToString(DateTimeFormatInfo.CurrentInfo.ShortDatePattern)">
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="https://www.youtube.com/watch?v=@media.MediaPath" class="glightbox">
+                                                <i class="lni lni-play play-icon"></i>
+                                                <img class="thumb" src="https://img.youtube.com/vi/@media.MediaPath/hqdefault.jpg" alt="@media.PostedDate.ToString(DateTimeFormatInfo.CurrentInfo.ShortDatePattern)">
+                                            </a>
+                                        }
+
+                                    </div>
+                                    <div class="content-body">
+                                        <h4 class="title">@MTag.JoinTags(media.MediaTags.Select(i => i.MTag))</h4>
+                                        <div class="meta-details">
+                                            <ul>
+                                                @if (!User.Identity.IsAuthenticated)
+                                                {
+                                                    <li><a asp-area="Identity" asp-page="/Account/Login"><i class="lni lni-thumbs-up"></i>&nbsp;@media.LikesCount.Count</a></li>
+                                                }
+                                                else
+                                                {
+                                                    @if (media.LikesCount.Any(i => i.AppUser.UserName == User.Identity.Name))
+                                                    {
+                                                        <li><a id="like-btn-@media.Id" onclick="likeMedia('@media.Id')" class="like-active"><i class="lni lni-thumbs-up"></i>&nbsp;@media.LikesCount.Count</a></li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li><a id="like-btn-@media.Id" onclick="likeMedia('@media.Id')"><i class="lni lni-thumbs-up"></i>&nbsp;@media.LikesCount.Count</a></li>
+                                                    }
+
+                                                    @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                                                    {
+                                                        <li><a asp-page="/Gallery/Edit" asp-route-id="@media.Id"><i class="lni lni-pencil"></i>&nbsp;Edit</a></li>
+                                                        <li><a asp-page="/Gallery/Delete" asp-route-id="@media.Id" class="del-btn"><i class="lni lni-trash"></i>&nbsp;Delete</a></li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                    }
+
+                </div>
+                <div class="pagination center">
+                    <ul class="pagination-list">
+                        <pagination class="mx-auto" page-index="@Model.Medias.PageIndex" total-pages="@Model.Medias.TotalPages" page-path="./gallery" base-url="/Gallery/List" />
+                    </ul>
+                </div>
+            </div>
+            <aside class="col-lg-4 col-md-5 col-12">
+                <div class="sidebar">
+                    <!-- <div class="widget search-widget">
+                        <h5 class="widget-title"><span>Search This Site</span></h5>
+                        <form action="#">
+                            <input type="text" placeholder="Search Here...">
+                            <button type="submit"><i class="lni lni-search-alt"></i></button>
+                        </form>
+                    </div> -->
+
+                    <div class="widget categories-widget">
+                        <h5 class="widget-title"><span>Sort By</span></h5>
+                        <ul class="custom">
+                            <li>
+                                <a asp-page="/Gallery/Index" asp-route-sortBy="Latest" asp-route-tag="@ViewData["tagData"]">Latest</a>
+                            </li>
+                            <li>
+                                <a asp-page="/Gallery/Index" asp-route-sortBy="Popular" asp-route-tag="@ViewData["tagData"]">Popular</a>
+                            </li>
+                            <li>
+                                <a asp-page="/Gallery/Index" asp-route-sortBy="Video" asp-route-tag="@ViewData["tagData"]">Video</a>
+                            </li>
+                            <li>
+                                <a asp-page="/Gallery/Index" asp-route-sortBy="Images" asp-route-tag="@ViewData["tagData"]">Images</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="widget popular-tag-widget">
+                        <h5 class="widget-title"><span>Popular Tags</span></h5>
+                        <div class="tags">
+                            @foreach (var tag in Model.PopularTags)
+                            {
+                                <a asp-page="/Gallery/Index" asp-route-sortBy="@ViewData["sortByData"]" asp-route-tag="@tag.Trim()">@tag</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+@section Scripts {
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+    <script>
+        const lightbox = GLightbox({
+            touchNavigation: true,
+            loop: true,
+            autoplayVideos: true
+        });
+
+        $('.grid').masonry({
+            itemSelector: '.grid-item'
+        });
+
+        function likeMedia(mediaId) {
+            $.ajax({
+                type: "POST",
+                url: "/Gallery/Index?handler=Like",
+                data: { mediaId: mediaId },
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("XSRF-TOKEN",
+                        $('input:hidden[name="__RequestVerificationToken"]').val());
+                },
+                success: function (result) {
+                    const likeBtn = $(`#like-btn-${mediaId}`);
+
+                    if (likeBtn.hasClass("like-active")) {
+                        likeBtn.removeClass("like-active");
+                    }
+                    else {
+                        likeBtn.addClass("like-active");
+                    }
+                    likeBtn.text("");
+                    likeBtn.append(`<i class="lni lni-thumbs-up"></i>&nbsp;${result}`);
+                }
+            });
+        }
+    </script>
+}
+
+
+

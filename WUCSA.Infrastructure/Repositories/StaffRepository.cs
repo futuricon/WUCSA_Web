@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WUCSA.Core.Entities.StaffModel;
@@ -19,20 +20,80 @@ namespace WUCSA.Infrastructure.Repositories
 
         //////////////// Staff ////////////////
         
-        public Task AddStaffAsync(Staff staff, Certificate certificate)
+        public Task AddStaffAsync(Staff staff)
         {
-            throw new NotImplementedException();
+            staff.Slug = GetVerifiedStaffSlug(staff);
+            return AddAsync(staff);
         }
 
-        public Task UpdateStaffAsync(Staff staff, Certificate certificate)
+        public Task UpdateStaffAsync(Staff staff)
         {
-            throw new NotImplementedException();
+            staff.Slug = GetVerifiedStaffSlug(staff);
+            return UpdateAsync(staff);
         }
 
-        public Task DeleteStaffAsync(Staff staff)
+        public async Task DeleteStaffAsync(Staff staff)
         {
-            throw new NotImplementedException();
+            foreach (var certificate in staff.Certificates)
+            {
+                await DeleteAsync(certificate);
+            }
+            await DeleteAsync(staff);
         }
 
+        private string GetVerifiedStaffSlug(Staff slugifiedEntity)
+        {
+            var staff = slugifiedEntity.Slug;
+            var verifiedSlug = staff;
+            var hasSameSlug = _context.Set<Staff>().Where(x => x.Id != slugifiedEntity.Id).Any(i => i.Slug == verifiedSlug);
+
+            var count = 0;
+            while (hasSameSlug)
+            {
+                verifiedSlug = staff.Insert(0, $"{++count}-");
+                hasSameSlug = _context.Set<Staff>().Any(i => i.Slug == verifiedSlug);
+            }
+
+            return verifiedSlug;
+        }
+
+
+        public async Task UpdateCertificatesAsync(Staff staff, bool saveChanges = true, params Certificate[] certificates)
+        {
+            List<Certificate> oldCertificates = staff.Certificates.ToList();
+            foreach (var oldCertificate in oldCertificates)
+            {
+                if (certificates.Any(i=>i.Id != oldCertificate.Id))
+                {
+
+                    staff.Certificates.Remove(oldCertificate);
+                }
+            }
+            foreach (var certificate in certificates)
+            {
+                var originCertificate = await GetAsync<Certificate>(i => i.Id == certificate.Id);
+                if (originCertificate == null)
+                {
+                    originCertificate = certificate;
+                    await _context.Set<Certificate>().AddAsync(originCertificate);
+                }
+                if (originCertificate != null && originCertificate.CertPath != certificate.CertPath)
+                {
+                    await UpdateAsync(certificate);
+                }
+
+                if (staff.Certificates.Any(i=> i.Id == originCertificate.Id))
+                {
+                    continue;
+                }
+
+                staff.Certificates.Add(originCertificate);
+            }
+
+            if (saveChanges)
+            {
+                await UpdateAsync(staff);
+            }
+        }
     }
 }

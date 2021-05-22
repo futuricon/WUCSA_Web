@@ -62,10 +62,7 @@ namespace WUCSA.Web.Pages.Event
             await GetOptionAsync();
             var myEvent = await _eventRepository.GetByIdAsync<Core.Entities.EventModel.Event>(id);
 
-            AppUser currentUser = await _userManager.GetUserAsync(User);
-            var currentRole = await _userManager.GetRolesAsync(currentUser);
-
-            if (!currentRole.Contains(Role.SuperAdmin.ToString()))
+            if (!User.IsInRole("SuperAdmin"))
             {
                 if (myEvent.IsDeleted)
                 {
@@ -99,7 +96,7 @@ namespace WUCSA.Web.Pages.Event
             Input.Event.Slug = tempSlug.Slugify();
             if (Input.UploadCoverPhoto != null)
             {
-                Input.Event.CoverPhotoPath = _imageHelper.UploadEventCoverImage(Input.UploadCoverPhoto, Input.Event.Id);
+                Input.Event.CoverPhotoPath = _imageHelper.UploadCoverImage(Input.UploadCoverPhoto, Input.Event.Id, "event_imgs");
             }
             if (Input.UploadPdfRules != null)
             {

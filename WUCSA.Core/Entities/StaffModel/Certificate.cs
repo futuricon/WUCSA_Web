@@ -16,7 +16,7 @@ namespace WUCSA.Core.Entities.StaffModel
         [StringLength(100)]
         public string CertPath { get; set; }
 
-        [StringLength(40, ErrorMessage = "Characters must be less than 40")]
+        [StringLength(80, ErrorMessage = "Characters must be less than 80")]
         [Display(Name = "Certificate Title")]
         public string CertName { get; set; }
 

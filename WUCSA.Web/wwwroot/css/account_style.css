@@ -1,0 +1,533 @@
+﻿.dashbord-sidebar {
+    background-color: #fff;
+    padding: 30px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+}
+
+    .dashbord-sidebar ul .heading {
+        font-size: 20px;
+        font-weight: 600;
+        color: #081828;
+        margin-bottom: 20px;
+    }
+
+    .dashbord-sidebar ul li {
+        display: block;
+        margin-bottom: 12px;
+    }
+
+        .dashbord-sidebar ul li:last-child {
+            margin: 0;
+        }
+
+        .dashbord-sidebar ul li a {
+            color: #081828;
+            padding: 10px 15px;
+            border: 1px solid #eee;
+            display: block;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+
+            .dashbord-sidebar ul li a:hover {
+                background-color: #2042e3;
+                color: #fff;
+                border-color: transparent;
+            }
+
+                .dashbord-sidebar ul li a:hover i {
+                    background-color: #fff;
+                    color: #2042e3;
+                }
+
+            .dashbord-sidebar ul li a.active {
+                background-color: #2042e3;
+                color: #fff;
+                border-color: transparent;
+            }
+
+                .dashbord-sidebar ul li a.active i {
+                    background-color: #fff;
+                    color: #2042e3;
+                }
+
+            .dashbord-sidebar ul li a i {
+                font-size: 14px;
+                color: #2042e3;
+                display: inline-block;
+                margin-right: 8px;
+                height: 30px;
+                width: 30px;
+                text-align: center;
+                line-height: 30px;
+                background: #2042e30d;
+                border-radius: 3px;
+                -webkit-transition: all .4s ease;
+                transition: all .4s ease;
+            }
+
+            .dashbord-sidebar ul li a .notifi {
+                height: 25px;
+                width: auto;
+                line-height: 25px;
+                text-align: center;
+                font-size: 12px;
+                background: #f4f5fe;
+                border: 1px solid #eee;
+                border-radius: 3px;
+                text-align: right;
+                display: inline-block;
+                text-align: center;
+                color: #2042e3;
+                position: relative;
+                top: 2px;
+                padding: 0 8px;
+                float: right !important;
+            }
+
+            .dashbord-sidebar ul li a:hover .notifi {
+                background-color: #fff;
+            }
+
+.manage-account {
+    background-color: #f6f9fc;
+}
+
+    .manage-account .inner-content {
+        padding: 30px;
+        background-color: #fff;
+        border: 1px solid #eee;
+        border-radius: 6px;
+    }
+
+        .manage-account .inner-content .account-item {
+            position: relative;
+            background-color: #fff;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-left: 190px;
+            margin-bottom: 30px;
+        }
+
+.manage-resaccountumes .inner-content .account-item:last-child {
+    margin: 0;
+    padding-bottom: 0;
+    border: none;
+}
+
+.manage-account .inner-content .account-item img {
+    height: auto;
+    width: 160px;
+    border-radius: 4px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.manage-account .inner-content .account-item .right {
+    position: relative;
+    top: -10px;
+}
+
+    .manage-account .inner-content .account-item .right h3 a {
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+        .manage-account .inner-content .account-item .right h3 a:hover {
+            color: #2042e3;
+        }
+
+    .manage-account .inner-content .account-item .right .deg {
+        display: block;
+        margin-top: 5px;
+    }
+
+    .manage-account .inner-content .account-item .right .experience {
+        margin-top: 10px;
+    }
+
+        .manage-account .inner-content .account-item .right .experience li {
+            display: block;
+            margin-bottom: 3px;
+        }
+
+            .manage-account .inner-content .account-item .right .experience li span {
+                color: #2042e3;
+                display: inline-block;
+                margin-left: 3px;
+            }
+
+            .manage-account .inner-content .account-item .right .experience li i {
+                display: inline-block;
+                margin-right: 3px;
+                color: #2042e3;
+            }
+
+            .manage-account .inner-content .account-item .right .experience li:last-child {
+                margin: 0;
+            }
+
+    .manage-account .inner-content .account-item .right .skills {
+        margin-top: 10px;
+    }
+
+        .manage-account .inner-content .account-item .right .skills li {
+            display: inline-block;
+            font-size: 12px;
+            margin-bottom: 5px;
+            margin-right: 3px;
+            position: relative;
+            background: #2042e314;
+            color: #2042e3;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+.manage-account .inner-content .account-item .update-date {
+    display: block;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    overflow: hidden;
+}
+
+    .manage-account .inner-content .account-item .update-date .status {
+        font-size: 13px;
+        float: left;
+        position: relative;
+        top: 4px;
+    }
+
+    .manage-account .inner-content .account-item .update-date .action-btn {
+        float: right;
+    }
+
+        .manage-account .inner-content .account-item .update-date .action-btn a {
+            display: inline-block;
+            margin-right: 5px;
+            padding: 4px 10px;
+            font-size: 12px;
+            border: 1px solid #eee;
+            border-radius: 3px;
+            color: #7e8890;
+        }
+
+            .manage-account .inner-content .account-item .update-date .action-btn a:hover {
+                background-color: #2042e3;
+                border-color: transparent;
+                color: #fff;
+            }
+
+            .manage-account .inner-content .account-item .update-date .action-btn a:last-child {
+                margin: 0;
+            }
+
+/*/////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+.change-password {
+    background-color: #f6f9fc;
+}
+
+    .change-password .password-content {
+        padding: 30px;
+        background-color: #fff;
+        border: 1px solid #eee;
+        border-radius: 6px;
+    }
+
+        .change-password .password-content h3 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .change-password .password-content p {
+            display: block;
+            margin-top: 5px;
+        }
+
+        .change-password .password-content form {
+            margin-top: 30px;
+        }
+
+            .change-password .password-content form label {
+                color: #081828;
+                font-size: 14px;
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            .change-password .password-content form input {
+                height: 50px;
+                width: 100%;
+                border: 1px solid #eee;
+                border-radius: 5px;
+                padding: 0 20px;
+                font-size: 14px;
+            }
+
+        .change-password .password-content .form-group {
+            margin-bottom: 15px;
+        }
+
+        .change-password .password-content .button .btn {
+            padding: 12px 25px;
+        }
+
+/*/////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.manage-account .inner-content .name-head {
+    text-align: left
+}
+    .manage-account .inner-content .name-head .profile-photo {
+        width: 200px;
+        height: 200px;
+    }
+
+.manage-account .inner-content .name {
+    font-size: 18px;
+    color: #081828
+}
+
+    .manage-account .inner-content .name:hover {
+        color: #2042e3
+    }
+
+.manage-account .inner-content .deg {
+    font-size: 14px;
+    color: #081828
+}
+
+.manage-account .inner-content .social {
+    margin-top: 20px
+}
+
+    .manage-account .inner-content .social li {
+        display: inline-block;
+        margin-right: 8px
+    }
+
+        .manage-account .inner-content .social li a {
+            font-size: 13px;
+            color: #081828;
+            height: 35px;
+            width: 35px;
+            text-align: center;
+            display: block;
+            line-height: 35px;
+            background: #e8ecf1;
+            border: none;
+            border-radius: 4px;
+            position: relative;
+            z-index: 3
+        }
+
+            .manage-account .inner-content .social li a:hover {
+                color: #fff;
+                background-color: #2042e3
+            }
+
+.manage-account .inner-content .content-right .single-list {
+    margin-bottom: 20px;
+    width: 48%;
+    display: inline-block;
+    margin-top: 5px
+}
+
+    .manage-account .inner-content .content-right .single-list:last-child {
+        margin: 0
+    }
+
+    .manage-account .inner-content .content-right .single-list .title {
+        font-size: 17px;
+        font-weight: 500
+    }
+
+    .manage-account .inner-content .content-right .single-list p {
+        color: #081828;
+        margin-top: 0;
+        display: block;
+        color: #7e8890
+    }
+
+        .manage-account .inner-content .content-right .single-list p a {
+            color: #7e8890;
+            display: inline-block;
+            margin-top: 3px;
+            font-weight: 400
+        }
+
+            .manage-account .inner-content .content-right .single-list p a:hover {
+                color: #2042e3
+            }
+
+.manage-account .inner-content .content-right .title-main {
+    font-size: 20px;
+    color: #081828;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 30px;
+    padding-bottom: 20px
+}
+
+.manage-account .inner-content .single-section {
+    padding-top: 30px;
+    margin-top: 30px;
+    border-top: 1px solid #eee
+}
+
+    .manage-account .inner-content .single-section h4 {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 20px
+    }
+
+    .manage-account .inner-content .single-section h5 {
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 20px
+    }
+
+    .manage-account .inner-content .single-section p {
+        margin: 20px 0
+    }
+
+    .manage-account .inner-content .single-section.skill ul li {
+        display: inline-block;
+        margin-right: 8px;
+        margin-bottom: 8px
+    }
+
+        .manage-account .inner-content .single-section.skill ul li a {
+            background: #2042e314;
+            color: #081828;
+            padding: 8px 15px;
+            border-radius: 3px;
+            font-size: 13px
+        }
+
+            .manage-account .inner-content .single-section.skill ul li a:hover {
+                color: #fff;
+                background-color: #2042e3
+            }
+
+    .manage-account .inner-content .single-section.exprerience .single-exp .image img {
+        border-radius: 5px;
+        margin-right: 25px;
+        position: relative;
+        top: 5px
+    }
+
+    .manage-account .inner-content .single-section.exprerience .single-exp h3 {
+        margin-bottom: 5px
+    }
+
+        .manage-account .inner-content .single-section.exprerience .single-exp h3 a {
+            font-size: 18px;
+            font-weight: 500;
+            color: #081828
+        }
+
+            .manage-account .inner-content .single-section.exprerience .single-exp h3 a:hover {
+                color: #2042e3
+            }
+
+    .manage-account .inner-content .single-section.exprerience .single-exp a {
+        color: #7e8890
+    }
+
+    .manage-account .inner-content .single-section.education .single-edu .image img {
+        border-radius: 5px;
+        margin-right: 25px;
+        position: relative;
+        top: 5px
+    }
+
+    .manage-account .inner-content .single-section.education .single-edu h3 {
+        margin-bottom: 5px
+    }
+
+        .manage-account .inner-content .single-section.education .single-edu h3 a {
+            font-size: 18px;
+            font-weight: 500;
+            color: #081828
+        }
+
+            .manage-account .inner-content .single-section.education .single-edu h3 a:hover {
+                color: #2042e3
+            }
+
+    .manage-account .inner-content .single-section.education .single-edu a {
+        color: #7e8890
+    }
+
+
+/*/////////////////////////////
+    Index
+/////////////////////////////*/
+
+input[type="file"] {
+    cursor: pointer;
+}
+
+.file-btn {
+    position: relative;
+}
+
+    .file-btn input[type="file"] {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+    }
+
+#cropMain .image {
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden
+}
+
+    #cropMain .image img {
+        flex-shrink: 0;
+        min-height: 100%;
+        min-width: 100%;
+        -webkit-transition: all 0.4s ease;
+        transition: all 0.4s ease;
+    }
+
+#cropMain .button .btn {
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+#cancel-btn a {
+    display: inline-block;
+    text-transform: capitalize;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 15px;
+    background-color: #2042e314;
+    color: #081828;
+    border: none;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+    #cancel-btn a:hover {
+        background-color: #2042e3;
+        color: #fff;
+        -webkit-box-shadow: 0 1rem 3rem rgba(35, 38, 45, 0.15) !important;
+        box-shadow: 0 1rem 3rem rgba(35, 38, 45, 0.15) !important;
+        cursor: pointer;
+    }
+
+#cropMain .act-btn {
+    margin: 0 5px;
+    display: inline-block;
+}

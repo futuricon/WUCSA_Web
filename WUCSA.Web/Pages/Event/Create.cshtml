@@ -76,7 +76,7 @@
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-12">
                                     <div class="form-group">
-                                        <label asp-for="Input.Event.EventDate" class="control-label">s</label>
+                                        <label asp-for="Input.Event.EventDate" class="control-label"></label>
                                         <input class="form-control" type="date" asp-for="Input.Event.EventDate">
                                         <span asp-validation-for="Input.Event.EventDate" class="text-danger"></span>
                                     </div>
@@ -166,7 +166,8 @@
 </section>
 
 @section Scripts {
-    <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js"></script> 
+    
+    <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js"></script>
     <script src="https://cdn.tiny.cloud/1/gor58flziaueg8chsw70ufwp3mnxgqytjn0hgvh6agc8q65x/tinymce/5/tinymce.min.js"
             referrerpolicy="origin">
     </script>

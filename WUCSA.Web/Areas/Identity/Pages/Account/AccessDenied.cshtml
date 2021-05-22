@@ -1,10 +1,70 @@
 ﻿@page
 @model AccessDeniedModel
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Access denied";
+    ViewData["Title"] = Localizer["Access denied"];
 }
 
-<header>
-    <h1 class="text-danger">@ViewData["Title"]</h1>
-    <p class="text-danger">You do not have access to this resource.</p>
-</header>
+@section CSS {
+    <style>
+        .error-area {
+            height: 100vh;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto
+        }
+
+        .d-table {
+            width: 100%;
+            height: 100%
+        }
+
+        .d-table {
+            display: table !important
+        }
+
+        .d-table-cell {
+            vertical-align: middle
+        }
+
+        .d-table-cell {
+            display: table-cell !important
+        }
+
+        .error-area .error-content h1 {
+            font-size: 120px;
+            color: #2042e3;
+            margin-bottom: 10px;
+            font-weight: 700
+        }
+
+        .error-area .error-content h2 {
+            font-size: 25px;
+            margin-bottom: 10px;
+            color: #081828
+        }
+
+        .error-area .error-content p {
+            font-weight: 500;
+            margin-bottom: 20px
+        }
+    </style>
+}
+
+<div class="error-area">
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div class="container">
+                <div class="error-content">
+                    <h1>@ViewData["Title"]</h1>
+                    <h2>You do not have access to this resource.</h2>
+                    <div class="button">
+                        <a asp-area="" asp-page="/Index" class="btn">@Localizer["Go To Home"]</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

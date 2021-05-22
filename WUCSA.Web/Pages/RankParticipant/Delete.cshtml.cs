@@ -11,12 +11,10 @@ namespace WUCSA.Web.Pages.RankParticipant
     [Authorize(Roles = "SuperAdmin,Admin")]
     public class DeleteModel : PageModel
     {
-        private readonly UserManager<AppUser> _userManager;
         private readonly IRankRepository _rankRepository;
 
-        public DeleteModel(UserManager<AppUser> userManager, IRankRepository rankRepository)
+        public DeleteModel(IRankRepository rankRepository)
         {
-            _userManager = userManager;
             _rankRepository = rankRepository;
         }
 
@@ -37,10 +35,7 @@ namespace WUCSA.Web.Pages.RankParticipant
                 return NotFound();
             }
 
-            AppUser currentUser = await _userManager.GetUserAsync(User);
-            var currentRole = await _userManager.GetRolesAsync(currentUser);
-
-            if (!currentRole.Contains(Role.SuperAdmin.ToString()))
+            if (!User.IsInRole("SuperAdmin"))
             {
                 if (RankParticipant.IsDeleted)
                 {
@@ -59,10 +54,8 @@ namespace WUCSA.Web.Pages.RankParticipant
 
             RankParticipant = await _rankRepository.GetByIdAsync<Core.Entities.RankModel.RankParticipant>(id);
             var prevPath = RankParticipant.Rank.Slug;
-            AppUser currentUser = await _userManager.GetUserAsync(User);
-            var currentRole = await _userManager.GetRolesAsync(currentUser);
 
-            if (currentRole.Contains(Role.SuperAdmin.ToString()))
+            if (User.IsInRole("SuperAdmin"))
             {
                 if (RankParticipant != null)
                 {

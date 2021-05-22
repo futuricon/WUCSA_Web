@@ -20,6 +20,9 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account.Manage
             _logger = logger;
         }
 
+        [BindProperty]
+        public AppUser UserModel { get; set; }
+
         public async Task<IActionResult> OnGet()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -27,6 +30,15 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account.Manage
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
+
+            var currentRole = await _userManager.GetRolesAsync(user);
+
+            if (!currentRole.Contains(Role.Admin.ToString()))
+            {
+                ViewData.Add("UserRole", "Admin");
+            }
+
+            UserModel = user;
 
             return Page();
         }

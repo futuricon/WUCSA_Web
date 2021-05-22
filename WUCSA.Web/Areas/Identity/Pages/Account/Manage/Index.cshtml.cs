@@ -51,10 +51,11 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account.Manage
             [EmailAddress]
             public string Email { get; set; }
 
+            public bool generateImg { get; set; } = false;
+
             public string FirstName { get; set; }
             public string LastName { get; set; }
             public string ProfilePhotoUrl { get; set; }
-            public IFormFile UploadPhoto { get; set; }
 
             [Phone]
             [Display(Name = "Phone number")]
@@ -92,7 +93,7 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account.Manage
             }
 
             var user = await _userManager.GetUserAsync(User);
-
+            var prevImg = user.ProfilePhotoPath;
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -104,12 +105,18 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account.Manage
             user.FirstName = Input.FirstName;
             user.LastName = Input.LastName;
 
-            if (Input.UploadPhoto != null)
+            //if (Input.UploadPhoto != null)
+            //{
+            //    user.ProfilePhotoPath = _imageHelper.UploadCoverImage(Input.UploadPhoto, $"{user.Id}_profile", "profile_imgs");
+            //}
+            if(Input.generateImg)
             {
-                var prevProfilePhotoPath = Input.ProfilePhotoUrl;
-                user.ProfilePhotoPath = _imageHelper.UploadNextImage(Input.UploadPhoto, $"{user.Id}_profile", true);
+                user.ProfilePhotoPath = _imageHelper.GenerateImage($"{user.Id}_profile", "profile_imgs");
             }
-
+            //if (user.ProfilePhotoPath != prevImg)
+            //{
+            //    _imageHelper.RemoveImage(prevImg, "profile_imgs");
+            //}
             var result = await _userManager.UpdateAsync(user);
 
             foreach (var error in result.Errors)
@@ -126,6 +133,26 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account.Manage
             StatusMessage = "Your profile has been updated";
 
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostUpdateImgAsync(string base64str)
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null || base64str == null || base64str.Length < 6)
+            {
+                return BadRequest($"Something went wrong!");
+            }
+
+            user.ProfilePhotoPath = _imageHelper.UploadPostCoverImage(base64str, $"{user.Id}_profile");
+            var result = await _userManager.UpdateAsync(user);
+
+            foreach (var error in result.Errors)
+            {
+                return BadRequest(error.Description);
+            }
+
+            return new OkObjectResult(user.ProfilePhotoPath);
         }
 
         public async Task<IActionResult> OnPostSendVerificationEmailAsync()
@@ -158,87 +185,4 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account.Manage
             return RedirectToPage();
         }
     }
-    //public partial class IndexModel : PageModel
-    //{
-    //    private readonly UserManager<AppUser> _userManager;
-    //    private readonly SignInManager<AppUser> _signInManager;
-
-    //    public IndexModel(
-    //        UserManager<AppUser> userManager,
-    //        SignInManager<AppUser> signInManager)
-    //    {
-    //        _userManager = userManager;
-    //        _signInManager = signInManager;
-    //    }
-
-    //    public string Username { get; set; }
-
-    //    [TempData]
-    //    public string StatusMessage { get; set; }
-
-    //    [BindProperty]
-    //    public InputModel Input { get; set; }
-
-    //    public class InputModel
-    //    {
-    //        [Phone]
-    //        [Display(Name = "Phone number")]
-    //        public string PhoneNumber { get; set; }
-    //    }
-
-    //    private async Task LoadAsync(AppUser user)
-    //    {
-    //        var userName = await _userManager.GetUserNameAsync(user);
-    //        var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
-    //        Username = userName;
-
-    //        Input = new InputModel
-    //        {
-    //            PhoneNumber = phoneNumber
-    //        };
-    //    }
-
-    //    public async Task<IActionResult> OnGetAsync()
-    //    {
-    //        var user = await _userManager.GetUserAsync(User);
-    //        if (user == null)
-    //        {
-    //            return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-    //        }
-
-    //        await LoadAsync(user);
-    //        return Page();
-    //    }
-
-    //    public async Task<IActionResult> OnPostAsync()
-    //    {
-    //        var user = await _userManager.GetUserAsync(User);
-    //        if (user == null)
-    //        {
-    //            return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-    //        }
-
-    //        if (!ModelState.IsValid)
-    //        {
-    //            await LoadAsync(user);
-    //            return Page();
-    //        }
-
-    //        var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-    //        if (Input.PhoneNumber != phoneNumber)
-    //        {
-    //            var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-    //            if (!setPhoneResult.Succeeded)
-    //            {
-    //                StatusMessage = "Unexpected error when trying to set phone number.";
-    //                return RedirectToPage();
-    //            }
-    //        }
-
-    //        await _signInManager.RefreshSignInAsync(user);
-    //        StatusMessage = "Your profile has been updated";
-    //        return RedirectToPage();
-    //    }
-    //}
 }

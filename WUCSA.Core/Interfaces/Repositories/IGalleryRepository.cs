@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using WUCSA.Core.Entities.GalleryModel;
+using WUCSA.Core.Entities.UserModel;
 
 namespace WUCSA.Core.Interfaces.Repositories
 {
@@ -13,5 +10,7 @@ namespace WUCSA.Core.Interfaces.Repositories
         Task UpdateMediaAsync(Media media);
         Task DeleteMediaAsync(Media media);
         Task UpdateTagsAsync(Media media, bool saveChanges = true, params MTag[] tags);
+        Task AddLikeAsync(Media media, AppUser user);
+        Task RemoveLikeAsync(Media media, AppUser user);
     }
 }

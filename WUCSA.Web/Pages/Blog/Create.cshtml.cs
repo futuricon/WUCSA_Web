@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -19,24 +20,27 @@ namespace WUCSA.Web.Pages.Blog
         private readonly IBlogRepository _blogRepository;
 
         public CreateModel(UserManager<AppUser> userManager,
-            ImageHelper imageHelper,
-            IBlogRepository blogRepository)
+            ImageHelper imageHelper, IBlogRepository blogRepository)
         {
             _userManager = userManager;
             _imageHelper = imageHelper;
             _blogRepository = blogRepository;
         }
 
-
         public class InputModel
         {
             public Core.Entities.BlogModel.Blog Blog { get; set; }
-            public string UploadCoverPhoto { get; set; }
+            public IFormFile UploadCoverPhoto { get; set; }
             public string Tags { get; set; }
         }
 
         [BindProperty]
         public InputModel Input { get; set; }
+
+        public IActionResult OnGet()
+        {
+            return Page();
+        }
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -52,7 +56,11 @@ namespace WUCSA.Web.Pages.Blog
 
             if (Input.UploadCoverPhoto != null)
             {
-                Input.Blog.CoverPhotoPath = _imageHelper.UploadPostCoverImage(Input.UploadCoverPhoto, $"{Input.Blog.Id}_blog_cover");
+                Input.Blog.CoverPhotoPath = _imageHelper.UploadCoverImage(Input.UploadCoverPhoto, $"{Input.Blog.Id}_blog_cover", "post_imgs");
+            }
+            else
+            {
+                Input.Blog.CoverPhotoPath = _imageHelper.GenerateImage($"{Input.Blog.Id}_blog_cover", "post_imgs","big");
             }
 
             await _blogRepository.UpdateTagsAsync(Input.Blog, false, tags);

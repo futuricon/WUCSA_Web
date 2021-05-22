@@ -7,7 +7,6 @@
 }
 
 @section CSS {
-    <link rel="stylesheet" href="~/lib/croppie/croppie.css" />
     <link rel="stylesheet" href="~/css/post_style.css" />
 }
 
@@ -40,17 +39,17 @@
                     <div class="single-inner">
                         <div class="grid">
                             <div class="col-12">
-                                <input id="bgimagebase64" asp-for="Input.UploadCoverPhoto" type="hidden" />
-                                <div class="button">
+                                <div id="uploadBtn" class="button">
                                     <a style="margin-bottom: 2%;" class="btn file-btn">
                                         <span>Choose an image</span>
-                                        <input type="file" id="upload" value="Choose a file" accept="image/*" />
+                                        <input id="uploadInput" type="file" asp-for="Input.UploadCoverPhoto" onchange="readURL(this);" value="Choose a file" accept="image/*" />
                                     </a>
                                 </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="upload-demo-wrap">
-                                    <div id="upload-demo"></div>
+                                <div id="removeBtn" class="button mb-20">
+                                    <button type="button" class="btn mouse-dir white-bg" onclick="removeUpload()">Delete <span id="img-text"></span></button>
+                                </div>
+                                <div class="post-thumbnils" style="display: none;">
+                                    <img id="uploadedImg" src="" alt="">
                                 </div>
                             </div>
                         </div>
@@ -112,67 +111,41 @@
 </section>
 
 @section Scripts {
-    <script src="~/lib/croppie/croppie.min.js"></script>
     <script src="https://cdn.tiny.cloud/1/gor58flziaueg8chsw70ufwp3mnxgqytjn0hgvh6agc8q65x/tinymce/5/tinymce.min.js"
             referrerpolicy="origin">
     </script>
     <script>
-
         $(document).ready(function () {
-            resizeDiv();
+            document.getElementById("removeBtn").style.display = "none";
+            document.getElementsByClassName("post-thumbnils").style.display = "none";
         });
-        window.onresize = function () {
-            resizeDiv();
-        };
-
-        function resizeDiv() {
-            var cw = $('.upload-demo-wrap').width();
-            $('.upload-demo-wrap').css({
-                'height': cw / 2.125 + 'px'
-            });
-            $('.cr-viewport').css({
-                'height': cw * 0.4 + 'px',
-                'width': cw * 0.85 + 'px'
-            });
-        }
-
-        var $uploadCrop;
-
-        function readFile(input) {
+        function readURL(input) {
             if (input.files && input.files[0]) {
+
                 var reader = new FileReader();
 
                 reader.onload = function (e) {
-                    $('.upload-demo').addClass('ready');
-                    $uploadCrop.croppie('bind', {
-                        url: e.target.result
-                    }).then(function () {
-                        console.log('jQuery bind complete');
-                    });
-                }
+                    $('#uploadBtn').hide();
+
+                    $('#uploadedImg').attr('src', e.target.result);
+                    $('.post-thumbnils').show();
+                    $('#removeBtn').show();
+
+                    $('#img-text').html(input.files[0].name);
+                };
 
                 reader.readAsDataURL(input.files[0]);
+
             } else {
-                swal("Sorry - you're browser doesn't support the FileReader API");
+                removeUpload();
             }
         }
-
-        $uploadCrop = $('#upload-demo').croppie({
-            enableExif: true
-        });
-
-        $('#upload').on('change', function () {
-            readFile(this);
-        });
-
-        function setimg() {
-            $uploadCrop.croppie('result', {
-                type: 'base64',
-                size: 'viewport'
-            }).then(function (resp) {
-                document.getElementById('bgimagebase64').setAttribute('value', resp);
-            });
-        };
+        function removeUpload() {
+            $('#uploadInput').replaceWith($('#uploadInput').clone());
+            $('#removeBtn').hide();
+            $('.post-thumbnils').hide();
+            $('#uploadBtn').show();
+        }
 
         tinymce.init({
             selector: 'textarea.richtexteditor',
@@ -231,6 +204,5 @@
             },
             content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
         });
-
     </script>
 }

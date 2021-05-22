@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -12,17 +13,14 @@ using WUCSA.Web.Utils;
 
 namespace WUCSA.Web.Pages.Blog
 {
-    [Authorize(Roles = "SuperAdmin,Admin,Editor")]
+    [Authorize(Roles = "SuperAdmin,Admin")]
     public class EditModel : PageModel
     {
-        private readonly UserManager<AppUser> _userManager;
         private readonly ImageHelper _imageHelper;
         private readonly IBlogRepository _blogRepository;
 
-        public EditModel(UserManager<AppUser> userManager,
-            ImageHelper imageHelper, IBlogRepository blogRepository)
+        public EditModel(ImageHelper imageHelper, IBlogRepository blogRepository)
         {
-            _userManager = userManager;
             _imageHelper = imageHelper;
             _blogRepository = blogRepository;
         }
@@ -30,7 +28,7 @@ namespace WUCSA.Web.Pages.Blog
         public class InputModel
         {
             public Core.Entities.BlogModel.Blog Blog { get; set; }
-            public string UploadCoverPhoto { get; set; }
+            public IFormFile UploadCoverPhoto { get; set; }
             public string Tags { get; set; }
         }
 
@@ -40,10 +38,8 @@ namespace WUCSA.Web.Pages.Blog
         public async Task<IActionResult> OnGetAsync(string id)
         {
             var blog = await _blogRepository.GetByIdAsync<Core.Entities.BlogModel.Blog>(id);
-            AppUser currentUser = await _userManager.GetUserAsync(User);
-            var currentRole = await _userManager.GetRolesAsync(currentUser);
             
-            if (!currentRole.Contains(Role.SuperAdmin.ToString()))
+            if (!User.IsInRole("SuperAdmin"))
             {
                 if (blog.IsDeleted)
                 {
@@ -79,7 +75,7 @@ namespace WUCSA.Web.Pages.Blog
 
             if (Input.UploadCoverPhoto != null && Input.UploadCoverPhoto.Length > 6)
             {
-                Input.Blog.CoverPhotoPath = _imageHelper.UploadPostCoverImage(Input.UploadCoverPhoto, $"{Input.Blog.Id}_blog_cover");
+                Input.Blog.CoverPhotoPath = _imageHelper.UploadCoverImage(Input.UploadCoverPhoto, $"{Input.Blog.Id}_blog_cover", "post_imgs");
             }
 
             await _blogRepository.UpdateTagsAsync(blog, false, tags);

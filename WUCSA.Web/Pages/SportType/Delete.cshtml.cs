@@ -12,14 +12,11 @@ namespace WUCSA.Web.Pages.SportType
     [Authorize(Roles = "SuperAdmin,Admin")]
     public class DeleteModel : PageModel
     {
-        private readonly UserManager<AppUser> _userManager;
         private readonly PDFFileHelper _pdfFileHelper;
         private readonly IRankRepository _rankRepositor;
 
-        public DeleteModel(UserManager<AppUser> userManager, 
-            PDFFileHelper pdfFileHelper, IRankRepository rankRepositor)
+        public DeleteModel(PDFFileHelper pdfFileHelper, IRankRepository rankRepositor)
         {
-            _userManager = userManager;
             _pdfFileHelper = pdfFileHelper;
             _rankRepositor = rankRepositor;
         }
@@ -42,10 +39,7 @@ namespace WUCSA.Web.Pages.SportType
                 return NotFound();
             }
 
-            AppUser currentUser = await _userManager.GetUserAsync(User);
-            var currentRole = await _userManager.GetRolesAsync(currentUser);
-
-            if (!currentRole.Contains(Role.SuperAdmin.ToString()))
+            if (!User.IsInRole("SuperAdmin"))
             {
                 if (SportType.IsDeleted)
                 {
@@ -70,10 +64,7 @@ namespace WUCSA.Web.Pages.SportType
 
             SportType = await _rankRepositor.GetByIdAsync<Core.Entities.RankModel.SportType>(id);
 
-            AppUser currentUser = await _userManager.GetUserAsync(User);
-            var currentRole = await _userManager.GetRolesAsync(currentUser);
-
-            if (currentRole.Contains(Role.SuperAdmin.ToString()))
+            if (User.IsInRole("SuperAdmin"))
             {
                 if (SportType != null)
                 {

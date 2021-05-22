@@ -37,17 +37,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Gallery\" />
     <Folder Include="Resources\Pages\Admin\" />
     <Folder Include="Resources\Pages\Blog\" />
     <Folder Include="Resources\Pages\Gallery\" />
     <Folder Include="Resources\Pages\Rank\" />
     <Folder Include="Resources\Pages\Shared\" />
-    <Folder Include="wwwroot\img\certificates\" />
+    <Folder Include="wwwroot\img\certificate_imgs\" />
     <Folder Include="wwwroot\img\event_imgs\" />
+    <Folder Include="wwwroot\img\staff_imgs\" />
+    <Folder Include="wwwroot\img\post_imgs\" />
     <Folder Include="wwwroot\img\profile_imgs\" />
     <Folder Include="wwwroot\img\gallery_imgs\" />
-    <Folder Include="wwwroot\img\post_imgs\" />
     <Folder Include="wwwroot\pdfFiles\events\" />
     <Folder Include="wwwroot\pdfFiles\sportTypes\" />
     <Folder Include="wwwroot\pdfFiles\ranks\" />

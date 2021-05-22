@@ -44,10 +44,7 @@ namespace WUCSA.Web.Pages.Rank
                 return NotFound();
             }
 
-            AppUser currentUser = await _userManager.GetUserAsync(User);
-            var currentRole = await _userManager.GetRolesAsync(currentUser);
-
-            if (!currentRole.Contains(Role.SuperAdmin.ToString()))
+            if (!User.IsInRole("SuperAdmin"))
             {
                 if (Rank.IsDeleted)
                 {
@@ -71,10 +68,7 @@ namespace WUCSA.Web.Pages.Rank
 
             Rank = await _rankRepositor.GetByIdAsync<Core.Entities.RankModel.Rank>(id);
 
-            AppUser currentUser = await _userManager.GetUserAsync(User);
-            var currentRole = await _userManager.GetRolesAsync(currentUser);
-
-            if (currentRole.Contains(Role.SuperAdmin.ToString()))
+            if (User.IsInRole("SuperAdmin"))
             {
                 if (Rank != null)
                 {

@@ -415,8 +415,14 @@ namespace WUCSA.Infrastructure.Migrations
                     b.Property<string>("AuthorId")
                         .HasColumnType("nvarchar(32)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("MediaPath")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MediaType")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("PostedDate")
                         .HasColumnType("datetime2");
@@ -426,6 +432,23 @@ namespace WUCSA.Infrastructure.Migrations
                     b.HasIndex("AuthorId");
 
                     b.ToTable("Media");
+                });
+
+            modelBuilder.Entity("WUCSA.Core.Entities.GalleryModel.MediaLike", b =>
+                {
+                    b.Property<string>("MediaId")
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
+
+                    b.HasKey("MediaId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("MediaLike");
                 });
 
             modelBuilder.Entity("WUCSA.Core.Entities.GalleryModel.MediaTag", b =>
@@ -599,8 +622,8 @@ namespace WUCSA.Infrastructure.Migrations
                         .HasMaxLength(32);
 
                     b.Property<string>("CertName")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(80)")
+                        .HasMaxLength(80);
 
                     b.Property<string>("CertPath")
                         .HasColumnType("nvarchar(100)")
@@ -681,6 +704,10 @@ namespace WUCSA.Infrastructure.Migrations
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("CountryCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(400)")
@@ -1006,6 +1033,21 @@ namespace WUCSA.Infrastructure.Migrations
                     b.HasOne("WUCSA.Core.Entities.UserModel.AppUser", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId");
+                });
+
+            modelBuilder.Entity("WUCSA.Core.Entities.GalleryModel.MediaLike", b =>
+                {
+                    b.HasOne("WUCSA.Core.Entities.GalleryModel.Media", "Media")
+                        .WithMany("LikesCount")
+                        .HasForeignKey("MediaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WUCSA.Core.Entities.UserModel.AppUser", "AppUser")
+                        .WithMany("MediaLikes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WUCSA.Core.Entities.GalleryModel.MediaTag", b =>

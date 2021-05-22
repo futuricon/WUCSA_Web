@@ -17,13 +17,11 @@ namespace WUCSA.Web.Pages.SportType
     [Authorize(Roles = "SuperAdmin,Admin")]
     public class EditModel : PageModel
     {
-        private readonly UserManager<AppUser> _userManager;
         private readonly IRankRepository _rankRepository;
         private readonly PDFFileHelper _pdfFileHelper;
 
-        public EditModel(UserManager<AppUser> userManager, IRankRepository rankRepository, PDFFileHelper pdfFileHelper)
+        public EditModel(IRankRepository rankRepository, PDFFileHelper pdfFileHelper)
         {
-            _userManager = userManager;
             _rankRepository = rankRepository;
             _pdfFileHelper = pdfFileHelper;
         }
@@ -48,10 +46,8 @@ namespace WUCSA.Web.Pages.SportType
             {
                 return NotFound();
             }
-            AppUser currentUser = await _userManager.GetUserAsync(User);
-            var currentRole = await _userManager.GetRolesAsync(currentUser);
-
-            if (!currentRole.Contains(Role.SuperAdmin.ToString()))
+            
+            if (!User.IsInRole("SuperAdmin"))
             {
                 if (sportType.IsDeleted)
                 {

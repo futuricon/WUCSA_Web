@@ -1,0 +1,120 @@
+﻿@page
+@model WUCSA.Web.Pages.Gallery.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_Layout";
+}
+
+@section CSS {
+    <link rel="stylesheet" href="~/css/gallery_style.css" />
+}
+
+<div class="breadcrumbs overlay">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title">Create new Media</h1>
+                    <p>
+                        Business plan draws on a wide range of knowledge from different business<br> disciplines.
+                        Business draws on a wide range of different business .
+                    </p>
+                </div>
+                <ul class="breadcrumb-nav">
+                    <li><a asp-area="" asp-page="/Index">Home</a></li>
+                    <li><a asp-page="/Gallery/Index">Gallery</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="section gallery-single">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <form onsubmit="setimg()" enctype="multipart/form-data" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="single-inner">
+                        <div class="grid">
+                            <div class="col-12">
+                                <div id="uploadBtn" class="button">
+                                    <a style="margin-bottom: 2%;" class="btn file-btn">
+                                        <span>Choose an image</span>
+                                        <input id="uploadInput" type="file" asp-for="Input.UploadPhoto" onchange="readURL(this);" value="Choose a file" accept="image/*" />
+                                    </a>
+                                </div>
+                                <div id="removeBtn" class="button mb-20">
+                                    <button type="button" class="btn mouse-dir white-bg" onclick="removeUpload()">Delete <span id="img-text"></span></button>
+                                </div>
+                                <div class="post-thumbnils" style="display: none;">
+                                    <img id="uploadedImg" src="" alt="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-details">
+                            <div class="detail-inner">
+                                <div id="media-path" class="form-group">
+                                    <label asp-for="Input.Media.MediaPath" class="control-label"></label>
+                                    <input asp-for="Input.Media.MediaPath" class="form-control" />
+                                    <span asp-validation-for="Input.Media.MediaPath" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mt-10">
+                                    <label asp-for="Input.Tags" class="control-label"></label>
+                                    <label class="font-weight-light">&nbsp;(<span class="font-weight-bold text-danger">*</span>Do not duplicate tag names)</label>
+                                    <input asp-for="Input.Tags" class="form-control" />
+                                    <span asp-validation-for="Input.Tags" class="text-danger"></span>
+                                </div>
+                                <div class="button form-group mt-4">
+                                    <input type="submit" value="Create" class="btn" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    
+    <script>
+        $(document).ready(function () {
+            document.getElementById("removeBtn").style.display = "none";
+            document.getElementsByClassName("post-thumbnils").style.display = "none";
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#uploadBtn').hide();
+                    $('#media-path').hide();
+                    $('#uploadedImg').attr('src', e.target.result);
+                    $('.post-thumbnils').show();
+                    $('#removeBtn').show();
+
+                    $('#img-text').html(input.files[0].name);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+
+            } else {
+                removeUpload();
+            }
+        }
+
+        function removeUpload() {
+            $('#uploadInput').replaceWith($('#uploadInput').clone());
+            $('#removeBtn').hide();
+            $('.post-thumbnils').hide();
+            $('#uploadBtn').show();
+            $('#media-path').show();
+        }
+
+    </script>
+}

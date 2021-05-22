@@ -5,21 +5,53 @@
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
 }
 
-<h4>@ViewData["Title"]</h4>
+<div class="personal-top-content">
+    <div class="row">
+        <div>
+            <h4 style="font-size: 20px" class="mb-40">Your account contains personal data that you have given us. This page allows you to delete that data.</h4>
+        </div>
+        <div class="col-lg-5 col-md-5 col-12">
+            <div class="name-head">
+                <a class="mb-2"><img class="circle-54 profile-photo" src="@Model.UserModel.ProfilePhotoPath" alt=""></a>
+                <h4><a class="name">@Model.UserModel.FirstName @Model.UserModel.LastName</a></h4>
+                <p>
+                    <a class="deg">
+                        @ViewData["UserRole"]
+                    </a>
+                </p>
 
-<div class="row">
-    <div class="col-md-6">
-        <p>Your account contains personal data that you have given us. This page allows you to download or delete that data.</p>
-        <p>
-            <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
-        </p>
-        <form id="download-data" asp-page="DownloadPersonalData" method="post" class="form-group">
-            <button class="btn btn-primary" type="submit">Download</button>
-        </form>
-        <p>
-            <a id="delete" asp-page="DeletePersonalData" class="btn btn-primary">Delete</a>
-        </p>
+            </div>
+        </div>
+        <div class="col-lg-7 col-md-7 col-12">
+            <div class="content-right">
+                <div class="single-list">
+                    <h5 class="title">Username</h5>
+                    <p>@Model.UserModel.UserName</p>
+                </div>
+
+                <div class="single-list">
+                    <h5 class="title">E-mail</h5>
+                    <p>@Model.UserModel.Email</p>
+                </div>
+
+                <div class="single-list">
+                    <h5 class="title">Phone</h5>
+                    <p>@Model.UserModel.PhoneNumber</p>
+                </div>
+
+            </div>
+        </div>
     </div>
+</div>
+
+<div class="single-section skill">
+    <h5>Deleting this data will permanently remove your account, and this cannot be recovered.</h5>
+    <ul class="list-unstyled d-flex align-items-center flex-wrap">
+        <li>
+            <a id="delete" asp-page="DeletePersonalData" class="btn">Delete</a>
+        </li>
+
+    </ul>
 </div>
 
 @section Scripts {

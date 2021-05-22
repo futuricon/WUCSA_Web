@@ -16,14 +16,11 @@ namespace WUCSA.Web.Pages.Blog
     [Authorize(Roles = "SuperAdmin,Admin")]
     public class DeleteModel : PageModel
     {
-        private readonly UserManager<AppUser> _userManager;
         private readonly ImageHelper _imageHelper;
         private readonly IBlogRepository _blogRepository;
 
-        public DeleteModel(UserManager<AppUser> userManager, 
-            ImageHelper imageHelper, IBlogRepository blogRepository)
+        public DeleteModel(ImageHelper imageHelper, IBlogRepository blogRepository)
         {
-            _userManager = userManager;
             _blogRepository = blogRepository;
             _imageHelper = imageHelper;
         }
@@ -48,10 +45,7 @@ namespace WUCSA.Web.Pages.Blog
                 return NotFound();
             }
 
-            AppUser currentUser = await _userManager.GetUserAsync(User);
-            var currentRole = await _userManager.GetRolesAsync(currentUser);
-
-            if (!currentRole.Contains(Role.SuperAdmin.ToString()))
+            if (!User.IsInRole("SuperAdmin"))
             {
                 if (Blog.IsDeleted)
                 {
@@ -70,10 +64,7 @@ namespace WUCSA.Web.Pages.Blog
 
             Blog = await _blogRepository.GetByIdAsync<Core.Entities.BlogModel.Blog>(id);
 
-            AppUser currentUser = await _userManager.GetUserAsync(User);
-            var currentRole = await _userManager.GetRolesAsync(currentUser);
-
-            if (currentRole.Contains(Role.SuperAdmin.ToString()))
+            if (User.IsInRole("SuperAdmin"))
             {
                 if (Blog != null)
                 {

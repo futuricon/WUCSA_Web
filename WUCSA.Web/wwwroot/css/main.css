@@ -3713,9 +3713,9 @@ ol {
   .post-comments .comments-list li {
     padding-top: 30px !important;
   }
-  .post-comments .comments-list li .comment-desc {
+  /*.post-comments .comments-list li .comment-desc {
     margin-top: -15px;
-  }
+  }*/
   .post-comments .comments-list li .comment-img img {
     max-width: 70px;
     max-height: 70px;

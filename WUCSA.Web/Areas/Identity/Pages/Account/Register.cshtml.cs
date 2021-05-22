@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -12,7 +11,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
@@ -105,8 +103,9 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var profileImage = _imageHelper.GenerateImage(Input.Email, "profile_imgs");
-                var user = new AppUser { UserName = Input.UserName, Email = Input.Email, ProfilePhotoPath = profileImage };
+                
+                var user = new AppUser { UserName = Input.UserName, Email = Input.Email};
+                var profileImage = _imageHelper.GenerateImage($"{user.Id}_profile", "profile_imgs");
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

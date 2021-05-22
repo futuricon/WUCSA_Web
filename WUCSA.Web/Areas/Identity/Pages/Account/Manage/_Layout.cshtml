@@ -9,20 +9,28 @@
     }
 }
 @section CSS {
+    <link rel="stylesheet" href="~/css/account_style.css" />
     @await RenderSectionAsync("CSS", required: false).ConfigureAwait(false)
 }
 
-<h2>Manage your account</h2>
-
-<div>
-    <h4>Change your account settings</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-3">
-            <partial name="_ManageNav" />
-        </div>
-        <div class="col-md-9">
-            @RenderBody()
+<div class="manage-account section">
+    <div class="container">
+        <div class="account-inner mt-30">
+            <div class="row">
+    
+                <div class="col-lg-4 col-12">
+                    <div class="dashbord-sidebar">
+                        <partial name="_ManageNav" />
+                    </div>
+                </div>
+    
+                <div class="col-lg-8 col-12">
+                    <div class="inner-content">
+                        @RenderBody()
+                    </div>
+                </div>
+    
+            </div>
         </div>
     </div>
 </div>

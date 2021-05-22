@@ -15,15 +15,13 @@ namespace WUCSA.Web.Pages.Event
     [Authorize(Roles = "SuperAdmin,Admin")]
     public class DeleteModel : PageModel
     {
-        private readonly UserManager<AppUser> _userManager;
         private readonly ImageHelper _imageHelper;
         private readonly PDFFileHelper _pdfFileHelper;
         private readonly IEventRepository _eventRepository;
 
-        public DeleteModel(UserManager<AppUser> userManager, ImageHelper imageHelper, 
-            PDFFileHelper pdfFileHelper, IEventRepository eventRepository)
+        public DeleteModel(ImageHelper imageHelper, PDFFileHelper pdfFileHelper, 
+            IEventRepository eventRepository)
         {
-            _userManager = userManager;
             _imageHelper = imageHelper;
             _pdfFileHelper = pdfFileHelper;
             _eventRepository = eventRepository;
@@ -48,10 +46,7 @@ namespace WUCSA.Web.Pages.Event
                 return NotFound();
             }
 
-            AppUser currentUser = await _userManager.GetUserAsync(User);
-            var currentRole = await _userManager.GetRolesAsync(currentUser);
-
-            if (!currentRole.Contains(Role.SuperAdmin.ToString()))
+            if (!User.IsInRole("SuperAdmin"))
             {
                 if (Event.IsDeleted)
                 {
@@ -70,10 +65,7 @@ namespace WUCSA.Web.Pages.Event
 
             Event = await _eventRepository.GetByIdAsync<Core.Entities.EventModel.Event>(id);
 
-            AppUser currentUser = await _userManager.GetUserAsync(User);
-            var currentRole = await _userManager.GetRolesAsync(currentUser);
-
-            if (currentRole.Contains(Role.SuperAdmin.ToString()))
+            if (User.IsInRole("SuperAdmin"))
             {
                 if (Event != null)
                 {

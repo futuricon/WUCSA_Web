@@ -80,6 +80,20 @@ namespace WUCSA.Infrastructure.Data
 
             });
 
+            builder.Entity<MediaLike>(entity =>
+            {
+                entity.HasKey(k => new { k.MediaId, k.UserId });
+
+                entity.HasOne(m => m.Media)
+                    .WithMany(m => m.LikesCount)
+                    .HasForeignKey(m => m.MediaId);
+
+                entity.HasOne(m => m.AppUser)
+                    .WithMany(m => m.MediaLikes)
+                    .HasForeignKey(m => m.UserId);
+
+            });
+
             builder.Entity<Staff>(entity =>
             {
                 entity.HasMany(m => m.Certificates)

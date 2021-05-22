@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using WUCSA.Core.Entities.UserModel;
+using WUCSA.Web.Utils;
 
 namespace WUCSA.Web.Areas.Identity.Pages.Account
 {
@@ -16,15 +17,18 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
         private readonly ILogger<ExternalLoginModel> _logger;
+        private readonly ImageHelper _imageHelper;
 
         public ExternalLoginModel(
             SignInManager<AppUser> signInManager,
             UserManager<AppUser> userManager,
-            ILogger<ExternalLoginModel> logger)
+            ILogger<ExternalLoginModel> logger,
+            ImageHelper imageHelper)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
+            _imageHelper = imageHelper;
         }
 
         [BindProperty]
@@ -116,12 +120,31 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
                 string firstName = info.Principal.FindFirstValue(ClaimTypes.GivenName);
                 string lastName = info.Principal.FindFirstValue(ClaimTypes.Surname);
                 var profilePhotoPath = info.Principal.FindFirst("image")?.Value;
-                var user = new AppUser { 
-                    UserName = Input.Email, 
-                    FirstName = firstName,
-                    LastName = lastName,
-                    ProfilePhotoPath = profilePhotoPath,
-                    Email = Input.Email };
+                AppUser user;
+                if (profilePhotoPath != null)
+                {
+                    user = new AppUser
+                    {
+                        UserName = Input.Email,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        ProfilePhotoPath = profilePhotoPath,
+                        Email = Input.Email
+                    };
+                }
+                else
+                {
+                    user = new AppUser
+                    {
+                        UserName = Input.Email,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = Input.Email
+                    };
+                    var profileImage = _imageHelper.GenerateImage($"{user.Id}_profile", "profile_imgs");
+                    user.ProfilePhotoPath = profileImage;
+                }
+                
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

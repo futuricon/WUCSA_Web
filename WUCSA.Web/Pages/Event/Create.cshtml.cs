@@ -80,7 +80,7 @@ namespace WUCSA.Web.Pages.Event
             Input.Event.Slug = tempSlug.Slugify();
             if (Input.UploadCoverPhoto != null)
             {
-                Input.Event.CoverPhotoPath = _imageHelper.UploadEventCoverImage(Input.UploadCoverPhoto, Input.Event.Id);
+                Input.Event.CoverPhotoPath = _imageHelper.UploadCoverImage(Input.UploadCoverPhoto, Input.Event.Id, "event_imgs");
             }
             if (Input.UploadPdfRules != null)
             {
@@ -93,7 +93,7 @@ namespace WUCSA.Web.Pages.Event
             Input.Event.Author = currentUser;
             await _eventRepository.UpdateSportTypesAsync(Input.Event, false, SelectedStypesId);
             await _eventRepository.AddEventAsync(Input.Event);
-            return RedirectToPage($"/Event/List/{Input.Event.EventLocation}");
+            return RedirectToPage($"/Event/List", new { location = Input.Event.EventLocation});
         }
 
         private async Task GetOptionAsync()
