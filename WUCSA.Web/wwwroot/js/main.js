@@ -67,7 +67,5 @@ Author: GrayGrids
     })
     // WOW active
     new WOW().init();
-
-
     
 })();

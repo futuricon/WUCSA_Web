@@ -61,33 +61,53 @@ namespace WUCSA.Infrastructure.Repositories
         public async Task UpdateCertificatesAsync(Staff staff, bool saveChanges = true, params Certificate[] certificates)
         {
             List<Certificate> oldCertificates = staff.Certificates.ToList();
+            var updateCertificates = new List<Certificate>();
+
             foreach (var oldCertificate in oldCertificates)
             {
-                if (certificates.Any(i=>i.Id != oldCertificate.Id))
+                if (certificates.Any(i=>i.Id == oldCertificate.Id && i.CertPath == null))
                 {
-
-                    staff.Certificates.Remove(oldCertificate);
+                    staff.Certificates.ToList().RemoveAll(i=>i.Id == oldCertificate.Id);
                 }
             }
             foreach (var certificate in certificates)
             {
                 var originCertificate = await GetAsync<Certificate>(i => i.Id == certificate.Id);
+
                 if (originCertificate == null)
                 {
+                    if (certificate.CertPath == null)
+                    {
+                        continue;
+                    }
                     originCertificate = certificate;
                     await _context.Set<Certificate>().AddAsync(originCertificate);
-                }
-                if (originCertificate != null && originCertificate.CertPath != certificate.CertPath)
-                {
-                    await UpdateAsync(certificate);
-                }
 
+                }
+                
+                if (originCertificate != null)
+                {
+                    if (certificate.CertPath == null)
+                    {
+                        _context.Set<Certificate>().Remove(originCertificate);
+                    }
+                    else if (originCertificate.CertPath != certificate.CertPath)
+                    {
+                        updateCertificates.Add(originCertificate);
+                    }
+                }
+                
                 if (staff.Certificates.Any(i=> i.Id == originCertificate.Id))
                 {
                     continue;
                 }
 
                 staff.Certificates.Add(originCertificate);
+            }
+
+            foreach (var updateCertificate in updateCertificates)
+            {
+                await UpdateAsync(updateCertificate);
             }
 
             if (saveChanges)

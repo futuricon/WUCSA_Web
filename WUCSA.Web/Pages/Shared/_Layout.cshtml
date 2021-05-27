@@ -5,18 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     @await RenderSectionAsync("Head", required: false).ConfigureAwait(false)
     <title>@ViewData["Title"] - WUCSA</title>
-    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.svg" />
+    <link rel="shortcut icon" type="image/x-icon" href="~/images/favicon.ico" />
 
     <!-- Web Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet">
 
     <!-- ========================= CSS here ========================= -->
-    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/LineIcons.2.0.css" />
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    </environment>
+    <environment exclude="Development">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" 
+              rel="stylesheet" 
+              integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" 
+              crossorigin="anonymous">
+    </environment>
+    <link href="https://cdn.lineicons.com/2.0/LineIcons.css" rel="stylesheet">
     <link rel="stylesheet" href="~/css/animate.css" />
-    <link rel="stylesheet" href="~/css/tiny-slider.css" />
-    <link rel="stylesheet" href="~/css/glightbox.min.css" />
     <link rel="stylesheet" href="~/css/main.css" />
 
     @await RenderSectionAsync("CSS", required: false).ConfigureAwait(false)
@@ -32,9 +38,11 @@
                 <div class="row align-items-center">
                     <div class="col-lg-12">
                         <nav class="navbar navbar-expand-lg">
-
-                            <button class="navbar-toggler" type="button" data-toggle="collapse"
-                                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            <a class="navbar-brand logo" href="index.html">
+                                <img class="logo1" src="~/images/logo/logo.svg" alt="Logo" />
+                            </a>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                                     aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="toggler-icon"></span>
                                 <span class="toggler-icon"></span>
@@ -47,7 +55,7 @@
                                         <a is-active-page id="header_about_id" asp-page="/About/Index">About</a>
                                         <ul class="sub-menu">
                                             <li><a is-active-page id="header_history_id" asp-page="/History/Index">History</a></li>
-                                            <li><a is-active-page id="header_members_id" asp-page="/Staff/Index">Members</a></li>
+                                            <li><a is-active-page id="header_members_id" asp-page="/Staff/List">Staff & Members</a></li>
                                             <li><a is-active-page id="header_sportType_id" asp-page="/SportType/List">Types of Sport</a></li>
                                         </ul>
                                     </li>
@@ -55,7 +63,7 @@
                                     <li class="nav-item"><a is-active-page id="header_ranking_id" asp-page="/Rank/List">Ranking</a></li>
                                     <li class="nav-item"><a is-active-page id="header_gallery_id" asp-page="/Gallery/Index">Gallery </a></li>
                                     <li class="nav-item"><a is-active-page id="header_blog_id" asp-page="/Blog/List">Blog</a></li>
-                                    <li class="nav-item"><a is-active-page id="header_contacts_id" asp-page="/Contacts/Index">Contacts</a></li>
+                                    <li class="nav-item"><a is-active-page id="header_contacts_id" asp-page="/Contact">Contact Us</a></li>
                                     <vc:culture-switcher />
                                 </ul>
                             </div>
@@ -82,13 +90,13 @@
         <div class="footer-middle">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-4 col-md-6 col-12">
+                    <div class="col-lg-4 col-md-5 col-12">
                         <!-- Single Widget -->
                         <div class="f-about single-footer">
                             <div class="logo">
-                                <a href="index.html"><img src="assets/images/logo/logo.svg" alt="Logo"></a>
+                                <a href="http://wucsa.com/"><img src="~/images/logo/logo.svg" alt="Logo"></a>
                             </div>
-                            <p>Start building your creative website with our awesome template Massive.</p>
+                            <p>World Usmanov's<br>Combat Systems<br>Association</p>
                             <ul class="contact-address">
                                 <li><span>Address:</span> 555 Wall Street, USA, NY</li>
                                 <li><span>Email:</span> example@apus.com</li>
@@ -96,60 +104,41 @@
                             </ul>
                             <div class="footer-social">
                                 <ul>
-                                    <li><a href="#"><i class="lni lni-facebook-original"></i></a></li>
-                                    <li><a href="#"><i class="lni lni-twitter-original"></i></a></li>
-                                    <li><a href="#"><i class="lni lni-linkedin-original"></i></a></li>
-                                    <li><a href="#"><i class="lni lni-pinterest"></i></a></li>
+                                    <li><a href="https://www.facebook.com/sport.wucsa"><i class="lni lni-facebook-original"></i></a></li>
+                                    <li><a href="https://www.instagram.com/sport.wucsa/"><i class="lni lni-instagram-original"></i></a></li>
+                                    <li><a href="https://www.youtube.com/channel/UCYzKUR7sbhYYFXAV5bA-Juw"><i class="lni lni-youtube"></i></a></li>
+                                    <li><a href="https://t.me/wucsa"><i class="lni lni-telegram-original"></i></a></li>
                                 </ul>
                             </div>
                         </div>
                         <!-- End Single Widget -->
                     </div>
-                    <div class="col-lg-8 col-12">
+                    <div class="col-lg-8 col-md-7 col-12">
                         <div class="row">
-                            <div class="col-lg-4 col-md-6 col-12">
+                            <div class="col-lg-6 col-md-6 col-12">
                                 <!-- Single Widget -->
                                 <div class="single-footer f-link">
-                                    <h3>For Candidates</h3>
+                                    <h3>For Guests</h3>
                                     <ul>
-                                        <li><a href="#">User Dashboard</a></li>
-                                        <li><a href="#">CV Packages</a></li>
-                                        <li><a href="#">Jobs Featured</a></li>
-                                        <li><a href="#">Jobs Urgent</a></li>
-                                        <li><a href="#">Candidate List</a></li>
-                                        <li><a href="#">Candidates Grid</a></li>
+                                        <li><a asp-page="/About/Index">About us</a></li>
+                                        <li><a asp-page="/History/Index">History</a></li>
+                                        <li><a asp-page="/SportType/List">Types of Sport &amp; Rules</a></li>
+                                        <li><a asp-page="/Blog/List">News & Blog</a></li>
+                                        <li><a asp-page="/Gallery/Index">Gallery</a></li>
                                     </ul>
                                 </div>
                                 <!-- End Single Widget -->
                             </div>
-                            <div class="col-lg-4 col-md-6 col-12">
+                            <div class="col-lg-6 col-md-6 col-12">
                                 <!-- Single Widget -->
                                 <div class="single-footer f-link">
-                                    <h3>For Employers</h3>
+                                    <h3>For Members</h3>
                                     <ul>
-                                        <li><a href="#">Post New</a></li>
-                                        <li><a href="#">Employer List</a></li>
-                                        <li><a href="#">Employers Grid</a></li>
-                                        <li><a href="#">Job Packages</a></li>
-                                        <li><a href="#">Jobs Listing</a></li>
-                                        <li><a href="#">Jobs Featured</a></li>
+                                        <li><a asp-page="/Event/List" asp-route-location="World">Events</a></li>
+                                        <li><a asp-page="/Rank/List">Ranking</a></li>
+                                        <li><a asp-page="/Staff/List">Staff</a></li>
+                                        <li><a asp-page="/Staff/List">Members</a></li>
                                     </ul>
-                                </div>
-                                <!-- End Single Widget -->
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-12">
-                                <!-- Single Widget -->
-                                <div class="single-footer newsletter">
-                                    <h3>Join Our Newsletter</h3>
-                                    <p>Subscribe to get the latest jobs posted, candidates...</p>
-                                    <form action="mail/mail.php" method="get" target="_blank" class="newsletter-inner">
-                                        <input name="EMAIL" placeholder="Your email address" class="common-input"
-                                               onfocus="this.placeholder = ''"
-                                               onblur="this.placeholder = 'Your email address'" required="" type="email">
-                                        <div class="button">
-                                            <button class="btn">Subscribe Now! <span class="dir-part"></span></button>
-                                        </div>
-                                    </form>
                                 </div>
                                 <!-- End Single Widget -->
                             </div>
@@ -166,18 +155,14 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-12">
                             <div class="left">
-                                <p>
-                                    2020 - WUCSA.COM - <a asp-area="" asp-page="/Privacy">Privacy</a>
-                                </p>
+                                <p>© @DateTime.Now.Year - WUCSA.COM / By<a class="glitch-logo" href="https://t.me/Futuricon" data-text="FUTURICON">FUTURICON</a></p>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-12">
                             <div class="right">
                                 <ul>
-                                    <li><a href="#">Terms of use</a></li>
-                                    <li><a href="#"> Privacy Policy</a></li>
-                                    <li><a href="#">Faq</a></li>
-                                    <li><a href="#">Contact</a></li>
+                                    <li><a asp-area="" asp-page="/Privacy">Privacy</a></li>
+                                    <li><a asp-page="/Contact">Contact</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -195,26 +180,25 @@
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/js/bootstrap.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     </environment>
     <environment exclude="Development">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" 
-                integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+                integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
                 crossorigin="anonymous">
         </script>
-        <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.9.2/dist/umd/popper.min.js" 
-                integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" 
+        <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.9.2/dist/umd/popper.min.js"
+                integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
                 crossorigin="anonymous">
         </script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" 
-                integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" 
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+                integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
                 crossorigin="anonymous">
         </script>
     </environment>
-   
-    
+
+
     <script src="~/js/wow.min.js"></script>
-    <script src="~/js/glightbox.min.js"></script>
     <script src="~/js/main.js"></script>
     <script>
         $(document).ready(function () {

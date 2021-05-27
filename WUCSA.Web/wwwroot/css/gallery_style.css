@@ -1,4 +1,6 @@
-﻿
+﻿@import url(colors_style.css);
+
+
 input[type="file"] {
     cursor: pointer;
 }
@@ -69,8 +71,8 @@ input[type="file"] {
                     display: inline-block;
                     font-size: 12px;
                     position: relative;
-                    background: #2042e314;
-                    color: #2042e3;
+                    background: var(--main-blue-color)14;
+                    color: var(--main-blue-color);
                     padding: 5px 10px;
                     border-radius: 3px;
                     text-transform: capitalize;
@@ -78,13 +80,13 @@ input[type="file"] {
                 }
 
                     .latest-news-area .single-news .content-body .meta-details ul li a:hover {
-                        background-color: #2042e3;
+                        background-color: var(--main-blue-color);
                         color: #fff
                     }
 
                     /*for the like icon*/
                 .latest-news-area .single-news .content-body .meta-details ul li .like-active {
-                    background-color: #2042e3;
+                    background-color: var(--main-blue-color);
                     color: #fff;
                     cursor: pointer;
                 }
@@ -110,12 +112,12 @@ input[type="file"] {
             }
 
             .latest-news-area .single-news .content-body .title a {
-                color: #081828;
+                color: var(--dark-blue-color);
                 display: inline-block
             }
 
                 .latest-news-area .single-news .content-body .title a:hover {
-                    color: #2042e3
+                    color: var(--main-blue-color)
                 }
 
         .latest-news-area .single-news .content-body p {
@@ -234,11 +236,11 @@ input[type="file"] {
             border-radius: 3px;
             padding: 0 !important;
             border: none;
-            background: #2042e3
+            background: var(--main-blue-color)
         }
 
             .sidebar .widget.search-widget form button:hover {
-                background-color: #081828;
+                background-color: var(--dark-blue-color);
                 color: #fff
             }
 
@@ -282,7 +284,7 @@ input[type="file"] {
             }
 
                 .sidebar .widget.popular-feeds .single-popular-feed .feed-desc .post-title a:hover {
-                    color: #2042e3
+                    color: var(--main-blue-color)
                 }
 
         .sidebar .widget.popular-feeds .single-popular-feed .feed-desc .time {
@@ -334,11 +336,11 @@ input[type="file"] {
             }
 
             .sidebar .widget.categories-widget ul li a:hover {
-                color: #2042e3
+                color: var(--main-blue-color)
             }
 
                 .sidebar .widget.categories-widget ul li a:hover span {
-                    background: #2042e3;
+                    background: var(--main-blue-color);
                     color: #fff;
                     border-color: transparent
                 }
@@ -358,7 +360,7 @@ input[type="file"] {
     text-transform: capitalize;
     font-size: 13px;
     font-weight: 500;
-    background: #2042e3;
+    background: var(--main-blue-color);
     margin-right: 7px;
     margin-bottom: 10px;
     color: #fff;
@@ -369,7 +371,7 @@ input[type="file"] {
 }
 
     .popular-tag-widget .tags > a:hover {
-        background-color: #2042e3;
+        background-color: var(--main-blue-color);
         color: #fff;
         border-color: transparent
     }
@@ -474,7 +476,7 @@ input[type="file"] {
             display: inline-block;
             padding: 6px 15px 6px 7px;
             border-radius: 30px;
-            background-color: #2042e3;
+            background-color: var(--main-blue-color);
             position: absolute;
             right: 20px;
             bottom: 20px
@@ -518,7 +520,7 @@ input[type="file"] {
     }
 
         .post-details .post-title a:hover {
-            color: #2042e3;
+            color: var(--main-blue-color);
         }
 
 ul.custom-flex {
@@ -546,7 +548,7 @@ ul.custom-flex {
     }
 
     .post-details .post-meta li a:hover {
-        color: #2042e3;
+        color: var(--main-blue-color);
     }
 
 .post-details p {
@@ -588,7 +590,7 @@ ul.custom-flex {
             line-height: 25px;
             font-size: 10px;
             color: #fff;
-            background-color: #2042e3;
+            background-color: var(--main-blue-color);
             position: absolute;
             left: 0;
             top: -1px;

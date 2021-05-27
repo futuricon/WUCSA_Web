@@ -6,6 +6,7 @@ using WUCSA.Core.Interfaces;
 using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 using System;
+using Telegram.Bot.Types.Enums;
 
 namespace WUCSA.Infrastructure.Services
 {
@@ -85,6 +86,19 @@ namespace WUCSA.Infrastructure.Services
             {
                 var bot = new Telegram.Bot.TelegramBotClient(_config.GetSection("TelegramAPIToken").Value);
                 await bot.SendTextMessageAsync("258995364", msg);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.InnerException.Message);
+            }
+        }
+
+        public async Task SendToAllTGAsync(string msg)
+        {
+            try
+            {
+                var bot = new Telegram.Bot.TelegramBotClient(_config.GetSection("TelegramAPIToken").Value);
+                await bot.SendTextMessageAsync("-1001460153639", msg, ParseMode.Html);
             }
             catch (Exception e)
             {

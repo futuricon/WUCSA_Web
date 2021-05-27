@@ -1,4 +1,6 @@
-﻿.dashbord-sidebar {
+﻿@import url(colors_style.css);
+
+.dashbord-sidebar {
     background-color: #fff;
     padding: 30px;
     border: 1px solid #eee;
@@ -8,7 +10,7 @@
     .dashbord-sidebar ul .heading {
         font-size: 20px;
         font-weight: 600;
-        color: #081828;
+        color: var(--dark-blue-color);
         margin-bottom: 20px;
     }
 
@@ -22,7 +24,7 @@
         }
 
         .dashbord-sidebar ul li a {
-            color: #081828;
+            color: var(--dark-blue-color);
             padding: 10px 15px;
             border: 1px solid #eee;
             display: block;
@@ -31,37 +33,37 @@
         }
 
             .dashbord-sidebar ul li a:hover {
-                background-color: #2042e3;
+                background-color: var(--main-blue-color);
                 color: #fff;
                 border-color: transparent;
             }
 
                 .dashbord-sidebar ul li a:hover i {
                     background-color: #fff;
-                    color: #2042e3;
+                    color: var(--main-blue-color);
                 }
 
             .dashbord-sidebar ul li a.active {
-                background-color: #2042e3;
+                background-color: var(--main-blue-color);
                 color: #fff;
                 border-color: transparent;
             }
 
                 .dashbord-sidebar ul li a.active i {
                     background-color: #fff;
-                    color: #2042e3;
+                    color: var(--main-blue-color);
                 }
 
             .dashbord-sidebar ul li a i {
                 font-size: 14px;
-                color: #2042e3;
+                color: var(--main-blue-color);
                 display: inline-block;
                 margin-right: 8px;
                 height: 30px;
                 width: 30px;
                 text-align: center;
                 line-height: 30px;
-                background: #2042e30d;
+                background: var(--main-blue-color)0d;
                 border-radius: 3px;
                 -webkit-transition: all .4s ease;
                 transition: all .4s ease;
@@ -79,7 +81,7 @@
                 text-align: right;
                 display: inline-block;
                 text-align: center;
-                color: #2042e3;
+                color: var(--main-blue-color);
                 position: relative;
                 top: 2px;
                 padding: 0 8px;
@@ -136,7 +138,7 @@
     }
 
         .manage-account .inner-content .account-item .right h3 a:hover {
-            color: #2042e3;
+            color: var(--main-blue-color);
         }
 
     .manage-account .inner-content .account-item .right .deg {
@@ -154,7 +156,7 @@
         }
 
             .manage-account .inner-content .account-item .right .experience li span {
-                color: #2042e3;
+                color: var(--main-blue-color);
                 display: inline-block;
                 margin-left: 3px;
             }
@@ -162,7 +164,7 @@
             .manage-account .inner-content .account-item .right .experience li i {
                 display: inline-block;
                 margin-right: 3px;
-                color: #2042e3;
+                color: var(--main-blue-color);
             }
 
             .manage-account .inner-content .account-item .right .experience li:last-child {
@@ -179,8 +181,8 @@
             margin-bottom: 5px;
             margin-right: 3px;
             position: relative;
-            background: #2042e314;
-            color: #2042e3;
+            background: var(--main-blue-color)14;
+            color: var(--main-blue-color);
             padding: 5px 10px;
             border-radius: 3px;
         }
@@ -215,7 +217,7 @@
         }
 
             .manage-account .inner-content .account-item .update-date .action-btn a:hover {
-                background-color: #2042e3;
+                background-color: var(--main-blue-color);
                 border-color: transparent;
                 color: #fff;
             }
@@ -251,7 +253,7 @@
         }
 
             .change-password .password-content form label {
-                color: #081828;
+                color: var(--dark-blue-color);
                 font-size: 14px;
                 display: block;
                 margin-bottom: 5px;
@@ -286,16 +288,16 @@
 
 .manage-account .inner-content .name {
     font-size: 18px;
-    color: #081828
+    color: var(--dark-blue-color)
 }
 
     .manage-account .inner-content .name:hover {
-        color: #2042e3
+        color: var(--main-blue-color)
     }
 
 .manage-account .inner-content .deg {
     font-size: 14px;
-    color: #081828
+    color: var(--dark-blue-color)
 }
 
 .manage-account .inner-content .social {
@@ -309,7 +311,7 @@
 
         .manage-account .inner-content .social li a {
             font-size: 13px;
-            color: #081828;
+            color: var(--dark-blue-color);
             height: 35px;
             width: 35px;
             text-align: center;
@@ -324,7 +326,7 @@
 
             .manage-account .inner-content .social li a:hover {
                 color: #fff;
-                background-color: #2042e3
+                background-color: var(--main-blue-color)
             }
 
 .manage-account .inner-content .content-right .single-list {
@@ -344,7 +346,7 @@
     }
 
     .manage-account .inner-content .content-right .single-list p {
-        color: #081828;
+        color: var(--dark-blue-color);
         margin-top: 0;
         display: block;
         color: #7e8890
@@ -358,12 +360,12 @@
         }
 
             .manage-account .inner-content .content-right .single-list p a:hover {
-                color: #2042e3
+                color: var(--main-blue-color)
             }
 
 .manage-account .inner-content .content-right .title-main {
     font-size: 20px;
-    color: #081828;
+    color: var(--dark-blue-color);
     border-bottom: 1px solid #eee;
     margin-bottom: 30px;
     padding-bottom: 20px
@@ -398,8 +400,8 @@
     }
 
         .manage-account .inner-content .single-section.skill ul li a {
-            background: #2042e314;
-            color: #081828;
+            background: var(--main-blue-color)14;
+            color: var(--dark-blue-color);
             padding: 8px 15px;
             border-radius: 3px;
             font-size: 13px
@@ -407,7 +409,7 @@
 
             .manage-account .inner-content .single-section.skill ul li a:hover {
                 color: #fff;
-                background-color: #2042e3
+                background-color: var(--main-blue-color)
             }
 
     .manage-account .inner-content .single-section.exprerience .single-exp .image img {
@@ -424,11 +426,11 @@
         .manage-account .inner-content .single-section.exprerience .single-exp h3 a {
             font-size: 18px;
             font-weight: 500;
-            color: #081828
+            color: var(--dark-blue-color)
         }
 
             .manage-account .inner-content .single-section.exprerience .single-exp h3 a:hover {
-                color: #2042e3
+                color: var(--main-blue-color)
             }
 
     .manage-account .inner-content .single-section.exprerience .single-exp a {
@@ -449,11 +451,11 @@
         .manage-account .inner-content .single-section.education .single-edu h3 a {
             font-size: 18px;
             font-weight: 500;
-            color: #081828
+            color: var(--dark-blue-color)
         }
 
             .manage-account .inner-content .single-section.education .single-edu h3 a:hover {
-                color: #2042e3
+                color: var(--main-blue-color)
             }
 
     .manage-account .inner-content .single-section.education .single-edu a {
@@ -510,8 +512,8 @@ input[type="file"] {
     font-size: 14px;
     font-weight: 500;
     padding: 10px 15px;
-    background-color: #2042e314;
-    color: #081828;
+    background-color: var(--main-blue-color)14;
+    color: var(--dark-blue-color);
     border: none;
     -webkit-transition: 0.5s;
     transition: 0.5s;
@@ -520,7 +522,7 @@ input[type="file"] {
 }
 
     #cancel-btn a:hover {
-        background-color: #2042e3;
+        background-color: var(--main-blue-color);
         color: #fff;
         -webkit-box-shadow: 0 1rem 3rem rgba(35, 38, 45, 0.15) !important;
         box-shadow: 0 1rem 3rem rgba(35, 38, 45, 0.15) !important;

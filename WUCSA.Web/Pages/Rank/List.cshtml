@@ -3,7 +3,7 @@
 @inject IViewLocalizer Localizer
 @namespace WUCSA.Models
 
-@{ ViewData["Title"] = Localizer["WUCSA Ranking"];
+@{ ViewData["Title"] = Localizer["Ranking"];
     Layout = "_Layout"; }
 
 @section Head {
@@ -13,7 +13,7 @@
 }
 
 @section CSS {
-    <link rel="stylesheet" href="~/css/blog_style.css" />
+    @*<link rel="stylesheet" href="~/css/blog_style.css" />*@
     <link rel="stylesheet" href="~/css/rank_style.css" />
 }
 
@@ -34,7 +34,7 @@
                     @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                     {
                         <li>
-                            <a asp-page="/Rank/Create">@Localizer["Add new Rank"]</a> 
+                            <a asp-page="/Rank/Create">@Localizer["Add new Rank"]</a>
                         </li>
                     }
                 </ul>
@@ -44,17 +44,17 @@
 </div>
 
 
-<section class="section latest-news-area blog-list">
+<section class="section latest-rank-area rank-list">
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="row">
 
                     <div class="col-lg-4 col-md-6 col-12 mx-auto">
-                        <div class="single-news wow fadeInUp" data-wow-delay=".3s"
+                        <div class="single-rank wow fadeInUp" data-wow-delay=".3s"
                              style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
                             <div class="image">
-                                <img src="~/images/map_wrld.png" alt="default cover photo" />
+                                <img class="resize-img" src="~/images/map_wrld.png" alt="default cover photo" />
                             </div>
                             <div class="content-body">
                                 <div class="meta-details">
@@ -72,10 +72,10 @@
 
                     <div class="col-lg-4 col-md-6 col-12 mx-auto">
 
-                        <div class="single-news wow fadeInUp" data-wow-delay=".3s"
+                        <div class="single-rank wow fadeInUp" data-wow-delay=".3s"
                              style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
                             <div class="image">
-                                <img src="~/images/map_uzb.png" alt="default cover photo" />
+                                <img class="resize-img" src="~/images/map_uzb.png" alt="default cover photo" />
                             </div>
                             <div class="content-body">
                                 <div class="meta-details">
@@ -165,19 +165,34 @@
     </div>
 </section>
 
+@section Scripts{
 
-<script>
-    function locationCheck(e) {
-        document.getElementById("xs-cat").style.display = "block";
-        if (e == "btn-check-w") {
-            document.getElementById("optionN").style.display = "none";
-            document.getElementById("optionW").style.display = "block";
+    <script>
+        $(document).ready(function () {
+            resizer();
+        });
+        window.onresize = function () {
+            resizer();
+        };
+
+        function resizer() {
+            var cssWidth = $('.image').css("width");
+            var cssHeight = parseInt(cssWidth) * 5 / 8;
+            $('.resize-img').css("height", cssHeight);
         }
-        else if (e == "btn-check-n") {
-            document.getElementById("optionW").style.display = "none";
-            document.getElementById("optionN").style.display = "block";
+
+        function locationCheck(e) {
+            document.getElementById("xs-cat").style.display = "flex";
+            if (e == "btn-check-w") {
+                document.getElementById("optionN").style.display = "none";
+                document.getElementById("optionW").style.display = "flex";
+            }
+            else if (e == "btn-check-n") {
+                document.getElementById("optionW").style.display = "none";
+                document.getElementById("optionN").style.display = "flex";
+            }
+            var element_to_scroll_to = document.getElementById("xs-cat");
+            element_to_scroll_to.scrollIntoView(true);
         }
-        var element_to_scroll_to = document.getElementById("xs-cat");
-        element_to_scroll_to.scrollIntoView(true);
-    }
-</script>
+    </script>
+}

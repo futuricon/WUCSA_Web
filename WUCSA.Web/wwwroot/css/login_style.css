@@ -1,4 +1,6 @@
-﻿.log-in-us {
+﻿@import url(colors_style.css);
+
+.log-in-us {
     position: relative;
     background-color: #f6f9fc;
 }
@@ -44,7 +46,7 @@
         }
 
     .log-in-us .heading h3 {
-        color: #081828;
+        color: var(--dark-blue-color);
         font-size: 26px;
         font-weight: 700;
         position: relative;
@@ -60,7 +62,7 @@
             bottom: 0;
             height: 2px;
             width: 50px;
-            background-color: #2042e3;
+            background-color: var(--main-blue-color);
         }
 
     .log-in-us .social-login {
@@ -78,7 +80,7 @@
             .log-in-us .social-login ul li button {
                 text-align: center;
                 position: relative;
-                background-color: #2042e3;
+                background-color: var(--main-blue-color);
                 padding: 13px 30px;
                 color: #fff;
                 width: 100%;
@@ -135,7 +137,7 @@
         .log-in-us .form-group .label {
             font-size: 15px;
             font-weight: 500;
-            color: #081828;
+            color: var(--dark-blue-color);
             display: block;
             margin-bottom: 8px;
         }
@@ -144,7 +146,7 @@
             height: 50px;
             border: 1px solid #eee;
             padding: 0 30px;
-            color: #081828;
+            color: var(--dark-blue-color);
             border-radius: 5px;
             font-size: 15px;
         }
@@ -162,12 +164,12 @@
         }
 
     .log-in-us .create-new-account {
-        color: #081828;
+        color: var(--dark-blue-color);
         font-size: 15px;
     }
 
         .log-in-us .create-new-account a {
-            color: #2042e3;
+            color: var(--main-blue-color);
         }
 
             .log-in-us .create-new-account a:hover {

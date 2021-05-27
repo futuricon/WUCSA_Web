@@ -1,0 +1,14 @@
+﻿/*
+    main color to change #268ECE
+    dark color to change #081828
+
+    origin main blue color # 2042e3
+    origin dark blue color # 081828
+*/
+:root {
+    --main-blue-color: #268ECE;
+    --dark-blue-color: #081828;
+    --main-blue-c-opacity-14: #268ECE14;
+    --main-blue-c-opacity-b3: #268ECEb3;
+    --main-blue-c-opacity-1c: #268ECE1c;
+}

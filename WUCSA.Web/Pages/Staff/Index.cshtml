@@ -1,12 +1,29 @@
-﻿@page
+﻿@page "{slug}"
 @model WUCSA.Web.Pages.Staff.IndexModel
 @inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = Localizer["WUCSA Members"];
+    ViewData["Title"] = Localizer["Staff & Members"];
     Layout = "_Layout";
 }
 
+@section Head {
+    @{ var imgUrl = $"https://wucsa.com{Model.Staff.ProfilePhotoPath}";
+        var staffUrl = $"https://wucsa.net/staff/{Model.Staff.Slug}";
+        }
+
+    <meta name="staff" content="@Model.Staff.FirstName @Model.Staff.LastName" />
+    <meta name="position" content="@Model.Staff.Position" />
+    <meta name="image" content="@imgUrl" />
+    <meta property="og:site_name" content="WUCSA Staff & Members" />
+    <meta property="og:image" content="@imgUrl" />
+    <meta property="og:url" content="@staffUrl" />
+    <meta name="twitter:description" content="@Model.Staff.Description" />
+    <meta name="twitter:site" content="WUCSA Staff & Members" />
+    <meta name="twitter:image" content="@imgUrl" />
+}
+
 @section CSS{
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
     <link rel="stylesheet" href="~/css/staff_style.css" />
 }
 
@@ -15,7 +32,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="breadcrumbs-content">
-                    <h1 class="page-title">@Localizer["Members"]</h1>
+                    <h1 class="page-title">@Localizer["Staff & Members"]</h1>
                     <p>
                         Business plan draws on a wide range of knowledge from different business<br> disciplines.
                         Business draws on a wide range of different business .
@@ -23,10 +40,10 @@
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a asp-area="" asp-page="/Index">Home</a></li>
-                    <li><a asp-page="/Staff/Index">@Localizer["Members"]</a></li>
+                    <li><a asp-page="/Staff/List">@Localizer["Members"]</a></li>
                     @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                     {
-                        <li><a asp-page="/Staff/Create">@Localizer["Add new Member"]</a></li>
+                        <li><a asp-page="/Staff/Edit">@Localizer["Add new Member"]</a></li>
                     }
                 </ul>
             </div>
@@ -34,144 +51,141 @@
     </div>
 </div>
 
-
-<div class="resume section">
+<div class="x-resume section">
     <div class="container">
-        <div class="resume-inner">
-            <div class="row grid">
+        <div class="x-resume-inner">
+            <div class="row">
 
-                @if (!Model.Staffs.Any())
-                {<h4>@Localizer["There are no any Members"]</h4> }
-                else
-                {
-                    foreach (var Staff in Model.Staffs)
-                    {
-                        <div class="col-lg-6 col-12 mt-20 grid-item">
-                            <div class="inner-content">
-                                @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
-                                {
-                                    <div class="meta-details">
-                                        <ul>
-                                            <li><a asp-page="/Staff/Edit" asp-route-id="@Staff.Id"><i class="lni lni-pencil"></i>&nbsp;@Localizer["Edit"]</a></li>
-                                            <li><a asp-page="/Staff/Delete" asp-route-id="@Staff.Id" class="del-btn"><i class="lni lni-trash"></i>&nbsp;@Localizer["Delete"]</a></li>
+                <div class="col-lg-8 col-12 mx-auto">
+                    <div class="inner-content">
+
+                        <div class="personal-top-content">
+                            <div class="row">
+                                <div class="col-lg-5 col-md-7 col-12 mx-auto">
+                                    <div class="name-head">
+                                        <a class="mb-3 glightbox" href="@Model.Staff.ProfilePhotoPath"><img src="@Model.Staff.ProfilePhotoPath" alt="@Model.Staff.FirstName @Model.Staff.LastName"></a>
+                                        <h4><a class="name" href="#">@Model.Staff.FirstName @Model.Staff.LastName</a></h4>
+                                        <p>
+                                            <a class="deg" href="#">
+                                                @switch (Model.RCName)
+                                                {
+                                                    case "ru":
+                                                        @Model.Staff.PositionRu
+                                                        break;
+                                                    case "uz":
+                                                        @Model.Staff.PositionUz
+                                                        break;
+                                                    default:
+                                                        @Model.Staff.Position
+                                                        break;
+                                                }
+                                            </a>
+                                        </p>
+                                        <ul class="social">
+                                            @if (Model.Staff.FacebookUrl != null)
+                                            {
+                                                <li><a href="@Model.Staff.FacebookUrl"><i class="lni lni-facebook-original"></i></a></li>
+                                            }
+                                            @if (Model.Staff.InstagramUrl != null)
+                                            {
+                                                <li><a href="@Model.Staff.InstagramUrl"><i class="lni lni-instagram-original"></i></a></li>
+                                            }
+                                            @if (Model.Staff.TwitterUrl != null)
+                                            {
+                                                <li><a href="@Model.Staff.TwitterUrl"><i class="lni lni-twitter-original"></i></a></li>
+                                            }
+                                            @if (Model.Staff.TelegramUrl != null)
+                                            {
+                                                <li><a href="@Model.Staff.TelegramUrl"><i class="lni lni-telegram-original"></i></a></li>
+                                            }
                                         </ul>
                                     </div>
-                                }
-                                <div class="personal-top-content">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-5 col-12">
-                                            <div class="name-head">
-                                                <div class="image">
-                                                    <a class="mb-2"><img class="resize-img" src="@Staff.ProfilePhotoPath" alt="@Staff.FirstName @Staff.LastName"></a>
-                                                </div>
-                                                <h4><a class="name">@Staff.FirstName @Staff.LastName</a></h4>
-                                                <p>
-                                                    <a class="deg">
-                                                        @switch (Model.RCName)
-                                                        {
-                                                            case "ru":
-                                                                @Staff.PositionRu
-                                                                break;
-                                                            case "uz":
-                                                                @Staff.PositionUz
-                                                                break;
-                                                            default:
-                                                                @Staff.Position
-                                                                break;
-                                                        }
-                                                    </a>
-                                                </p>
-                                                <ul class="social">
-                                                    @if (Staff.FacebookUrl != null)
-                                                    {
-                                                        <li><a href="@Staff.FacebookUrl"><i class="lni lni-facebook-original"></i></a></li>
-                                                    }
-                                                    @if (Staff.InstagramUrl != null)
-                                                    {
-                                                        <li><a href="@Staff.InstagramUrl"><i class="lni lni-instagram-original"></i></a></li>
-                                                    }
-                                                    @if (Staff.TwitterUrl != null)
-                                                    {
-                                                        <li><a href="@Staff.TwitterUrl"><i class="lni lni-twitter-original"></i></a></li>
-                                                    }
-                                                    @if (Staff.TelegramUrl != null)
-                                                    {
-                                                        <li><a href="@Staff.TelegramUrl"><i class="lni lni-telegram-original"></i></a></li>
-                                                    }
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-7 col-md-7 col-12">
-                                            <div class="content-right">
-                                                <h5 class="title-main">@(CultureInfo.GetCultureInfo(Staff.CountryCode).DisplayName)&nbsp;&nbsp;<img src="https://www.countryflags.io/@Staff.CountryCode/flat/48.png"></h5>
-
-                                                <div class="row">
-                                                    <div class="single-list col-12">
-                                                        <h5 class="title">@Localizer["Address"]</h5>
-                                                        <p><a>@Staff.Location</a></p>
-                                                    </div>
-                                                    <div class="single-list col-12">
-                                                        <h5 class="title">@Localizer["E-mail"]</h5>
-                                                        <p><a href="mailto:@Staff.Email">@Staff.Email</a></p>
-                                                    </div>
-                                                    <div class="single-list col-12">
-                                                        <h5 class="title">@Localizer["Phone"]</h5>
-                                                        <p><a href="tel:@Staff.PhoneNumber">@Staff.PhoneNumber</a></p>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="single-section">
-                                    <h4>@Localizer["Information"]</h4>
-                                    <p class="font-size-4 mb-8">
-                                        @switch (Model.RCName)
-                                        {
-                                            case "ru":
-                                                @Staff.DescriptionRu
-                                                break;
-                                            case "uz":
-                                                @Staff.DescriptionUz
-                                                break;
-                                            default:
-                                                @Staff.Description
-                                                break;
-                                        }
-                                    </p>
                                 </div>
 
                             </div>
                         </div>
-                    }
-                }
-                
+
+                        <div class="single-section">
+                            <h4>About</h4>
+                            <p class="font-size-4 mb-8">
+                                @switch (Model.RCName)
+                                {
+                                    case "ru":
+                                        @Model.Staff.DescriptionRu
+                                        break;
+                                    case "uz":
+                                        @Model.Staff.DescriptionUz
+                                        break;
+                                    default:
+                                        @Model.Staff.Description
+                                        break;
+                                }
+                            </p>
+                            <p class="font-size-4 mb-8">Programming Languages: C/C++, .NET C++, Python, Bash, Shell, PERL, Regular expressions, Python, Active-script.</p>
+                        </div>
+
+                        @if (Model.Staff.Certificates.Count > 0)
+                        {
+                            <div class="single-section exprerience">
+                                <h4>Certificates</h4>
+
+                                <div class="row grid">
+
+                                    @foreach (var certificate in Model.Staff.Certificates)
+                                    {
+                                        <div class="col-lg-4 col-md-6 col-12 grid-item px-0">
+                                            <div class="wow fadeInUp" data-wow-delay=".3s">
+                                                <div class="image">
+                                                    <a href="@certificate.CertPath" class="glightbox">
+                                                        <img class="thumb" src="@certificate.CertPath" alt="@certificate.CertName">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>
+                        }
+
+                        <div class="single-section">
+                            <div class="content-right">
+                                <h5 class="title-main">Contact Info</h5>
+
+                                <div class="single-list">
+                                    <h5 class="title">@Localizer["Address"]</h5>
+                                    <p><a>@Model.Staff.Location</a></p>
+                                </div>
+
+                                <div class="single-list">
+                                    <h5 class="title">@Localizer["E-mail"]</h5>
+                                    <p><a href="mailto:@Model.Staff.Email">@Model.Staff.Email</a></p>
+                                </div>
+
+                                <div class="single-list">
+                                    <h5 class="title">@Localizer["Phone"]</h5>
+                                    <p><a href="tel:@Model.Staff.PhoneNumber">@Model.Staff.PhoneNumber</a></p>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-
-
-
-
 @section Scripts {
     <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
     <script>
-        $(document).ready(function () {
-            resizer();
+        const lightbox = GLightbox({
+            touchNavigation: true,
+            loop: true,
+            autoplayVideos: true
         });
-        window.onresize = function () {
-            resizer();
-        };
-
-        function resizer() {
-            var cssWidth = $('.image').css("width");
-            var cssHeight = parseInt(cssWidth) * 4 / 3;
-            $('.resize-img').css("height", cssHeight);
-        }
 
         $('.grid').masonry({
             itemSelector: '.grid-item'

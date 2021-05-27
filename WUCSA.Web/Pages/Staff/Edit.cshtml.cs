@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using WUCSA.Core.Entities.StaffModel;
 using WUCSA.Core.Interfaces.Repositories;
 using WUCSA.Web.Utils;
+using System.Linq;
+using SuxrobGM.Sdk.Extensions;
 
 namespace WUCSA.Web.Pages.Staff
 {
@@ -26,6 +28,7 @@ namespace WUCSA.Web.Pages.Staff
         {
             public Core.Entities.StaffModel.Staff Staff { get; set; }
             public IFormFile UploadCoverPhoto { get; set; }
+            public bool IsCoverPhotoDeleted { get; set; } = false;
         }
 
         [BindProperty]
@@ -59,23 +62,28 @@ namespace WUCSA.Web.Pages.Staff
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync([Bind(Prefix = "Model")] List<Certificate> Certificates, IFormFile[] UploadFiles)
+        public async Task<IActionResult> OnPostAsync([Bind(Prefix = "Model")] Certificate[] Certificates, IFormFile[] UploadFiles)
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            if (Certificates.Count > 0)
+            if (Certificates.Length > 0)
             {
                 int counter = 0;
                 foreach (var certificate in Certificates)
                 {
-                    if (certificate.CertName.Contains("null") && certificate.CertPath != null)
+                    if (certificate.CertName.Contains("null"))
                     {
+                        if (certificate.CertPath == null)
+                        {
+                            continue;
+                        }
                         _imageHelper.DeleteFile(certificate.CertPath);
+                        certificate.CertPath = null;
                     }
-                    else if (UploadFiles[counter] != null && certificate.CertName.Contains("new"))
+                    else if (certificate.CertName.Contains("new") && UploadFiles[counter] != null)
                     {
                         if (certificate.CertPath != null)
                         {
@@ -86,34 +94,41 @@ namespace WUCSA.Web.Pages.Staff
                         counter++;
                     }
                 }
-
-                //if (UploadFiles.Length > 0)
-                //{
-                    
-                //}
-                //else
-                //{
-                //    foreach (var certificate in Certificates)
-                //    {
-                //        if (certificate.CertName.Contains("null") && certificate.CertPath != null)
-                //        {
-                //            _imageHelper.DeleteFile(certificate.CertPath);
-                //        }
-                //    }
-                //}
             }
+
+            var staff = await _staffRepository.GetByIdAsync<Core.Entities.StaffModel.Staff>(Input.Staff.Id);
+            staff.FirstName = Input.Staff.FirstName;
+            staff.LastName = Input.Staff.LastName;
+            staff.Position = Input.Staff.Position;
+            staff.PositionRu = Input.Staff.PositionRu;
+            staff.PositionUz = Input.Staff.PositionUz;
+            staff.BirthDate = Input.Staff.BirthDate;
+            staff.CountryCode = Input.Staff.CountryCode;
+            staff.Description = Input.Staff.Description;
+            staff.DescriptionRu = Input.Staff.DescriptionRu;
+            staff.DescriptionUz = Input.Staff.DescriptionUz;
+            staff.Location = Input.Staff.Location;
+            staff.IsMember = Input.Staff.IsMember;
+            staff.FacebookUrl = Input.Staff.FacebookUrl;
+            staff.InstagramUrl = Input.Staff.InstagramUrl;
+            staff.TwitterUrl = Input.Staff.TwitterUrl;
+            staff.TelegramUrl = Input.Staff.TelegramUrl;
+            staff.PhoneNumber = Input.Staff.PhoneNumber;
+            staff.Email = Input.Staff.Email;
+            var slugTitle = $"{Input.Staff.FirstName}_{Input.Staff.LastName}";
+            staff.Slug = slugTitle.Slugify();
 
             if (Input.UploadCoverPhoto != null)
             {
-                Input.Staff.ProfilePhotoPath = await _imageHelper.UploadSatffImage(Input.UploadCoverPhoto, $"{Input.Staff.Id}_staff_cover", "staff_imgs");
+                staff.ProfilePhotoPath = await _imageHelper.UploadSatffImage(Input.UploadCoverPhoto, $"{Input.Staff.Id}_staff_cover", "staff_imgs");
             }
-            else
+            if (Input.IsCoverPhotoDeleted) 
             {
                 Input.Staff.ProfilePhotoPath = _imageHelper.GenerateImage($"{Input.Staff.Id}_staff_cover", "staff_imgs");
             }
 
-            await _staffRepository.UpdateCertificatesAsync(Input.Staff, false, Certificates.ToArray());
-            await _staffRepository.AddStaffAsync(Input.Staff);
+            await _staffRepository.UpdateCertificatesAsync(staff, false, Certificates);
+            await _staffRepository.UpdateStaffAsync(staff);
             return RedirectToPage("/Staff/Index");
         }
     }

@@ -47,7 +47,7 @@ namespace WUCSA.Web.Pages.Staff
                 return Page();
             }
 
-            var slugTitle = $"{Input.Staff.FirstName}_{Input.Staff.FirstName}";
+            var slugTitle = $"{Input.Staff.FirstName}_{Input.Staff.LastName}";
             Input.Staff.Slug = slugTitle.Slugify();
 
             if (Certificates.Count > 0)
