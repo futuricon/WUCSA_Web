@@ -131,9 +131,22 @@ namespace WUCSA.Infrastructure.Data
                     .WithMany(m => m.RankParticipants);
             });
 
+            builder.Entity<RankSportType>(entity =>
+            {
+                entity.HasKey(k => new { k.RankId, k.SportTypeId });
+
+                entity.HasOne(m => m.Rank)
+                    .WithMany(m => m.RankSportTypes)
+                    .HasForeignKey(m => m.RankId);
+
+                entity.HasOne(m => m.SportType)
+                    .WithMany(m => m.RankSportTypes)
+                    .HasForeignKey(m => m.SportTypeId);
+            });
+
             builder.Entity<SportType>(entity =>
             {
-                entity.HasMany(m => m.Ranks)
+                entity.HasMany(m => m.RankParticipants)
                     .WithOne(m => m.SportType);
             });
         }

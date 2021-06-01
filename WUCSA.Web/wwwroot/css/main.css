@@ -1103,8 +1103,8 @@ ol {
   color: #fff !important;
   border-radius: 0;
   position: fixed;
-  bottom: 30px;
-  right: 30px;
+  bottom: 20px;
+  right: 20px;
   z-index: 9;
   cursor: pointer;
   -webkit-transition: all .3s ease-out 0s;
@@ -1650,6 +1650,14 @@ ol {
   margin-right: 8px;
 }
 
+    #logged-img {
+        margin-right: 10px;
+        width: 40px;
+        height: 40px;
+    }
+
+
+
 .header .button .login:hover {
   color: var(--dark-blue-color);
   border-color: transparent;
@@ -1767,156 +1775,7 @@ ol {
           transform: scaleY(1);
 }
 
-.header.index2 .sticky .nav-item a {
-  color: var(--dark-blue-color) !important;
-}
-
-.header.index2 .sticky .nav-item a:hover {
-  color: var(--main-blue-color) !important;
-}
-
-.header.index2 .sticky .nav-item a.active {
-  color: var(--main-blue-color) !important;
-}
-
-.header.index2 .navbar-area.sticky .navbar-nav li .sub-menu li a.active {
-  color: #fff !important;
-}
-
-.header.index2 .logo {
-  position: relative;
-  margin: 0;
-  padding: 0;
-  top: -16px;
-}
-
-.header.index2 .logo img {
-  position: absolute;
-  left: 0;
-  top: 0;
-  -webkit-transition: all 0.4s ease;
-  transition: all 0.4s ease;
-}
-
-.header.index2 .logo .logo1 {
-  opacity: 0;
-  visibility: hidden;
-}
-
-.header.index2 .navbar-nav .nav-item a {
-  color: #fff;
-}
-
-.header.index2 .navbar-nav .nav-item a::before {
-  background-color: #fff;
-}
-
-.header.index2 .button .btn:hover {
-  background-color: #fff;
-  color: var(--main-blue-color);
-}
-
-/* Index 2 */
-.header.index2 .sticky .logo .logo1 {
-  opacity: 1;
-  visibility: visible;
-}
-
-.header.index2 .sticky .logo .logo2 {
-  opacity: 0;
-  visibility: hidden;
-}
-
-.header.index2 .sticky .nav-item a::before {
-  background-color: var(--main-blue-color);
-}
-
-.header.index2 .navbar-nav li .sub-menu {
-  border-radius: 3px;
-}
-
-.header.index2 .navbar-nav .sub-menu li a {
-  color: var(--dark-blue-color);
-}
-
-.header.index2 .navbar-nav .sub-menu li a:hover {
-  color: #fff !important;
-}
-
-/* Index 4 */
-.header.index4 .navbar-area {
-  position: absolute;
-}
-
-.header.index4 .sticky {
-  position: fixed;
-  top: 0;
-}
 /*#endregion Navbar*/
-
-/*======================================
-    Apply Process CSS
-========================================*/
-/*#region Apply Process*/
-.apply-process {
-  background-color: var(--main-blue-color);
-  padding: 80px 0;
-}
-
-.apply-process .process-item {
-  padding-left: 92px;
-  position: relative;
-  padding-right: 25px;
-}
-
-.apply-process .process-item i {
-  font-size: 30px;
-  color: #fff;
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 65px;
-  width: 65px;
-  border: 1px dashed #fff;
-  border-radius: 50%;
-  text-align: center;
-  line-height: 62px;
-  -webkit-transition: all 0.4s ease;
-  transition: all 0.4s ease;
-}
-
-.apply-process .process-item:hover i {
-  background-color: #fff;
-  color: var(--main-blue-color);
-  border-color: transparent;
-  -webkit-transform: rotate(360deg);
-          transform: rotate(360deg);
-}
-
-.apply-process .process-item h4 {
-  font-size: 18px;
-  color: #fff;
-  position: relative;
-  display: block;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-}
-
-.apply-process .process-item h4::before {
-  position: absolute;
-  content: '';
-  left: 0;
-  bottom: 0;
-  height: 2px;
-  width: 50px;
-  background-color: #fff;
-}
-
-.apply-process .process-item p {
-  color: #fff;
-  display: block;
-}
-/*#endregion Apply Process*/
 
 /*======================================
     xs Category CSS
@@ -2226,24 +2085,6 @@ ol {
   .breadcrumbs .bread-list {
     margin-top: 8px;
   }
-  .apply-process .process-item {
-    padding: 0 !important;
-    padding-top: 0px;
-    text-align: center;
-    padding-top: 80px !important;
-  }
-  .apply-process .process-item i {
-    left: 50% !important;
-    margin-left: -30px;
-    height: 60px !important;
-    width: 60px !important;
-    font-size: 25px !important;
-    line-height: 60px !important;
-  }
-  .apply-process .process-item h4:before {
-    left: 50% !important;
-    margin-left: -25px;
-  } 
   .featured-job .single-job .content .button .btn {
     padding: 12px 28px !important;
   }
@@ -2431,8 +2272,8 @@ ol {
   #scrollUp {
     bottom: 55px;
   }
-  .navbar-brand img {
-    width: 55px;
+  .navbar-brand{
+    display: none;
   }
   .header.index2 .navbar .navbar-nav .nav-item a {
     color: var(--dark-blue-color);
@@ -2466,6 +2307,9 @@ ol {
     font-size: 13px;
     line-height: 30px;
   }
+    #logged-img{
+        display: none;
+    }
   .header .navbar-nav li .sub-menu {
     background: #fff;
     width: 200px;
@@ -2528,28 +2372,7 @@ ol {
   .breadcrumbs .bread-list {
     margin-top: 8px;
   }
-  .apply-process {
-    padding-bottom: 45px !important;
-  }
-  .apply-process.style4 {
-    padding-top: 120px !important;
-  }
-  .apply-process .process-item {
-    margin-bottom: 35px;
-    padding-left: 80px !important;
-  }
-  .apply-process .process-item i {
-    height: 50px !important;
-    width: 50px !important;
-    font-size: 20px !important;
-    line-height: 50px !important;
-    top: 5px !important;
-  }
-  .apply-process .process-item h4 {
-    font-size: 16px !important;
-    margin-bottom: 14px !important;
-    padding-bottom: 16px !important;
-  }
+  
   .featured-job .single-job .content .button .btn {
     width: 100%;
     margin: 0 !important;

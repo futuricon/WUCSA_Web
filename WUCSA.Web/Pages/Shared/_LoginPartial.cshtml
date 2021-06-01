@@ -8,7 +8,7 @@
         <a class="login" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
             @{
                 var user = await UserManager.GetUserAsync(User);
-                <img src="@user?.ProfilePhotoPath" class="rounded-circle" style="margin-right: 10px; width: 40px; height: 40px" alt="@user?.UserName Photo" />
+                <img id="logged-img" src="@user?.ProfilePhotoPath" class="rounded-circle" alt="@user?.UserName Photo" />
             }
             @User.Identity.Name
         </a>

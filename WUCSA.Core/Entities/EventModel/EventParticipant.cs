@@ -9,8 +9,8 @@ namespace WUCSA.Core.Entities.EventModel
 {
     public enum Gender
     {
-        Man,
-        Woman
+        Man = 1,
+        Woman = 2
     }
 
     public class EventParticipant : IEntity<string>
@@ -29,6 +29,7 @@ namespace WUCSA.Core.Entities.EventModel
 
         [Required(ErrorMessage = "Please select gender")]
         [Display(Name = "Gender")]
+        [EnumDataType(typeof(Gender))]
         public Gender Gender { get; set; }
 
         public virtual AppUser Author { get; set; }

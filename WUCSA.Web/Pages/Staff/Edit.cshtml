@@ -207,32 +207,34 @@
                                 {
                                     @for (int i = 0; i < Model.Input.Staff.Certificates.Count; i++)
                                     {
-                                        <div class="row part_row col-lg-4 col-md-6 col-12 mb-30">
-                                            <input type="hidden" name="Model[@i].Id" value="@Model.Input.Staff.Certificates.ToArray()[i].Id" />
-                                            <input type="hidden" name="Model[@i].CertPath" value="@Model.Input.Staff.Certificates.ToArray()[i].CertPath" />
-                                            <input id="cn-@(i)" type="hidden" name="Model[@i].CertName" value="@Model.Input.Staff.Certificates.ToArray()[i].CertName" />
-                                            <h3 class="single-section-title">Certificate @(i+1)</h3>
-                                            <div>
-                                                <div id="uploadBtn-@(i)" class="button" style="display: none;">
-                                                    <a style="margin-bottom: 2%;" class="btn file-btn">
-                                                        <span>Choose an image</span>
-                                                        <input id="uploadInput-@(i)" type="file" name="UploadFiles" onchange="readURL(this);" value="Choose a file" accept="image/*" />
+                                        <div class="col-lg-4 col-md-6 col-12 mb-30">
+                                            <div class="part_row">
+                                                <input type="hidden" name="Model[@i].Id" value="@Model.Input.Staff.Certificates.ToArray()[i].Id" />
+                                                <input type="hidden" name="Model[@i].CertPath" value="@Model.Input.Staff.Certificates.ToArray()[i].CertPath" />
+                                                <input id="cn-@(i)" type="hidden" name="Model[@i].CertName" value="@Model.Input.Staff.Certificates.ToArray()[i].CertName" />
+                                                <h3 class="single-section-title">Certificate @(i+1)</h3>
+                                                <div class="p-0">
+                                                    <div id="uploadBtn-@(i)" class="button" style="display: none;">
+                                                        <a style="margin-bottom: 2%;" class="btn file-btn">
+                                                            <span>Choose an image</span>
+                                                            <input id="uploadInput-@(i)" type="file" name="UploadFiles" onchange="readURL(this);" value="Choose a file" accept="image/*" />
+                                                        </a>
+                                                    </div>
+                                                    <div id="removeBtn-@(i)" class="button mb-20">
+                                                        <button type="button" class="btn mouse-dir white-bg" onclick="removeUpload(@i)">
+                                                            Delete <span id="img-text-@(i)"></span>
+                                                        </button>
+                                                    </div>
+                                                    <div id="post-thubs-@(i)" class="post-thumbnils thumbnil-x">
+                                                        <img height="200" id="uploadedImg-@(i)" src="@Model.Input.Staff.Certificates.ToArray()[i].CertPath" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="add-post-btn float-right mt-20">
+                                                    <a type="button" onclick="deleteTemplate(this)" class="btn-delete">
+                                                        <i class="lni lni-remove-file"></i>
+                                                        Delete this Certificate
                                                     </a>
                                                 </div>
-                                                <div id="removeBtn-@(i)" class="button mb-20">
-                                                    <button type="button" class="btn mouse-dir white-bg" onclick="removeUpload(@i)">
-                                                        Delete <span id="img-text-@(i)"></span>
-                                                    </button>
-                                                </div>
-                                                <div id="post-thubs-@(i)" class="post-thumbnils thumbnil-x">
-                                                    <img height="200" id="uploadedImg-@(i)" src="@Model.Input.Staff.Certificates.ToArray()[i].CertPath" alt="">
-                                                </div>
-                                            </div>
-                                            <div class="add-post-btn float-right mt-20">
-                                                <a type="button" onclick="deleteTemplate(this)" class="btn-delete">
-                                                    <i class="lni lni-remove-file"></i>
-                                                    Delete this Certificate
-                                                </a>
                                             </div>
                                         </div>
                                     }
@@ -246,8 +248,8 @@
                                 </div>
                             </div>
                             <div class="col-3 mx-auto">
-                                <div class="button form-group mt-4">
-                                    <input type="submit" value="Create" class="btn" />
+                                <div class="button form-group mt-5">
+                                    <input type="submit" value="Update" class="btn" />
                                 </div>
                             </div>
                         </div>
@@ -268,28 +270,30 @@
             $("#totalContacts").val(tc)
 
             $("#main_row").append(
-            `<div class="row part_row col-lg-4 col-md-6 col-12 mb-20">
-                <input id="cn-${tc - 1}" type="hidden" name="Model[${tc - 1}].CertName" value="null-${tc - 1}"/>
-                <h3 class="single-section-title">Certificate ${tc}</h3>
-                <div>
-                    <div id="uploadBtn-${tc - 1}" class="button">
-                        <a style="margin-bottom: 2%;" class="btn file-btn">
-                            <span>Choose an image</span>
-                            <input id="uploadInput-${tc - 1}" type="file" name="UploadFiles" onchange="readURL(this);" value="Choose a file" accept="image/*" />
+            `<div class="col-lg-4 col-md-6 col-12 mb-30">
+                <div class="part_row">
+                    <input id="cn-${tc - 1}" type="hidden" name="Model[${tc - 1}].CertName" value="null-${tc - 1}"/>
+                    <h3 class="single-section-title">Certificate ${tc}</h3>
+                    <div>
+                        <div id="uploadBtn-${tc - 1}" class="button">
+                            <a style="margin-bottom: 2%;" class="btn file-btn">
+                                <span>Choose an image</span>
+                                <input id="uploadInput-${tc - 1}" type="file" name="UploadFiles" onchange="readURL(this);" value="Choose a file" accept="image/*" />
+                            </a>
+                        </div>
+                        <div id="removeBtn-${tc - 1}" class="button mb-20" style="display: none;">
+                            <button type="button" class="btn mouse-dir white-bg" onclick="removeUpload(${tc - 1})">Delete <span id="img-text-${tc - 1}"></span>
+                            </button>
+                        </div>
+                        <div id="post-thubs-${tc - 1}" class="post-thumbnils thumbnil-x" style="display: none;">
+                            <img height="200px" id="uploadedImg-${tc - 1}" src="" alt="">
+                        </div>
+                    </div>
+                    <div class="add-post-btn float-right mt-20">
+                        <a type="button" onclick="deleteTemplate(this)" class="btn-delete"><i class="lni lni-remove-file"></i>
+                            Delete This
                         </a>
                     </div>
-                    <div id="removeBtn-${tc - 1}" class="button mb-20" style="display: none;">
-                        <button type="button" class="btn mouse-dir white-bg" onclick="removeUpload(${tc - 1})">Delete <span id="img-text-${tc - 1}"></span>
-                        </button>
-                    </div>
-                    <div id="post-thubs-${tc - 1}" class="post-thumbnils thumbnil-x" style="display: none;">
-                        <img height="200px" id="uploadedImg-${tc - 1}" src="" alt="">
-                    </div>
-                </div>
-                <div class="add-post-btn float-right mt-20">
-                    <a type="button" onclick="deleteTemplate(this)" class="btn-delete"><i class="lni lni-remove-file"></i>
-                        Delete This
-                    </a>
                 </div>
             </div>`
             )

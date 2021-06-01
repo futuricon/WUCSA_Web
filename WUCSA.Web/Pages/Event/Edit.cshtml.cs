@@ -76,6 +76,7 @@ namespace WUCSA.Web.Pages.Event
             };
 
             SelectedStypesId = myEvent.EventSportTypes.Where(i=>i.SportType.IsDeleted == false).Select(i=>i.SportType.Id).ToArray();
+            
             if (myEvent.Rank.Id != null)
             {
                 SelectedRankId = myEvent.Rank.Id;
@@ -92,8 +93,22 @@ namespace WUCSA.Web.Pages.Event
             }
 
             AppUser currentUser = await _userManager.GetUserAsync(User);
-            var tempSlug = $"{Input.Event.EventLocation.ToString()}-{Input.Event.Title}-{Input.Event.EventDate.ToString("yyyy-MM-dd")}";
-            Input.Event.Slug = tempSlug.Slugify();
+            var tempSlug = $"{Input.Event.EventLocation}-{Input.Event.Title}-{Input.Event.EventDate:yyyy-MM-dd}";
+
+            var myEvent = await _eventRepository.GetByIdAsync<Core.Entities.EventModel.Event>(Input.Event.Id);
+           
+            myEvent.Title = Input.Event.Title;
+            myEvent.TitleRu = Input.Event.TitleRu;
+            myEvent.TitleUz = Input.Event.TitleUz;
+            myEvent.Description = Input.Event.Description;
+            myEvent.DescriptionRu = Input.Event.DescriptionRu;
+            myEvent.DescriptionUz = Input.Event.DescriptionUz;
+            myEvent.EventLocation = Input.Event.EventLocation;
+            myEvent.EventDate = Input.Event.EventDate;
+            myEvent.Location = Input.Event.Location;
+            myEvent.Author = currentUser;
+            myEvent.Slug = tempSlug.Slugify();
+            
             if (Input.UploadCoverPhoto != null)
             {
                 Input.Event.CoverPhotoPath = _imageHelper.UploadCoverImage(Input.UploadCoverPhoto, Input.Event.Id, "event_imgs");
@@ -106,8 +121,9 @@ namespace WUCSA.Web.Pages.Event
             {
                 Input.Event.EventPartsFilePath = await _pdfFileHelper.SaveFile(Input.UploadPdfParts, $"{Input.Event.Slug}-Parts", "events");
             }
-            Input.Event.Author = currentUser;
-            await _eventRepository.UpdateSportTypesAsync(Input.Event, true, SelectedStypesId);
+
+            await _eventRepository.UpdateSportTypesAsync(myEvent, true, SelectedStypesId);
+            await _eventRepository.UpdateEventAsync(myEvent);
             return RedirectToPage($"/Event/List", new { location = Input.Event.EventLocation });
         }
 
@@ -116,30 +132,24 @@ namespace WUCSA.Web.Pages.Event
             var sportTypes = await _rankRepository.GetListAsync<Core.Entities.RankModel.SportType>(i => i.IsDeleted == false);
             var Rank = await _rankRepository.GetListAsync<Core.Entities.RankModel.Rank>(i => i.IsDeleted == false);
             SportTypes = new Complex().GetData(sportTypes, RCName);
-            switch (RCName)
+            OptionsRank = RCName switch
             {
-                case "ru":
-                    OptionsRank = Rank.Select(a => new SelectListItem
-                    {
-                        Value = a.Id.ToString(),
-                        Text = a.TitleRu
-                    }).ToList();
-                    break;
-                case "uz":
-                    OptionsRank = Rank.Select(a => new SelectListItem
-                    {
-                        Value = a.Id.ToString(),
-                        Text = a.TitleUz
-                    }).ToList();
-                    break;
-                default:
-                    OptionsRank = Rank.Select(a => new SelectListItem
-                    {
-                        Value = a.Id.ToString(),
-                        Text = a.Title
-                    }).ToList();
-                    break;
-            }
+                "ru" => Rank.Select(a => new SelectListItem
+                {
+                    Value = a.Id.ToString(),
+                    Text = a.TitleRu
+                }).ToList(),
+                "uz" => Rank.Select(a => new SelectListItem
+                {
+                    Value = a.Id.ToString(),
+                    Text = a.TitleUz
+                }).ToList(),
+                _ => Rank.Select(a => new SelectListItem
+                {
+                    Value = a.Id.ToString(),
+                    Text = a.Title
+                }).ToList(),
+            };
         }
 
         public class Complex

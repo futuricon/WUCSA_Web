@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
+using System.Web;
 using WUCSA.Core.Entities.Base;
 using WUCSA.Core.Entities.UserModel;
 using WUCSA.Core.Interfaces;
@@ -9,8 +11,8 @@ namespace WUCSA.Core.Entities.RankModel
 {
     public enum RankLocation
     {
-        World,
-        National
+        World = 1,
+        National = 2
     }
 
     public class Rank : IEntity<string>
@@ -25,9 +27,6 @@ namespace WUCSA.Core.Entities.RankModel
 
         [StringLength(80)]
         public string Slug { get; set; }
-
-        [Display(Name = "Sport Type")]
-        public virtual SportType SportType { get; set; }
 
         public virtual AppUser Author { get; set; }
 
@@ -73,8 +72,22 @@ namespace WUCSA.Core.Entities.RankModel
 
         public virtual ICollection<RankParticipant> RankParticipants { get; set; } = new List<RankParticipant>();
 
+        public virtual ICollection<RankSportType> RankSportTypes { get; set; } = new List<RankSportType>();
+
         public string RankPartsFilePath { get; set; }
 
         public bool IsDeleted { get; set; }
+
+        public static string GetShortContent(string articleContent, int length)
+        {
+            var content = HttpUtility.HtmlDecode(articleContent);
+            content = Regex.Replace(content, @"<(.|\n)*?>", "");
+            if (content.Length > 200)
+            {
+                content = content.Substring(0, length).Trim() + "...";
+            }
+
+            return content;
+        }
     }
 }

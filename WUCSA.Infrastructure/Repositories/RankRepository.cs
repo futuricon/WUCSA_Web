@@ -42,6 +42,42 @@ namespace WUCSA.Infrastructure.Repositories
             await DeleteAsync(rank);
         }
 
+        public async Task UpdateSportTypesAsync(Rank rank, bool saveChanges = true, params string[] sportTypesId)
+        {
+            List<SportType> sportTypes = new List<SportType>();
+            foreach (var sportType in sportTypesId)
+            {
+                var originSType = await GetAsync<SportType>(i => i.Id == sportType);
+                if (originSType != null && !originSType.IsDeleted)
+                {
+                    sportTypes.Add(originSType);
+                }
+            }
+            foreach (var rankSportType in rank.RankSportTypes)
+            {
+                if (sportTypes.Contains(rankSportType.SportType))
+                {
+                    sportTypes.RemoveAll(x => x.Id == rankSportType.SportTypeId);
+                }
+                else
+                {
+                    _context.Set<RankSportType>().Remove(rankSportType);
+                }
+            }
+            foreach (var sportType in sportTypes)
+            {
+                rank.RankSportTypes.Add(new RankSportType
+                {
+                    SportType = sportType
+                });
+            }
+
+            if (saveChanges)
+            {
+                await UpdateAsync(rank);
+            }
+        }
+
         private string GetVerifiedRankSlug(Rank slugifiedEntity)
         {
             var slug = slugifiedEntity.Slug;

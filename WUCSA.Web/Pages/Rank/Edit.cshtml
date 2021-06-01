@@ -9,6 +9,7 @@
 
 @section CSS {
     <link rel="stylesheet" href="~/css/rank_style.css" />
+    <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/material.css" />
 }
 
 <div class="breadcrumbs overlay">
@@ -43,11 +44,10 @@
                             <input type="hidden" asp-for="Input.Rank.Id" />
                             <div class="col-lg-6 col-md-6">
                                 <div class="form-group">
-                                    <label asp-for="Input.Rank.SportType" class="control-label"></label>
-                                    <select class="select" asp-for="SelectedSTypeId" asp-items="@Model.Options">
-                                        <option value="" disabled>@Localizer["Please select Type of Sport"]</option>
-                                    </select>
-                                    <span asp-validation-for="SelectedSTypeId" class="text-danger"></span>
+                                    <label class="control-label">Types of Sport</label>
+                                    <ejs-multiselect dataSource="@Model.SportTypes" placeholder="Select Types of Sport" ejs-for="SelectedStypesId">
+                                        <e-multiselect-fields text="Name" value="Id"></e-multiselect-fields>
+                                    </ejs-multiselect>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6">
@@ -123,9 +123,16 @@
                                     <textarea asp-for="Input.Rank.DescriptionUz" class="form-control" rows="3"></textarea>
                                 </div>
                             </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label asp-for="Input.Rank.Location" class="control-label"></label>
+                                    <input asp-for="Input.Rank.Location" class="form-control" />
+                                    <span asp-validation-for="Input.Rank.Location" class="text-danger"></span>
+                                </div>
+                            </div>
                             <div class="col-lg-12 button">
                                 <button class="btn">
-                                    @Localizer["Edit"]
+                                    @Localizer["Update"]
                                 </button>
                             </div>
                         </div>
@@ -136,6 +143,7 @@
     </div>
 </section>
 @section Scripts {
+    <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js"></script>
     <script>
         function getFileData(myFile) {
             var file = myFile.files[0];

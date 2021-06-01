@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
@@ -97,15 +96,10 @@ namespace WUCSA.Web.Pages.Blog
                 comment.AuthorName = CommentAuthorName;
             }
 
-            //var htmlMsg = $@"<h3>Good day, <b>{Blog.Author.UserName}</b></h3>
-            //                    <p>Posted comment in your blog in wucsa.com 
-            //                    <a href='{HtmlEncoder.Default.Encode($"http://wucsa.com/{Blog.Slug}?pageIndex={pageNumber}#{comment.Id}")}'>{Blog.Title}</a></p>
-            //                    <br />";
-            var TGMsg = $@"Hi, {Blog.Author.UserName}. There is new comment in your post {Blog.Title}. Check it out http://wucsa.com/{Blog.Slug}?pageIndex={pageNumber}#{comment.Id}";
+            string TGMsg = $"Hi, {Blog.Author.UserName}.\nThere is new comment in your post {Blog.Title}.\nCheck it out http://wucsa.com/{Blog.Slug}?pageIndex={pageNumber}#{comment.Id}";
 
             await _blogRepository.AddCommentAsync(Blog, comment);
-            await _emailService.SendTGAsync(TGMsg);
-            //await _emailService.SendAsync(Blog.Author.Email, "Posted comment in your blog", htmlMsg);
+            await _emailService.SendToAllTGAsync(TGMsg);
             return RedirectToPage("", "", new { pageIndex = pageNumber }, comment.Id);
         }
 
@@ -138,11 +132,10 @@ namespace WUCSA.Web.Pages.Blog
             var commentEmail = parentComment.Author == null ? parentComment.AuthorEmail : parentComment.Author.Email;
 
             //var htmlMsg = $@"<h3>Good day, <b>{commentAuthor}</b></h3>
-            //                    <p>Replied to your comment in this wucsa.com blog <a href='{HtmlEncoder.Default.Encode($"http://wucsa.com/blog/{blog.Slug}?pageIndex={pageNumber}#{commentId}")}'>{blog.Title}</a></p>
-            //                    <br />
-            //                    ";
+            //<p>Replied to your comment in this wucsa.com blog <a href='{HtmlEncoder.Default.Encode($"http://wucsa.com/blog/{blog.Slug}?pageIndex={pageNumber}#{commentId}")}'>{blog.Title}</a></p>
+            //<br />
+            //";
             var TGMsg = $@"Hi, {blog.Author.UserName}. {commentAuthor} replied to your comment in this wucsa.com post {blog.Title}. Check it out http://wucsa.com/{blog.Slug}?pageIndex={pageNumber}#{commentId}";
-
 
             await _blogRepository.AddReplyToCommentAsync(parentComment, childComment);
             //await _emailService.SendAsync(commentEmail, "Replied to your comment", htmlMsg);

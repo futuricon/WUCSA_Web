@@ -63,6 +63,7 @@
                                         <ejs-multiselect dataSource="@Model.SportTypes" placeholder="Select Types of Sport" ejs-for="SelectedStypesId">
                                             <e-multiselect-fields text="Name" value="Id"></e-multiselect-fields>
                                         </ejs-multiselect>
+                                        <span asp-validation-for="SelectedStypesId" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-12">
@@ -141,16 +142,7 @@
                                     <input asp-for="Input.Event.Location" class="form-control" />
                                     <span asp-validation-for="Input.Event.Location" class="text-danger"></span>
                                 </div>
-                                <div class="col-12">
-                                    <div class="form-group mt-4">
-                                        <label class="control-label">Ranking List</label>
-                                        <select class="select" asp-for="SelectedRankId" asp-items="@Model.OptionsRank">
-                                            <option value="" selected disabled>@Localizer["Please select Ranking List"]</option>
-                                        </select>
-                                        <span asp-validation-for="SelectedRankId" class="text-danger"></span>
-                                    </div>
-                                </div>
-
+                                
                                 <div class="col-4 mx-auto">
                                     <div class="button form-group mt-4">
                                         <input type="submit" value="Create" class="btn" />

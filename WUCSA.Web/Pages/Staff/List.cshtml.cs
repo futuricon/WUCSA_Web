@@ -18,14 +18,17 @@ namespace WUCSA.Web.Pages.Staff
             _staffRepository = staffRepository;
         }
         public List<Core.Entities.StaffModel.Staff> Staffs { get; set; }
+        public List<Core.Entities.StaffModel.Staff> Members { get; set; }
         public string RCName { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
             RCName = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.UICulture.Name;
-            var staffs = (await _staffRepository.GetListAsync<Core.Entities.StaffModel.Staff>()).Where(i => i.IsDeleted == false && i.IsMember == true);
+            var members = (await _staffRepository.GetListAsync<Core.Entities.StaffModel.Staff>()).Where(i => i.IsDeleted == false && i.IsMember == true);
+            var staffs = (await _staffRepository.GetListAsync<Core.Entities.StaffModel.Staff>()).Where(i => i.IsDeleted == false && i.IsMember == false);
 
-            Staffs = staffs.OrderByDescending(i => i.Location).ToList();
+            Members = members.OrderByDescending(i => i.Location).ToList();
+            Staffs = staffs.OrderByDescending(i => i.Id).ToList();
 
             return Page();
         }

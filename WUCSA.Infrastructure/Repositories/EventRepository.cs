@@ -40,11 +40,10 @@ namespace WUCSA.Infrastructure.Repositories
             foreach (var sportType in sportTypesId)
             {
                 var originSType = await GetAsync<SportType>(i => i.Id == sportType);
-                if (originSType!=null)
+                if (originSType != null && !originSType.IsDeleted)
                 {
                     sportTypes.Add(originSType);
                 }
-                
             }
             foreach (var eventSportType in myEvent.EventSportTypes)
             {

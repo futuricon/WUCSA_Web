@@ -4,13 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using SuxrobGM.Sdk.Extensions;
-using WUCSA.Core.Entities.UserModel;
 using WUCSA.Core.Interfaces.Repositories;
 using WUCSA.Web.Utils;
 
@@ -37,11 +34,12 @@ namespace WUCSA.Web.Pages.Rank
         [BindProperty]
         public InputModel Input { get; set; }
         public string RCName { get; set; }
+
         [BindProperty]
-        [Required(ErrorMessage = "Please select kind of sport")]
-        public string SelectedSTypeId { set; get; }
-        public List<SelectListItem> Options { set; get; }
-        public string rankSportType { get; set; }
+        [Required(ErrorMessage = "Please select Ranking List")]
+        public string[] SelectedStypesId { get; set; }
+        public List<Complex> SportTypes { get; set; }
+
         public async Task<IActionResult> OnGetAsync(string id)
         {
             RCName = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.UICulture.Name;
@@ -60,27 +58,17 @@ namespace WUCSA.Web.Pages.Rank
             {
                 ViewData["PDFFilePath"] = rank.RankPartsFilePath;
             }
+
             Input = new InputModel()
             {
                 Rank = rank
             };
 
-            switch (RCName)
-            {
-                case "ru":
-                    rankSportType = rank.SportType.NameRu;
-                    break;
-                case "uz":
-                    rankSportType = rank.SportType.NameUz;
-                    break;
-                default:
-                    rankSportType = rank.SportType.Name;
-                    break;
-            }
-            SelectedSTypeId = rank.SportType.Id;
+            SelectedStypesId = rank.RankSportTypes.Where(i => i.SportType.IsDeleted == false).Select(i => i.SportType.Id).ToArray();
 
             return Page();
         }
+
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -88,15 +76,8 @@ namespace WUCSA.Web.Pages.Rank
                 await GetOptionAsync();
                 return Page();
             }
-            var sportType = await _rankRepository.GetAsync<Core.Entities.RankModel.SportType>(i => i.Id == SelectedSTypeId);
-            if (sportType == null)
-            {
-                await GetOptionAsync();
-                return Page();
-            }
-            Input.Rank.SportType = sportType;
 
-            var tempSlug = $"{Input.Rank.RankLocation.ToString()}-{Input.Rank.SportType.Name.ToString()}-{Input.Rank.RankDate.ToString("yyyy-MM-dd")}";
+            var tempSlug = $"{Input.Rank.RankLocation}-{Input.Rank.Title}-{Input.Rank.RankDate:yyyy-MM-dd}";
             
             var rank = await _rankRepository.GetByIdAsync<Core.Entities.RankModel.Rank>(Input.Rank.Id);
             rank.Title = Input.Rank.Title;
@@ -118,36 +99,47 @@ namespace WUCSA.Web.Pages.Rank
                 rank.RankPartsFilePath = await _pdfFileHelper.SaveFile(Input.UploadPdf, rank.Slug, "ranks");
             }
 
+            await _rankRepository.UpdateSportTypesAsync(rank, true, SelectedStypesId);
             await _rankRepository.UpdateRankAsync(rank);
-            return RedirectToPage("/Rank/SubList", new { loc = Input.Rank.RankLocation.ToString().ToLower(), stype = Input.Rank.SportType.Name.ToLower() });
+            return RedirectToPage("/Rank/List", new { loc = Input.Rank.RankLocation.ToString().ToLower(), gender = "man" });
         }
+
         private async Task GetOptionAsync()
         {
-            var SportTypes = await _rankRepository.GetListAsync<Core.Entities.RankModel.SportType>(i => i.IsDeleted == false);
+            var sportTypes = await _rankRepository.GetListAsync<Core.Entities.RankModel.SportType>(i => i.IsDeleted == false);
+            SportTypes = new Complex().GetData(sportTypes, RCName);
+        }
 
-            switch (RCName)
+        public class Complex
+        {
+            public string Id { get; set; }
+            public string Name { get; set; }
+            public List<Complex> GetData(List<Core.Entities.RankModel.SportType> SportTypes, string rcName)
             {
-                case "ru":
-                    Options = SportTypes.Select(a => new SelectListItem
-                    {
-                        Value = a.Id.ToString(),
-                        Text = a.NameRu
-                    }).ToList(); ;
-                    break;
-                case "uz":
-                    Options = SportTypes.Select(a => new SelectListItem
-                    {
-                        Value = a.Id.ToString(),
-                        Text = a.NameUz
-                    }).ToList(); ;
-                    break;
-                default:
-                    Options = SportTypes.Select(a => new SelectListItem
-                    {
-                        Value = a.Id.ToString(),
-                        Text = a.Name
-                    }).ToList(); ;
-                    break;
+                List<Complex> data = new List<Complex>();
+                switch (rcName)
+                {
+                    case "ru":
+                        foreach (var sportType in SportTypes)
+                        {
+                            data.Add(new Complex() { Id = sportType.Id, Name = sportType.NameRu });
+                        }
+                        break;
+                    case "uz":
+                        foreach (var sportType in SportTypes)
+                        {
+                            data.Add(new Complex() { Id = sportType.Id, Name = sportType.NameUz });
+                        }
+                        break;
+                    default:
+                        foreach (var sportType in SportTypes)
+                        {
+                            data.Add(new Complex() { Id = sportType.Id, Name = sportType.Name });
+                        }
+                        break;
+                }
+
+                return data;
             }
         }
     }

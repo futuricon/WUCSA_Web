@@ -210,7 +210,7 @@
                                 </div>
                             </div>
                             <div class="col-3 mx-auto">
-                                <div class="button form-group mt-4">
+                                <div class="button form-group mt-5">
                                     <input type="submit" value="Create" class="btn" />
                                 </div>
                             </div>
@@ -237,7 +237,8 @@
             $("#totalContacts").val(tc)
 
             $("#main_row").append(
-                `<div class="row part_row col-lg-4 col-md-6 col-12 mb-20">
+                `<div class="col-lg-4 col-md-6 col-12 mb-30">
+                    <div class="part_row">
                         <input id="cn-${tc - 1}" type="hidden" name="Model[${tc - 1}].CertName" value="null-${tc - 1}"/>
                         <h3 class="single-section-title">Certificate ${tc}</h3>
                         <div>
@@ -260,7 +261,8 @@
                                 Delete This
                             </a>
                         </div>
-                    </div>`
+                    </div>
+                </div>`
             )
         });
 

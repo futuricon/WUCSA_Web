@@ -47,7 +47,7 @@ namespace WUCSA.Web.Pages.SportType
                 }
             }
 
-            if (SportType.EventSportTypes.Count > 0 || SportType.Ranks.Count > 0)
+            if (SportType.EventSportTypes.Count > 0 || SportType.RankSportTypes.Count > 0)
             {
                 ViewData.Add("ErrorMsg", "This Type of Sport is associated with an Event and/or a Rank. Please break these associations before deleting");
                 return Page();

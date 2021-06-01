@@ -8,6 +8,8 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account.Manage
 {
     public static class ManageNavPages
     {
+        public static string AdminPanel => "AdminPanel";
+
         public static string Index => "Index";
 
         public static string Email => "Email";
@@ -23,6 +25,8 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account.Manage
         public static string PersonalData => "PersonalData";
 
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
+
+        public static string AdminPanelNavClass(ViewContext viewContext) => PageNavClass(viewContext, AdminPanel);
 
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
 

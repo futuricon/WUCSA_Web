@@ -43,119 +43,134 @@
 
 <div class="resume section">
     <div class="container">
-        <div class="resume-inner">
-            <div class="row grid">
-
-                @if (!Model.Staffs.Any())
-                {<h4>@Localizer["There are no any Staff or Members"]</h4> }
+        <div class="row">
+            <div class="col-12">
+                <div class="section-title">
+                    <h2 class="wow fadeInUp" data-wow-delay=".4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">Our Staff</h2>
+                </div>
+            </div>
+            @if (!Model.Staffs.Any())
+            {
+                <h4 class="empty-title">@Localizer["There are no any Staff yet"]</h4>
+            }
             else
             {
-                foreach (var Staff in Model.Staffs)
-                {
-                    <div class="col-lg-6 col-12 mt-20 grid-item">
-                        <div class="inner-content">
-                            @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
-                            {
-                                <div class="meta-details">
-                                    <ul>
-                                        <li><a asp-page="/Staff/Edit" asp-route-id="@Staff.Id"><i class="lni lni-pencil"></i>&nbsp;@Localizer["Edit"]</a></li>
-                                        <li><a asp-page="/Staff/Delete" asp-route-id="@Staff.Id" class="del-btn"><i class="lni lni-trash"></i>&nbsp;@Localizer["Delete"]</a></li>
-                                    </ul>
-                                </div>
-                            }
-                            <div class="personal-top-content">
-                                <div class="row">
-                                    <div class="col-lg-5 col-md-5 col-12">
-                                        <div class="name-head">
-                                            <div class="image">
-                                                <a class="mb-2"><img class="resize-img" src="@Staff.ProfilePhotoPath" alt="@Staff.FirstName @Staff.LastName"></a>
-                                            </div>
-                                            <h4><a class="name">@Staff.FirstName @Staff.LastName</a></h4>
-                                            <p>
-                                                <a class="deg">
-                                                    @switch (Model.RCName)
-                                                    {
-                                                        case "ru":
-                                                            @Staff.PositionRu
-                                                            break;
-                                                        case "uz":
-                                                            @Staff.PositionUz
-                                                            break;
-                                                        default:
-                                                            @Staff.Position
-                                                            break;
-                                                    }
-                                                </a>
-                                            </p>
-                                            <ul class="social">
-                                                @if (Staff.FacebookUrl != null)
-                                                {
-                                                    <li><a href="@Staff.FacebookUrl"><i class="lni lni-facebook-original"></i></a></li>
-                                                }
-                                                @if (Staff.InstagramUrl != null)
-                                                {
-                                                    <li><a href="@Staff.InstagramUrl"><i class="lni lni-instagram-original"></i></a></li>
-                                                }
-                                                @if (Staff.TwitterUrl != null)
-                                                {
-                                                    <li><a href="@Staff.TwitterUrl"><i class="lni lni-twitter-original"></i></a></li>
-                                                }
-                                                @if (Staff.TelegramUrl != null)
-                                                {
-                                                    <li><a href="@Staff.TelegramUrl"><i class="lni lni-telegram-original"></i></a></li>
-                                                }
+                <div class="col-12">
+                    <div class="row grid">
+                        @foreach (var Staff in Model.Staffs)
+                        {
+                            <div class="col-lg-6 col-12 mt-20 grid-item">
+                                <div class="inner-content">
+                                    @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                                    {
+                                        <div class="meta-details">
+                                            <ul>
+                                                <li><a asp-page="/Staff/Edit" asp-route-id="@Staff.Id"><i class="lni lni-pencil"></i>&nbsp;@Localizer["Edit"]</a></li>
+                                                <li><a asp-page="/Staff/Delete" asp-route-id="@Staff.Id" class="del-btn"><i class="lni lni-trash"></i>&nbsp;@Localizer["Delete"]</a></li>
                                             </ul>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-7 col-md-7 col-12">
-                                        <div class="content-right">
-                                            <h5 class="title-main">@(new RegionInfo(Staff.CountryCode).DisplayName)&nbsp;&nbsp;<img src="https://www.countryflags.io/@Staff.CountryCode/flat/48.png"></h5>
-
-                                            <div class="row">
-                                                <div class="single-list col-12">
-                                                    <h5 class="title">@Localizer["Address"]</h5>
-                                                    <p><a>@Staff.Location</a></p>
-                                                </div>
-                                                <div class="single-list col-12">
-                                                    <h5 class="title">@Localizer["E-mail"]</h5>
-                                                    <p><a href="mailto:@Staff.Email">@Staff.Email</a></p>
-                                                </div>
-                                                <div class="single-list col-12">
-                                                    <h5 class="title">@Localizer["Phone"]</h5>
-                                                    <p><a href="tel:@Staff.PhoneNumber">@Staff.PhoneNumber</a></p>
+                                    }
+                                    <div class="personal-top-content">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-5 col-12">
+                                                <div class="name-head">
+                                                    <div class="image">
+                                                        <a class="mb-2"><img class="resize-img" src="@Staff.ProfilePhotoPath" alt="@Staff.FirstName @Staff.LastName"></a>
+                                                    </div>
+                                                    <h4><a class="name">@Staff.FirstName @Staff.LastName</a></h4>
+                                                    <p>
+                                                        <a class="deg">
+                                                            @switch (Model.RCName)
+                                                            {
+                                                                case "ru":
+                                                                    @Staff.PositionRu
+                                                                    break;
+                                                                case "uz":
+                                                                    @Staff.PositionUz
+                                                                    break;
+                                                                default:
+                                                                    @Staff.Position
+                                                                    break;
+                                                            }
+                                                        </a>
+                                                    </p>
+                                                    <ul class="social">
+                                                        @if (Staff.FacebookUrl != null)
+                                                        {
+                                                            <li><a href="@Staff.FacebookUrl"><i class="lni lni-facebook-original"></i></a></li>
+                                                        }
+                                                        @if (Staff.InstagramUrl != null)
+                                                        {
+                                                            <li><a href="@Staff.InstagramUrl"><i class="lni lni-instagram-original"></i></a></li>
+                                                        }
+                                                        @if (Staff.TwitterUrl != null)
+                                                        {
+                                                            <li><a href="@Staff.TwitterUrl"><i class="lni lni-twitter-original"></i></a></li>
+                                                        }
+                                                        @if (Staff.TelegramUrl != null)
+                                                        {
+                                                            <li><a href="@Staff.TelegramUrl"><i class="lni lni-telegram-original"></i></a></li>
+                                                        }
+                                                    </ul>
                                                 </div>
                                             </div>
+                                            <div class="col-lg-7 col-md-7 col-12">
+                                                <div class="content-right">
+                                                    <h5 class="title-main">@(new RegionInfo(Staff.CountryCode).DisplayName)&nbsp;&nbsp;<img src="https://www.countryflags.io/@Staff.CountryCode/flat/48.png"></h5>
 
+                                                    <div class="row">
+                                                        <div class="single-list col-12">
+                                                            <h5 class="title">@Localizer["Address"]</h5>
+                                                            <p><a>@Staff.Location</a></p>
+                                                        </div>
+                                                        <div class="single-list col-12">
+                                                            <h5 class="title">@Localizer["E-mail"]</h5>
+                                                            <p><a href="mailto:@Staff.Email">@Staff.Email</a></p>
+                                                        </div>
+                                                        <div class="single-list col-12">
+                                                            <h5 class="title">@Localizer["Phone"]</h5>
+                                                            <p><a href="tel:@Staff.PhoneNumber">@Staff.PhoneNumber</a></p>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+
+                                    <div class="single-section">
+                                        <h4>@Localizer["Information"]</h4>
+                                        <p class="font-size-4 mb-8">
+                                            @switch (Model.RCName)
+                                            {
+                                                case "ru":
+                                                    @Staff.DescriptionRu
+                                                    break;
+                                                case "uz":
+                                                    @Staff.DescriptionUz
+                                                    break;
+                                                default:
+                                                    @Staff.Description
+                                                    break;
+                                            }
+                                        </p>
+                                    </div>
+
+                                    <div class="button">
+                                        <a asp-page="/Staff/Index" asp-route-slug="@Staff.Slug" class="btn">Read More</a>
+                                    </div>
+
                                 </div>
                             </div>
-
-                            <div class="single-section">
-                                <h4>@Localizer["Information"]</h4>
-                                <p class="font-size-4 mb-8">
-                                    @switch (Model.RCName)
-                                    {
-                                        case "ru":
-                                            @Staff.DescriptionRu
-                                            break;
-                                        case "uz":
-                                            @Staff.DescriptionUz
-                                            break;
-                                        default:
-                                            @Staff.Description
-                                            break;
-                                    }
-                                </p>
-                            </div>
-
-                        </div>
+                        }
                     </div>
-                }
+                </div>
             }
-
-            </div>
         </div>
+        <div class="resume-inner">
+            
+        </div>
+        
     </div>
 </div>
 

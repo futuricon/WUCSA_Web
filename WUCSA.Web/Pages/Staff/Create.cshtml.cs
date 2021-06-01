@@ -79,7 +79,7 @@ namespace WUCSA.Web.Pages.Staff
 
             await _staffRepository.UpdateCertificatesAsync(Input.Staff, false, Certificates.ToArray());
             await _staffRepository.AddStaffAsync(Input.Staff);
-            return RedirectToPage("/Staff/Index");
+            return RedirectToPage("/Staff/List");
         }
     }
 }

@@ -48,9 +48,11 @@ namespace WUCSA.Core.Entities.RankModel
 
         public string RulesFilePath { get; set; }
 
-        public virtual ICollection<Rank> Ranks { get; set; } = new List<Rank>();
-
         public virtual ICollection<EventSportType> EventSportTypes { get; set; }
+
+        public virtual ICollection<RankParticipant> RankParticipants { get; set; }
+
+        public virtual ICollection<RankSportType> RankSportTypes { get; set; }
 
         public bool IsDeleted { get; set; }
     }

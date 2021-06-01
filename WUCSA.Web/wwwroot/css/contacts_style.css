@@ -227,9 +227,9 @@
         height: auto;
     }
 
-        .map-section iframe {
+        /*.map-section iframe {
             height: 300px !important;
-        }
+        }*/
 
     .contact-us .form-main {
         padding: 50px 50px 50px 50px !important;
@@ -255,9 +255,16 @@
         .map-section iframe {
             height: 300px !important;
         }
+
     .contact-us .single-head {
+        margin: 30px !important;
         padding-top: 0 !important;
     }
+
+    .contact-us .form-main {
+        padding: 30px 15px 15px 30px !important;
+    }
+
 }
 
     

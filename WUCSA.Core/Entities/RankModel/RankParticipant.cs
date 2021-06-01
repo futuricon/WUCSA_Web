@@ -9,8 +9,8 @@ namespace WUCSA.Core.Entities.RankModel
 {
     public enum Gender
     {
-        Man,
-        Woman
+        Man = 1,
+        Woman = 2
     }
 
     public class RankParticipant : IEntity<string>
@@ -29,7 +29,11 @@ namespace WUCSA.Core.Entities.RankModel
 
         [Required(ErrorMessage = "Please select gender")]
         [Display(Name = "Gender")]
+        [EnumDataType(typeof(Gender))]
         public Gender Gender { get; set; }
+
+        [Required(ErrorMessage = "Please select type of sport")]
+        public virtual SportType SportType { get; set; }
 
         public virtual AppUser Author { get; set; }
 

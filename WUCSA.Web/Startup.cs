@@ -87,8 +87,8 @@ namespace WUCSA.Web
             {
                 options.Conventions.AddPageRoute("/Blog/List", "/Blog");
                 options.Conventions.AddPageRoute("/Staff/List", "/Staff");
-                options.Conventions.AddPageRoute("/Rank/SubList/{loc}/{stype}", "/Rank/List/{loc}/{stype}");
-                options.Conventions.AddPageRoute("/Rank/Index/{slug}/{gender}/{weight?}", "/Rank/{slug}/{gender}/{weight?}");
+                //options.Conventions.AddPageRoute("/Rank/List/{loc}/{gender}", "/Rank/{loc}/{gender}");
+                //options.Conventions.AddPageRoute("/Rank/Index/{loc}/{gender}/{slug}", "/Rank/{loc}/{gender}/{slug}");
                 options.Conventions.AddPageRoute("/SportType/List", "/SportType");
             });
         }

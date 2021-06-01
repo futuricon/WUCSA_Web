@@ -864,7 +864,6 @@
 
 .our-gallery .content-right .media-body {
     padding: 40px 30px;
-    padding-bottom: 40px;
     border-radius: 5px;
     background-color: var(--main-blue-color);
     -webkit-box-shadow: 0 1rem 3rem rgba(35, 38, 45, .15) !important;
@@ -872,7 +871,6 @@
     display: inline-block;
     width: 100%;
     margin-top: 10px;
-    padding-bottom: 48px;
     -webkit-transition: 0.5s;
     transition: 0.5s;
 }
@@ -1214,6 +1212,18 @@
             line-height: 30px;
             margin-bottom: 40px;
         }
+
+        .our-gallery .content-right .media-body {
+            padding: 10px;
+        }
+
+            .our-gallery .content-right .media-body i {
+                font-size: 18px;
+                height: 30px;
+                width: 30px;
+                line-height: 30px;
+                margin-bottom: 10px;
+            }
         /**/
     .client-logo-section {
         padding: 0 !important;

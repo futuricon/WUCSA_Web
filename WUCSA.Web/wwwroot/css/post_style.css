@@ -515,16 +515,17 @@ blockquote {
         padding-right: 15px
     }
 
-    .comment-reply-title::before {
+    /*.comment-reply-title::before {
+        text-align: right;
         position: absolute;
         left: 0;
         top: 50%;
         height: 1px;
-        width: 100%;
+        width: 80%;
         background-color: #eee;
         content: '';
         z-index: -1;
-    }
+    }*/
 /*
 .comment-form .reply-link {
     padding: 12px 25px;
@@ -545,21 +546,24 @@ blockquote {
 
 .post-comments .comments-list li {
     /*padding-left changed from 130 to 110*/
-    padding-left: 110px;
+    padding-left: 80px;
     position: relative;
     font-size: 14px;
+    padding-top: 30px;
+    margin-top: 30px;
+    border-top: 1px dashed #d5d5d5;
 }
 
     .post-comments .comments-list li .comment-img {
         position: absolute;
         left: 0;
-        width: 100px;
-        height: 100px;
+        width: 60px;
+        height: 60px;
     }
 
         .post-comments .comments-list li .comment-img img {
-            max-width: 100px;
-            max-height: 100px
+            max-width: 60px;
+            max-height: 60px
         }
 
     .post-comments .comments-list li .comment-desc .desc-top {
@@ -576,7 +580,7 @@ blockquote {
 
             .post-comments .comments-list li .comment-desc .desc-top h6 .saved {
                 color: var(--main-blue-color);
-                font-size: 14px;
+                font-size: 17px;
                 margin-left: 10px;
             }
 
@@ -621,11 +625,11 @@ blockquote {
         margin-left: 130px;
     }
 
-    .post-comments .comments-list li:not(:first-child) {
+    /*.post-comments .comments-list li:not(:first-child) {
         padding-top: 30px;
         margin-top: 30px;
         border-top: 1px dashed #eee;
-    }
+    }*/
 
 .comment-form {
     background-color: #fff;
@@ -999,6 +1003,8 @@ blockquote {
 
     .post-details .post-title {
         line-height: 30px;
+        font-size: 24px; /**/
+        font-weight: 600; /**/
     }
 
         .post-details .post-title a {
@@ -1033,12 +1039,20 @@ blockquote {
                 font-size: 17px !important;
             }
 
+    .blog-single .single-inner {
+        padding: 10px;
+    }
+
     .post-details .post-meta li {
         margin-bottom: 8px;
     }
 
     .post-details p {
         margin: 20px 0;
+    }
+
+    .post-details .detail-inner h2{
+        font-size: 25px;
     }
 
     .post-image .blog-inner-big-img {
@@ -1054,7 +1068,7 @@ blockquote {
         }
 
     .post-comments {
-        padding: 30px;
+        padding: 10px;
     }
 
         .post-comments .comments-list {
@@ -1070,13 +1084,17 @@ blockquote {
                 }
 
     .comment-form {
-        padding: 30px;
+        padding: 10px;
     }
 
-        .comment-form form .form-box .form-control-custom {
-            height: 50px;
-            margin-bottom: 15px;
-        }
+    .comment-form .comment-reply-title a {
+        margin-top: 5px;
+    }
+
+    .comment-form form .form-box .form-control-custom {
+        height: 50px;
+        margin-bottom: 15px;
+    }
 
     .post-comments .comments-list li.children {
         margin-left: 0 !important;
@@ -1087,12 +1105,12 @@ blockquote {
     }
 
         .post-comments .comments-list li .comment-desc {
-            margin-top: -15px;
+            margin-top: 0px;
         }
 
         .post-comments .comments-list li .comment-img img {
-            max-width: 70px;
-            max-height: 70px;
+            max-width: 50px;
+            max-height: 50px;
             display: inline-block !important;
             margin-bottom: -15px !important;
         }
@@ -1205,6 +1223,10 @@ blockquote {
         border: 1px solid #eee;
         color: var(--main-blue-color)
     }
+
+        .action-links form {
+            display: inline-block;
+        }
 
     .action-links .delete-link {
         padding: 10px;

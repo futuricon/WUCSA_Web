@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 using WUCSA.Core.Entities.Base;
-using WUCSA.Core.Entities.UserModel;
 using WUCSA.Core.Interfaces;
 
 namespace WUCSA.Core.Entities.StaffModel
@@ -16,8 +12,7 @@ namespace WUCSA.Core.Entities.StaffModel
         [StringLength(100)]
         public string CertPath { get; set; }
 
-        [StringLength(80, ErrorMessage = "Characters must be less than 80")]
-        [Display(Name = "Certificate Title")]
+        [StringLength(80)]
         public string CertName { get; set; }
 
         public virtual Staff Staff { get; set; }

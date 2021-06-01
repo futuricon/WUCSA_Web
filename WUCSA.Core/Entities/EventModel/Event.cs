@@ -12,8 +12,8 @@ namespace WUCSA.Core.Entities.EventModel
 {
     public enum EventLocation
     {
-        World,
-        National
+        World = 1,
+        National = 2
     }
 
     public class Event : IEntity<string>

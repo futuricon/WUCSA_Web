@@ -1,8 +1,8 @@
 ﻿@import url(colors_style.css);
 
 .latest-rank-area .single-rank {
-    -webkit-box-shadow: 0 1rem 3rem rgba(35,38,45,.15) !important;
-    box-shadow: 0 1rem 3rem rgba(35,38,45,.15) !important;
+    -webkit-box-shadow: 0 1rem 3rem rgba(35, 38, 45, .15) !important;
+    box-shadow: 0 1rem 3rem rgba(35, 38, 45, .15) !important;
     margin-top: 30px;
     border-radius: 5px;
     position: relative;
@@ -53,7 +53,7 @@
                     display: inline-block;
                     font-size: 12px;
                     position: relative;
-                    background: var(--main-blue-color)14;
+                    background: var(--main-blue-c-opacity-14);
                     color: var(--main-blue-color);
                     padding: 5px 10px;
                     border-radius: 3px;
@@ -110,7 +110,6 @@
         transform: scale(1.1) rotate(1deg)
     }
 
-
 .rank-list {
     background: #f6f9fc
 }
@@ -123,44 +122,59 @@
         margin-bottom: 40px
     }
 
+
 /*======================================
     rank Details CSS
 ========================================*/
 
-.actionBtn ul {
+.rank-details .rank-details-body .actionBtn ul {
     margin-top: 25px;
 }
 
-    .actionBtn ul li {
+    .rank-details .rank-details-body .actionBtn ul li {
         display: inline-block;
         font-size: 12px;
         margin-bottom: 5px;
         margin-right: 3px;
         position: relative;
-        background: var(--main-blue-color)14;
+        background: var(--main-blue-c-opacity-14);
         color: var(--main-blue-color);
         padding: 5px 10px;
         border-radius: 3px;
+        list-style-type: none;
     }
 
-        .actionBtn ul li:last-child {
+        .rank-details .rank-details-body .actionBtn ul li:last-child {
             margin-bottom: 0;
             margin-right: 0;
         }
 
-        .actionBtn ul li i {
+        .rank-details .rank-details-body .actionBtn ul li i {
             font-size: 13px;
             display: inline-block;
             margin-right: 3px;
         }
 
-        .actionBtn ul li a {
+        .rank-details .rank-details-body .actionBtn ul li a {
             color: #777;
         }
 
-            .actionBtn ul li a:hover {
+            .rank-details .rank-details-body .actionBtn ul li a:hover {
                 color: var(--main-blue-color);
             }
+
+        .rank-details .rank-details-body .actionBtn ul li::before {
+            position: absolute;
+            content: none;
+            left: 0;
+            top: 8px;
+            height: 6px;
+            width: 6px;
+            display: block;
+            border-radius: 50%;
+            background-color: var(--main-blue-color);
+            list-style-type: none;
+        }
 
 #file-upload {
     display: inline-block;
@@ -168,7 +182,7 @@
     margin-bottom: 5px;
     margin-right: 3px;
     position: relative;
-    background: var(--main-blue-color)14;
+    background: var(--main-blue-c-opacity-14);
     color: var(--main-blue-color);
     padding: 8px 12px;
     border-radius: 3px;
@@ -177,10 +191,11 @@
     margin-top: 5px;
 }
 
-.section-rank {
+
+/* .section-rank {
     padding-top: 50px;
     position: relative;
-}
+} */
 
 .rank-details {
     background-color: #f6f9fc;
@@ -219,6 +234,47 @@
             margin-top: 10px;
         }
 
+
+        /**/
+
+        .rank-details .rank-details-head .content .s-type-meta {
+            margin-top: 20px;
+        }
+
+            .rank-details .rank-details-head .content .s-type-meta li {
+                display: inline-block;
+                font-size: 12px;
+                margin-bottom: 5px;
+                margin-right: 3px;
+                position: relative;
+                background: var(--main-blue-c-opacity-14);
+                color: var(--main-blue-color);
+                padding: 5px 10px;
+                border-radius: 3px;
+            }
+
+                .rank-details .rank-details-head .content .s-type-meta li:last-child {
+                    margin-bottom: 0;
+                    margin-right: 0;
+                }
+
+                .rank-details .rank-details-head .content .s-type-meta li i {
+                    font-size: 13px;
+                    display: inline-block;
+                    margin-right: 3px;
+                }
+
+                .rank-details .rank-details-head .content .s-type-meta li a {
+                    color: #777;
+                }
+
+                    .rank-details .rank-details-head .content .s-type-meta li a:hover {
+                        color: var(--main-blue-color);
+                    }
+
+
+        /**/
+
         .rank-details .rank-details-head .file-type .file-range {
             font-weight: 500;
             line-height: 1;
@@ -233,7 +289,7 @@
             margin-bottom: 5px;
             margin-right: 3px;
             position: relative;
-            background: var(--main-blue-color)14;
+            background: var(--main-blue-c-opacity-14);
             color: var(--main-blue-color);
             padding: 8px 12px;
             border-radius: 3px;
@@ -265,11 +321,16 @@
                 }
 
     .rank-details .rank-details-body h6 {
-        font-size: 20px;
+        text-align: center;
+        font-size: 15px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        padding-top: 15px;
+        border-top: 1px solid #EDEDED;
     }
 
     .rank-details .rank-details-body p {
-        margin: 20px 0;
+        margin: 5px 0;
     }
 
     .rank-details .rank-details-body ul {
@@ -378,7 +439,7 @@
             }
 
             .rank-details .rank-items .manage-content .time {
-                background: var(--main-blue-color)14;
+                background: var(--main-blue-c-opacity-14);
                 color: var(--main-blue-color);
                 padding: 5px 14px;
                 border-radius: 3px;
@@ -413,6 +474,7 @@
 /*======================================
     Find rank CSS
 ========================================*/
+
 .find-rank {
     background-color: #f6f9fc;
 }
@@ -428,7 +490,8 @@
     .find-rank .single-rank {
         margin-top: 30px;
         padding: 40px;
-        /*padding-left: 120px;*//*for image*/
+        /*padding-left: 120px;*/
+        /*for image*/
         border: 1px solid #eee;
         border-radius: 5px;
         position: relative;
@@ -488,7 +551,7 @@
                     margin-bottom: 5px;
                     margin-right: 3px;
                     position: relative;
-                    background: var(--main-blue-color)14;
+                    background: var(--main-blue-c-opacity-14);
                     color: var(--main-blue-color);
                     padding: 5px 10px;
                     border-radius: 3px;
@@ -547,14 +610,14 @@
                     text-transform: capitalize;
                 }
 
-    .find-rank .search-rank .search-nner {
+    .find-rank .search-nner {
         padding: 30px;
         border: 1px solid #eee;
         background-color: #fff;
         border-radius: 6px;
     }
 
-        .find-rank .search-rank .search-nner input {
+        .find-rank .search-nner input {
             height: 50px;
             width: 100%;
             border: 1px solid #eee;
@@ -564,30 +627,31 @@
             padding: 0px 20px;
         }
 
-        .find-rank .search-rank .search-nner .btn {
+        .find-rank .search-nner .btn {
             width: 100%;
         }
+
 
         /*.find-rank .search-rank .search-nner .form-group {
             display: block;
             margin-bottom: 20px;
         }*/
-            .find-rank .search-rank .search-nner  .select {
-                width: 100%;
-                height: 50px;
-                border-radius: 0;
-                border: 1px solid #ebebeb;
-                padding-left: 20px;
-                padding-right: 20px;
+
+        .find-rank .search-nner .select {
+            width: 100%;
+            height: 50px;
+            border-radius: 0;
+            border: 1px solid #ebebeb;
+            padding-left: 20px;
+            padding-right: 20px;
+            font-weight: 400;
+        }
+
+            .find-rank .search-nner .select option {
+                color: var(--dark-blue-color);
+                padding: 10px 10px;
                 font-weight: 400;
             }
-
-                .find-rank .search-rank .search-nner  .select option {
-                    color: var(--dark-blue-color);
-                    padding: 10px 10px;
-                    font-weight: 400;
-                }
-
 
 
 /*======================================
@@ -598,7 +662,8 @@
     display: none;
 }
 
-#optionN, #optionW {
+#optionN,
+#optionW {
     display: none;
 }
 
@@ -698,8 +763,6 @@
         margin-bottom: 20px;
     }
 
-
-
 input[type="file"] {
     cursor: pointer;
 }
@@ -721,7 +784,6 @@ input[type="file"] {
 /*======================================
     Sport Type CSS
 ========================================*/
-
 
 .pdf_editors {
     margin-top: 20px;
@@ -896,8 +958,6 @@ ul.custom-flex {
         background-color: var(--main-blue-color)
     }
 
-
-
 .popular-tag-widget .tags > a {
     /*display: -webkit-inline-box;
     display: -ms-inline-flexbox;
@@ -927,7 +987,6 @@ ul.custom-flex {
     }
 
 
-
 /*======================================
     Add Participant CSS
 ========================================*/
@@ -955,7 +1014,7 @@ ul.custom-flex {
         .add-part .add-part-inner .add-post-btn a {
             font-size: 13px;
             position: relative;
-            background: var(--main-blue-color)14;
+            background: var(--main-blue-c-opacity-14);
             color: var(--dark-blue-color);
             padding: 10px 15px;
             border-radius: 3px;
@@ -1116,3 +1175,31 @@ ul.custom-flex {
                 font-weight: 300;
                 text-align: center;
             }
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .rank-details .rank-details-head .file-type {
+        margin-top: 20px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .rank-details .rank-details-inner {
+        padding: 20px 10px;
+    }
+
+    .rank-details .rank-items {
+        padding: 20px 10px;
+    }
+
+    .rank-details .rank-details-head .file-type .file-range {
+        margin-top: 20px;
+    }
+
+    .rank-details .rank-details-body p {
+        margin: 5px 0;
+    }
+
+    .rank-details .rank-items .manage-content h3 {
+        margin: 5px 0;
+    }
+}

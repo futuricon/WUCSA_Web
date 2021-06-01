@@ -11,7 +11,7 @@ using WUCSA.Core.Entities.UserModel;
 
 namespace WUCSA.Web.Pages.Admin.UserRoles
 {
-    [Authorize(Roles = "SuperAdmin,Admin")]
+    [Authorize(Roles = "SuperAdmin")]
     public class IndexModel : PageModel
     {
         private readonly RoleManager<UserRole> _roleManager;

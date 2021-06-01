@@ -510,9 +510,6 @@ namespace WUCSA.Infrastructure.Migrations
                         .HasColumnType("nvarchar(80)")
                         .HasMaxLength(80);
 
-                    b.Property<string>("SportTypeId")
-                        .HasColumnType("nvarchar(32)");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)")
@@ -531,8 +528,6 @@ namespace WUCSA.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
-
-                    b.HasIndex("SportTypeId");
 
                     b.ToTable("Rank");
                 });
@@ -555,6 +550,10 @@ namespace WUCSA.Infrastructure.Migrations
                     b.Property<string>("RankId")
                         .HasColumnType("nvarchar(32)");
 
+                    b.Property<string>("SportTypeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(32)");
+
                     b.Property<int>("Weight")
                         .HasColumnType("int");
 
@@ -564,7 +563,26 @@ namespace WUCSA.Infrastructure.Migrations
 
                     b.HasIndex("RankId");
 
+                    b.HasIndex("SportTypeId");
+
                     b.ToTable("RankParticipant");
+                });
+
+            modelBuilder.Entity("WUCSA.Core.Entities.RankModel.RankSportType", b =>
+                {
+                    b.Property<string>("RankId")
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
+
+                    b.Property<string>("SportTypeId")
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
+
+                    b.HasKey("RankId", "SportTypeId");
+
+                    b.HasIndex("SportTypeId");
+
+                    b.ToTable("RankSportType");
                 });
 
             modelBuilder.Entity("WUCSA.Core.Entities.RankModel.SportType", b =>
@@ -1070,10 +1088,6 @@ namespace WUCSA.Infrastructure.Migrations
                     b.HasOne("WUCSA.Core.Entities.UserModel.AppUser", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId");
-
-                    b.HasOne("WUCSA.Core.Entities.RankModel.SportType", "SportType")
-                        .WithMany("Ranks")
-                        .HasForeignKey("SportTypeId");
                 });
 
             modelBuilder.Entity("WUCSA.Core.Entities.RankModel.RankParticipant", b =>
@@ -1085,6 +1099,27 @@ namespace WUCSA.Infrastructure.Migrations
                     b.HasOne("WUCSA.Core.Entities.RankModel.Rank", "Rank")
                         .WithMany("RankParticipants")
                         .HasForeignKey("RankId");
+
+                    b.HasOne("WUCSA.Core.Entities.RankModel.SportType", "SportType")
+                        .WithMany("RankParticipants")
+                        .HasForeignKey("SportTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WUCSA.Core.Entities.RankModel.RankSportType", b =>
+                {
+                    b.HasOne("WUCSA.Core.Entities.RankModel.Rank", "Rank")
+                        .WithMany("RankSportTypes")
+                        .HasForeignKey("RankId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WUCSA.Core.Entities.RankModel.SportType", "SportType")
+                        .WithMany("RankSportTypes")
+                        .HasForeignKey("SportTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WUCSA.Core.Entities.StaffModel.Certificate", b =>

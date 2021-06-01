@@ -1,4 +1,4 @@
-﻿@page "{slug}/{gender}/{weight?}"
+﻿@page "{loc}/{gender}/{slug}"
 @model WUCSA.Web.Pages.Rank.IndexModel
 @inject IViewLocalizer Localizer
 @{
@@ -7,7 +7,7 @@
 }
 
 @section Head {
-    <meta name="author" content="WUCSA" />
+    <meta name="twitter:site" content="WUCSA" />
     <meta name="description" content="WUCSA official ranking" />
     <meta name="keywords" content="WUCSA, rank" />
 }
@@ -21,19 +21,7 @@
             <div class="col-12">
                 <div class="breadcrumbs-content">
                     <h1 class="page-title">
-                        @switch (Model.RCName)
-                        {
-                            case "ru":
-                                @Model.Rank.SportType.NameRu
-                                break;
-                            case "uz":
-                                @Model.Rank.SportType.NameUz
-                                break;
-                            default:
-                                @Model.Rank.SportType.Name
-                                break;
-                        }
-                        @Localizer["Ranking List"]
+                        @Localizer["Ranking"]
                     </h1>
                     <p>
                         Business plan draws on a wide range of knowledge from different business<br> disciplines.
@@ -42,7 +30,7 @@
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a asp-area="" asp-page="/Index">@Localizer["Home"]</a></li>
-                    <li><a asp-page="@Model.PrevPath">@Localizer["Rank List"]</a></li>
+                    <li><a asp-page="/Rank/List" asp-route-loc="world" asp-route-gender="men">@Localizer["Rank List"]</a></li>
                     @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                     {
                         <li>
@@ -55,32 +43,6 @@
     </div>
 </div>
 
-<section class="find-rank section-rank">
-    <div class="search-rank">
-        <div class="container">
-            <div class="search-nner">
-                <form method="get" asp-route-slug="@Model.Rank.Slug">
-                    <div class="row">
-                        <div class="col-lg-5 col-md-5 col-xs-12">
-                            <label class="control-label">@Localizer["Gender"]</label>
-                            <select class="select" asp-for="SelectedGenderId" asp-items="@Model.GenderOptions">
-                            </select>
-                        </div>
-                        <div class="col-lg-5 col-md-5 col-xs-12">
-                            <label class="control-label">@Localizer["Weight Category"]</label>
-                            <select class="select" asp-items="@Model.WeightOptions">
-                            </select>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-xs-12 mt-20 button">
-                            <button type="submit" class="btn btn-common float-right">@Localizer["Filter"]</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
-
 <div class="rank-details section-rank pb-50">
     <div class="container">
         <div class="row mb-n5">
@@ -89,11 +51,7 @@
                 <div class="rank-details-inner">
                     <div class="rank-details-head row mx-0">
 
-                        <div class="file-type col-auto order-sm-3">
-                            <span class="file-range">@Localizer["Ranking List (PDF)"]</span>
-                            <a href="@ViewData["PDFFilePath"]" id="file-upload"><i class="lni lni-download"></i> @Localizer["Download"]</a>
-                        </div>
-                        <div class="content col">
+                        <div class="content col-lg col-sm-12">
                             <h5 class="title">
                                 @switch (Model.RCName)
                                 {
@@ -109,30 +67,36 @@
                                 }
                             </h5>
                             <ul class="meta">
-                                <li>
-                                    <strong class="text-primary">
-                                        <a href="@Model.Rank.SportType.Slug">
+                                <li><i class="lni lni-map-marker"></i> Location</li>
+                            </ul>
+                            <ul class="s-type-meta">
+                                @foreach (var rankSportType in Model.Rank.RankSportTypes)
+                                {
+                                    <li>
+                                        <a asp-page="/SportType/Index" asp-route-slug="@rankSportType.SportType.Slug">
                                             @switch (Model.RCName)
                                             {
                                                 case "ru":
-                                                    @Model.Rank.SportType.NameRu
+                                                    @rankSportType.SportType.NameRu
                                                     break;
                                                 case "uz":
-                                                    @Model.Rank.SportType.NameUz
+                                                    @rankSportType.SportType.NameUz
                                                     break;
                                                 default:
-                                                    @Model.Rank.SportType.Name
+                                                    @rankSportType.SportType.Name
                                                     break;
                                             }
                                         </a>
-                                    </strong>
-                                </li>
-                                <li><i class="lni lni-map-marker"></i> @Model.Rank.Location</li>
+                                    </li>
+                                }
                             </ul>
+                        </div>
+                        <div class="file-type col-lg-auto col-sm-12">
+                            <span class="file-range">@Localizer["Ranking List (PDF)"]</span>
+                            <a href="@ViewData["PDFFilePath"]" id="file-upload"><i class="lni lni-download"></i> @Localizer["Download"]</a>
                         </div>
                     </div>
                     <div class="rank-details-body">
-                        @*<h6 class="mb-3">Job Description</h6>*@
                         <p>
                             @switch (Model.RCName)
                             {
@@ -147,61 +111,77 @@
                                     break;
                             }
                         </p>
-                        @if (Model.RankParticipant != null && Model.RankParticipant.Participants.Count > 0)
+
+                        @if (Model.RankParticipants != null)
                         {
+                            foreach (var rankParticipant in Model.RankParticipants)
+                            {
+                                <h6>
+                                    @switch (Model.RCName)
+                                    {
+                                        case "ru":
+                                            @rankParticipant.SportType.Name
+                                            break;
+                                        case "uz":
+                                            @rankParticipant.SportType.NameUz
+                                            break;
+                                        default:
+                                            @rankParticipant.SportType.Name
+                                            break;
+                                    }
+                                    - @rankParticipant.Weight @Localizer["kg"]
+                                </h6>
 
-                            <div class="rank-items">
+                                <div class="rank-items">
 
-                                <div class="manage-list">
-                                    <div class="row">
-                                        <div class="col-lg-2 col-md-2 col-12">
-                                            <p>Position</p>
-                                        </div>
-                                        <div class="col-lg-3 col-md-3 col-6">
-                                            <p>Name</p>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-6">
-                                            <p>Last Name</p>
-                                        </div>
-                                        <div class="col-lg-3 col-md-3 col-12">
-                                            <p>Birth Date</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                @foreach (var participant in Model.RankParticipant.Participants)
-                                {
-                                    <div class="manage-content">
-                                        <div class="row align-items-center justify-content-center">
+                                    <div class="manage-list">
+                                        <div class="row">
                                             <div class="col-lg-2 col-md-2 col-12">
-                                                <h3>@participant.PositionNumber</h3>
+                                                <p>@Localizer["Position"]</p>
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-6">
-                                                <h3>@participant.FirstName</h3>
+                                                <p>@Localizer["Name"]</p>
                                             </div>
                                             <div class="col-lg-4 col-md-4 col-6">
-                                                <h3>@participant.LastName</h3>
+                                                <p>@Localizer["Last Name"]</p>
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-12">
-                                                <h3>@participant.BirthDate.ToString("dd MMMM, yyyy")</h3>
+                                                <p>@Localizer["Birth Date"]</p>
                                             </div>
                                         </div>
                                     </div>
-                                }
 
-                            </div>
-
+                                    @foreach (var participant in rankParticipant.Participants)
+                                    {
+                                        <div class="manage-content">
+                                            <div class="row align-items-center justify-content-center">
+                                                <div class="col-lg-2 col-md-2 col-12">
+                                                    <h3>@participant.PositionNumber</h3>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-6">
+                                                    <h3>@participant.FirstName</h3>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-6">
+                                                    <h3>@participant.LastName</h3>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-12">
+                                                    <h3>@participant.BirthDate.ToString("dd MMMM, yyyy")</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="actionBtn">
+                                    <ul>
+                                        <li><i class="lni lni-pencil"></i><a asp-page="/RankParticipant/Edit" asp-route-rankId="@Model.Rank.Id" asp-route-rankPartId="@rankParticipant.Id"> @Localizer["Edit"]</a></li>
+                                        <li><i class="lni lni-trash"></i><a asp-page="/RankParticipant/Delete" asp-route-rankPartId="@rankParticipant.Id"> @Localizer["Delete"]</a></li>
+                                    </ul>
+                                </div>
+                            }
                         }
+
                     </div>
-                    @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin") && Model.RankParticipant != null && Model.RankParticipant.Participants.Count > 0)
-                    {
-                        <div class="row actionBtn">
-                            <ul>
-                                <li><i class="lni lni-pencil"></i><a asp-page="/RankParticipant/Edit" asp-route-rankId="@Model.Rank.Id" asp-route-rankPartId="@Model.RankParticipant.Id"> @Localizer["Edit"]</a></li>
-                                <li><i class="lni lni-trash"></i><a asp-page="/RankParticipant/Delete" asp-route-rankPartId="@Model.RankParticipant.Id"> @Localizer["Delete"]</a></li>
-                            </ul>
-                        </div>
-                    }
+                    
                 </div>
             </div>
 
@@ -214,10 +194,7 @@
                             <h6 class="title">Facebook</h6>
                             <div id="fb-root"></div>
                             <script async defer crossorigin="anonymous" src="https://connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v5.0"></script>
-                            <div class="fb-page" data-href="https://www.facebook.com/International-Combat-Aikido-Association-434807793270681/"
-                                 data-tabs="timeline" data-width="" data-height=""
-                                 data-small-header="false" data-adapt-container-width="true"
-                                 data-hide-cover="false" data-show-facepile="true">
+                            <div class="fb-page" data-href="https://www.facebook.com/International-Combat-Aikido-Association-434807793270681/" data-tabs="timeline" data-width="" data-height="" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
                                 <blockquote cite="https://www.facebook.com/International-Combat-Aikido-Association-434807793270681/" class="fb-xfbml-parse-ignore">
                                     <a href="https://www.facebook.com/International-Combat-Aikido-Association-434807793270681/">International Combat Aikido Association</a>
                                 </blockquote>
@@ -229,7 +206,16 @@
                         <div class="inner">
                             <h6 class="title">Instagram</h6>
                             <div id="pixlee_container"></div>
-                            <script type="text/javascript">window.PixleeAsyncInit = function () { Pixlee.init({ apiKey: 'ploM-QKD99wEZtxbFXVa' }); Pixlee.addSimpleWidget({ widgetId: '32803' }); };</script>
+                            <script type="text/javascript">
+                                window.PixleeAsyncInit = function () {
+                                    Pixlee.init({
+                                        apiKey: 'ploM-QKD99wEZtxbFXVa'
+                                    });
+                                    Pixlee.addSimpleWidget({
+                                        widgetId: '32803'
+                                    });
+                                };
+                            </script>
                             <script src="//instafeed.assets.pxlecdn.com/assets/pixlee_widget_1_0_0.js"></script>
                         </div>
                     </div>

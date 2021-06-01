@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{loc}/{gender}"
 @model WUCSA.Web.Pages.Rank.ListModel
 @inject IViewLocalizer Localizer
 @namespace WUCSA.Models
@@ -13,7 +13,6 @@
 }
 
 @section CSS {
-    @*<link rel="stylesheet" href="~/css/blog_style.css" />*@
     <link rel="stylesheet" href="~/css/rank_style.css" />
 }
 
@@ -30,11 +29,11 @@
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a asp-page="/Index">@Localizer["Home"]</a></li>
-                    <li><a asp-page="Rank/List">@Localizer["Rank"]</a></li>
+                    <li><a asp-page="Rank/List" asp-route-loc="World" asp-route-gender="Man">@Localizer["Ranking List"]</a></li>
                     @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                     {
                         <li>
-                            <a asp-page="/Rank/Create">@Localizer["Add new Rank"]</a>
+                            <a asp-page="/Rank/Create">@Localizer["Add new Ranking"]</a>
                         </li>
                     }
                 </ul>
@@ -43,156 +42,95 @@
     </div>
 </div>
 
-
-<section class="section latest-rank-area rank-list">
+<section class="find-rank rank-list section">
     <div class="container">
         <div class="row">
-            <div class="col-12">
-                <div class="row">
-
-                    <div class="col-lg-4 col-md-6 col-12 mx-auto">
-                        <div class="single-rank wow fadeInUp" data-wow-delay=".3s"
-                             style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
-                            <div class="image">
-                                <img class="resize-img" src="~/images/map_wrld.png" alt="default cover photo" />
-                            </div>
-                            <div class="content-body">
-                                <div class="meta-details">
-                                    <ul>
-                                        <li><a class="a-none"><i class="lni lni-list"></i> @Model.WorldRanksCount</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mt-20">
-                                    <input type="radio" name="rankLoc" class="btn-check" id="btn-check-w" autocomplete="off" onclick="locationCheck(this.id)">
-                                    <label class="btn btn-outline-primary" for="btn-check-w">@Localizer["World Ranking"]</label>
-                                </div>
-                            </div>
+            <div class="search-nner">
+                <form method="get">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-xs-12 mt-15">
+                            <label class="control-label">Location</label>
+                            <select class="select" asp-for="SelectedLocation" asp-items="@Model.LocationOptions">
+                            </select>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-xs-12 mt-15">
+                            <label class="control-label">Gender</label>
+                            <select class="select" asp-for="SelectedGender" asp-items="@Model.GenderOptions">
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-xs-12 mt-20 button">
+                            <button type="submit" class="btn btn-common float-right">Sort</button>
                         </div>
                     </div>
-
-                    <div class="col-lg-4 col-md-6 col-12 mx-auto">
-
-                        <div class="single-rank wow fadeInUp" data-wow-delay=".3s"
-                             style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
-                            <div class="image">
-                                <img class="resize-img" src="~/images/map_uzb.png" alt="default cover photo" />
-                            </div>
-                            <div class="content-body">
-                                <div class="meta-details">
-                                    <ul>
-                                        <li><a class="a-none"><i class="lni lni-list"></i> @Model.NationalRanksCount</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mt-20">
-                                    <input type="radio" name="rankLoc" class="btn-check" id="btn-check-n" autocomplete="off" onclick="locationCheck(this.id)">
-                                    <label class="btn btn-outline-primary" for="btn-check-n">@Localizer["National Ranking"]</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                </form>
             </div>
 
-        </div>
-    </div>
-</section>
-
-<section id="xs-cat" class="xs-category section">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="section-title">
-                    <span class="wow fadeInDown" data-wow-delay=".2s">@Localizer["Sport Types"]</span>
-                    <h2 class="wow fadeInUp" data-wow-delay=".4s">@Localizer["Choose Sport Type"]</h2>
-                </div>
-            </div>
-        </div>
-        <div class="cat-head">
-            <div id="optionW" class="row">
-                @foreach (var sportType in Model.SportTypes)
-                {
-                    <div class="col-lg-3 col-md-6 col-12">
-                        <a asp-page="/Rank/SubList" asp-route-loc="world" asp-route-stype="@sportType.Name.ToLower()" class="single-cat wow fadeInUp" data-wow-delay=".6s">
-                            <div class="icon">
-                                <i class="lni lni-eye"></i>
-                            </div>
-                            <h3>
+            @foreach (var rank in Model.Ranks)
+            {
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                    <div class="single-rank">
+                        <div class="rank-content">
+                            <h4>
+                                <a href="rank-details.html">
+                                    @switch (Model.RCName)
+                                    {
+                                        case "ru":
+                                            @rank.TitleRu
+                                            break;
+                                        case "uz":
+                                            @rank.TitleUz
+                                            break;
+                                        default:
+                                            @rank.Title
+                                            break;
+                                    }
+                                </a>
+                            </h4>
+                            <p>
                                 @switch (Model.RCName)
                                 {
                                     case "ru":
-                                        @sportType.NameRu;
+                                        @rank.DescriptionRu
                                         break;
                                     case "uz":
-                                        @sportType.NameUz;
+                                        @rank.DescriptionUz
                                         break;
                                     default:
-                                        @sportType.Name;
+                                        @rank.Description
                                         break;
                                 }
-                            </h3>
-                        </a>
+                            </p>
+                            <ul>
+                                <li><i class="lni lni-calendar"></i> @rank.RankDate.ToString("dd MMMM, yyyy")</li>
+
+                                <li><a asp-page="/Rank/Edit" asp-route-Id="@rank.Id"><i class="lni lni-pencil"></i> Edit</a></li>
+                                <li>
+                                    <a asp-page="/Rank/Delete" asp-route-Id="@rank.Id"><i class="lni lni-trash"></i></a>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="rank-button">
+                            <ul>
+                                <li><a asp-page="/Rank/Index" asp-route-slug="@rank.Slug">More</a></li>
+                            </ul>
+                        </div>
                     </div>
-                }
-            </div>
-            <div id="optionN" class="row">
-                @foreach (var sportType in Model.SportTypes)
-                {
-                    <div class="col-lg-3 col-md-6 col-12">
-                        <a asp-page="/Rank/SubList" asp-route-loc="national" asp-route-stype="@sportType.Name.ToLower()" class="single-cat wow fadeInUp" data-wow-delay=".6s">
-                            <div class="icon">
-                                <i class="lni lni-eye"></i>
-                            </div>
-                            <h3>
-                                @switch (Model.RCName)
-                                {
-                                    case "ru":
-                                        @sportType.NameRu;
-                                        break;
-                                    case "uz":
-                                        @sportType.NameUz;
-                                        break;
-                                    default:
-                                        @sportType.Name;
-                                        break;
-                                }
-                            </h3>
-                        </a>
-                    </div>
-                }
+                </div>
+            }
+
+
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="pagination center">
+                    <ul class="pagination-list">
+                        <pagination class="mx-auto" page-index="@Model.Ranks.PageIndex" total-pages="@Model.Ranks.TotalPages" page-path="@Model.BasePath" />
+                    </ul>
+                </div>
             </div>
         </div>
+
     </div>
 </section>
-
-@section Scripts{
-
-    <script>
-        $(document).ready(function () {
-            resizer();
-        });
-        window.onresize = function () {
-            resizer();
-        };
-
-        function resizer() {
-            var cssWidth = $('.image').css("width");
-            var cssHeight = parseInt(cssWidth) * 5 / 8;
-            $('.resize-img').css("height", cssHeight);
-        }
-
-        function locationCheck(e) {
-            document.getElementById("xs-cat").style.display = "flex";
-            if (e == "btn-check-w") {
-                document.getElementById("optionN").style.display = "none";
-                document.getElementById("optionW").style.display = "flex";
-            }
-            else if (e == "btn-check-n") {
-                document.getElementById("optionW").style.display = "none";
-                document.getElementById("optionN").style.display = "flex";
-            }
-            var element_to_scroll_to = document.getElementById("xs-cat");
-            element_to_scroll_to.scrollIntoView(true);
-        }
-    </script>
-}

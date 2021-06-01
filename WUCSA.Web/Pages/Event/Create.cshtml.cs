@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -9,7 +8,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using SuxrobGM.Sdk.Extensions;
 using WUCSA.Core.Entities.UserModel;
 using WUCSA.Core.Interfaces.Repositories;
@@ -50,11 +48,7 @@ namespace WUCSA.Web.Pages.Event
         public string TempCoverImagePath { get; set; }
 
         [BindProperty]
-        public string SelectedRankId { set; get; }
-        public List<SelectListItem> OptionsRank { set; get; }
-
-        [BindProperty]
-        [Required(ErrorMessage = "Please select Ranking List")]
+        [Required(ErrorMessage = "Please select Types of Sport List")]
         public string[] SelectedStypesId { get; set; }
         public List<Complex> SportTypes { get; set; }
 
@@ -76,8 +70,10 @@ namespace WUCSA.Web.Pages.Event
             }
             
             AppUser currentUser = await _userManager.GetUserAsync(User);
-            var tempSlug = $"{Input.Event.EventLocation.ToString()}-{Input.Event.Title}-{Input.Event.EventDate.ToString("yyyy-MM-dd")}";
+
+            var tempSlug = $"{Input.Event.EventLocation}-{Input.Event.Title}-{Input.Event.EventDate:yyyy-MM-dd}";
             Input.Event.Slug = tempSlug.Slugify();
+
             if (Input.UploadCoverPhoto != null)
             {
                 Input.Event.CoverPhotoPath = _imageHelper.UploadCoverImage(Input.UploadCoverPhoto, Input.Event.Id, "event_imgs");
@@ -90,6 +86,7 @@ namespace WUCSA.Web.Pages.Event
             {
                 Input.Event.EventPartsFilePath = await _pdfFileHelper.SaveFile(Input.UploadPdfParts, $"{Input.Event.Slug}-Parts", "events");
             }
+
             Input.Event.Author = currentUser;
             await _eventRepository.UpdateSportTypesAsync(Input.Event, false, SelectedStypesId);
             await _eventRepository.AddEventAsync(Input.Event);
@@ -99,32 +96,7 @@ namespace WUCSA.Web.Pages.Event
         private async Task GetOptionAsync()
         {
             var sportTypes = await _rankRepository.GetListAsync<Core.Entities.RankModel.SportType>(i => i.IsDeleted == false);
-            var Rank = await _rankRepository.GetListAsync<Core.Entities.RankModel.Rank>(i => i.IsDeleted == false);
             SportTypes = new Complex().GetData(sportTypes, RCName);
-            switch (RCName)
-            {
-                case "ru":
-                    OptionsRank = Rank.Select(a => new SelectListItem
-                    {
-                        Value = a.Id.ToString(),
-                        Text = a.TitleRu
-                    }).ToList();
-                    break;
-                case "uz":
-                    OptionsRank = Rank.Select(a => new SelectListItem
-                    {
-                        Value = a.Id.ToString(),
-                        Text = a.TitleUz
-                    }).ToList();
-                    break;
-                default:
-                    OptionsRank = Rank.Select(a => new SelectListItem
-                    {
-                        Value = a.Id.ToString(),
-                        Text = a.Title
-                    }).ToList();
-                    break;
-            }
         }
 
         public class Complex {
