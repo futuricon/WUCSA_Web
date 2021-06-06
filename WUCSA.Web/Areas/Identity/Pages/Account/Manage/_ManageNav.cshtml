@@ -6,7 +6,7 @@
 <ul>
     <li class="heading">Manage your account</li>
     @if (User.IsInRole("SuperAdmin")){ 
-        <li><a class="@ManageNavPages.AdminPanelNavClass(ViewContext)" id="profile" asp-page="/Admin/Index"><i class="lni lni-crown"></i> Admin Panel</a></li>
+        <li><a class="@ManageNavPages.AdminPanelNavClass(ViewContext)" id="profile" asp-page="/Admin/Index" asp-route-mode="blog"><i class="lni lni-crown"></i> Admin Panel</a></li>
     }
     <li><a class="@ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index"><i class="lni lni-user"></i> Profile</a></li>
     <li><a class="@ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email"><i class="lni lni-envelope"></i> Email</a></li>

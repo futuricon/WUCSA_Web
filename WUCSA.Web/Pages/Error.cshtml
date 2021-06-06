@@ -3,24 +3,56 @@
 @{
     ViewData["Title"] = "Error";
 }
-
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
-
-@if (Model.ShowRequestId)
-{
-    <p>
-        <strong>Request ID:</strong> <code>@Model.RequestId</code>
-    </p>
+@section CSS {
+    <link rel="stylesheet" href="~/css/error_style.css" />
 }
+<div class="error-area">
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div class="container">
+                <div class="error-content">
+                    @if (Model.ShowRequestId)
+                    {
+                        <h1>@Model.RequestId</h1>
+                        <div class="button">
+                            <a asp-page="/Index" class="btn">Go To Home</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <h1>Opps!</h1>
+                        <h2>Here Is Some Problem</h2>
+                        <p>The page you are looking for it maybe deleted</p>
+                        <div class="button">
+                            <a asp-page="/Index" class="btn">Go To Home</a>
+                        </div>
+                    }
 
-<h3>Development Mode</h3>
-<p>
-    Swapping to the <strong>Development</strong> environment displays detailed information about the error that occurred.
-</p>
-<p>
-    <strong>The Development environment shouldn't be enabled for deployed applications.</strong>
-    It can result in displaying sensitive information from exceptions to end users.
-    For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>
-    and restarting the app.
-</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@*<h1 class="text-danger">Error.</h1>
+    <h2 class="text-danger">An error occurred while processing your request.</h2>
+
+    @if (Model.ShowRequestId)
+    {
+        <p>
+            <strong>Request ID:</strong> <code>@Model.RequestId</code>
+        </p>
+    }
+
+    <h3>Development Mode</h3>
+    <p>
+        Swapping to the <strong>Development</strong> environment displays detailed information about the error that occurred.
+    </p>
+    <p>
+        <strong>The Development environment shouldn't be enabled for deployed applications.</strong>
+        It can result in displaying sensitive information from exceptions to end users.
+        For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>
+        and restarting the app.
+    </p>*@

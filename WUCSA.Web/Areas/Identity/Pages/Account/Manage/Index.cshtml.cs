@@ -51,7 +51,7 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account.Manage
             [EmailAddress]
             public string Email { get; set; }
 
-            public bool generateImg { get; set; } = false;
+            public bool GenerateImg { get; set; } = false;
 
             public string FirstName { get; set; }
             public string LastName { get; set; }
@@ -93,7 +93,7 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account.Manage
             }
 
             var user = await _userManager.GetUserAsync(User);
-            var prevImg = user.ProfilePhotoPath;
+            //var prevImg = user.ProfilePhotoPath;
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -109,7 +109,7 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account.Manage
             //{
             //    user.ProfilePhotoPath = _imageHelper.UploadCoverImage(Input.UploadPhoto, $"{user.Id}_profile", "profile_imgs");
             //}
-            if(Input.generateImg)
+            if(Input.GenerateImg)
             {
                 user.ProfilePhotoPath = _imageHelper.GenerateImage($"{user.Id}_profile", "profile_imgs");
             }

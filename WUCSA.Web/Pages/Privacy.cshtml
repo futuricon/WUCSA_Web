@@ -1,8 +1,45 @@
 ﻿@page
 @model PrivacyModel
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = Localizer["Privacy Policy"];
 }
-<h1>@ViewData["Title"]</h1>
+@section CSS {
+    <link rel="stylesheet" href="~/css/privacy_style.css" />
+}
+<div class="breadcrumbs overlay">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title">@Localizer["Privacy Policy for World Usmanov's Combat Systems Association"]</h1>
+                </div>
+                <ul class="breadcrumb-nav">
+                    <li><a asp-area="" asp-page="/Index">Home</a></li>
+                    <li><a asp-page="/Privacy">@Localizer["Privacy Policy"]</a></li>
+                    @if (User.IsInRole("SuperAdmin"))
+                    {
+                        <li><a asp-page="/Admin/StaticPages/Create">@Localizer["Add new Privacy Page"]</a></li>
+                        <li><a asp-page="/Admin/StaticPages/Edit" asp-route-id="">@Localizer["Edit this Privacy Page"]</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="privacy-policy section">
+    <div class="container">
+        <div class="row mb-n5">
+
+            <div class="col-lg-10 offset-lg-1 col-12">
+                <div class="policy-inner">
+                    <div class="policy-details-body">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

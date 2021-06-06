@@ -151,7 +151,17 @@ namespace WUCSA.Web.Pages.Blog
             }
 
             var comment = await _blogRepository.GetAsync<Comment>(i => i.Id == commentId);
-            await _blogRepository.DeleteCommentAsync(comment);
+
+            if (User.IsInRole("SuperAdmin"))
+            {
+                await _blogRepository.DeleteCommentAsync(comment);
+            }
+            else
+            {
+                comment.IsLocked = true;
+                await _blogRepository.UpdateCommentAsync(comment);
+            }
+            
             return RedirectToPage("", "", new { pageIndex = pageNumber }, rootCommentId);
         }
 

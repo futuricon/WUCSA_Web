@@ -1,0 +1,189 @@
+﻿@page
+@model WUCSA.Web.Pages.Admin.Users.DetailsModel
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer["Details"];
+    Layout = "_Layout";
+}
+
+@section CSS{
+    <link rel="stylesheet" href="~/css/admin_style.css" />
+}
+
+<div class="manage-applications section">
+    <div class="container">
+        <div class="alerts-inner">
+            <div class="row">
+
+                <div class="col-lg-4 col-12">
+                    <div class="dashbord-sidebar">
+                        <ul>
+                            <li class="heading">Manage Users</li>
+                            <li><a id="admin-bt" asp-page="./Index" asp-route-mode="admin"><i class="lni lni-star-filled"></i> Administrators</a></li>
+                            @if (ViewData["mode"].ToString() == "admin")
+                            {
+                                <li class="sub_li">
+                                    <ul>
+                                        <li><a class="active" asp-page="./Details" asp-route-id="@Model.AppUser.Id" asp-route-mode="admin"><i class="lni lni-eye"></i> Details</a></li>
+                                        <li><a asp-page="./Edit" asp-route-id="@Model.AppUser.Id" asp-route-mode="admin"><i class="lni lni-pencil"></i> Edit</a></li>
+                                    </ul>
+                                </li>
+                            }
+                            <li><a id="blocked-bt" asp-page="./Index" asp-route-mode="blocked"><i class="lni lni-lock-alt"></i> Blocked Users</a></li>
+                            @if (ViewData["mode"].ToString() == "blocked")
+                            {
+                                <li class="sub_li">
+                                    <ul>
+                                        <li><a class="active" asp-page="./Details" asp-route-id="@Model.AppUser.Id" asp-route-mode="blocked"><i class="lni lni-eye"></i> Details</a></li>
+                                        <li><a asp-page="./Edit" asp-route-id="@Model.AppUser.Id" asp-route-mode="blocked"><i class="lni lni-pencil"></i> Edit</a></li>
+                                    </ul>
+                                </li>
+                            }
+                            <li><a id="plain-bt" asp-page="./Index" asp-route-mode="plain"><i class="lni lni-empty-file"></i> Plain Users</a></li>
+                            @if (ViewData["mode"].ToString() == "plain")
+                            {
+                                <li class="sub_li">
+                                    <ul>
+                                        <li><a class="active" asp-page="./Details" asp-route-id="@Model.AppUser.Id" asp-route-mode="plain"><i class="lni lni-eye"></i> Details</a></li>
+                                        <li><a asp-page="./Edit" asp-route-id="@Model.AppUser.Id" asp-route-mode="plain"><i class="lni lni-pencil"></i> Edit</a></li>
+                                    </ul>
+                                </li>
+                            }
+                            <li class="heading">Manage Recycle Bin</li>
+                            <li><a id="blog-bt" asp-page="/Admin/Index" asp-route-mode="blog"><i class="lni lni-clipboard"></i> Blog</a></li>
+                            <li><a id="event-bt" asp-page="/Admin/Index" asp-route-mode="event"><i class="lni lni-alarm"></i> Event</a></li>
+                            <li><a id="media-bt" asp-page="/Admin/Index" asp-route-mode="media"><i class="lni lni-image"></i> Media</a></li>
+                            <li><a id="rank-bt" asp-page="/Admin/Index" asp-route-mode="rank"><i class="lni lni-radio-button"></i> Ranking</a></li>
+                            <li><a id="rank-part-bt" asp-page="/Admin/Index" asp-route-mode="rank_part"><i class="lni lni-users"></i> Ranking Participants</a></li>
+                            <li><a id="sport-type-bt" asp-page="/Admin/Index" asp-route-mode="sport_type"><i class="lni lni-grid-alt"></i> Sport Type</a></li>
+                            <li><a id="staff-bt" asp-page="/Admin/Index" asp-route-mode="staff"><i class="lni lni-user"></i> Staff</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="details_area" class="col-lg-8 col-12">
+                    <div class="admin-items">
+                        <div class="inner-content">
+
+                            <div class="personal-top-content">
+                                <div class="row">
+                                    <div class="col-lg-5 col-md-7 col-12 mx-auto">
+                                        <div class="name-head">
+                                            <a class="mb-3 glightbox" href="@Model.AppUser.ProfilePhotoPath"><img src="@Model.AppUser.ProfilePhotoPath" alt="@Model.AppUser.UserName"></a>
+                                            <h4>@Model.AppUser.UserName</h4>
+                                            <h4>@Model.AppUser.FirstName @Model.AppUser.LastName</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="single-section">
+                                <div class="content-right">
+                                    <h5 class="title-main">Info</h5>
+
+                                    <div class="single-list">
+                                        <h5 class="title">Role</h5>
+                                        @if (Model.IsAdmin)
+                                        {
+                                            <p>Admin <i class="lni lni-star-filled" style="color: gold;"></i></p>
+                                        }
+                                        else
+                                        {
+                                            <p>None</p>
+                                        }
+                                    </div>
+
+                                    <div class="single-list">
+                                        <h5 class="title">E-mail</h5>
+                                        <p>
+                                            <a href="mailto:@Model.AppUser.Email">@Model.AppUser.Email 
+                                            @if (Model.AppUser.EmailConfirmed)
+                                            {
+                                                <i class="lni lni-checkmark" style="color: green;"></i>
+                                            }
+                                            </a>
+                                        </p>
+                                    </div>
+
+                                    <div class="single-list">
+                                        <h5 class="title">Phone</h5>
+                                        <p><a href="tel:@Model.AppUser.PhoneNumber">@Model.AppUser.PhoneNumber</a></p>
+                                    </div>
+
+                                    <div class="single-list">
+                                        <h5 class="title">Media Liked</h5>
+                                        <p>@Model.AppUser.MediaLikes.Count()</p>
+                                    </div>
+
+                                    <div class="single-list">
+                                        <h5 class="title">Access Failed Count</h5>
+                                        <p>@Model.AppUser.AccessFailedCount</p>
+                                    </div>
+
+                                    <div class="single-list">
+                                        <h5 class="title">Is Blocked</h5>
+                                        @if (Model.AppUser.IsBlocked)
+                                        {
+                                            <p>@Model.AppUser.IsBlocked <i class="lni lni-lock" style="color: red;"></i></p>
+                                        }
+                                        else
+                                        {
+                                            <p>@Model.AppUser.IsBlocked <i class="lni lni-unlock" style="color: green;"></i></p>
+                                        }
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="single-section">
+                                <div class="content-right">
+                                    <h5 class="title-main">Posts & Comments</h5>
+
+                                    <div class="single-list">
+                                        <h5 class="title">User's posted articles</h5>
+                                        @foreach (var blog in Model.Blogs)
+                                        {
+                                            <p>
+                                                <a asp-page="/Blog/Index" asp-route-slug="@blog.Slug">@blog.Title</a>
+                                            </p>
+                                        }
+                                    </div>
+
+                                    <div class="single-list">
+                                        <h5 class="title">User's Blocked comments</h5>
+                                        @foreach (var comment in Model.Comments)
+                                        {
+                                            <p>
+                                                <a asp-page="/Blog/Index" asp-route-slug="@comment.Blog.Slug">@comment.Content</a>
+                                            </p>
+                                        }
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        @*var actualMode = "@ViewData["mode"]";
+        $(document).ready(function () {
+            if (actualMode == "admin") {
+                $('#admin-bt').addClass("active");
+            }
+            else if (actualMode == "blocked") {
+                $('#blocked-bt').addClass("active");
+            }
+            else if (actualMode == "plain") {
+                $('#plain-bt').addClass("active");
+            }
+        });*@
+    </script>
+}

@@ -28,6 +28,9 @@ namespace WUCSA.Core.Entities.UserModel
         [StringLength(100)]
         public string ProfilePhotoPath { get; set; }
 
+        [Display(Name = "Is Blocked")]
+        public bool IsBlocked { get; set; }
+
         public virtual ICollection<MediaLike> MediaLikes { get; set; } = new List<MediaLike>();
     }
 }

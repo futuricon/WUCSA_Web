@@ -33,17 +33,14 @@
             <div class="col-12">
                 <div class="breadcrumbs-content">
                     <h1 class="page-title">@Localizer["Staff & Members"]</h1>
-                    <p>
-                        Business plan draws on a wide range of knowledge from different business<br> disciplines.
-                        Business draws on a wide range of different business .
-                    </p>
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a asp-area="" asp-page="/Index">Home</a></li>
                     <li><a asp-page="/Staff/List">@Localizer["Members"]</a></li>
                     @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                     {
-                        <li><a asp-page="/Staff/Edit">@Localizer["Add new Member"]</a></li>
+                        <li><a asp-page="/Staff/Edit" asp-route-id="@Model.Staff.Id">@Localizer["Edit this Member"]</a></li>
+                        <li><a asp-page="/Staff/Delete" asp-route-id="@Model.Staff.Id">@Localizer["Delete this Member"]</a></li>
                     }
                 </ul>
             </div>

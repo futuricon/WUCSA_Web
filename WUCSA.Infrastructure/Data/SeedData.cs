@@ -22,7 +22,6 @@ namespace WUCSA.Infrastructure.Data
 
             var superAdminRole = await roleManager.RoleExistsAsync(Role.SuperAdmin.ToString());
             var adminRole = await roleManager.RoleExistsAsync(Role.Admin.ToString());
-            var editorRole = await roleManager.RoleExistsAsync(Role.Editor.ToString());
 
             if (!superAdminRole)
             {
@@ -39,10 +38,6 @@ namespace WUCSA.Infrastructure.Data
             if (!adminRole)
             {
                 await roleManager.CreateAsync(new UserRole(Role.Admin));
-            }
-            if (!editorRole)
-            {
-                await roleManager.CreateAsync(new UserRole(Role.Editor));
             }
         }
 

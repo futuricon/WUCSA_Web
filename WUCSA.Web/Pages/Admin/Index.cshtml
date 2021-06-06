@@ -1,4 +1,698 @@
 ﻿@page
 @model WUCSA.Web.Pages.Admin.IndexModel
+@inject IViewLocalizer Localizer
 @{
+    ViewData["Title"] = Localizer["Admin"];
+    Layout = "_Layout";
+}
+
+@section CSS{
+    <link rel="stylesheet" href="~/css/admin_style.css" />
+}
+<div class="manage-applications section">
+    <div class="container">
+        <div class="alerts-inner">
+            <div class="row">
+
+                <div class="col-lg-4 col-12">
+                    <div class="dashbord-sidebar">
+                        <ul>
+                            <li class="heading">Manage Users</li>
+                            <li><a id="admin-bt" asp-page="./Users/Index" asp-route-mode="admin"><i class="lni lni-star-filled"></i> Administrators</a></li>
+                            <li><a id="blocked-bt" asp-page="./Users/Index" asp-route-mode="blocked"><i class="lni lni-lock-alt"></i> Blocked Users</a></li>
+                            <li><a id="plain-bt" asp-page="./Users/Index" asp-route-mode="plain"><i class="lni lni-empty-file"></i> Plain Users</a></li>
+                            <li class="heading">Manage Static Pages</li>
+                            <li><a id="static-page-bt" asp-page="/Admin/Index" asp-route-mode="static_page"><i class="lni lni-star-website"></i> Static Pages</a></li>
+                            <li class="heading">Manage Recycle Bin</li>
+                            <li><a id="blog-bt" asp-page="/Admin/Index" asp-route-mode="blog"><i class="lni lni-clipboard"></i> Blog</a></li>
+                            <li><a id="event-bt" asp-page="/Admin/Index" asp-route-mode="event"><i class="lni lni-alarm"></i> Event</a></li>
+                            <li><a id="media-bt" asp-page="/Admin/Index" asp-route-mode="media"><i class="lni lni-image"></i> Media</a></li>
+                            <li><a id="rank-bt" asp-page="/Admin/Index" asp-route-mode="rank"><i class="lni lni-radio-button"></i> Ranking</a></li>
+                            <li><a id="rank-part-bt" asp-page="/Admin/Index" asp-route-mode="rank_part"><i class="lni lni-users"></i> Ranking Participants</a></li>
+                            <li><a id="sport-type-bt" asp-page="/Admin/Index" asp-route-mode="sport_type"><i class="lni lni-grid-alt"></i> Sport Type</a></li>
+                            <li><a id="staff-bt" asp-page="/Admin/Index" asp-route-mode="staff"><i class="lni lni-user"></i> Staff</a></li>
+                        </ul>
+                    </div>
+                </div>
+                @switch (ViewData["mod"])
+                {
+                    case "event":
+                        <!-- Start Event Area-->
+                        <div id="event_area" class="col-lg-8 col-12">
+
+                            @if (!Model.Events.Any())
+                            {<h4>@Localizer["Empty :D"]</h4> }
+                        else
+                        {
+                            <div class="admin-items">
+                                <div class="manage-content">
+                                    <div class="row align-items-center justify-content-center">
+                                        <div class="col-lg-4 col-md-4">
+                                            <div class="title">
+                                                <h3>@Localizer["Title"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="title">
+                                                <h3>@Localizer["Author"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="title">
+                                                <h3>@Localizer["Posted Date"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2">
+                                            <div class="title">
+                                                <h3>@Localizer["Actions"]</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @foreach (var myEvent in Model.Events)
+                                {
+                                    <div id="mode-@myEvent.Id" class="manage-content">
+                                        <div class="row align-items-center justify-content-center">
+                                            <div class="col-lg-4 col-md-4">
+                                                <p>
+                                                    @switch (Model.RCName)
+                                                    {
+                                                        case "ru":
+                                                            @myEvent.TitleRu
+                                                            break;
+                                                        case "uz":
+                                                            @myEvent.TitleUz
+                                                            break;
+                                                        default:
+                                                            @myEvent.Title
+                                                            break;
+                                                    }
+                                                </p>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3">
+                                                <p>@myEvent.Author.FirstName @myEvent.Author.LastName</p>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3">
+                                                <p>@myEvent.PostedDate.ToString("dd MMMM, yyyy")</p>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2">
+                                                <ul>
+                                                    <li><a onclick="RestoreMode('@myEvent.Id', 'event')"><i class="lni lni-share"></i></a></li>
+                                                    <li><a onclick="DeleteMode('@myEvent.Id', 'event')"><i class="lni lni-trash"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="pagination left pagination-md-center">
+                                <ul class="pagination-list">
+                                    <pagination class="mx-auto" page-index="@Model.Events.PageIndex" total-pages="@Model.Events.TotalPages" page-path="./admin" base-url="/Admin/Index" />
+                                </ul>
+                            </div>
+                        }
+                        </div>
+                        <!-- End Event Area-->
+                        break;
+                    case "media":
+                        <!-- Start Media Area-->
+                        <div id="media_area" class="col-lg-8 col-12">
+                            @if (!Model.Medias.Any())
+                            {<h4>@Localizer["Empty :D"]</h4> }
+                        else
+                        {
+                            <div class="admin-items">
+                                <div class="manage-content">
+                                    <div class="row align-items-center justify-content-center">
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="title">
+                                                <h3>@Localizer["Image"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4">
+                                            <div class="title">
+                                                <h3>@Localizer["Author"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="title">
+                                                <h3>@Localizer["Posted"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2">
+                                            <div class="title">
+                                                <h3>@Localizer["Actions"]</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @foreach (var media in Model.Medias)
+                                {
+                                    <div id="mode-@media.Id" class="manage-content">
+                                        <div class="row align-items-center justify-content-center">
+                                            <div class="col-lg-3 col-md-3">
+                                                <div class="title-img">
+                                                    <div class="can-img">
+                                                        <img alt="#" src="@media.MediaPath">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4">
+                                                <p>@media.Author.FirstName @media.Author.LastName</p>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3">
+                                                <p>@media.PostedDate.ToString("dd MMMM, yyyy")</p>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2">
+                                                <ul>
+                                                    <li><a onclick="RestoreMode('@media.Id', 'media')"><i class="lni lni-share"></i></a></li>
+                                                    <li><a onclick="DeleteMode('@media.Id', 'media')"><i class="lni lni-trash"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="pagination left pagination-md-center">
+                                <ul class="pagination-list">
+                                    <pagination class="mx-auto" page-index="@Model.Medias.PageIndex" total-pages="@Model.Medias.TotalPages" page-path="./admin" base-url="/Admin/Index" />
+                                </ul>
+                            </div>
+                        }
+                        </div>
+                        <!-- End Media Area-->
+                        break;
+                    case "rank":
+                        <!-- Start Rank Area-->
+                        <div id="rank_area" class="col-lg-8 col-12">
+                            @if (!Model.Ranks.Any())
+                            {<h4>@Localizer["Empty :D"]</h4> }
+                        else
+                        {
+                            <div class="admin-items">
+                                <div class="manage-content">
+                                    <div class="row align-items-center justify-content-center">
+                                        <div class="col-lg-4 col-md-4">
+                                            <div class="title">
+                                                <h3>@Localizer["Title"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="title">
+                                                <h3>@Localizer["Rank Participants"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="title">
+                                                <h3>@Localizer["Author"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2">
+                                            <div class="title">
+                                                <h3>@Localizer["Actions"]</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @foreach (var rank in Model.Ranks)
+                                {
+                                    <div id="mode-@rank.Id" class="manage-content">
+                                        <div class="row align-items-center justify-content-center">
+                                            <div class="col-lg-4 col-md-4">
+                                                <p>
+                                                    @switch (Model.RCName)
+                                                    {
+                                                        case "ru":
+                                                            @rank.TitleRu
+                                                            break;
+                                                        case "uz":
+                                                            @rank.TitleUz
+                                                            break;
+                                                        default:
+                                                            @rank.Title
+                                                            break;
+                                                    }
+                                                </p>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3">
+                                                <p>@rank.Author.FirstName @rank.Author.LastName</p>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3">
+                                                <p>@rank.RankParticipants.Count()</p>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2">
+                                                <ul>
+                                                    <li><a onclick="RestoreMode('@rank.Id', 'rank')"><i class="lni lni-share"></i></a></li>
+                                                    <li><a onclick="DeleteMode('@rank.Id', 'rank')"><i class="lni lni-trash"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="pagination left pagination-md-center">
+                                <ul class="pagination-list">
+                                    <pagination class="mx-auto" page-index="@Model.Ranks.PageIndex" total-pages="@Model.Ranks.TotalPages" page-path="./admin" base-url="/Admin/Index" />
+                                </ul>
+                            </div>
+                        }
+                        </div>
+                        <!-- End Rank Area-->
+                        break;
+                    case "rank_part":
+                        <!-- Start RankParticipants Area-->
+                        <div id="rank_participants_area" class="col-lg-8 col-12">
+                            @if (!Model.RankParts.Any())
+                            {<h4>@Localizer["Empty :D"]</h4> }
+                        else
+                        {
+                            <div class="admin-items">
+                                <div class="manage-content">
+                                    <div class="row align-items-center justify-content-center">
+                                        <div class="col-lg-4 col-md-4">
+                                            <div class="title">
+                                                <h3>@Localizer["Title"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="title">
+                                                <h3>@Localizer["Weight"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="title">
+                                                <h3>@Localizer["Participants"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2">
+                                            <div class="title">
+                                                <h3>@Localizer["Actions"]</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @foreach (var rankPart in Model.RankParts)
+                                {
+                                    <div id="mode-@rankPart.Id" class="manage-content">
+                                        <div class="row align-items-center justify-content-center">
+                                            <div class="col-lg-4 col-md-4">
+                                                <p>@rankPart.Gender</p>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3">
+                                                <p>@rankPart.Weight</p>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3">
+                                                <p>@rankPart.Participants.Count()</p>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2">
+                                                <ul>
+                                                    <li><a onclick="RestoreMode('@rankPart.Id', 'rank_part')"><i class="lni lni-share"></i></a></li>
+                                                    <li><a onclick="DeleteMode('@rankPart.Id', 'rank_part')"><i class="lni lni-trash"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="pagination left pagination-md-center">
+                                <ul class="pagination-list">
+                                    <pagination class="mx-auto" page-index="@Model.RankParts.PageIndex" total-pages="@Model.RankParts.TotalPages" page-path="./admin" base-url="/Admin/Index" />
+                                </ul>
+                            </div>
+                        }
+                        </div>
+                        <!-- End RankParticipants Area-->
+                        break;
+                    case "sport_type":
+                        <!-- Start SportType Area-->
+                        <div id="sport_type_area" class="col-lg-8 col-12">
+                            @if (!Model.SportTypes.Any())
+                            {<h4>@Localizer["Empty :D"]</h4> }
+                        else
+                        {
+                            <div class="admin-items">
+                                <div class="manage-content">
+                                    <div class="row align-items-center justify-content-center">
+                                        <div class="col-lg-4 col-md-4">
+                                            <div class="title">
+                                                <h3>@Localizer["Title"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="title">
+                                                <h3>@Localizer["Description"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2">
+                                            <div class="title">
+                                                <h3>@Localizer["Actions"]</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @foreach (var sportType in Model.SportTypes)
+                                {
+                                    <div id="mode-@sportType.Id" class="manage-content">
+                                        <div class="row align-items-center justify-content-center">
+                                            <div class="col-lg-5 col-md-5">
+                                                <p>
+                                                    @switch (Model.RCName)
+                                                    {
+                                                        case "ru":
+                                                            @sportType.NameRu
+                                                            break;
+                                                        case "uz":
+                                                            @sportType.NameUz
+                                                            break;
+                                                        default:
+                                                            @sportType.Name
+                                                            break;
+                                                    }
+                                                </p>
+                                            </div>
+                                            <div class="col-lg-5 col-md-5">
+                                                <p>@sportType.RulesFilePath</p>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2">
+                                                <ul>
+                                                    <li><a onclick="RestoreMode('@sportType.Id', 'sport_type')"><i class="lni lni-share"></i></a></li>
+                                                    <li><a onclick="DeleteMode('@sportType.Id', 'sport_type')"><i class="lni lni-trash"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="pagination left pagination-md-center">
+                                <ul class="pagination-list">
+                                    <pagination class="mx-auto" page-index="@Model.SportTypes.PageIndex" total-pages="@Model.SportTypes.TotalPages" page-path="./admin" base-url="/Admin/Index" />
+                                </ul>
+                            </div>
+                        }
+                        </div>
+                        <!-- End SportType Area-->
+                        break;
+                    case "staff":
+                        <!-- Start Staff Area-->
+                        <div id="staff_area" class="col-lg-8 col-12">
+                            @if (!Model.Staffs.Any())
+                            {<h4>@Localizer["Empty :D"]</h4> }
+                        else
+                        {
+                            <div class="admin-items">
+                                <div class="manage-content">
+                                    <div class="row align-items-center justify-content-center">
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="title">
+                                                <h3>@Localizer["First Name"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="title">
+                                                <h3>@Localizer["Last Name"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4">
+                                            <div class="title">
+                                                <h3>@Localizer["Country"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2">
+                                            <div class="title">
+                                                <h3>@Localizer["Actions"]</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @foreach (var staff in Model.Staffs)
+                                {
+                                    <div class="manage-content">
+                                        <div class="row align-items-center justify-content-center">
+                                            <div class="col-lg-3 col-md-3">
+                                                <p>@staff.FirstName</p>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3">
+                                                <p>@staff.LastName</p>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4">
+                                                <p>@staff.CountryCode</p>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2">
+                                                <ul>
+                                                    <li><a onclick="RestoreMode('@staff.Id', 'staff')"><i class="lni lni-share"></i></a></li>
+                                                    <li><a onclick="DeleteMode('@staff.Id', 'staff')"><i class="lni lni-trash"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="pagination left pagination-md-center">
+                                <ul class="pagination-list">
+                                    <pagination class="mx-auto" page-index="@Model.Staffs.PageIndex" total-pages="@Model.Staffs.TotalPages" page-path="./admin" base-url="/Admin/Index" />
+                                </ul>
+                            </div>
+                        }
+                        </div>
+                        <!-- End Staff Area-->
+                        break;
+                    case "static_page":
+                        <!-- Start Static Page Area-->
+                        <div id="static_page_area" class="col-lg-8 col-12">
+
+                            @if (!Model.StaticPages.Any())
+                            {<h4>@Localizer["Empty :D"]</h4> }
+                        else
+                        {
+                            <div class="admin-items">
+                                <div class="manage-content">
+                                    <div class="row align-items-center justify-content-center">
+                                        <div class="col-lg-4 col-md-4">
+                                            <div class="title">
+                                                <h3>@Localizer["Title"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="title">
+                                                <h3>@Localizer["Page Name"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="title">
+                                                <h3>@Localizer["Posted Date"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2">
+                                            <div class="title">
+                                                <h3>@Localizer["Actions"]</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @foreach (var staticPage in Model.StaticPages)
+                                {
+                                    <div id="mode-@staticPage.Id" class="manage-content">
+                                        <div class="row align-items-center justify-content-center">
+                                            <div class="col-lg-4 col-md-4">
+                                                <p>
+                                                    @switch (Model.RCName)
+                                                    {
+                                                        case "ru":
+                                                            @staticPage.TitleRu
+                                                            break;
+                                                        case "uz":
+                                                            @staticPage.TitleUz
+                                                            break;
+                                                        default:
+                                                            @staticPage.Title
+                                                            break;
+                                                    }
+                                                </p>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3">
+                                                <p>@staticPage.StaticPage.ToString()</p>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3">
+                                                <p>@staticPage.PostedDate.ToString("dd MMMM, yyyy")</p>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2">
+                                                <ul>
+                                                    <li><a asp-page="./StaticPages/Edit" asp-route-id="@staticPage.Id"><i class="lni lni-pencil"></i></a></li>
+                                                    <li><a asp-page="./StaticPages/Delete" asp-route-id="@staticPage.Id"><i class="lni lni-trash"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="pagination left pagination-md-center">
+                                <ul class="pagination-list">
+                                    <pagination class="mx-auto" page-index="@Model.Events.PageIndex" total-pages="@Model.Events.TotalPages" page-path="./admin" base-url="/Admin/Index" />
+                                </ul>
+                            </div>
+                        }
+                        </div>
+                        <!-- End Event Area-->
+                        break;
+                    default:
+                        <!-- Start Blog Area-->
+                        <div id="blog_area" class="col-lg-8 col-12">
+                            @if (!Model.Blogs.Any())
+                            {<h4>@Localizer["Empty :D"]</h4> }
+                        else
+                        {
+                            <div class="admin-items">
+                                <div class="manage-content">
+                                    <div class="row align-items-center justify-content-center">
+                                        <div class="col-lg-4 col-md-4">
+                                            <div class="title">
+                                                <h3>@Localizer["Title"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="title">
+                                                <h3>@Localizer["Author"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="title">
+                                                <h3>@Localizer["Posted Date"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2">
+                                            <div class="title">
+                                                <h3>@Localizer["Actions"]</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @foreach (var blog in Model.Blogs)
+                                {
+                                    <div class="manage-content">
+                                        <div class="row align-items-center justify-content-center">
+                                            <div class="col-lg-4 col-md-4">
+                                                <p>
+                                                    @switch (Model.RCName)
+                                                    {
+                                                        case "ru":
+                                                            @blog.TitleRu
+                                                            break;
+                                                        case "uz":
+                                                            @blog.TitleUz
+                                                            break;
+                                                        default:
+                                                            @blog.Title
+                                                            break;
+                                                    }
+                                                </p>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3">
+                                                <p>@blog.Author.FirstName @blog.Author.LastName</p>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3">
+                                                <p>@blog.PostedDate.ToString("dd MMMM, yyyy")</p>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2">
+                                                <ul>
+                                                    <li><a onclick="RestoreMode('@blog.Id', 'blog')"><i class="lni lni-share"></i></a></li>
+                                                    <li><a onclick="DeleteMode('@blog.Id', 'blog')"><i class="lni lni-trash"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="pagination left pagination-md-center">
+                                <ul class="pagination-list">
+                                    <pagination class="mx-auto" page-index="@Model.Blogs.PageIndex" total-pages="@Model.Blogs.TotalPages" page-path="./admin" base-url="/Admin/Index" />
+                                </ul>
+                            </div>
+                        }
+                        </div>
+                        <!-- End Blog Area-->
+                        break;
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+         var actualMode = "@ViewData["mode"]";
+        $(document).ready(function () {
+
+            switch (actualMode) {
+                case "event":
+                    $('#event-bt').addClass("active");
+                    break;
+                case "media":
+                    $('#media-bt').addClass("active");
+                    break;
+                case "rank":
+                    $('#rank-bt').addClass("active");
+                    break;
+                case "rank_part":
+                    $('#rank-part-bt').addClass("active");
+                    break;
+                case "sport_type":
+                    $('#sport-type-bt').addClass("active");
+                    break;
+                case "staff":
+                    $('#staff-bt').addClass("active");
+                    break;
+                case "static_page":
+                    $('#static-page-bt').addClass("active");
+                    break;
+                default:
+                    $('#blog-bt').addClass("active");
+                    break;
+            }
+        });
+
+        function DeleteMode(modeId, mode) {
+            $.ajax({
+                type: "POST",
+                url: "/Admin/Index?handler=DeleteMode",
+                data: {
+                    id: modeId,
+                    mode: mode
+                },
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("XSRF-TOKEN",
+                        $('input:hidden[name="__RequestVerificationToken"]').val());
+                },
+                success: function (result) {
+                    $('#mode-' + result).remove();
+                }
+            });
+        }
+
+        function RestoreMode(modeId, mode) {
+            $.ajax({
+                type: "POST",
+                url: "/Admin/Index?handler=RestoreMode",
+                data: {
+                    id: modeId,
+                    mode: mode
+                },
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("XSRF-TOKEN",
+                        $('input:hidden[name="__RequestVerificationToken"]').val());
+                },
+                success: function (result) {
+                    $('#mode-' + result).remove();
+                }
+            });
+        }
+    </script>
 }

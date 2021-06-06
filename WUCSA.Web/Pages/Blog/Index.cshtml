@@ -28,6 +28,7 @@
 
 @section CSS {
     <link rel="stylesheet" href="~/css/post_style.css" />
+    <link href="https://cdn.syncfusion.com/ej2/ej2-richtexteditor/styles/material.css" rel="stylesheet" />
 }
 <div class="breadcrumbs overlay">
     <div class="container">
@@ -35,10 +36,6 @@
             <div class="col-12">
                 <div class="breadcrumbs-content">
                     <h1 class="page-title">@Model.Blog.Title</h1>
-                    <p>
-                        Business plan draws on a wide range of knowledge from different business<br> disciplines.
-                        Business draws on a wide range of different business .
-                    </p>
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a asp-area="" asp-page="/Index">Home</a></li>
@@ -96,7 +93,9 @@
                                     </a>
                                 </li>
                             </ul>
-                            @Html.Raw(Model.Blog.Content)
+                            <div id="remove_mw">
+                                @Html.Raw(Model.Blog.Content)
+                            </div>
                             <div class="post-tags-media">
                                 <div class="post-tags popular-tag-widget mb-xl-40">
                                     <h5 class="tag-title">Related Tags</h5>
@@ -302,6 +301,21 @@
                 return false;
             }
         }
+
+        $(function () {
+
+            var x = document.getElementById('remove_mw').getElementsByTagName('img');
+            //x.forEach(
+            //    function setCss(currentValue) {
+            //        currentValue.style.maxWidth = "none";
+            //    }
+            //);
+            $("#remove_mw img").each(function (i) {
+                this.style.maxWidth = "";
+            });
+        });
+
+        
 
     </script>
 }

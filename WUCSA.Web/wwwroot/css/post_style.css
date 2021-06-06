@@ -1,5 +1,9 @@
 ﻿@import url(colors_style.css);
-
+/**/
+.remove_mw img {
+    max-width: none !important;
+}
+/**/
 .upload-demo .upload-demo-wrap,
 .upload-demo .upload-result,
 .upload-demo.ready .upload-msg {
@@ -86,7 +90,7 @@ input[type="file"] {
                     display: inline-block;
                     font-size: 12px;
                     position: relative;
-                    background: var(--main-blue-color)14;
+                    background: var(--main-blue-c-opacity-14);
                     color: var(--main-blue-color);
                     padding: 5px 10px;
                     border-radius: 3px;
@@ -394,6 +398,7 @@ blockquote {
     -ms-flex-pack: justify;
     justify-content: space-between;
     margin-bottom: 30px;
+    margin-top: 20px;
 }
 
 .post-details .post-meta li {

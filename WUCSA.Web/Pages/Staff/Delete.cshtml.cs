@@ -64,6 +64,10 @@ namespace WUCSA.Web.Pages.Staff
             {
                 if (Staff != null)
                 {
+                    foreach (var certificate in Staff.Certificates)
+                    {
+                        _imageHelper.RemoveImage(certificate.CertPath, "certificate_imgs");
+                    }
                     await _staffRepository.DeleteStaffAsync(Staff);
                     _imageHelper.RemoveImage(Staff.ProfilePhotoPath, "staff_imgs");
                 }

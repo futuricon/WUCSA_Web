@@ -1,0 +1,272 @@
+﻿@page
+@model WUCSA.Web.Pages.Admin.Users.IndexModel
+@inject UserManager<AppUser> UserManager
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer["Admin"];
+    Layout = "_Layout";
+}
+
+@section CSS{
+    <link rel="stylesheet" href="~/css/admin_style.css" />
+}
+
+<div class="manage-applications section">
+    <div class="container">
+        <div class="alerts-inner">
+            <div class="row">
+
+                <div class="col-lg-4 col-12">
+                    <div class="dashbord-sidebar">
+                        <ul>
+                            <li class="heading">Manage Users</li>
+                            <li><a id="admin-bt" asp-page="./Index" asp-route-mode="admin"><i class="lni lni-star-filled"></i> Administrators</a></li>
+                            <li><a id="blocked-bt" asp-page="./Index" asp-route-mode="blocked"><i class="lni lni-lock-alt"></i> Blocked Users</a></li>
+                            <li><a id="plain-bt" asp-page="./Index" asp-route-mode="plain"><i class="lni lni-empty-file"></i> Plain Users</a></li>
+                            <li class="heading">Manage Recycle Bin</li>
+                            <li><a id="blog-bt" asp-page="/Admin/Index" asp-route-mode="blog"><i class="lni lni-clipboard"></i> Blog</a></li>
+                            <li><a id="event-bt" asp-page="/Admin/Index" asp-route-mode="event"><i class="lni lni-alarm"></i> Event</a></li>
+                            <li><a id="media-bt" asp-page="/Admin/Index" asp-route-mode="media"><i class="lni lni-image"></i> Media</a></li>
+                            <li><a id="rank-bt" asp-page="/Admin/Index" asp-route-mode="rank"><i class="lni lni-radio-button"></i> Ranking</a></li>
+                            <li><a id="rank-part-bt" asp-page="/Admin/Index" asp-route-mode="rank_part"><i class="lni lni-users"></i> Ranking Participants</a></li>
+                            <li><a id="sport-type-bt" asp-page="/Admin/Index" asp-route-mode="sport_type"><i class="lni lni-grid-alt"></i> Sport Type</a></li>
+                            <li><a id="staff-bt" asp-page="/Admin/Index" asp-route-mode="staff"><i class="lni lni-user"></i> Staff</a></li>
+                        </ul>
+                    </div>
+                </div>
+                @switch (ViewData["mode"])
+                {
+                    case "plain":
+                        <!-- Start Plain Area-->
+                        <div id="plain_area" class="col-lg-8 col-12">
+                            @if (!Model.Users.Any())
+                            {<h4>@Localizer["Empty :D"]</h4> }
+                        else
+                        {
+                        <div class="admin-items">
+                            <div class="manage-content">
+                                <div class="row align-items-center justify-content-center">
+                                    <div class="col-lg-3 col-md-3">
+                                        <div class="title">
+                                            <h3>@Localizer["Username"]</h3>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4">
+                                        <div class="title">
+                                            <h3>@Localizer["Name Surname"]</h3>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3">
+                                        <div class="title">
+                                            <h3>@Localizer["E-mail"]</h3>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2">
+                                        <div class="title">
+                                            <h3>@Localizer["Actions"]</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @foreach (var user in Model.Users)
+                            {
+                                var roles = await UserManager.GetRolesAsync(user);
+                                if (roles.Contains("Admin") || roles.Contains("SuperAdmin") || user.IsBlocked)
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    <div id="mode-@user.Id" class="manage-content">
+                                        <div class="row align-items-center justify-content-center">
+                                            <div class="col-lg-3 col-md-3">
+                                                <p>@user.UserName</p>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4">
+                                                <p>@user.FirstName @user.LastName</p>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3">
+                                                <p>@user.Email</p>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2">
+                                                <ul>
+                                                    <li><a asp-page="./Details" asp-route-id="@user.Id" asp-route-mode="plain"><i class="lni lni-eye"></i></a></li>
+                                                    <li><a asp-page="./Edit" asp-route-id="@user.Id" asp-route-mode="plain"><i class="lni lni-pencil"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+
+                            <div class="pagination left pagination-md-center">
+                                <ul class="pagination-list">
+                                    <pagination class="mx-auto" page-index="@Model.Users.PageIndex" total-pages="@Model.Users.TotalPages" page-path="./users" base-url="./Users/Index" />
+                                </ul>
+                            </div>
+                        }
+                        </div>
+                        <!-- End Plain Area-->
+                        break;
+                    case "blocked":
+                        <!-- Start Blocked Area-->
+                        <div id="blocked_area" class="col-lg-8 col-12">
+                            @if (!Model.Users.Any())
+                            {<h4>@Localizer["Empty :D"]</h4> }
+                        else
+                        {
+                            <div class="admin-items">
+                                <div class="manage-content">
+                                    <div class="row align-items-center justify-content-center">
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="title">
+                                                <h3>@Localizer["Username"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4">
+                                            <div class="title">
+                                                <h3>@Localizer["Name Surname"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="title">
+                                                <h3>@Localizer["E-mail"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2">
+                                            <div class="title">
+                                                <h3>@Localizer["Actions"]</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @foreach (var user in Model.Users)
+                                {
+                                    if (user.IsBlocked)
+                                    {
+                                        <div id="mode-@user.Id" class="manage-content">
+                                            <div class="row align-items-center justify-content-center">
+                                                <div class="col-lg-3 col-md-3">
+                                                    <p>@user.UserName</p>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <p>@user.FirstName @user.LastName</p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3">
+                                                    <p>@user.Email</p>
+                                                </div>
+                                                <div class="col-lg-2 col-md-2">
+                                                    <ul>
+                                                        <li><a asp-page="./Details" asp-route-id="@user.Id" asp-route-mode="blocked"><i class="lni lni-eye"></i></a></li>
+                                                        <li><a asp-page="./Edit" asp-route-id="@user.Id" asp-route-mode="blocked"><i class="lni lni-pencil"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    } 
+                                }
+                            </div>
+
+                            <div class="pagination left pagination-md-center">
+                                <ul class="pagination-list">
+                                    <pagination class="mx-auto" page-index="@Model.Users.PageIndex" total-pages="@Model.Users.TotalPages" page-path="./users" base-url="./Users/Index" />
+                                </ul>
+                            </div>
+                        }
+                        </div>
+                        <!-- End Blocked Area-->
+                        break;
+                    default:
+                        <!-- Start Admin Area-->
+                        <div id="admin_area" class="col-lg-8 col-12">
+                            @if (!Model.Users.Any())
+                            {<h4>@Localizer["Empty :D"]</h4> }
+                        else
+                        {
+                            <div class="admin-items">
+                                <div class="manage-content">
+                                    <div class="row align-items-center justify-content-center">
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="title">
+                                                <h3>@Localizer["Username"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4">
+                                            <div class="title">
+                                                <h3>@Localizer["Name Surname"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="title">
+                                                <h3>@Localizer["E-mail"]</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2">
+                                            <div class="title">
+                                                <h3>@Localizer["Actions"]</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @foreach (var user in Model.Users)
+                                {
+                                    var roles = await UserManager.GetRolesAsync(user);
+                                    if (roles.Contains("Admin"))
+                                    {
+                                        <div id="mode-@user.Id" class="manage-content">
+                                            <div class="row align-items-center justify-content-center">
+                                                <div class="col-lg-3 col-md-3">
+                                                    <p>@user.UserName</p>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <p>@user.FirstName @user.LastName</p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3">
+                                                    <p>@user.Email</p>
+                                                </div>
+                                                <div class="col-lg-2 col-md-2">
+                                                    <ul>
+                                                        <li><a asp-page="./Details" asp-route-id="@user.Id" asp-route-mode="admin"><i class="lni lni-eye"></i></a></li>
+                                                        <li><a asp-page="./Edit" asp-route-id="@user.Id" asp-route-mode="admin"><i class="lni lni-pencil"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    
+                                }
+                            </div>
+
+                            <div class="pagination left pagination-md-center">
+                                <ul class="pagination-list">
+                                    <pagination class="mx-auto" page-index="@Model.Users.PageIndex" total-pages="@Model.Users.TotalPages" page-path="./users" base-url="./Users/Index" />
+                                </ul>
+                            </div>
+                        }
+                        </div>
+                        <!-- End Admin Area-->
+                        break;
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        var actualMode = "@ViewData["mode"]";
+        $(document).ready(function () {
+            if (actualMode == "admin") {
+                $('#admin-bt').addClass("active");
+            }
+            else if (actualMode == "blocked") {
+                $('#blocked-bt').addClass("active");
+            }
+            else if (actualMode == "plain") {
+                $('#plain-bt').addClass("active");
+            }
+        });
+    </script>
+}

@@ -1,0 +1,29 @@
+﻿@page
+@model WUCSA.Web.Pages.AboutModel
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer["About Us"];
+}
+@section CSS {
+    <link rel="stylesheet" href="~/css/privacy_style.css" />
+}
+<div class="breadcrumbs overlay">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title">@Localizer["About World Usmanov's Combat Systems Association"]</h1>
+                </div>
+                <ul class="breadcrumb-nav">
+                    <li><a asp-area="" asp-page="/Index">Home</a></li>
+                    <li><a asp-page="/About">@Localizer["About Us"]</a></li>
+                    @if (User.IsInRole("SuperAdmin"))
+                    {
+                        <li><a asp-page="/Admin/StaticPages/Create">@Localizer["Add new About Page"]</a></li>
+                        <li><a asp-page="/Admin/StaticPages/Edit" asp-route-id="">@Localizer["Edit this About Page"]</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

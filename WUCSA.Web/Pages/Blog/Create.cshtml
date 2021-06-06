@@ -8,6 +8,8 @@
 
 @section CSS {
     <link rel="stylesheet" href="~/css/post_style.css" />
+    <link href="https://cdn.syncfusion.com/ej2/material.css" rel="stylesheet" />
+    <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js"></script>
 }
 
 <div class="breadcrumbs overlay">
@@ -16,10 +18,6 @@
             <div class="col-12">
                 <div class="breadcrumbs-content">
                     <h1 class="page-title">Create new Article</h1>
-                    <p>
-                        Business plan draws on a wide range of knowledge from different business<br> disciplines.
-                        Business draws on a wide range of different business .
-                    </p>
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a asp-area="" asp-page="/Index">Home</a></li>
@@ -73,22 +71,28 @@
                                 <div class="form-group mt-4">
                                     <label asp-for="Input.Blog.Content" class="control-label"></label>
                                     <span asp-validation-for="Input.Blog.Content" class="text-danger"></span>
-                                    <textarea class="richtexteditor" asp-for="Input.Blog.Content" height="300">
-                                    </textarea>
+                                    <ejs-richtexteditor id="rich_texteditor" ejs-for="Input.Blog.Content" height="300">
+                                        <e-richtexteditor-toolbarsettings items="@ViewData["toolbar"]" enableFloating="true">
+                                        </e-richtexteditor-toolbarsettings>
+                                    </ejs-richtexteditor>
                                 </div>
                                 <div class="form-group mt-4">
                                     <label asp-for="Input.Blog.ContentRu" class="control-label"></label>
                                     <span asp-validation-for="Input.Blog.ContentRu" class="text-danger"></span>
-                                    <textarea class="richtexteditor" asp-for="Input.Blog.ContentRu" height="300">
-                                    </textarea>
+                                    <ejs-richtexteditor id="rich_texteditor_ru" ejs-for="Input.Blog.ContentRu" height="300">
+                                        <e-richtexteditor-toolbarsettings items="@ViewData["toolbar"]" enableFloating="true">
+                                        </e-richtexteditor-toolbarsettings>
+                                    </ejs-richtexteditor>
                                 </div>
                                 <div class="form-group mt-4">
                                     <label asp-for="Input.Blog.ContentUz" class="control-label"></label>
                                     <span asp-validation-for="Input.Blog.ContentUz" class="text-danger"></span>
-                                    <textarea class="richtexteditor" asp-for="Input.Blog.ContentUz" height="300">
-                                    </textarea>
+                                    <ejs-richtexteditor id="rich_texteditor_uz" ejs-for="Input.Blog.ContentUz" height="300">
+                                        <e-richtexteditor-toolbarsettings items="@ViewData["toolbar"]" enableFloating="true">
+                                        </e-richtexteditor-toolbarsettings>
+                                    </ejs-richtexteditor>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group mt-20">
                                     <label asp-for="Input.Tags" class="control-label"></label>
                                     <label class="font-weight-light">&nbsp;(<span class="font-weight-bold text-danger">*</span>Do not duplicate tag names)</label>
                                     <input asp-for="Input.Tags" class="form-control" />
@@ -111,14 +115,13 @@
 </section>
 
 @section Scripts {
-    <script src="https://cdn.tiny.cloud/1/gor58flziaueg8chsw70ufwp3mnxgqytjn0hgvh6agc8q65x/tinymce/5/tinymce.min.js"
-            referrerpolicy="origin">
-    </script>
+    <partial name="_ValidationScriptsPartial" />
     <script>
         $(document).ready(function () {
             document.getElementById("removeBtn").style.display = "none";
             document.getElementsByClassName("post-thumbnils").style.display = "none";
         });
+
         function readURL(input) {
             if (input.files && input.files[0]) {
 
@@ -147,62 +150,62 @@
             $('#uploadBtn').show();
         }
 
-        tinymce.init({
-            selector: 'textarea.richtexteditor',
-            menubar: false,
-            plugins: [
-                'advlist autolink lists link image charmap print preview anchor',
-                'searchreplace visualblocks code fullscreen',
-                'insertdatetime media table paste code help wordcount',
-                'image'
-            ],
-            toolbar: 'undo redo | formatselect | ' +
-                'bold italic backcolor | alignleft aligncenter ' +
-                'alignright alignjustify | bullist numlist outdent indent | ' +
-                'removeformat | image',
-            image_title: true,
-            /* enable automatic uploads of images represented by blob or data URIs*/
-            automatic_uploads: true,
-            file_picker_types: 'image',
-            /* and here's our custom image picker*/
-            file_picker_callback: function (cb, value, meta) {
-                var input = document.createElement('input');
-                input.setAttribute('type', 'file');
-                input.setAttribute('accept', 'image/*');
+            //tinymce.init({
+            //    selector: 'textarea.richtexteditor',
+            //    menubar: false,
+            //    plugins: [
+            //        'advlist autolink lists link image charmap print preview anchor',
+            //        'searchreplace visualblocks code fullscreen',
+            //        'insertdatetime media table paste code help wordcount',
+            //        'image'
+            //    ],
+            //    toolbar: 'undo redo | formatselect | ' +
+            //        'bold italic backcolor | alignleft aligncenter ' +
+            //        'alignright alignjustify | bullist numlist outdent indent | ' +
+            //        'removeformat | image',
+            //    image_title: true,
+            //    /* enable automatic uploads of images represented by blob or data URIs*/
+            //    automatic_uploads: true,
+            //    file_picker_types: 'image',
+            //    /* and here's our custom image picker*/
+            //    file_picker_callback: function (cb, value, meta) {
+            //        var input = document.createElement('input');
+            //        input.setAttribute('type', 'file');
+            //        input.setAttribute('accept', 'image/*');
 
-                /*
-                  Note: In modern browsers input[type="file"] is functional without
-                  even adding it to the DOM, but that might not be the case in some older
-                  or quirky browsers like IE, so you might want to add it to the DOM
-                  just in case, and visually hide it. And do not forget do remove it
-                  once you do not need it anymore.
-                */
+            //        /*
+            //          Note: In modern browsers input[type="file"] is functional without
+            //          even adding it to the DOM, but that might not be the case in some older
+            //          or quirky browsers like IE, so you might want to add it to the DOM
+            //          just in case, and visually hide it. And do not forget do remove it
+            //          once you do not need it anymore.
+            //        */
 
-                input.onchange = function () {
-                    var file = this.files[0];
+            //        input.onchange = function () {
+            //            var file = this.files[0];
 
-                    var reader = new FileReader();
-                    reader.onload = function () {
-                        /*
-                          Note: Now we need to register the blob in TinyMCEs image blob
-                          registry. In the next release this part hopefully won't be
-                          necessary, as we are looking to handle it internally.
-                        */
-                        var id = 'blobid' + (new Date()).getTime();
-                        var blobCache = tinymce.activeEditor.editorUpload.blobCache;
-                        var base64 = reader.result.split(',')[1];
-                        var blobInfo = blobCache.create(id, file, base64);
-                        blobCache.add(blobInfo);
+            //            var reader = new FileReader();
+            //            reader.onload = function () {
+            //                /*
+            //                  Note: Now we need to register the blob in TinyMCEs image blob
+            //                  registry. In the next release this part hopefully won't be
+            //                  necessary, as we are looking to handle it internally.
+            //                */
+            //                var id = 'blobid' + (new Date()).getTime();
+            //                var blobCache = tinymce.activeEditor.editorUpload.blobCache;
+            //                var base64 = reader.result.split(',')[1];
+            //                var blobInfo = blobCache.create(id, file, base64);
+            //                blobCache.add(blobInfo);
 
-                        /* call the callback and populate the Title field with the file name */
-                        cb(blobInfo.blobUri(), { title: file.name });
-                    };
-                    reader.readAsDataURL(file);
-                };
+            //                /* call the callback and populate the Title field with the file name */
+            //                cb(blobInfo.blobUri(), { title: file.name });
+            //            };
+            //            reader.readAsDataURL(file);
+            //        };
 
-                input.click();
-            },
-            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-        });
+            //        input.click();
+            //    },
+            //    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+            //});
     </script>
 }

@@ -836,6 +836,9 @@ namespace WUCSA.Infrastructure.Migrations
                         .HasColumnType("nvarchar(40)")
                         .HasMaxLength(40);
 
+                    b.Property<bool>("IsBlocked")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(40)")
                         .HasMaxLength(40);

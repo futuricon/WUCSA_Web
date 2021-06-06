@@ -63,7 +63,7 @@
                 width: 30px;
                 text-align: center;
                 line-height: 30px;
-                background: var(--main-blue-color)0d;
+                background: var(--main-blue-c-opacity-od);
                 border-radius: 3px;
                 -webkit-transition: all .4s ease;
                 transition: all .4s ease;
@@ -181,7 +181,7 @@
             margin-bottom: 5px;
             margin-right: 3px;
             position: relative;
-            background: var(--main-blue-color)14;
+            background: var(--main-blue-c-opacity-14);
             color: var(--main-blue-color);
             padding: 5px 10px;
             border-radius: 3px;
@@ -400,7 +400,7 @@
     }
 
         .manage-account .inner-content .single-section.skill ul li a {
-            background: var(--main-blue-color)14;
+            background: var(--main-blue-c-opacity-14);
             color: var(--dark-blue-color);
             padding: 8px 15px;
             border-radius: 3px;
@@ -512,7 +512,7 @@ input[type="file"] {
     font-size: 14px;
     font-weight: 500;
     padding: 10px 15px;
-    background-color: var(--main-blue-color)14;
+    background-color: var(--main-blue-c-opacity-14);
     color: var(--dark-blue-color);
     border: none;
     -webkit-transition: 0.5s;

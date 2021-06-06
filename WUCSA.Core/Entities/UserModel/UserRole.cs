@@ -11,8 +11,7 @@ namespace WUCSA.Core.Entities.UserModel
     public enum Role
     {
         SuperAdmin,
-        Admin,
-        Editor
+        Admin
     }
 
     public class UserRole : IdentityRole, IEntity<string>

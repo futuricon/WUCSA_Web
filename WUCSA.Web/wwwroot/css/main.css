@@ -849,24 +849,25 @@ ol {
 }
 
 .contacts_bg {
-    background-image: url("../images/breadcrumb/contacts_bg.png");
+    background-image: url("../images/breadcrumb/breadcrumbs_bg.png");
 }
 .about_bg {
-    background-image: url("../images/breadcrumb/contacts_bg.png");
+    background-image: url("../images/breadcrumb/breadcrumbs_bg.png");
 }
 
 
 /*#region Bread Crumbs*/
 .breadcrumbs {
-  background-color: var(--dark-blue-color);
-  position: relative;
-  padding: 70px 0;
-  padding-top: 150px;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: 2;
-  text-align: left;
+    background-color: var(--dark-blue-color);
+    position: relative;
+    padding: 70px 0;
+    padding-top: 150px;
+    background-image: url(../images/breadcrumb/breadcrumbs_bg.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 2;
+    text-align: left;
 }
 
 .breadcrumbs.overlay::before {
@@ -1853,7 +1854,7 @@ ol {
     position: relative;
 }
 
-.xs-category.style2 .single-cat .bottom-side .available-job {
+/*.xs-category.style2 .single-cat .bottom-side .available-job {
     background-color: var(--main-blue-color);
     color: #fff;
     font-size: 14px;
@@ -1867,7 +1868,7 @@ ol {
     -webkit-box-shadow: 0px 10px 30px 0px rgba(0, 0, 0, 0.08);
     box-shadow: 0px 10px 30px 0px rgba(0, 0, 0, 0.08);
     z-index: 3;
-}
+}*/
 
 .xs-category.style2 .single-cat:hover .top-side:before {
     opacity: 0.5;
@@ -2085,9 +2086,9 @@ ol {
   .breadcrumbs .bread-list {
     margin-top: 8px;
   }
-  .featured-job .single-job .content .button .btn {
+ /* .featured-job .single-job .content .button .btn {
     padding: 12px 28px !important;
-  }
+  }*/
   .all-categories .categories-title {
     font-size: 25px !important;
   }
@@ -2372,7 +2373,7 @@ ol {
   .breadcrumbs .bread-list {
     margin-top: 8px;
   }
-  
+  /*
   .featured-job .single-job .content .button .btn {
     width: 100%;
     margin: 0 !important;
@@ -2380,7 +2381,7 @@ ol {
   }
   .featured-job .single-job .content .button .btn:last-child {
     margin: 0 !important;
-  }
+  }*/
   .all-categories {
     padding-bottom: 20px !important;
   }
@@ -2508,7 +2509,7 @@ ol {
   .pagination .pagination-list li {
     margin-top: 10px;
   }
-  .bookmarked .job-items .manage-content {
+  /*.bookmarked .job-items .manage-content {
     text-align: center;
   }
   .bookmarked .job-items .manage-content .can-img {
@@ -2534,7 +2535,7 @@ ol {
   .bookmarked .job-items .manage-content .button .btn {
     display: inline-block !important;
     padding: 7px 14px;
-  }
+  }*/
   
   .footer .footer-top {
     text-align: center;

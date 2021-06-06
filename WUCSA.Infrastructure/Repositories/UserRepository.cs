@@ -26,13 +26,16 @@ namespace WUCSA.Infrastructure.Repositories
 
         public async Task UpdateUserRolesAsync(AppUser user, IEnumerable<string> roles)
         {
-            var actualRoles = roles.ToList();
             var previousRoles = await _userManager.GetRolesAsync(user);
             await _userManager.RemoveFromRolesAsync(user, previousRoles);
-
-            foreach (var role in actualRoles)
+            if (roles != null)
             {
-                await _userManager.AddToRoleAsync(user, role);
+                var actualRoles = roles.ToList();
+
+                foreach (var role in actualRoles)
+                {
+                    await _userManager.AddToRoleAsync(user, role);
+                }
             }
         }
 

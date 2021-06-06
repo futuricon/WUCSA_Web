@@ -1,0 +1,195 @@
+﻿@page
+@model WUCSA.Web.Pages.Admin.Users.EditModel
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer["Edit"];
+    Layout = "_Layout";
+}
+
+@section CSS{
+    <link rel="stylesheet" href="~/css/admin_style.css" />
+}
+
+<div class="manage-applications section">
+    <div class="container">
+        <div class="alerts-inner">
+            <div class="row">
+
+                <div class="col-lg-4 col-12">
+                    <div class="dashbord-sidebar">
+                        <ul>
+                            <li class="heading">Manage Users</li>
+                            <li><a id="admin-bt" asp-page="./Index" asp-route-mode="admin"><i class="lni lni-star-filled"></i> Administrators</a></li>
+                            @if (ViewData["mode"].ToString() == "admin")
+                            {
+                                <li class="sub_li">
+                                    <ul>
+                                        <li><a asp-page="./Details" asp-route-id="@Model.AppUser.Id" asp-route-mode="admin"><i class="lni lni-eye"></i> Details</a></li>
+                                        <li><a class="active" asp-page="./Edit" asp-route-id="@Model.AppUser.Id" asp-route-mode="admin"><i class="lni lni-pencil"></i> Edit</a></li>
+                                    </ul>
+                                </li>
+                            }
+                            <li><a id="blocked-bt" asp-page="./Index" asp-route-mode="blocked"><i class="lni lni-lock-alt"></i> Blocked Users</a></li>
+                            @if (ViewData["mode"].ToString() == "blocked")
+                            {
+                                <li class="sub_li">
+                                    <ul>
+                                        <li><a asp-page="./Details" asp-route-id="@Model.AppUser.Id" asp-route-mode="blocked"><i class="lni lni-eye"></i> Details</a></li>
+                                        <li><a class="active" asp-page="./Edit" asp-route-id="@Model.AppUser.Id" asp-route-mode="blocked"><i class="lni lni-pencil"></i> Edit</a></li>
+                                    </ul>
+                                </li>
+                            }
+                            <li><a id="plain-bt" asp-page="./Index" asp-route-mode="plain"><i class="lni lni-empty-file"></i> Plain Users</a></li>
+                            @if (ViewData["mode"].ToString() == "plain")
+                            {
+                                <li class="sub_li">
+                                    <ul>
+                                        <li><a asp-page="./Details" asp-route-id="@Model.AppUser.Id" asp-route-mode="plain"><i class="lni lni-eye"></i> Details</a></li>
+                                        <li><a class="active" asp-page="./Edit" asp-route-id="@Model.AppUser.Id" asp-route-mode="plain"><i class="lni lni-pencil"></i> Edit</a></li>
+                                    </ul>
+                                </li>
+                            }
+                            <li class="heading">Manage Recycle Bin</li>
+                            <li><a id="blog-bt" asp-page="/Admin/Index" asp-route-mode="blog"><i class="lni lni-clipboard"></i> Blog</a></li>
+                            <li><a id="event-bt" asp-page="/Admin/Index" asp-route-mode="event"><i class="lni lni-alarm"></i> Event</a></li>
+                            <li><a id="media-bt" asp-page="/Admin/Index" asp-route-mode="media"><i class="lni lni-image"></i> Media</a></li>
+                            <li><a id="rank-bt" asp-page="/Admin/Index" asp-route-mode="rank"><i class="lni lni-radio-button"></i> Ranking</a></li>
+                            <li><a id="rank-part-bt" asp-page="/Admin/Index" asp-route-mode="rank_part"><i class="lni lni-users"></i> Ranking Participants</a></li>
+                            <li><a id="sport-type-bt" asp-page="/Admin/Index" asp-route-mode="sport_type"><i class="lni lni-grid-alt"></i> Sport Type</a></li>
+                            <li><a id="staff-bt" asp-page="/Admin/Index" asp-route-mode="staff"><i class="lni lni-user"></i> Staff</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="edit_area" class="col-lg-8 col-12">
+                    <div class="admin-items">
+                        <form enctype="multipart/form-data" method="post" asp-route-mode="@ViewData["mode"]">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="AppUser.Id" />
+                            <div class="single-inner">
+
+                                <div class="grid">
+                                    <input type="hidden" asp-for="GenerateImg" />
+                                    <div class="col-lg-4 col-md-5 col-sm-6">
+                                        <div id="uploadBtn" class="button" style="display: none;">
+                                            <a style="margin-bottom: 2%;" class="btn file-btn">
+                                                <span>Choose an image</span>
+                                                <input id="uploadInput" type="file" asp-for="ProfilePhoto" onchange="readURL(this);" value="Choose a file" accept="image/*" />
+                                            </a>
+                                        </div>
+                                        <div id="removeBtn" class="button mb-10">
+                                            <button type="button" class="btn mouse-dir white-bg" onclick="removeUpload()">Delete <span id="img-text"></span></button>
+                                        </div>
+                                        <div class="post-thumbnils">
+                                            <img id="uploadedImg" src="@Model.AppUser.ProfilePhotoPath" alt="@Model.AppUser.UserName cover photo" style="width: 100%;">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="staff-details">
+                                    <div class="detail-inner">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">User Name</label>
+                                                    <input asp-for="AppUser.UserName" class="form-control" />
+                                                    <span asp-validation-for="AppUser.UserName" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-3 col-6 mt-20">
+                                                <div class="form-group form-check">
+                                                    <label class="control-label">Is Admin?</label>
+                                                    <input type="checkbox" asp-for="IsAdmin" class="form-check-input" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-3 col-6 mb-30 mt-20">
+                                                <div class="form-group form-check">
+                                                    <label class="control-label">Is Blocked?</label>
+                                                    <input type="checkbox" asp-for="AppUser.IsBlocked" class="form-check-input" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6 col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">First Name</label>
+                                                    <input asp-for="AppUser.FirstName" class="form-control" />
+                                                    <span asp-validation-for="AppUser.FirstName" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6 col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Last Name</label>
+                                                    <input asp-for="AppUser.LastName" class="form-control" />
+                                                    <span asp-validation-for="AppUser.LastName" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-3 mx-auto">
+                                            <div class="button form-group mt-5">
+                                                <input type="submit" value="Edit" class="btn" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+
+        @*var actualMode = @ViewData["mode"];
+        $(document).ready(function () {
+            if (actualMode == "admin") {
+                $('#admin-bt').addClass("active");
+            }
+            else if (actualMode == "blocked") {
+                $('#blocked-bt').addClass("active");
+            }
+            else if (actualMode == "plain") {
+                $('#plain-bt').addClass("active");
+            }
+        });*@
+
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#uploadBtn').hide();
+
+                    $('#uploadedImg').attr('src', e.target.result);
+                    $('.post-thumbnils').show();
+                    $('#removeBtn').show();
+
+                    $('#img-text').html(input.files[0].name);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+
+            } else {
+                removeUpload();
+            }
+        }
+        function removeUpload() {
+            $('#uploadInput').replaceWith($('#uploadInput').clone());
+            $('#removeBtn').hide();
+            $('.post-thumbnils').hide();
+            $('#uploadBtn').show();
+        }
+    </script>
+}

@@ -1,0 +1,103 @@
+﻿@page
+@using Core.Entities.BlogModel
+@model WUCSA.Web.Pages.Admin.StaticPages.CreateModel
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = "Create Static Page";
+    Layout = "_Layout";
+}
+
+@section CSS {
+    <link rel="stylesheet" href="~/css/post_style.css" />
+    <link href="https://cdn.syncfusion.com/ej2/material.css" rel="stylesheet" />
+    <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js"></script>
+}
+
+<div class="breadcrumbs overlay">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title">Create new Static Page</h1>
+                </div>
+                <ul class="breadcrumb-nav">
+                    <li><a asp-area="" asp-page="./Index">Admin Panel</a></li>
+                    <li><a asp-page="./StaticPage/List">Static Page List</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="section blog-single">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <form onsubmit="setimg()" enctype="multipart/form-data" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="single-inner">
+                        <div class="post-details">
+                            <div class="detail-inner">
+                                <div class="form-group">
+                                    <label asp-for="Input.Blog.StaticPage" class="control-label"></label>
+                                    <select class="select" asp-for="Input.Blog.StaticPage" asp-items="Html.GetEnumSelectList<StaticPage>()">
+                                        <option value="" selected disabled>@Localizer["Please select Type of Static Page"]</option>
+                                    </select>
+                                    <span asp-validation-for="Input.Blog.StaticPage" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Input.Blog.Title" class="control-label"></label>
+                                    <input asp-for="Input.Blog.Title" class="form-control" />
+                                    <span asp-validation-for="Input.Blog.Title" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Input.Blog.TitleRu" class="control-label"></label>
+                                    <input asp-for="Input.Blog.TitleRu" class="form-control" />
+                                    <span asp-validation-for="Input.Blog.TitleRu" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Input.Blog.TitleUz" class="control-label"></label>
+                                    <input asp-for="Input.Blog.TitleUz" class="form-control" />
+                                    <span asp-validation-for="Input.Blog.TitleUz" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mt-4">
+                                    <label asp-for="Input.Blog.Content" class="control-label"></label>
+                                    <span asp-validation-for="Input.Blog.Content" class="text-danger"></span>
+                                    <ejs-richtexteditor id="rich_texteditor" ejs-for="Input.Blog.Content" height="300">
+                                        <e-richtexteditor-toolbarsettings items="@ViewData["toolbar"]" enableFloating="true">
+                                        </e-richtexteditor-toolbarsettings>
+                                    </ejs-richtexteditor>
+                                </div>
+                                <div class="form-group mt-4">
+                                    <label asp-for="Input.Blog.ContentRu" class="control-label"></label>
+                                    <span asp-validation-for="Input.Blog.ContentRu" class="text-danger"></span>
+                                    <ejs-richtexteditor id="rich_texteditor_ru" ejs-for="Input.Blog.ContentRu" height="300">
+                                        <e-richtexteditor-toolbarsettings items="@ViewData["toolbar"]" enableFloating="true">
+                                        </e-richtexteditor-toolbarsettings>
+                                    </ejs-richtexteditor>
+                                </div>
+                                <div class="form-group mt-4">
+                                    <label asp-for="Input.Blog.ContentUz" class="control-label"></label>
+                                    <span asp-validation-for="Input.Blog.ContentUz" class="text-danger"></span>
+                                    <ejs-richtexteditor id="rich_texteditor_uz" ejs-for="Input.Blog.ContentUz" height="300">
+                                        <e-richtexteditor-toolbarsettings items="@ViewData["toolbar"]" enableFloating="true">
+                                        </e-richtexteditor-toolbarsettings>
+                                    </ejs-richtexteditor>
+                                </div>
+                                <div class="form-group mt-20">
+                                    <label asp-for="Input.Tags" class="control-label"></label>
+                                    <label class="font-weight-light">&nbsp;(<span class="font-weight-bold text-danger">*</span>Do not duplicate tag names)</label>
+                                    <input asp-for="Input.Tags" class="form-control" />
+                                    <span asp-validation-for="Input.Tags" class="text-danger"></span>
+                                </div>
+                                <div class="button form-group mt-4">
+                                    <input type="submit" value="Create" class="btn" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

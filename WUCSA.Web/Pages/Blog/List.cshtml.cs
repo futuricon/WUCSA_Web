@@ -31,6 +31,7 @@ namespace WUCSA.Web.Pages.Blog
         {
             RCName = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.UICulture.Name;
             var blogs = _blogRepository.GetAll<Core.Entities.BlogModel.Blog>().Where(i=>i.IsDeleted == false);
+
             if (!string.IsNullOrEmpty(SearchString))
             {
                 blogs = blogs.Where(s => s.Title.Contains(SearchString) || 

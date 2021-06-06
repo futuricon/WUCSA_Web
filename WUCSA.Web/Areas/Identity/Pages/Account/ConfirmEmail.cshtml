@@ -35,7 +35,7 @@
 
         .logout-success .success-content h1 {
             font-size: 40px;
-            color: #2042e3;
+            color: #268ECE;
             margin-bottom: 10px;
             font-weight: 700
         }
@@ -56,13 +56,13 @@
                 <div class="success-content">
                     <h1>@ViewData["Title"]</h1>
                     @*<partial name="_StatusMessage" model="Model.StatusMessage" />*@
-                <p>
-                    @if (!String.IsNullOrEmpty(Model.StatusMessage))
-                    {
-                        @Model.StatusMessage
-                    }
-                </p>
-                    <div class="button">
+                    <h2>
+                        @if (!String.IsNullOrEmpty(Model.StatusMessage))
+                        {
+                            @Model.StatusMessage
+                        }
+                    </h2>
+                    <div class="button mt-10">
                         <a asp-area="" asp-page="/Index" class="btn">@Localizer["Go To Home"]</a>
                     </div>
                 </div>

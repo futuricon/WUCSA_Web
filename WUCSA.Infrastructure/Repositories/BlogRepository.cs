@@ -64,6 +64,11 @@ namespace WUCSA.Infrastructure.Repositories
             return UpdateAsync(blog);
         }
 
+        public Task UpdateCommentAsync(Comment comment)
+        {
+            return UpdateAsync(comment);
+        }
+
         public async Task DeleteCommentAsync(Comment comment, bool saveChanges = true)
         {
             await RemoveChildrenCommentsAsync(comment);

@@ -77,9 +77,9 @@ namespace WUCSA.Web.Pages.Event
                     {
                         _pdfFileHelper.DeleteFile(Event.RulesFilePath, "events");
                     }
-                    if (Event.RulesFilePath != null)
+                    if (Event.EventPartsFilePath != null)
                     {
-                        _pdfFileHelper.DeleteFile(Event.RulesFilePath, "events");
+                        _pdfFileHelper.DeleteFile(Event.EventPartsFilePath, "events");
                     }
                     await _eventRepository.DeleteEventAsync(Event);
                 }
