@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
@@ -19,41 +20,33 @@ namespace WUCSA.Web.Pages
             _emailService = emailService;
         }
 
-        [Required]
-        [BindProperty]
-        public string MsgContent { get; set; }
-
-        [Required]
-        [BindProperty]
-        public string MsgSubject { get; set; }
-
-        [Required]
-        [BindProperty]
-        public string AuthorName { get; set; }
-
-        [Required]
-        [BindProperty]
-        [DataType(DataType.EmailAddress, ErrorMessage = "Invalid email address")]
-        public string AuthorEmail { get; set; }
-
-        [BindProperty]
-        [DataType(DataType.PhoneNumber, ErrorMessage = "Invalid phone number")]
-        public string AuthorPhoneNum { get; set; }
-
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostMessageAsync(string authorName, string authorEmail, string authorPhone, string msgSubject, string msgContent)
         {
-           
-            if (string.IsNullOrWhiteSpace(MsgContent))
+            var user = await _userManager.GetUserAsync(User);
+            if (string.IsNullOrWhiteSpace(msgContent) || string.IsNullOrWhiteSpace(authorEmail))
             {
-                ModelState.AddModelError("Content", "Empty content");
-                return Page();
+                return BadRequest($"Something went wrong!");
             }
 
-            string TGMsg = $"Hi. There is new message from {AuthorName}.\nE-mail:   {AuthorEmail}\nPhone number:   {AuthorPhoneNum}\nSubject: {MsgSubject}\nContent:   {MsgContent}";
+            var RCName = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.UICulture.Name;
+
+            if (user != null)
+            {
+                authorName = user.UserName + " (wucsa.com User)";
+            }
+
+            string TGMsg = $"Hi. There is new message from {authorName}.\nE-mail:   {authorEmail}\nPhone number:   {authorPhone}\nSubject: {msgSubject}\nContent:   {msgContent}";
 
             await _emailService.SendToAllTGAsync(TGMsg);
 
-            return Page();
+            var responce = RCName switch
+            {
+                "ru" => "Ваше письмо успешно отправлено!",
+                "uz" => "Sizning xatingiz muvaffaqiyatli yuborildi !",
+                _ => "Your email has been successfully sent!",
+            };
+
+            return new OkObjectResult(responce);
         }
     }
 }

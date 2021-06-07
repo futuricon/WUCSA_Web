@@ -52,10 +52,10 @@
                     <div class="inner-content">
                         <div class="hero-text">
                             <h1 class="wow fadeInUp" data-wow-delay=".3s">
-                                World Usmanov's<br>Combat Systems<br>Association
+                                WORLD USMANOV'S<br>COMBAT SYSTEM<br>ASSOCIATION
                             </h1>
                             <p class="wow fadeInUp" data-wow-delay=".5s">
-                                Creating a beautiful job website is not easy <br> always. To make your life easier, we are<br> introducing Jobcamp template.
+                                Non-Entrepreneurial (Non-Commercial) Legal Entity
                             </p>
                         </div>
                     </div>
@@ -95,8 +95,8 @@
 <!-- /End Call Action Area -->
 <!-- Start Staff Area -->
 <section class=" testimonials">
-    <img class="patern1 wow fadeInRight" data-wow-delay=".3s" src="assets/images/gal/patern1.png" alt="#" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInRight;">
-    <img class="patern2 wow fadeInLeft" data-wow-delay=".5s" src="assets/images/gal/patern1.png" alt="#" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInLeft;">
+    <img class="patern1 wow fadeInRight" data-wow-delay=".3s" src="~/images/hero/patern1.png" alt="#" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInRight;">
+    <img class="patern2 wow fadeInLeft" data-wow-delay=".5s" src="~/images/hero/patern1.png" alt="#" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInLeft;">
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -128,7 +128,7 @@
                                                     <div class="testimonial-img mx-auto">
                                                         <img class="resize-img" src="@staff.ProfilePhotoPath" alt="@staff.FirstName">
                                                     </div>
-                                                    <a href="#">
+                                                    <a asp-page="/Staff/Index" asp-route-slug="@staff.Slug">
                                                         <h4 class="name">
                                                             @staff.FirstName @staff.LastName
                                                             <span>
@@ -392,7 +392,7 @@
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-6">
                                     <div class="wow fadeInRight" data-wow-delay=".3s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInRight;">
-                                        <a href="#">
+                                        <a asp-page="/Gallery/Index">
                                             <div class="media-body">
                                                 <i class="lni lni-grid-alt"></i>
                                                 <h6 class="">@Localizer["See More"]</h6>

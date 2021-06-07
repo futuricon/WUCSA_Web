@@ -159,40 +159,36 @@
         <div class="contact-head wow fadeInUp mt-lg-5 mt-4 mb-5" data-wow-delay=".4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">
             <div class="row">
                 <div class="form-main">
-                    <form class="form" method="post">
+                    <form id="MsgForm" class="form" method="post">
                         <div class="row">
                             <div class="col-lg-6 col-12">
                                 <div class="form-group">
-                                    <input type="text" asp-for="@Model.AuthorName" placeholder="Your Name" required="required">
-                                    <span class="text-danger" asp-validation-for="@Model.AuthorName"></span>
+                                    <input type="text" id="AuthorName" placeholder="@Localizer["Your Name"]" required="required">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-12">
                                 <div class="form-group">
-                                    <input type="text" asp-for="@Model.MsgSubject" placeholder="Your Subject" required="required">
-                                    <span class="text-danger" asp-validation-for="@Model.MsgSubject"></span>
+                                    <input type="text" id="MsgSubject" placeholder="@Localizer["Your Subject"]" required="required">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-12">
                                 <div class="form-group">
-                                    <input type="email" asp-for="@Model.AuthorEmail" placeholder="Your Email" required="required">
-                                    <span class="text-danger" asp-validation-for="@Model.AuthorEmail"></span>
+                                    <input type="email" id="AuthorEmail" placeholder="@Localizer["Your Email"]" required="required">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-12">
                                 <div class="form-group">
-                                    <input type="tel" asp-for="@Model.AuthorPhoneNum" placeholder="Your Phone" required="required">
+                                    <input type="tel" id="AuthorPhoneNum" placeholder="@Localizer["Your Phone"]" required="required">
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-group message">
-                                    <span asp-validation-for="@Model.MsgContent" class="text-danger"></span>
-                                    <textarea asp-for="@Model.MsgContent" placeholder="Your Message"></textarea>
+                                    <textarea id="MsgContent" placeholder="@Localizer["Your Message"]" required="required"></textarea>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-group button">
-                                    <button type="submit" class="btn ">Submit Message</button>
+                                    <button type="submit" class="btn">Submit Message</button>
                                 </div>
                             </div>
                         </div>
@@ -208,5 +204,34 @@
 
     <script>
         document.getElementById("header_contacts_id").className = "active";
+
+
+        $("#MsgForm").submit(function (e) {
+            e.preventDefault();
+            var authorName = $('#AuthorName').val();
+            var authorEmail = $('#AuthorEmail').val();
+            var authorPhone = $('#AuthorPhone').val();
+            var msgSubject = $('#MsgSubject').val();
+            var msgContent = $('#MsgContent').val();
+            $.ajax({
+                type: "POST",
+                url: "/Contact?handler=Message",
+                data: {
+                    authorName: authorName,
+                    authorEmail: authorEmail,
+                    authorPhone: authorPhone,
+                    msgSubject: msgSubject,
+                    msgContent: msgContent
+                },
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("XSRF-TOKEN",
+                        $('input:hidden[name="__RequestVerificationToken"]').val());
+                },
+                success: function (result){
+                    $('#MsgForm').trigger("reset");
+                    alert(result);
+                }
+            });
+        });
     </script>
 }

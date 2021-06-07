@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Authentication;
 using WUCSA.Web.Utils;
 using WUCSA.Web.Resources;
 using WUCSA.Core.Interfaces;
@@ -154,14 +153,16 @@ namespace WUCSA.Web
             services.AddAuthentication()
             .AddGoogle(options =>
             {
-                options.ClientId = Configuration["Authentication:Google:ClientId"];
-                options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                var googleAuthNSection = Configuration.GetSection("Authentication:Google");
+                options.ClientId = googleAuthNSection["ClientId"];
+                options.ClientSecret = googleAuthNSection["ClientSecret"];
                 options.AccessDeniedPath = "/AccessDeniedPathInfo";
             })
             .AddFacebook(options =>
             {
-                options.AppId = Configuration["Authentication:Facebook:AppId"];
-                options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                var facebookAuthSection = Configuration.GetSection("Authentication:Facebook");
+                options.AppId = facebookAuthSection["AppId"];
+                options.AppSecret = facebookAuthSection["AppSecret"];
                 options.AccessDeniedPath = "/AccessDeniedPathInfo";
             });
         }

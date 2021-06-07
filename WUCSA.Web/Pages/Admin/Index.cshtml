@@ -22,7 +22,7 @@
                             <li><a id="blocked-bt" asp-page="./Users/Index" asp-route-mode="blocked"><i class="lni lni-lock-alt"></i> Blocked Users</a></li>
                             <li><a id="plain-bt" asp-page="./Users/Index" asp-route-mode="plain"><i class="lni lni-empty-file"></i> Plain Users</a></li>
                             <li class="heading">Manage Static Pages</li>
-                            <li><a id="static-page-bt" asp-page="/Admin/Index" asp-route-mode="static_page"><i class="lni lni-star-website"></i> Static Pages</a></li>
+                            <li><a id="static-page-bt" asp-page="/Admin/Index" asp-route-mode="static_page"><i class="lni lni-code-alt"></i> Static Pages</a></li>
                             <li class="heading">Manage Recycle Bin</li>
                             <li><a id="blog-bt" asp-page="/Admin/Index" asp-route-mode="blog"><i class="lni lni-clipboard"></i> Blog</a></li>
                             <li><a id="event-bt" asp-page="/Admin/Index" asp-route-mode="event"><i class="lni lni-alarm"></i> Event</a></li>
@@ -34,7 +34,7 @@
                         </ul>
                     </div>
                 </div>
-                @switch (ViewData["mod"])
+                @switch (ViewData["mode"])
                 {
                     case "event":
                         <!-- Start Event Area-->

@@ -3,8 +3,11 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="google-site-verification" content="JmIy22tH1TKAXaj9UXzeJv2ShQ79yWKXO8obJeustgc" />
+    <meta name="yandex-verification" content="29cc5b29cf59937a" />
     @await RenderSectionAsync("Head", required: false).ConfigureAwait(false)
     <title>@ViewData["Title"] - WUCSA</title>
+
     <link rel="shortcut icon" type="image/x-icon" href="~/images/favicon.ico" />
 
     <!-- Web Font -->
@@ -49,7 +52,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-12">
                         <nav class="navbar navbar-expand-lg">
-                            <a class="navbar-brand logo" href="index.html">
+                            <a class="navbar-brand logo" asp-area="" asp-page="/Index">
                                 <img class="logo1" src="~/images/logo/logo.svg" alt="Logo" />
                             </a>
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -63,7 +66,7 @@
                                 <ul id="nav" class="navbar-nav ml-auto">
                                     <li class="nav-item"><a is-active-page id="header_home_id" asp-area="" asp-page="/Index">Home</a></li>
                                     <li class="nav-item">
-                                        <a is-active-page id="header_about_id" asp-page="/About">About</a>
+                                        <a is-active-page id="header_about_id" asp-area="" asp-page="/About">About</a>
                                         <ul class="sub-menu">
                                             <li><a is-active-page id="header_history_id" asp-page="/History">History</a></li>
                                             <li><a is-active-page id="header_members_id" asp-page="/Staff/List">Staff & Members</a></li>
