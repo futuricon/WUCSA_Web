@@ -108,7 +108,7 @@ namespace WUCSA.Web
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
 
@@ -154,12 +154,8 @@ namespace WUCSA.Web
             services.AddAuthentication()
             .AddGoogle(options =>
             {
-                IConfigurationSection googleAuthNSection =
-                    Configuration.GetSection("Authentication:Google");
-
-                options.ClientId = googleAuthNSection["ClientId"];
-                options.ClientSecret = googleAuthNSection["ClientSecret"];
-                options.ClaimActions.MapJsonKey("image", "picture");
+                options.ClientId = Configuration["Authentication:Google:ClientId"];
+                options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
                 options.AccessDeniedPath = "/AccessDeniedPathInfo";
             })
             .AddFacebook(options =>

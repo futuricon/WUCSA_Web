@@ -24,7 +24,7 @@ namespace WUCSA.Infrastructure.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=WUCSA_DB;Trusted_Connection=True;MultipleActiveResultSets=true")
+                optionsBuilder.UseSqlServer("Server=wpl44.hosting.reg.ru;Database=u1389318_wucsa_db;User Id=u1389318_wucsa_user;Password=Vksuhrob19962514#;")
                     .UseLazyLoadingProxies();
             }
         }

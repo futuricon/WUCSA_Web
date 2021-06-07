@@ -22,23 +22,33 @@
             break;
     }
 }
-
 @section Head {
-    @{ 
+    @{
         var imgUrl = $"https://wucsa.com{Model.Event.CoverPhotoPath}";
-        var articleUrl = $"https://wucsa.net/Event/{Model.Event.Slug}";
-     }
+        var eventUrl = $"http://wucsa.com/Event/{Model.Event.Slug}";
+        var shortContent = Core.Entities.EventModel.Event.GetShortContent(Model.Event.Description, 200);
+    }
 
-    <meta name="keywords" content="@eventInfo" />
+    <meta name="author" content="@Model.Event.Author" />
+    <meta name="description" content="@shortContent" />
+    <meta name="keywords" content="@ViewData["key_words"]" />
     <meta name="image" content="@imgUrl" />
-    <meta property="og:title" content="@eventName" />
-    <meta property="og:site_name" content="WUCSA" />
-    <meta property="og:type" content="event" />
+
+    <meta property="og:url" content="@eventUrl" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="@Model.Event.Title" />
+    <meta property="og:site_name" content="WUCSA Blog" />
+    <meta property="og:description" content="@shortContent" />
     <meta property="og:image" content="@imgUrl" />
-    <meta property="og:url" content="@articleUrl" />
-    <meta property="event:date" content="@Model.Event.EventDate" />
-    <meta name="twitter:title" content="@eventName" />
+
+    <meta property="article:published_time" content="@Model.Event.PostedDate" />
+    <meta property="article:author" content="@Model.Event.Author" />
+    <meta property="article:tags" content="@ViewData["key_words"]" />
+
+    <meta name="twitter:title" content="@Model.Event.Title" />
     <meta name="twitter:site" content="WUCSA Event" />
+    <meta name="twitter:description" content="@shortContent" />
+    <meta name="twitter:creator" content="@Model.Event.Author" />
     <meta name="twitter:image" content="@imgUrl" />
 }
 
@@ -197,7 +207,7 @@
 
                         </div>
                     </div>
-                    
+
                     <div class="widget popular-tag-widget">
                         <h5 class="widget-title"><span>Facebook</span></h5>
                         <div id="fb-root"></div>

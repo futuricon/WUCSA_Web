@@ -36,6 +36,8 @@ namespace WUCSA.Web.Pages.Event
                 return NotFound();
             }
 
+            ViewData["key_words"] = string.Join(",", Event.EventSportTypes.Select(i=>i.SportType.Name).ToArray());
+
             return Page();
         }
     }

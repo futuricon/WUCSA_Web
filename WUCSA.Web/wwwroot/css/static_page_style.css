@@ -1,37 +1,37 @@
 ﻿@import url(colors_style.css);
 
-.privacy-policy {
+.static-page {
     background-color: #f6f9fc
 }
 
-    .privacy-policy .policy-inner {
+    .static-page .page-inner {
         padding: 40px;
         border-radius: 6px;
         border: 1px solid #eee;
         background-color: #fff
     }
 
-    .privacy-policy .policy-details-body h6 {
+    .static-page .page-details-body h6 {
         font-size: 20px
     }
 
-    .privacy-policy .policy-details-body p {
+    .static-page .page-details-body p {
         margin: 20px 0;
         line-height: 26px
     }
 
-    .privacy-policy .policy-details-body ul {
+    .static-page .page-details-body ul {
         margin-left: 10px
     }
 
-        .privacy-policy .policy-details-body ul li {
+        .static-page .page-details-body ul li {
             display: block;
             margin-bottom: 8px;
             position: relative;
             padding-left: 15px
         }
 
-            .privacy-policy .policy-details-body ul li::before {
+            .static-page .page-details-body ul li::before {
                 position: absolute;
                 content: "";
                 left: 0;
@@ -40,9 +40,9 @@
                 width: 6px;
                 display: block;
                 border-radius: 50%;
-                background-color: var( --main-blue-color);
+                background-color: var(--main-blue-color);
             }
 
-            .privacy-policy .policy-details-body ul li:last-child {
+            .static-page .page-details-body ul li:last-child {
                 margin-bottom: 0
             }

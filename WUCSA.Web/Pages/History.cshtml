@@ -5,7 +5,8 @@
     ViewData["Title"] = Localizer["History"];
 }
 @section CSS {
-    <link rel="stylesheet" href="~/css/privacy_style.css" />
+    <link rel="stylesheet" href="~/css/static_page_style.css" />
+    <link href="https://cdn.syncfusion.com/ej2/ej2-richtexteditor/styles/material.css" rel="stylesheet" />
 }
 <div class="breadcrumbs overlay">
     <div class="container">
@@ -20,9 +21,42 @@
                     @if (User.IsInRole("SuperAdmin"))
                     {
                         <li><a asp-page="/Admin/StaticPages/Create">@Localizer["Add new History Page"]</a></li>
-                        <li><a asp-page="/Admin/StaticPages/Edit" asp-route-id="">@Localizer["Edit this History Page"]</a></li>
+                        <li><a asp-page="/Admin/StaticPages/Edit" asp-route-id="@Model.Blog.Id">@Localizer["Edit this History Page"]</a></li>
                     }
                 </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="static-page section">
+    <div class="container">
+        <div class="row mb-n5">
+            <div class="col-lg-10 offset-lg-1 col-12">
+                <div class="page-inner">
+                    <div class="page-details-body">
+                        @if (Model.Blog == null)
+                        {
+                            <h4>@Localizer["Empty :D"]</h4>
+                        }
+                        else
+                        {
+                            @switch (Model.RCName)
+                            {
+                                case "ru":
+                                    @Html.Raw(Model.Blog.ContentRu)
+                                    break;
+                                case "uz":
+                                    @Html.Raw(Model.Blog.ContentUz)
+                                    break;
+                                default:
+                                    @Html.Raw(Model.Blog.Content)
+                                    break;
+                            }
+                        }
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>

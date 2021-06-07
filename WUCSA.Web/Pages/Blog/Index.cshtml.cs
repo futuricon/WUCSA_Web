@@ -63,6 +63,7 @@ namespace WUCSA.Web.Pages.Blog
             await _blogRepository.UpdateBlogAsync(Blog);
             Comments = PaginatedList<Comment>.Create(Blog.Comments, pageIndex);
             PageIndex = pageIndex;
+            var x = System.Web.HttpUtility.UrlEncode("https://wucsa.com/Blog/"+Blog.Slug);
             ViewData.Add("PageIndex", PageIndex);
             ViewData.Add("BlogSlug", blogSlug);
         }
