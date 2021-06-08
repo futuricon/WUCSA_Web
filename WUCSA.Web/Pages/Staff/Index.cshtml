@@ -7,8 +7,8 @@
 }
 
 @section Head {
-    @{ var imgUrl = $"https://wucsa.com{Model.Staff.ProfilePhotoPath}";
-        var staffUrl = $"https://wucsa.net/staff/{Model.Staff.Slug}";
+    @{ var imgUrl = $"http://wucsa.com{Model.Staff.ProfilePhotoPath}";
+        var staffUrl = $"http://wucsa.net/staff/{Model.Staff.Slug}";
         }
 
     <meta name="staff" content="@Model.Staff.FirstName @Model.Staff.LastName" />
@@ -103,7 +103,7 @@
                         </div>
 
                         <div class="single-section">
-                            <h4>About</h4>
+                            <h4>@Localizer["About"]</h4>
                             <p class="font-size-4 mb-8">
                                 @switch (Model.RCName)
                                 {
@@ -118,13 +118,12 @@
                                         break;
                                 }
                             </p>
-                            <p class="font-size-4 mb-8">Programming Languages: C/C++, .NET C++, Python, Bash, Shell, PERL, Regular expressions, Python, Active-script.</p>
                         </div>
 
                         @if (Model.Staff.Certificates.Count > 0)
                         {
                             <div class="single-section exprerience">
-                                <h4>Certificates</h4>
+                                <h4>@Localizer["Certificates"]</h4>
 
                                 <div class="row grid">
 
@@ -147,7 +146,7 @@
 
                         <div class="single-section">
                             <div class="content-right">
-                                <h5 class="title-main">Contact Info</h5>
+                                <h5 class="title-main">@Localizer["Contact Info"]</h5>
 
                                 <div class="single-list">
                                     <h5 class="title">@Localizer["Address"]</h5>

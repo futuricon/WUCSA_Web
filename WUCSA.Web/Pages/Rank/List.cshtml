@@ -13,6 +13,7 @@
 }
 
 @section CSS {
+    <link rel="canonical" href="http://wucsa.com/rank/list/world/man" />
     <link rel="stylesheet" href="~/css/rank_style.css" />
 }
 
@@ -45,17 +46,17 @@
                 <form method="get">
                     <div class="row">
                         <div class="col-lg-5 col-md-5 col-xs-12 mt-15">
-                            <label class="control-label">Location</label>
+                            <label class="control-label">@Localizer["Location"]</label>
                             <select class="select" asp-for="SelectedLocation" asp-items="@Model.LocationOptions">
                             </select>
                         </div>
                         <div class="col-lg-5 col-md-5 col-xs-12 mt-15">
-                            <label class="control-label">Gender</label>
+                            <label class="control-label">@Localizer["Gender"]</label>
                             <select class="select" asp-for="SelectedGender" asp-items="@Model.GenderOptions">
                             </select>
                         </div>
                         <div class="col-lg-2 col-md-2 col-xs-12 mt-35 button" style="display: flex; align-items: center;">
-                            <button type="submit" class="btn btn-common float-right">Sort</button>
+                            <button type="submit" class="btn btn-common float-right">@Localizer["Sort"]</button>
                         </div>
                     </div>
                 </form>
@@ -98,17 +99,20 @@
                             </p>
                             <ul>
                                 <li><i class="lni lni-calendar"></i> @rank.RankDate.ToString("dd MMMM, yyyy")</li>
-
-                                <li><a asp-page="/Rank/Edit" asp-route-Id="@rank.Id"><i class="lni lni-pencil"></i> Edit</a></li>
-                                <li>
-                                    <a asp-page="/Rank/Delete" asp-route-Id="@rank.Id"><i class="lni lni-trash"></i></a>
-                                </li>
-
+                                @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                                {
+                                    <li>
+                                        <a asp-page="/Rank/Edit" asp-route-Id="@rank.Id"><i class="lni lni-pencil"></i> @Localizer["Edit"]</a>
+                                    </li>
+                                    <li>
+                                        <a asp-page="/Rank/Delete" asp-route-Id="@rank.Id"><i class="lni lni-trash"></i></a>
+                                    </li>
+                                }
                             </ul>
                         </div>
                         <div class="rank-button">
                             <ul>
-                                <li><a asp-page="/Rank/Index" asp-route-slug="@rank.Slug">More</a></li>
+                                <li><a asp-page="/Rank/Index" asp-route-slug="@rank.Slug">@Localizer["More"]</a></li>
                             </ul>
                         </div>
                     </div>

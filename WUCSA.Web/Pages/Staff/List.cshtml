@@ -13,6 +13,7 @@
 }
 
 @section CSS{
+    <link rel="canonical" href="http://wucsa.com/staff" />
     <link rel="stylesheet" href="~/css/staff_style.css" />
 }
 
@@ -153,7 +154,7 @@
                                     </div>
 
                                     <div class="button">
-                                        <a asp-page="/Staff/Index" asp-route-slug="@Staff.Slug" class="btn">Read More</a>
+                                        <a asp-page="/Staff/Index" asp-route-slug="@Staff.Slug" class="btn">@Localizer["Read More"]</a>
                                     </div>
 
                                 </div>
@@ -163,9 +164,9 @@
                 </div>
             }
         </div>
-        <div class="resume-inner">
+        @*<div class="resume-inner">
             
-        </div>
+        </div>*@
         
     </div>
 </div>

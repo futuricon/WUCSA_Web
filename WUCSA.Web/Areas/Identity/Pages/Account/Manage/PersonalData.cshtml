@@ -1,14 +1,15 @@
 ﻿@page
 @model PersonalDataModel
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Personal Data";
+    ViewData["Title"] = Localizer["Personal Data"];
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
 }
 
 <div class="personal-top-content">
     <div class="row">
         <div>
-            <h4 style="font-size: 20px" class="mb-40">Your account contains personal data that you have given us. This page allows you to delete that data.</h4>
+            <h4 style="font-size: 20px" class="mb-40">@Localizer["Your account contains personal data that you have given us. This page allows you to delete that data."]</h4>
         </div>
         <div class="col-lg-5 col-md-5 col-12">
             <div class="name-head">
@@ -25,17 +26,17 @@
         <div class="col-lg-7 col-md-7 col-12">
             <div class="content-right">
                 <div class="single-list">
-                    <h5 class="title">Username</h5>
+                    <h5 class="title">@Localizer["Username"]</h5>
                     <p>@Model.UserModel.UserName</p>
                 </div>
 
                 <div class="single-list">
-                    <h5 class="title">E-mail</h5>
+                    <h5 class="title">@Localizer["E-mail"]</h5>
                     <p>@Model.UserModel.Email</p>
                 </div>
 
                 <div class="single-list">
-                    <h5 class="title">Phone</h5>
+                    <h5 class="title">@Localizer["Phone"]</h5>
                     <p>@Model.UserModel.PhoneNumber</p>
                 </div>
 
@@ -45,10 +46,10 @@
 </div>
 
 <div class="single-section skill">
-    <h5>Deleting this data will permanently remove your account, and this cannot be recovered.</h5>
+    <h5>@Localizer["Deleting this data will permanently remove your account, and this cannot be recovered."]</h5>
     <ul class="list-unstyled d-flex align-items-center flex-wrap">
         <li>
-            <a id="delete" asp-page="DeletePersonalData" class="btn">Delete</a>
+            <a id="delete" asp-page="DeletePersonalData" class="btn">@Localizer["Delete"]</a>
         </li>
 
     </ul>

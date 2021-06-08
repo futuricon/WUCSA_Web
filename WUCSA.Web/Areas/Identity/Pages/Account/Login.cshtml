@@ -31,14 +31,14 @@
                                     <div class="form-group">
                                         <label asp-for="Input.Password" class="label"></label>
                                         <div class="position-relative">
-                                            <input asp-for="Input.Password" class="form-control" placeholder="Enter password" />
+                                            <input asp-for="Input.Password" class="form-control" placeholder="@Localizer["Password"]" />
                                         </div>
                                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                                     </div>
                                     <div class="form-group d-flex flex-wrap justify-content-between">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" asp-for="Input.RememberMe">
-                                            <label class="form-check-label" asp-for="Input.RememberMe">Remember Me</label>
+                                            <label class="form-check-label" asp-for="Input.RememberMe">@Localizer["Remember Me"]</label>
                                         </div>
                                         <a asp-page="./ForgotPassword" class="font-size-3 text-dodger line-height-reset">@Localizer["Forgot your password?"]</a>
                                     </div>
@@ -47,7 +47,7 @@
                                             @Localizer["Log in"]
                                         </button>
                                     </div>
-                                    <p class="text-center create-new-account">Don’t have an account? <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">@Localizer["Register as a new user"]</a></p>
+                                    <p class="text-center create-new-account">@Localizer["Don’t have an account?"] <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">@Localizer["Register as a new user"]</a></p>
                                 </form>
                             </div>
                         </div>
@@ -65,7 +65,7 @@
                                             @foreach (var provider in Model.ExternalLogins)
                                             {
                                                 <li>
-                                                    <button type="submit" class="@provider.DisplayName.ToLower() btn" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"><i class="lni lni-@provider.DisplayName.ToLower()"></i> Log in with @provider.DisplayName</button>
+                                                    <button type="submit" class="@provider.DisplayName.ToLower() btn" name="provider" value="@provider.Name" title="@Localizer["Log in using your"] @provider.DisplayName @Localizer["account"]"><i class="lni lni-@provider.DisplayName.ToLower()"></i> @Localizer["Log in with"] @provider.DisplayName</button>
                                                 </li>
                                             }
                                         </ul>

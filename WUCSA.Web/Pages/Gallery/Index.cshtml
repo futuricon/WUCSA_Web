@@ -129,21 +129,21 @@
                         <h5 class="widget-title"><span>Sort By</span></h5>
                         <ul class="custom">
                             <li>
-                                <a asp-page="/Gallery/Index" asp-route-sortBy="Latest" asp-route-tag="@ViewData["tagData"]">Latest</a>
+                                <a asp-page="/Gallery/Index" asp-route-sortBy="Latest" asp-route-tag="@ViewData["tagData"]">@Localizer["Latest"]</a>
                             </li>
                             <li>
-                                <a asp-page="/Gallery/Index" asp-route-sortBy="Popular" asp-route-tag="@ViewData["tagData"]">Popular</a>
+                                <a asp-page="/Gallery/Index" asp-route-sortBy="Popular" asp-route-tag="@ViewData["tagData"]">@Localizer["Popular"]</a>
                             </li>
                             <li>
-                                <a asp-page="/Gallery/Index" asp-route-sortBy="Video" asp-route-tag="@ViewData["tagData"]">Video</a>
+                                <a asp-page="/Gallery/Index" asp-route-sortBy="Video" asp-route-tag="@ViewData["tagData"]">@Localizer["Video"]</a>
                             </li>
                             <li>
-                                <a asp-page="/Gallery/Index" asp-route-sortBy="Images" asp-route-tag="@ViewData["tagData"]">Images</a>
+                                <a asp-page="/Gallery/Index" asp-route-sortBy="Images" asp-route-tag="@ViewData["tagData"]">@Localizer["Images"]</a>
                             </li>
                         </ul>
                     </div>
                     <div class="widget popular-tag-widget">
-                        <h5 class="widget-title"><span>Popular Tags</span></h5>
+                        <h5 class="widget-title"><span>@Localizer["Popular Tags"]</span></h5>
                         <div class="tags">
                             @foreach (var tag in Model.PopularTags)
                             {

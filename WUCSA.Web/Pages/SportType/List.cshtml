@@ -12,6 +12,7 @@
 }
 
 @section CSS {
+    <link rel="canonical" href="http://wucsa.com/sporttype" />
     <link rel="stylesheet" href="~/css/rank_style.css" />
 }
 
@@ -53,7 +54,7 @@
                     <div class="col-lg-3 col-md-6 col-12">
                         <a asp-page="/SportType/Index" asp-route-slug="@sportType.Slug" class="single-cat wow fadeInUp" data-wow-delay=".6s">
                             <div class="icon">
-                                <i class="lni lni-home"></i>
+                                <i class="lni lni-grid-alt"></i>
                             </div>
                             <h3>
                                 @switch (Model.RCName)

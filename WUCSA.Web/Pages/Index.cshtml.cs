@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using WUCSA.Core.Entities.UserModel;
+using WUCSA.Core.Entities.BlogModel;
 using WUCSA.Core.Interfaces.Repositories;
-using WUCSA.Web.Utils;
 
 namespace WUCSA.Web.Pages
 {
@@ -31,12 +28,15 @@ namespace WUCSA.Web.Pages
 
         public string RCName { get; set; }
         public List<Core.Entities.BlogModel.Blog> Blogs { get; set; }
+        public Core.Entities.BlogModel.Blog History { get; set; }
         public List<Core.Entities.EventModel.Event> Events { get; set; }
         public List<Core.Entities.StaffModel.Staff> Staffs { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
             RCName = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.UICulture.Name;
+
+            History = await _blogRepository.GetAsync<Core.Entities.BlogModel.Blog>(i => i.IsDeleted == true && i.StaticPage == StaticPage.History);
             
             var blogs = _blogRepository.GetAll<Core.Entities.BlogModel.Blog>().Where(i => i.IsDeleted == false);
             Blogs = blogs.OrderByDescending(i => i.PostedDate).Take(3).ToList();

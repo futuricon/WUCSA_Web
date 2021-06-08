@@ -106,7 +106,7 @@
                                              }
                                         </p>
                                         <div class="button">
-                                            <a asp-page="/Blog/Index" asp-route-slug="@blog.Slug" class="btn">Read More</a>
+                                            <a asp-page="/Blog/Index" asp-route-slug="@blog.Slug" class="btn">@Localizer["Read More"]</a>
                                         </div>
                                     </div>
                                 </div>
@@ -136,7 +136,7 @@
                     </div>*@
 
                     <div class="widget popular-feeds">
-                        <h5 class="widget-title"><span>Popular Feeds</span></h5>
+                        <h5 class="widget-title"><span>@Localizer["Popular Feeds"]</span></h5>
                         <div class="popular-feed-loop">
                             @foreach (var article in Model.PopularArticles)
                             {
@@ -167,7 +167,7 @@
                     </div>
 
                     <div class="widget popular-tag-widget">
-                        <h5 class="widget-title"><span>Popular Tags</span></h5>
+                        <h5 class="widget-title"><span>@Localizer["Popular Tags"]</span></h5>
                         <div class="tags">
                             @foreach (var tag in Model.PopularTags)
                             {

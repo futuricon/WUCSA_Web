@@ -34,13 +34,6 @@ namespace WUCSA.Web.Pages.Admin.StaticPages
         {
             var blog = await _blogRepository.GetByIdAsync<Core.Entities.BlogModel.Blog>(id);
 
-            if (!User.IsInRole("SuperAdmin"))
-            {
-                if (blog.IsDeleted)
-                {
-                    return NotFound();
-                }
-            }
             Input = new InputModel()
             {
                 Blog = blog,

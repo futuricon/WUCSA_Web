@@ -130,18 +130,18 @@
                                     <h5 class="share-title">Social Share</h5>
                                     <ul class="custom-flex">
                                         <li>
-                                            <a href="#">
+                                            <a id="fb-share" href="#">
+                                                <i class="lni lni-facebook-original"></i>
+                                            </a>
+                                        </li>
+                                        @*<li>
+                                            <a id="tw-share" href="#">
                                                 <i class="lni lni-twitter-original"></i>
                                             </a>
-                                        </li>
+                                        </li>*@
                                         <li>
-                                            <a href="#">
-                                                <i class="lni lni-facebook-oval"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i class="lni lni-instagram"></i>
+                                            <a id="tg-share" href="#">
+                                                <i class="lni lni-telegram-original"></i>
                                             </a>
                                         </li>
                                     </ul>
@@ -226,3 +226,16 @@
         </div>
     </div>
 </section>
+
+@section Scripts { 
+    <script>
+        $(function () {
+            var curentUrl = window.location.href;
+            var encodedUrl = encodeURIComponent(curentUrl);
+            var fbShareUrl = "http://www.facebook.com/share.php?u=" + encodedUrl;
+            var tgShareUrl = "https://t.me/share/url?url=" + encodedUrl;
+            $('#fb-share').attr("href", fbShareUrl);
+            $('#tg-share').attr("href", tgShareUrl);
+        });
+    </script>
+} 

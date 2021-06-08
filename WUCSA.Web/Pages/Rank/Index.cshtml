@@ -63,7 +63,7 @@
                                 }
                             </h5>
                             <ul class="meta">
-                                <li><i class="lni lni-map-marker"></i> Location</li>
+                                <li><i class="lni lni-map-marker"></i> @Localizer["Location"]</li>
                             </ul>
                             <ul class="s-type-meta">
                                 @foreach (var rankSportType in Model.Rank.RankSportTypes)
@@ -167,12 +167,15 @@
                                         </div>
                                     }
                                 </div>
-                                <div class="actionBtn">
-                                    <ul>
-                                        <li><i class="lni lni-pencil"></i><a asp-page="/RankParticipant/Edit" asp-route-rankId="@Model.Rank.Id" asp-route-rankPartId="@rankParticipant.Id"> @Localizer["Edit"]</a></li>
-                                        <li><i class="lni lni-trash"></i><a asp-page="/RankParticipant/Delete" asp-route-rankPartId="@rankParticipant.Id"> @Localizer["Delete"]</a></li>
-                                    </ul>
-                                </div>
+                                @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin")) 
+                                { 
+                                    <div class="actionBtn">
+                                        <ul>
+                                            <li><i class="lni lni-pencil"></i><a asp-page="/RankParticipant/Edit" asp-route-rankId="@Model.Rank.Id" asp-route-rankPartId="@rankParticipant.Id"> @Localizer["Edit"]</a></li>
+                                            <li><i class="lni lni-trash"></i><a asp-page="/RankParticipant/Delete" asp-route-rankPartId="@rankParticipant.Id"> @Localizer["Delete"]</a></li>
+                                        </ul>
+                                    </div>
+                                }
                             }
                         }
 
@@ -198,7 +201,7 @@
                         </div>
                     </div>
 
-                    <div class="sidebar-widget">
+                    @*<div class="sidebar-widget">
                         <div class="inner">
                             <h6 class="title">Instagram</h6>
                             <div id="pixlee_container"></div>
@@ -214,7 +217,7 @@
                             </script>
                             <script src="//instafeed.assets.pxlecdn.com/assets/pixlee_widget_1_0_0.js"></script>
                         </div>
-                    </div>
+                    </div>*@
 
                 </div>
             </div>

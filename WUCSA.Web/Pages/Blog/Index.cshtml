@@ -1,12 +1,12 @@
 ﻿@page "{slug}"
 @model WUCSA.Web.Pages.Blog.IndexModel
-
+@inject IViewLocalizer Localizer
 @{ ViewData["Title"] = Model.Blog.Title;
     Layout = "_Layout"; }
 
 @section Head {
     @{ 
-        var imgUrl = $"https://wucsa.com{Model.Blog.CoverPhotoPath}";
+        var imgUrl = $"http://wucsa.com{Model.Blog.CoverPhotoPath}";
         var articleUrl = $"http://wucsa.com/blog/{Model.Blog.Slug}";
         var shortContent = Core.Entities.BlogModel.Blog.GetShortContent(Model.Blog.Content, 200); 
     }
@@ -46,12 +46,12 @@
                     <h1 class="page-title">@Model.Blog.Title</h1>
                 </div>
                 <ul class="breadcrumb-nav">
-                    <li><a asp-area="" asp-page="/Index">Home</a></li>
-                    <li><a asp-page="/Blog/List">Blog</a></li>
+                    <li><a asp-area="" asp-page="/Index">@Localizer["Home"]</a></li>
+                    <li><a asp-page="/Blog/List">@Localizer["Blog"]</a></li>
                     @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                     {
-                        <li><a asp-page="/Blog/Edit" asp-route-id="@Model.Blog.Id">Edit this Article</a></li>
-                        <li><a asp-page="/Blog/Delete" asp-route-id="@Model.Blog.Id">Delete this Article</a></li>
+                        <li><a asp-page="/Blog/Edit" asp-route-id="@Model.Blog.Id">@Localizer["Edit this Article"]</a></li>
+                        <li><a asp-page="/Blog/Delete" asp-route-id="@Model.Blog.Id">@Localizer["Delete this Article"]</a></li>
                     }
                 </ul>
             </div>
@@ -78,7 +78,18 @@
                     <div class="post-details">
                         <div class="detail-inner">
                             <h2 class="post-title">
-                                @Model.Blog.Title
+                                @switch (Model.RCName)
+                                {
+                                    case "ru":
+                                        @Model.Blog.TitleRu
+                                        break;
+                                    case "uz":
+                                        @Model.Blog.Title
+                                        break;
+                                    default:
+                                        @Model.Blog.Title
+                                        break;
+                                }
                             </h2>
 
                             <ul class="custom-flex post-meta">
@@ -91,22 +102,33 @@
                                 <li>
                                     <a class="a-none">
                                         <i class="lni lni-comments"></i>
-                                        @Model.Comments.Count Comments
+                                        @Model.Comments.Count @Localizer["Comments"]
                                     </a>
                                 </li>
                                 <li>
                                     <a class="a-none">
                                         <i class="lni lni-eye"></i>
-                                        @Model.Blog.ViewCount View
+                                        @Model.Blog.ViewCount @Localizer["View"]
                                     </a>
                                 </li>
                             </ul>
                             <div id="remove_mw">
-                                @Html.Raw(Model.Blog.Content)
+                                @switch (Model.RCName)
+                                {
+                                    case "ru":
+                                        @Html.Raw(Model.Blog.ContentRu)
+                                        break;
+                                    case "uz":
+                                        @Html.Raw(Model.Blog.ContentUz)
+                                        break;
+                                    default:
+                                        @Html.Raw(Model.Blog.Content)
+                                        break;
+                                }
                             </div>
                             <div class="post-tags-media">
                                 <div class="post-tags popular-tag-widget mb-xl-40">
-                                    <h5 class="tag-title">Related Tags</h5>
+                                    <h5 class="tag-title">@Localizer["Related Tags"]</h5>
                                     <div class="tags">
                                         @{
                                             var tags = Model.Blog.BlogTags.Select(i => i.Tag);
@@ -118,18 +140,18 @@
                                     </div>
                                 </div>
                                 <div class="post-social-media">
-                                    <h5 class="share-title">Social Share</h5>
+                                    <h5 class="share-title">@Localizer["Social Share"]</h5>
                                     <ul class="custom-flex">
                                         <li>
                                             <a id="fb-share" href="#">
                                                 <i class="lni lni-facebook-original"></i>
                                             </a>
                                         </li>
-                                        <li>
+                                        @*<li>
                                             <a id="tw-share" href="#">
                                                 <i class="lni lni-twitter-original"></i>
                                             </a>
-                                        </li>
+                                        </li>*@
                                         <li>
                                             <a id="tg-share" href="#">
                                                 <i class="lni lni-telegram-original"></i>
@@ -143,7 +165,7 @@
                         @if (Model.Blog.Comments.Count > 0 && Model.Blog.IsCommentsLocked == false)
                         {
                              <div class="post-comments">
-                                 <h3 class="comment-title"><span>@Model.Blog.Comments.Count comments on this post</span></h3>
+                                 <h3 class="comment-title"><span>@Model.Blog.Comments.Count @Localizer["comments on this post"]</span></h3>
                                  <ul class="comments-list">
                                      @foreach (var comment in Model.Comments)
                                      {
@@ -175,30 +197,30 @@
                             {
 
                                 <div id="respond" class="comment-form">
-                                    <h3 class="comment-reply-title"><span>Leave a comment as a guest or</span><a style="color: #2042e3 !important" asp-area="Identity" asp-page="/Account/Login">Sign In</a></h3>
+                                    <h3 class="comment-reply-title"><span>@Localizer["Leave a comment as a guest or"]</span><a style="color: #2042e3 !important" asp-area="Identity" asp-page="/Account/Login">@Localizer["Sign In"]</a></h3>
                                     <form method="post">
                                         <div class="row">
                                             <div class="col-lg-6 col-12">
                                                 <div class="form-box form-group">
-                                                    <input type="text" asp-for="@Model.CommentAuthorName" required class="form-control form-control-custom" placeholder="Your Name">
+                                                    <input type="text" asp-for="@Model.CommentAuthorName" required class="form-control form-control-custom" placeholder="@Localizer["Your Name"]">
                                                     <span class="text-danger" asp-validation-for="@Model.CommentAuthorName"></span>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-12">
                                                 <div class="form-box form-group">
-                                                    <input type="email" asp-for="@Model.CommentAuthorEmail" required class="form-control form-control-custom" placeholder="Your Email">
+                                                    <input type="email" asp-for="@Model.CommentAuthorEmail" required class="form-control form-control-custom" placeholder="@Localizer["Your Email"]">
                                                     <span class="text-danger" asp-validation-for="@Model.CommentAuthorEmail"></span>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-box form-group">
                                                     <span asp-validation-for="@Model.CommentContent" class="text-danger"></span>
-                                                    <textarea asp-for="@Model.CommentContent" rows="6" class="form-control form-control-custom" placeholder="Your Comments"></textarea>
+                                                    <textarea asp-for="@Model.CommentContent" rows="6" class="form-control form-control-custom" placeholder="@Localizer["Your Comments"]"></textarea>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="button">
-                                                    <button type="submit" class="btn mouse-dir white-bg">Post Comment <span class="dir-part"></span></button>
+                                                    <button type="submit" class="btn mouse-dir white-bg">@Localizer["Post Comment"] <span class="dir-part"></span></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -208,20 +230,20 @@
                             else
                             {
                                 <div id="respond" class="comment-form">
-                                    <h3 class="comment-reply-title"><span>Leave a comment</span></h3>
+                                    <h3 class="comment-reply-title"><span>@Localizer["Leave a comment"]</span></h3>
                                     <form method="post">
                                         <div class="row">
                                             <div class="col-12">
                                                 <span asp-validation-for="@Model.CommentContent" class="text-danger"></span>
                                                 <div class="form-box form-group">
                                                     <textarea asp-for="@Model.CommentContent" rows="6" class="form-control form-control-custom"
-                                                              placeholder="Your Comments"></textarea>
+                                                              placeholder="@Localizer["Your Comments"]"></textarea>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="button">
                                                     <button type="submit" class="btn mouse-dir white-bg">
-                                                        Post Comment <span class="dir-part"></span>
+                                                        @Localizer["Post Comment"] <span class="dir-part"></span>
                                                     </button>
                                                 </div>
                                             </div>
@@ -231,20 +253,20 @@
 
                                 <div id="replyCom-nest" style="display: none;">
                                     <div id="replyCom" class="comment-form">
-                                        <h3 class="comment-reply-title"><span>Leave a comment</span></h3>
+                                        <h3 class="comment-reply-title"><span>@Localizer["Leave a comment"]</span></h3>
                                         <form id="replyComForm" method="post">
                                             <div class="row">
                                                 <div class="col-12">
                                                     <span asp-validation-for="@Model.CommentContent" class="text-danger"></span>
                                                     <div class="form-box form-group">
                                                         <textarea asp-for="@Model.CommentContent" rows="6" class="form-control form-control-custom"
-                                                                  placeholder="Your Comments"></textarea>
+                                                                  placeholder="@Localizer["Your Comments"]"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
                                                     <div class="button">
-                                                        <button type="submit" class="send-btn mouse-dir white-bg mb-3">Post Comment <span class="dir-part"></span></button>
-                                                        <a href="#respond" onclick="prepToFun()" class="cancel-btn mouse-dir white-bg mb-3">Post Comment <span class="dir-part"></span></a>
+                                                        <button type="submit" class="send-btn mouse-dir white-bg mb-3">@Localizer["Post Comment"] <span class="dir-part"></span></button>
+                                                        <a href="#respond" onclick="prepToFun()" class="cancel-btn mouse-dir white-bg mb-3">@Localizer["Post Comment"] <span class="dir-part"></span></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -274,12 +296,12 @@
                         </div>
                     </div>
 
-                    <div class="widget popular-tag-widget">
+                    @*<div class="widget popular-tag-widget">
                         <h5 class="widget-title"><span>Instagram</span></h5>
                         <div id="pixlee_container"></div>
                         <script type="text/javascript">window.PixleeAsyncInit = function () { Pixlee.init({ apiKey: 'ploM-QKD99wEZtxbFXVa' }); Pixlee.addSimpleWidget({ widgetId: '32803' }); };</script>
                         <script src="//instafeed.assets.pxlecdn.com/assets/pixlee_widget_1_0_0.js"></script>
-                    </div>
+                    </div>*@
                 </div>
                 
             </aside>

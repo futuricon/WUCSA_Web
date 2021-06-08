@@ -117,25 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Forgot your password?" xml:space="preserve">
-    <value>Забыли Ваш пароль?</value>
-  </data>
-  <data name="Invalid login attempt." xml:space="preserve">
-    <value>Имя пользователя недействительно</value>
-  </data>
-  <data name="Register as a new user" xml:space="preserve">
-    <value>Зарегистрируйтесь как новый пользователь</value>
-  </data>
-  <data name="Sign In" xml:space="preserve">
-    <value>Войти</value>
-  </data>
-  <data name="Sign Up" xml:space="preserve">
-    <value>Зарегистрироваться</value>
-  </data>
-  <data name="Use a local account to log in." xml:space="preserve">
-    <value>Используйте существующий аккаунт для входа.</value>
-  </data>
-  <data name="Use another service to log in." xml:space="preserve">
-    <value>Используйте другой сервис для входа.</value>
+  <data name="CookiesInfo" xml:space="preserve">
+    <value>Наш сайт использует файлы "cookie" только для сбора информации об использовании сайта - общую статистику посещения сайта.</value>
   </data>
 </root>

@@ -49,10 +49,10 @@
                     <div class="inner">
                         <div class="row col-lg-4 col-md-6 col-12 mx-auto buttonLoc">
                             <div class="col-xl-auto col-sm-auto col-12 mt-2 mx-auto">
-                                <a asp-page="/Event/List" asp-route-location="World" class="d-block @(Model.SetClass == "world" ? "setActive" : "setDiactive")">World</a>
+                                <a asp-page="/Event/List" asp-route-location="World" class="d-block @(Model.SetClass == "world" ? "setActive" : "setDiactive")">@Localizer["World"]</a>
                             </div>
                             <div class="col-xl-auto col-sm-auto col-12 mt-2 mx-auto">
-                                <a asp-page="/Event/List" asp-route-location="National" class="d-block @(Model.SetClass == "national" ? "setActive" : "setDiactive")">National</a>
+                                <a asp-page="/Event/List" asp-route-location="National" class="d-block @(Model.SetClass == "national" ? "setActive" : "setDiactive")">@Localizer["National"]</a>
                             </div>
                         </div>
                     </div>
@@ -110,7 +110,7 @@
                                         }
                                     </p>
                                     <div class="button">
-                                        <a asp-page="/Event/Index" asp-route-slug="@myEvent.Slug" class="btn">Read More</a>
+                                        <a asp-page="/Event/Index" asp-route-slug="@myEvent.Slug" class="btn">@Localizer["Read More"]</a>
                                     </div>
                                 </div>
                             </div>
@@ -131,7 +131,7 @@
             <aside class="col-lg-4 col-md-5 col-12">
                 <div class="sidebar">
                     <div class="widget popular-tag-widget">
-                        <h5 class="widget-title"><span>Types of Sport</span></h5>
+                        <h5 class="widget-title"><span>@Localizer["Types of Sport"]</span></h5>
                         <div class="tags">
                             @foreach (var sportTypes in Model.SportTypes)
                             {

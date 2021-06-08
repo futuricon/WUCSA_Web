@@ -1,4 +1,5 @@
 ﻿@model WUCSA.Core.Entities.BlogModel.Comment
+@inject IViewLocalizer Localizer
 @inject UserManager<AppUser> UserManager
 
 <li id="rep-@Model.Id">
@@ -45,7 +46,7 @@
             @if (User.Identity.IsAuthenticated)
             {
                 <div class="action-links">
-                    <a href="#replyCom" onclick="appToFun('@Model.Id')" class="reply-link"><i class="lni lni-reply"></i>Reply</a>
+                    <a href="#replyCom" onclick="appToFun('@Model.Id')" class="reply-link" title="@Localizer["Reply"]"><i class="lni lni-reply"></i></a>
 
                     @*<a href="#rep-@Model.Id" onclick="appToFun('@Model.Id')" class="reply-link"><i class="lni lni-reply"></i>Reply</a>*@
 

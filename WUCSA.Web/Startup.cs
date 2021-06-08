@@ -67,7 +67,14 @@ namespace WUCSA.Web
             services.AddScoped<IRankRepository, RankRepository>();
             services.AddScoped<IStaffRepository, StaffRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+
             ConfigureIdentity(services);
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<ImageHelper>();

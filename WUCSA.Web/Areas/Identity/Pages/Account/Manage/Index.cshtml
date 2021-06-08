@@ -1,7 +1,8 @@
 ﻿@page
 @model IndexModel
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Profile";
+    ViewData["Title"] = Localizer["Profile"];
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
 @section CSS {
@@ -36,11 +37,12 @@
                     <div class="input-group">
                         <input asp-for="Input.Email" class="form-control" />
                         <span class="input-group-addon" aria-hidden="true"><span class="text-success"></span></span>
-                    </div> }
+                    </div> 
+                }
                 else
                 {
                     <input asp-for="Input.Email" class="form-control" />
-                    <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link">Send verification email</button>}
+                    <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link">@Localizer["Send verification email"]</button>}
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -48,7 +50,7 @@
                 <input asp-for="Input.PhoneNumber" class="form-control" />
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
-            <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
+            <button id="update-profile-button" type="submit" class="btn btn-primary">@Localizer["Save"]</button>
         </div>
 
         <div id="cropMain" class="col-lg-6 col-md-6 col-12 mb-50">
@@ -70,7 +72,7 @@
             <div id="uploadBtn" class="col-12 pt-20">
                 <div class="button">
                     <a style="margin-bottom: 2%;" class="btn file-btn">
-                        <span>Change an image</span>
+                        <span>@Localizer["Change an image"]</span>
                         <input type="file" id="upload" accept="image/*" />
                     </a>
                 </div>
@@ -79,12 +81,12 @@
             <div id="actBtn" class="col-12 pt-60" style="display: none;">
                 <div class="button act-btn">
                     <a style="margin-bottom: 2%;" class="btn file-btn" onclick="setimg()">
-                        <span>Save image</span>
+                        <span>@Localizer["Save image"]</span>
                     </a>
                 </div>
                 <div id="cancel-btn" class="act-btn">
                     <a class="file-btn">
-                        <span>Cancel</span>
+                        <span>@Localizer["Cancel"]</span>
                     </a>
                 </div>
             </div>

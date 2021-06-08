@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using WUCSA.Core.Entities.UserModel;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.Localization;
 
 namespace WUCSA.Web.Areas.Identity.Pages.Account
 {
@@ -112,6 +113,7 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
                 var user = await _userManager.FindByEmailAsync(Input.Username);
                 if (user == null)
                 {
+                    ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
                     /*"Invalid login attempt."*/
                     ModelState.AddModelError(string.Empty, _localizer["Invalid login attempt."]);
                     return Page();

@@ -11,7 +11,7 @@
     <meta name="keywords" content="wucsa, World, Usmanov`s, Combat, Systems, Association, Fakhriddin, Usmanov, 
           Demonstration, Light contact, Full contact A, Full contact B, Knockdown A, Knockdown B, Combat wrestling, 
           Knife battle, Chambara short sword, Chambara long sword, Muayboran, international, Aikido, Federation" />
-    <meta name="description" content="Official website of World Usmanov`s Combat Systems Association, 
+    <meta name="description" content="World Usmanov`s Combat Systems Association, 
           Usmanov's  Combat Systems has 11 disciplines, including Demonstration, Light contact, Full contact A, 
           Full contact B, Knockdown A, Knockdown B, Combat wrestling, Knife battle, Chambara short sword, 
           Chambara long sword and Muayboran" />
@@ -20,7 +20,7 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="http://wucsa.com" />
     <meta property="og:title" content="World Usmanov`s Combat Systems Association" />
-    <meta property="og:description" content="Official website of World Usmanov`s Combat Systems Association, 
+    <meta property="og:description" content="World Usmanov`s Combat Systems Association, 
           Usmanov's  Combat Systems has 11 disciplines, including Demonstration, Light contact, Full contact A, 
           Full contact B, Knockdown A, Knockdown B, Combat wrestling, Knife battle, Chambara short sword, 
           Chambara long sword and Muayboran" />
@@ -29,7 +29,7 @@
     <meta name="twitter:card" content="Official website of World Usmanov`s Combat Systems Association" />
     <meta name="twitter:url" content="http://wucsa.com" />
     <meta name="twitter:title" content="World Usmanov`s Combat Systems Association" />
-    <meta name="twitter:description" content="Official website of World Usmanov`s Combat Systems Association, 
+    <meta name="twitter:description" content="World Usmanov`s Combat Systems Association, 
           Usmanov's  Combat Systems has 11 disciplines, including Demonstration, Light contact, Full contact A, 
           Full contact B, Knockdown A, Knockdown B, Combat wrestling, Knife battle, Chambara short sword, 
           Chambara long sword and Muayboran" />
@@ -38,6 +38,7 @@
 }
 
 @section CSS {
+    <link rel="canonical" href="https://wucsa.com" />
     <link rel="stylesheet" href="~/lib/tinyslider/tiny-slider.css" />
     <link rel="stylesheet" href="~/css/home_style.css" />
 }
@@ -54,9 +55,26 @@
                             <h1 class="wow fadeInUp" data-wow-delay=".3s">
                                 WORLD USMANOV'S<br>COMBAT SYSTEM<br>ASSOCIATION
                             </h1>
-                            <p class="wow fadeInUp" data-wow-delay=".5s">
-                                Non-Entrepreneurial (Non-Commercial) Legal Entity
-                            </p>
+
+                            @switch (Model.RCName)
+                            {
+                                case "ru":
+                                    <p class="wow fadeInUp" data-wow-delay=".5s">
+                                        Негосударственная Некоммерческая Организация 
+                                    </p>
+                                    break;
+                                case "uz":
+                                    <p class="wow fadeInUp" data-wow-delay=".5s">
+                                        Nodavlat Notijorat Tashkiloti
+                                    </p>
+                                    break;
+                                default:
+                                    <p class="wow fadeInUp" data-wow-delay=".5s">
+                                        Non-Entrepreneurial (Non-Commercial) Legal Entity
+                                    </p>
+                                    break;
+                            }
+
                         </div>
                     </div>
                 </div>
@@ -81,10 +99,32 @@
                 <div class="inner">
                     <div class="section-title">
                         <span class="wow fadeInDown" data-wow-delay=".2s">History of WUCSA</span>
-                        <h2 class="wow fadeInUp" data-wow-delay=".4s">Lorem ipsum dolor sit amet.</h2>
-                        <p class="wow fadeInUp" data-wow-delay=".6s">Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, tempora.</p>
+
+                        @if (!Model.Blogs.Any())
+                        {
+                            <h2 class="wow fadeInUp" data-wow-delay=".4s">
+                                @Localizer["There are no any Posts yet"]
+                            </h2>
+                        }
+                        else
+                        {
+                            <p class="wow fadeInUp" data-wow-delay=".6s">
+                                @switch (Model.RCName)
+                                {
+                                    case "ru":
+                                        @Core.Entities.BlogModel.Blog.GetShortContent(Model.History.ContentRu, 300)
+                                        break;
+                                    case "uz":
+                                        @Core.Entities.BlogModel.Blog.GetShortContent(Model.History.ContentUz, 300)
+                                        break;
+                                    default:
+                                        @Core.Entities.BlogModel.Blog.GetShortContent(Model.History.Content, 300)
+                                        break;
+                                }
+                            </p>
+                        }
                         <div class="button wow fadeInUp" data-wow-delay=".8s">
-                            <a href="#" class="btn"><i class="lni lni-angle-double-right"></i> More</a>
+                            <a sp-page="/History" class="btn"><i class="lni lni-angle-double-right"></i> More</a>
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,8 @@
 ﻿@page
 @model ErrorModel
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Error";
+    ViewData["Title"] = Localizer["Error"];
 }
 @section CSS {
     <link rel="stylesheet" href="~/css/error_style.css" />
@@ -15,16 +16,16 @@
                     {
                         <h1>@Model.RequestId</h1>
                         <div class="button">
-                            <a asp-page="/Index" class="btn">Go To Home</a>
+                            <a asp-page="/Index" class="btn">@Localizer["Go To Home"]</a>
                         </div>
                     }
                     else
                     {
-                        <h1>Opps!</h1>
-                        <h2>Here Is Some Problem</h2>
-                        <p>The page you are looking for it maybe deleted</p>
+                        <h1>@Localizer["Opps!"]</h1>
+                        <h2>@Localizer["Here Is Some Problem"]</h2>
+                        <p>@Localizer["The page you are looking for it maybe deleted"]</p>
                         <div class="button">
-                            <a asp-page="/Index" class="btn">Go To Home</a>
+                            <a asp-page="/Index" class="btn">@Localizer["Go To Home"]</a>
                         </div>
                     }
 
