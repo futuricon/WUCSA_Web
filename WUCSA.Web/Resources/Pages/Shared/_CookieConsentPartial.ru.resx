@@ -117,7 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Accept" xml:space="preserve">
+    <value>Принять</value>
+  </data>
   <data name="CookiesInfo" xml:space="preserve">
     <value>Наш сайт использует файлы "cookie" только для сбора информации об использовании сайта - общую статистику посещения сайта.</value>
+  </data>
+  <data name="Learn More" xml:space="preserve">
+    <value>Узнать больше</value>
   </data>
 </root>

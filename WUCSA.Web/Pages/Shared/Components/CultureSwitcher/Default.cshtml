@@ -21,6 +21,24 @@
 </li>
 
 <script>
+    var segments = location.pathname.split('/');
+    var items = document.getElementsByClassName('culture-options');
+    for (var i = 0; i < items.length; i++) {
+        items[i].addEventListener('click', printDetails);
+    }
+    
+    function printDetails(e) {
+        var culture = this.text;
+        if (segments.length > 2) {
+            segments[1] = culture;
+            location.href = segments.join('/');
+        } else {
+            location.href = '/' + culture + location.pathname;
+        }
+    }
+</script>
+
+@*<script>
     var items = document.getElementsByClassName('culture-options');
     for (var i = 0; i < items.length; i++) {
         items[i].addEventListener('click', printDetails);
@@ -30,4 +48,4 @@
         document.getElementById("culture-selected").value = this.text;
         document.getElementById("culture-switcher").submit();
     }
-</script>
+</script>*@

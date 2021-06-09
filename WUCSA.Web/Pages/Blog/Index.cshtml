@@ -5,10 +5,29 @@
     Layout = "_Layout"; }
 
 @section Head {
-    @{ 
+
+    @{
+        string description = Localizer["HistoryCard"].ToString();
+        if (Model.Blog != null)
+        {
+            @switch (Model.RCName)
+            {
+                case "ru":
+                    description = Core.Entities.BlogModel.Blog.GetShortContent(Model.Blog.ContentRu, 200);
+                    break;
+                case "uz":
+                    description = Core.Entities.BlogModel.Blog.GetShortContent(Model.Blog.ContentUz, 200);
+                    break;
+                default:
+                    description = Core.Entities.BlogModel.Blog.GetShortContent(Model.Blog.Content, 200);
+                    break;
+            }
+        }
+    }
+    @{
         var imgUrl = $"http://wucsa.com{Model.Blog.CoverPhotoPath}";
         var articleUrl = $"http://wucsa.com/blog/{Model.Blog.Slug}";
-        var shortContent = Core.Entities.BlogModel.Blog.GetShortContent(Model.Blog.Content, 200); 
+        var shortContent = Core.Entities.BlogModel.Blog.GetShortContent(Model.Blog.Content, 200);
     }
 
     <meta name="author" content="@Model.Blog.Author" />
@@ -22,7 +41,7 @@
     <meta property="og:site_name" content="WUCSA Blog" />
     <meta property="og:description" content="@shortContent" />
     <meta property="og:image" content="@imgUrl" />
-    
+
     <meta property="article:published_time" content="@Model.Blog.PostedDate" />
     <meta property="article:author" content="@Model.Blog.Author" />
     <meta property="article:tags" content="@Model.Tags" />
@@ -148,10 +167,10 @@
                                             </a>
                                         </li>
                                         @*<li>
-                                            <a id="tw-share" href="#">
-                                                <i class="lni lni-twitter-original"></i>
-                                            </a>
-                                        </li>*@
+                                                <a id="tw-share" href="#">
+                                                    <i class="lni lni-twitter-original"></i>
+                                                </a>
+                                            </li>*@
                                         <li>
                                             <a id="tg-share" href="#">
                                                 <i class="lni lni-telegram-original"></i>
@@ -164,34 +183,34 @@
 
                         @if (Model.Blog.Comments.Count > 0 && Model.Blog.IsCommentsLocked == false)
                         {
-                             <div class="post-comments">
-                                 <h3 class="comment-title"><span>@Model.Blog.Comments.Count @Localizer["comments on this post"]</span></h3>
-                                 <ul class="comments-list">
-                                     @foreach (var comment in Model.Comments)
-                                     {
-                                         if (comment.IsLocked == false)
-                                         {
-                                             @if (ViewData["RootCommentId"] == null)
-                                             {
-                                                 ViewData.Add("RootCommentId", comment.Id);
-                                             }
-                                             else
-                                             {
-                                                 ViewData["RootCommentId"] = comment.Id;
-                                             }
-                                             <partial name="_CommentsPartial" for="@comment" view-data="ViewData" />
-                                         }
-                                     }
-                                 </ul>
-                                 <div class="pagination center">
-                                     <ul class="pagination-list">
-                                         <pagination class="mx-auto" page-index="@Model.Comments.PageIndex"
-                                                     total-pages="@Model.Comments.TotalPages"
-                                                     page-method="pageIndex" page-fragment="pagination"
-                                                     base-url="@Model.Blog.Slug" />
-                                     </ul>
-                                 </div>
-                             </div>
+                            <div class="post-comments">
+                                <h3 class="comment-title"><span>@Model.Blog.Comments.Count @Localizer["comments on this post"]</span></h3>
+                                <ul class="comments-list">
+                                    @foreach (var comment in Model.Comments)
+                                    {
+                                        if (comment.IsLocked == false)
+                                        {
+                                            @if (ViewData["RootCommentId"] == null)
+                                            {
+                                                ViewData.Add("RootCommentId", comment.Id);
+                                            }
+                                            else
+                                            {
+                                                ViewData["RootCommentId"] = comment.Id;
+                                            }
+                                            <partial name="_CommentsPartial" for="@comment" view-data="ViewData" />
+                                        }
+                                    }
+                                </ul>
+                                <div class="pagination center">
+                                    <ul class="pagination-list">
+                                        <pagination class="mx-auto" page-index="@Model.Comments.PageIndex"
+                                                    total-pages="@Model.Comments.TotalPages"
+                                                    page-method="pageIndex" page-fragment="pagination"
+                                                    base-url="@Model.Blog.Slug" />
+                                    </ul>
+                                </div>
+                            </div>
 
                             @if (!User.Identity.IsAuthenticated)
                             {
@@ -297,13 +316,13 @@
                     </div>
 
                     @*<div class="widget popular-tag-widget">
-                        <h5 class="widget-title"><span>Instagram</span></h5>
-                        <div id="pixlee_container"></div>
-                        <script type="text/javascript">window.PixleeAsyncInit = function () { Pixlee.init({ apiKey: 'ploM-QKD99wEZtxbFXVa' }); Pixlee.addSimpleWidget({ widgetId: '32803' }); };</script>
-                        <script src="//instafeed.assets.pxlecdn.com/assets/pixlee_widget_1_0_0.js"></script>
-                    </div>*@
+                            <h5 class="widget-title"><span>Instagram</span></h5>
+                            <div id="pixlee_container"></div>
+                            <script type="text/javascript">window.PixleeAsyncInit = function () { Pixlee.init({ apiKey: 'ploM-QKD99wEZtxbFXVa' }); Pixlee.addSimpleWidget({ widgetId: '32803' }); };</script>
+                            <script src="//instafeed.assets.pxlecdn.com/assets/pixlee_widget_1_0_0.js"></script>
+                        </div>*@
                 </div>
-                
+
             </aside>
         </div>
     </div>
@@ -335,7 +354,7 @@
         $(function () {
 
             var x = document.getElementById('remove_mw').getElementsByTagName('img');
-            
+
             $("#remove_mw img").each(function (i) {
                 this.style.maxWidth = "";
             });

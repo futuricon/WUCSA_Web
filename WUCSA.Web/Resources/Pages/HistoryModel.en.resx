@@ -117,19 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Error" xml:space="preserve">
-    <value>Ошибка</value>
+  <data name="AuthorFullName" xml:space="preserve">
+    <value>Fakhriddin Usmanov</value>
   </data>
-  <data name="Go to Home" xml:space="preserve">
-    <value>На Главную</value>
+  <data name="HistoryCard" xml:space="preserve">
+    <value>History of World Usmanov's Combat Systems Association</value>
   </data>
-  <data name="Here is some problems" xml:space="preserve">
-    <value>Здесь какие то проблемы</value>
+  <data name="HistoryDescription" xml:space="preserve">
+    <value>On November 18, 2019, World Usmanov's Combat Systems Association was approved by International Martial Arts Association, headquartered in Germany, and was founded by the founder  Fakhridin Usmanov.</value>
   </data>
-  <data name="Opps!" xml:space="preserve">
-    <value>Упс!</value>
-  </data>
-  <data name="The page you are looking for it maybe deleted" xml:space="preserve">
-    <value>Страница, которую вы ищете, может быть удалена</value>
+  <data name="IndexKeyWords" xml:space="preserve">
+    <value>wucsa, World, Usmanov`s, Combat, Systems, Association, Fakhriddin, Usmanov, Demonstration, Light contact, Full contact A, Full contact B, Knockdown A, Knockdown B, Combat wrestling, Knife battle, Chambara short sword, Chambara long sword, Muayboran, international, Aikido, Federation, History</value>
   </data>
 </root>

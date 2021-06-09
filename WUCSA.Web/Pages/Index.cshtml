@@ -2,38 +2,27 @@
 @model IndexModel
 @inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = Localizer["Home"];
+    ViewData["Title"] = "World Usmanov's Combat Systems Association";
     Layout = "_Layout";
 }
 
 @section Head {
-    <meta name="author" content="Fakhriddin Usmanov" />
-    <meta name="keywords" content="wucsa, World, Usmanov`s, Combat, Systems, Association, Fakhriddin, Usmanov, 
-          Demonstration, Light contact, Full contact A, Full contact B, Knockdown A, Knockdown B, Combat wrestling, 
-          Knife battle, Chambara short sword, Chambara long sword, Muayboran, international, Aikido, Federation" />
-    <meta name="description" content="World Usmanov`s Combat Systems Association, 
-          Usmanov's  Combat Systems has 11 disciplines, including Demonstration, Light contact, Full contact A, 
-          Full contact B, Knockdown A, Knockdown B, Combat wrestling, Knife battle, Chambara short sword, 
-          Chambara long sword and Muayboran" />
+    <meta name="author" content="@Localizer["AuthorFullName"]" />
+    <meta name="keywords" content="@Localizer["IndexKeyWords"]" />
+    <meta name="description" content="@Localizer["IndexDescription"]" />
     <meta name="image" content="http://www.wucsa.com/images/favicon.ico" />
     
     <meta property="og:type" content="website" />
     <meta property="og:url" content="http://wucsa.com" />
     <meta property="og:title" content="World Usmanov`s Combat Systems Association" />
-    <meta property="og:description" content="World Usmanov`s Combat Systems Association, 
-          Usmanov's  Combat Systems has 11 disciplines, including Demonstration, Light contact, Full contact A, 
-          Full contact B, Knockdown A, Knockdown B, Combat wrestling, Knife battle, Chambara short sword, 
-          Chambara long sword and Muayboran" />
+    <meta property="og:description" content="@Localizer["IndexDescription"]" />
     <meta property="og:image" content="http://www.wucsa.com/images/favicon.ico" />
     
-    <meta name="twitter:card" content="Official website of World Usmanov`s Combat Systems Association" />
+    <meta name="twitter:card" content="@Localizer["IndexCard"]" />
     <meta name="twitter:url" content="http://wucsa.com" />
     <meta name="twitter:title" content="World Usmanov`s Combat Systems Association" />
-    <meta name="twitter:description" content="World Usmanov`s Combat Systems Association, 
-          Usmanov's  Combat Systems has 11 disciplines, including Demonstration, Light contact, Full contact A, 
-          Full contact B, Knockdown A, Knockdown B, Combat wrestling, Knife battle, Chambara short sword, 
-          Chambara long sword and Muayboran" />
-    <meta name="twitter:creator" content="Fakhriddin Usmanov" />
+    <meta name="twitter:description" content="@Localizer["IndexDescription"]" />
+    <meta name="twitter:creator" content="@Localizer["AuthorFullName"]" />
     <meta name="twitter:image" content="http://www.wucsa.com/images/favicon.ico" />
 }
 
@@ -55,26 +44,9 @@
                             <h1 class="wow fadeInUp" data-wow-delay=".3s">
                                 WORLD USMANOV'S<br>COMBAT SYSTEM<br>ASSOCIATION
                             </h1>
-
-                            @switch (Model.RCName)
-                            {
-                                case "ru":
-                                    <p class="wow fadeInUp" data-wow-delay=".5s">
-                                        Негосударственная Некоммерческая Организация 
-                                    </p>
-                                    break;
-                                case "uz":
-                                    <p class="wow fadeInUp" data-wow-delay=".5s">
-                                        Nodavlat Notijorat Tashkiloti
-                                    </p>
-                                    break;
-                                default:
-                                    <p class="wow fadeInUp" data-wow-delay=".5s">
-                                        Non-Entrepreneurial (Non-Commercial) Legal Entity
-                                    </p>
-                                    break;
-                            }
-
+                            <p class="wow fadeInUp" data-wow-delay=".5s">
+                                @Localizer["LegacyOf"]
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -98,12 +70,12 @@
             <div class="col-lg-8 offset-lg-2 col-12">
                 <div class="inner">
                     <div class="section-title">
-                        <span class="wow fadeInDown" data-wow-delay=".2s">History of WUCSA</span>
+                        <span class="wow fadeInDown" data-wow-delay=".2s">@Localizer["History of WUCSA"]</span>
 
-                        @if (!Model.Blogs.Any())
+                        @if (Model.History == null)
                         {
                             <h2 class="wow fadeInUp" data-wow-delay=".4s">
-                                @Localizer["There are no any Posts yet"]
+                                @Localizer["There are no any Posts yet"] :D
                             </h2>
                         }
                         else
@@ -124,7 +96,7 @@
                             </p>
                         }
                         <div class="button wow fadeInUp" data-wow-delay=".8s">
-                            <a sp-page="/History" class="btn"><i class="lni lni-angle-double-right"></i> More</a>
+                            <a asp-page="/History" class="btn"><i class="lni lni-angle-double-right"></i> @Localizer["More"]</a>
                         </div>
                     </div>
                 </div>
@@ -141,10 +113,10 @@
         <div class="row">
             <div class="col-12">
                 <div class="section-title wow fadeInLeft" data-wow-delay=".3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
-                    <a href="#" class="a-alt">All Members</a>
+                    <a asp-page="/Staff/List" class="a-alt">@Localizer["All Members"]</a>
                     @if (!Model.Staffs.Any())
                     {
-                        <h2>@Localizer["There are no any Staff yet"]</h2>
+                        <h2>@Localizer["There are no any Staff yet"] :D</h2>
                     }
                     else
                     {
@@ -208,7 +180,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="section-title">
-                    <a href="#" class="wow fadeInDown" data-wow-delay=".2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInDown;">@Localizer["All Events"]</a>
+                    <a asp-page="/Event/List" asp-route-location="World" class="wow fadeInDown" data-wow-delay=".2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInDown;">@Localizer["All Events"]</a>
                     <h2 class="wow fadeInUp" data-wow-delay=".4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">@Localizer["Latest Events"]</h2>
                 </div>
             </div>
@@ -218,7 +190,7 @@
 
                 @if (!Model.Events.Any())
                 {
-                    <h4>@Localizer["There are no any Events yet"]</h4>
+                    <h4>@Localizer["There are no any Events yet"] :D</h4>
                 }
                 else
                 {
@@ -288,7 +260,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="section-title">
-                    <a href="#" class="wow fadeInDown" data-wow-delay=".2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInDown;">@Localizer["All News"]</a>
+                    <a asp-page="/Blog/List" class="wow fadeInDown" data-wow-delay=".2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInDown;">@Localizer["All News"]</a>
                     <h2 class="wow fadeInUp" data-wow-delay=".4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">@Localizer["Latest News & Blog"]</h2>
                 </div>
             </div>
@@ -297,7 +269,7 @@
 
             @if (!Model.Blogs.Any())
             {
-                <h4>@Localizer["There are no any Posts yet"]</h4>
+                <h4>@Localizer["There are no any Posts yet"] :D</h4>
             }
             else
             {
@@ -465,31 +437,22 @@
         <div class="client-logo-wrapper">
             <div class="client-logo-carousel d-flex align-items-center justify-content-between">
                 <div class="client-logo">
-                    <img src="assets/images/clients/client1.png" alt="#">
+                    <img src="" alt="#">
                 </div>
                 <div class="client-logo">
-                    <img src="assets/images/clients/client2.png" alt="#">
+                    <img src="" alt="#">
                 </div>
                 <div class="client-logo">
-                    <img src="assets/images/clients/client3.png" alt="#">
+                    <img src="" alt="#">
                 </div>
                 <div class="client-logo">
-                    <img src="assets/images/clients/client4.png" alt="#">
+                    <img src="" alt="#">
                 </div>
                 <div class="client-logo">
-                    <img src="assets/images/clients/client5.png" alt="#">
+                    <img src="" alt="#">
                 </div>
                 <div class="client-logo">
-                    <img src="assets/images/clients/client6.png" alt="#">
-                </div>
-                <div class="client-logo">
-                    <img src="assets/images/clients/client2.png" alt="#">
-                </div>
-                <div class="client-logo">
-                    <img src="assets/images/clients/client3.png" alt="#">
-                </div>
-                <div class="client-logo">
-                    <img src="assets/images/clients/client4.png" alt="#">
+                    <img src="" alt="#">
                 </div>
             </div>
         </div>

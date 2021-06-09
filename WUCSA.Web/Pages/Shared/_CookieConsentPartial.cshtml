@@ -7,18 +7,34 @@
 
 @if (showBanner)
 {
-    <div id="cookieConsent" class="alert alert-info alert-dismissible fade show" role="alert">
-        @Localizer["CookiesInfo"] <a asp-page="/Privacy">@Localizer["Learn More"]</a>.
-        <button type="button" class="accept-policy close" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
-            <span aria-hidden="true">@Localizer["Accept"]</span>
-        </button>
-    </div>
+    <!-- Start Cookies Area-->
+    <div id="cookieCons" class="modalx" tabindex="-1">
+        <div class="modal-dialog max-width-px-840 position-relative">
 
+            <div class="cookie-modal-main">
+                <div class="row no-gutters">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="heading">
+                                <img src="https://i.imgur.com/Tl8ZBUe.png" width="60">
+                                <p>@Localizer["CookiesInfo"] <a asp-page="/Privacy">@Localizer["Learn More"]</a>.</p>
+                            </div>
+                            <div class="mb-8 button">
+                                <button class="btn" data-cookie-string="@cookieString">@Localizer["Accept"]</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <script>
         (function () {
-            var button = document.querySelector("#cookieConsent button[data-cookie-string]");
+            var button = document.querySelector("#cookieCons button[data-cookie-string]");
             button.addEventListener("click", function (event) {
                 document.cookie = button.dataset.cookieString;
+                document.getElementById("cookieCons").style.display = "none !important";
             }, false);
         })();
     </script>

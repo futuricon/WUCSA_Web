@@ -117,19 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Error" xml:space="preserve">
-    <value>Ошибка</value>
+  <data name="AuthorFullName" xml:space="preserve">
+    <value>Fakhriddin Usmanov</value>
   </data>
-  <data name="Go to Home" xml:space="preserve">
-    <value>На Главную</value>
+  <data name="StaffCard" xml:space="preserve">
+    <value>Staff &amp; Members of World Usmanov's Combat Systems Association</value>
   </data>
-  <data name="Here is some problems" xml:space="preserve">
-    <value>Здесь какие то проблемы</value>
+  <data name="StaffDescription" xml:space="preserve">
+    <value>List of Employees and Representatives from different countries,  World Usmanov's Combat Systems Association</value>
   </data>
-  <data name="Opps!" xml:space="preserve">
-    <value>Упс!</value>
-  </data>
-  <data name="The page you are looking for it maybe deleted" xml:space="preserve">
-    <value>Страница, которую вы ищете, может быть удалена</value>
+  <data name="StaffKeyWords" xml:space="preserve">
+    <value>wucsa, World, Usmanov`s, Combat, Systems, Association, Fakhriddin, Usmanov, Staff, Members, international, Aikido, Federation, Participants</value>
   </data>
 </root>

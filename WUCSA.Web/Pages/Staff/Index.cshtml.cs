@@ -23,6 +23,22 @@ namespace WUCSA.Web.Pages.Staff
             var staffSlug = RouteData.Values["slug"].ToString();
             Staff = await _staffRepository.GetAsync<Core.Entities.StaffModel.Staff>(i => i.Slug == staffSlug);
 
+            switch (RCName.ToLower())
+            {
+                case "ru":
+                    ViewData["StaffDescription"] = Staff.DescriptionRu;
+                    ViewData["StaffPosition"] = Staff.PositionRu;
+                    break;
+                case "uz":
+                    ViewData["StaffDescription"] = Staff.DescriptionUz;
+                    ViewData["StaffPosition"] = Staff.PositionUz;
+                    break;
+                default:
+                    ViewData["StaffDescription"] = Staff.Description;
+                    ViewData["StaffPosition"] = Staff.Position;
+                    break;
+            }
+
             return Page();
         }
     }

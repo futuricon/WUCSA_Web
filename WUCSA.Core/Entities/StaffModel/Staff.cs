@@ -60,14 +60,17 @@ namespace WUCSA.Core.Entities.StaffModel
         [Display(Name = "Date of Birth")]
         public DateTime BirthDate { get; set; }
 
+        [Required(ErrorMessage = "Please enter some information")]
         [StringLength(400, ErrorMessage = "Characters must be less than 400")]
         [Display(Name = "Description")]
         public string Description { get; set; }
 
+        [Required(ErrorMessage = "Пожалуста напишите немного информации")]
         [StringLength(400, ErrorMessage = "Символов должно быть меньше 400")]
         [Display(Name = "Описание")]
         public string DescriptionRu { get; set; }
 
+        [Required(ErrorMessage = "Please enter some information")]
         [StringLength(400, ErrorMessage = "Belgilar 400 dan kam bo'lishi kerak")]
         [Display(Name = "Tavsif")]
         public string DescriptionUz { get; set; }

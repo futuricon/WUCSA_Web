@@ -41,7 +41,6 @@ namespace WUCSA.Web
             services.AddRazorPages(options => {
                 options.Conventions.Add(new CultureTemplatePageRouteModelConvention());
             });
-            services.AddLocalization(opts => opts.ResourcesPath = "Resources");
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
@@ -56,7 +55,7 @@ namespace WUCSA.Web
                 options.SupportedUICultures = supportedCultures;
                 options.RequestCultureProviders.Insert(0, new RouteDataRequestCultureProvider { Options = options });
             });
-            
+            services.AddLocalization(opts => opts.ResourcesPath = "Resources");
 
             ConfigureDatabases(services);
             services.AddTransient<IEmailService, EmailService>();
@@ -89,14 +88,15 @@ namespace WUCSA.Web
 
             services.AddHttpContextAccessor();
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
-            services.AddRazorPages(options =>
-            {
-                options.Conventions.AddPageRoute("/Blog/List", "/Blog");
-                options.Conventions.AddPageRoute("/Staff/List", "/Staff");
-                //options.Conventions.AddPageRoute("/Rank/List/{loc}/{gender}", "/Rank/{loc}/{gender}");
-                //options.Conventions.AddPageRoute("/Rank/Index/{loc}/{gender}/{slug}", "/Rank/{loc}/{gender}/{slug}");
-                options.Conventions.AddPageRoute("/SportType/List", "/SportType");
-            });
+            services.AddRouting(options => options.LowercaseUrls = true);
+            //services.AddRazorPages(options =>
+            //{
+                //options.Conventions.AddPageRoute("/Blog/List", "/Blog");
+                //options.Conventions.AddPageRoute("/Staff/List", "/Staff");
+                ////options.Conventions.AddPageRoute("/Rank/List/{loc}/{gender}", "/Rank/{loc}/{gender}");
+                ////options.Conventions.AddPageRoute("/Rank/Index/{loc}/{gender}/{slug}", "/Rank/{loc}/{gender}/{slug}");
+                //options.Conventions.AddPageRoute("/SportType/List", "{culture}/SportType");
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -114,10 +114,10 @@ namespace WUCSA.Web
                 app.UseHsts();
             }
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseRouting();
 
+            app.UseRouting();
             var localizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value;
             app.UseRequestLocalization(localizationOptions);
 
@@ -173,5 +173,6 @@ namespace WUCSA.Web
                 options.AccessDeniedPath = "/AccessDeniedPathInfo";
             });
         }
+       
     }
 }

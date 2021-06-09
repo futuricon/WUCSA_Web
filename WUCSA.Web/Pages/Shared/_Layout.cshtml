@@ -8,7 +8,7 @@
     <meta name="yandex-verification" content="29cc5b29cf59937a" />
     <meta name="msvalidate.01" content="CB5A9E58E37F0BA004F815C8B9A95557" />
     @await RenderSectionAsync("Head", required: false).ConfigureAwait(false)
-    <title>World Usmanov's Combat Systems Association</title>
+    <title>@ViewData["Title"]</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="~/images/favicon.ico" />
 
@@ -66,9 +66,9 @@
                             </button>
                             <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
                                 <ul id="nav" class="navbar-nav ml-auto">
-                                    <li class="nav-item"><a is-active-page id="header_home_id" asp-area="" asp-page="/Index">@Localizer["Home"]</a></li>
+                                    <li class="nav-item"><a is-active-page id="header_home_id" asp-page="/Index">@Localizer["Home"]</a></li>
                                     <li class="nav-item">
-                                        <a is-active-page id="header_about_id" asp-area="" asp-page="/About">@Localizer["About"]</a>
+                                        <a is-active-page id="header_about_id" asp-page="/About">@Localizer["About"]</a>
                                         <ul class="sub-menu">
                                             <li><a is-active-page id="header_history_id" asp-page="/History">@Localizer["History"]</a></li>
                                             <li><a is-active-page id="header_members_id" asp-page="/Staff/List">@Localizer["Staff & Members"]</a></li>
@@ -97,9 +97,10 @@
     <!-- End Header Area -->
 
     <main role="main">
+
         @RenderBody()
     </main>
-
+    <partial name="_CookieConsentPartial" />
     <!-- Start Footer Area -->
     <footer class="footer">
         <!-- Start Middle Top -->
@@ -114,9 +115,9 @@
                             </div>
                             <p>World Usmanov's<br>Combat Systems<br>Association</p>
                             <ul class="contact-address">
-                                <li><span>Address:</span>@Localizer["AddressInfo"]</li>                                
-                                <li><span>Email:</span> sport.wucsa@gmail.com</li>
-                                <li><span>Call:</span> <a href="tel:+998946842929">+998 (94) 684-29-29</a></li>
+                                <li><span>@Localizer["Address"]:</span>@Localizer["AddressInfo"]</li>
+                                <li><span>@Localizer["Email"]:</span> sport.wucsa@gmail.com</li>
+                                <li><span>@Localizer["Call"]:</span> <a href="tel:+998946842929">+998 (94) 684-29-29</a></li>
                             </ul>
                             <div class="footer-social">
                                 <ul>
@@ -134,10 +135,10 @@
                             <div class="col-lg-6 col-md-6 col-12">
                                 <!-- Single Widget -->
                                 <div class="single-footer f-link">
-                                    <h3>For Guests</h3>
+                                    <h3>@Localizer["For Guests"]</h3>
                                     <ul>
-                                        <li><a asp-page="/About/Index">@Localizer["About us"]</a></li>
-                                        <li><a asp-page="/History/Index">History"]</a></li>
+                                        <li><a asp-page="/About">@Localizer["About us"]</a></li>
+                                        <li><a asp-page="/History">@Localizer["History"]</a></li>
                                         <li><a asp-page="/SportType/List">@Localizer["Types of Sport & Rules"]</a></li>
                                         <li><a asp-page="/Blog/List">@Localizer["News & Blog"]</a></li>
                                         <li><a asp-page="/Gallery/Index">@Localizer["Gallery"]</a></li>
@@ -148,10 +149,10 @@
                             <div class="col-lg-6 col-md-6 col-12">
                                 <!-- Single Widget -->
                                 <div class="single-footer f-link">
-                                    <h3>For Members</h3>
+                                    <h3>@Localizer["For Members"]</h3>
                                     <ul>
-                                        <li><a asp-page="/Event/List" asp-route-location="World">Events"]</a></li>
-                                        <li><a asp-page="/Rank/List">@Localizer["Ranking"]</a></li>
+                                        <li><a asp-page="/Event/List" asp-route-location="World">@Localizer["Events"]</a></li>
+                                        <li><a asp-page="/Rank/List" asp-route-loc="World" asp-route-gender="Man">@Localizer["Ranking"]</a></li>
                                         <li><a asp-page="/Staff/List">@Localizer["Staff"]</a></li>
                                         <li><a asp-page="/Staff/List">@Localizer["Members"]</a></li>
                                     </ul>
@@ -178,7 +179,7 @@
                             <div class="right">
                                 <ul>
                                     <li><a asp-page="/Privacy">@Localizer["Privacy"]</a></li>
-                                    <li><a asp-page="/Contact">@Localizer["Contact"]</a></li>
+                                    <li><a asp-page="/Contact">@Localizer["Contacts"]</a></li>
                                     <li><a asp-page="/Sitemap">@Localizer["Site Map"]</a></li>
                                 </ul>
                             </div>

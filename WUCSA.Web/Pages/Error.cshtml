@@ -15,17 +15,17 @@
                     @if (Model.ShowRequestId)
                     {
                         <h1>@Model.RequestId</h1>
-                        <div class="button">
-                            <a asp-page="/Index" class="btn">@Localizer["Go To Home"]</a>
+                        <div class="button mt-15">
+                            <a asp-page="/Index" class="btn">@Localizer["Go to Home"]</a>
                         </div>
                     }
                     else
                     {
                         <h1>@Localizer["Opps!"]</h1>
-                        <h2>@Localizer["Here Is Some Problem"]</h2>
+                        <h2>@Localizer["Here is some problems"]</h2>
                         <p>@Localizer["The page you are looking for it maybe deleted"]</p>
-                        <div class="button">
-                            <a asp-page="/Index" class="btn">@Localizer["Go To Home"]</a>
+                        <div class="button mt-15">
+                            <a asp-page="/Index" class="btn">@Localizer["Go to Home"]</a>
                         </div>
                     }
 

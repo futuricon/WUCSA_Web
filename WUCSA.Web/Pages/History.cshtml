@@ -2,7 +2,27 @@
 @model WUCSA.Web.Pages.HistoryModel
 @inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = Localizer["History"];
+    ViewData["Title"] = Localizer["HistoryCard"];
+}
+@section Head {
+
+    <meta name="author" content="@Localizer["AuthorFullName"]" />
+    <meta name="keywords" content="@Localizer["HistoryKeyWords"]" />
+    <meta name="description" content="@Localizer["HistoryDescription"]" />
+    <meta name="image" content="http://www.wucsa.com/images/favicon.ico" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://wucsa.com/history" />
+    <meta property="og:title" content="@Localizer["HistoryCard"]" />
+    <meta property="og:description" content="@Localizer["HistoryDescription"]" />
+    <meta property="og:image" content="http://www.wucsa.com/images/favicon.ico" />
+
+    <meta name="twitter:card" content="@Localizer["HistoryCard"]" />
+    <meta name="twitter:url" content="http://wucsa.com/history" />
+    <meta name="twitter:title" content="@Localizer["HistoryCard"]" />
+    <meta name="twitter:description" content="@Localizer["HistoryDescription"]" />
+    <meta name="twitter:creator" content="@Localizer["AuthorFullName"]" />
+    <meta name="twitter:image" content="http://www.wucsa.com/images/favicon.ico" />
 }
 @section CSS {
     <link rel="canonical" href="https://wucsa.com/history" />
@@ -14,7 +34,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="breadcrumbs-content">
-                    <h1 class="page-title">@Localizer["History of World Usmanov's Combat Systems Association"]</h1>
+                    <h1 class="page-title">@Localizer["HistoryCard"]</h1>
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a asp-area="" asp-page="/Index">Home</a></li>
@@ -38,7 +58,7 @@
                     <div class="page-details-body">
                         @if (Model.Blog == null)
                         {
-                            <h4>@Localizer["Empty :D"]</h4>
+                            <h4>@Localizer["Empty"] :D</h4>
                         }
                         else
                         {

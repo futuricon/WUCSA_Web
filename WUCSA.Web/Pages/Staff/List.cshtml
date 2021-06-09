@@ -2,18 +2,31 @@
 @model WUCSA.Web.Pages.Staff.ListModel
 @inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = Localizer["Staff & Members"];
+    ViewData["Title"] = Localizer["StaffCard"];
     Layout = "_Layout";
 }
 @section Head {
-    @{var staffUrl = $"https://wucsa.net/staff";}
-    <meta property="og:site_name" content="WUCSA Staff & Members" />
-    <meta property="og:url" content="@staffUrl" />
-    <meta name="twitter:site" content="WUCSA Staff & Members" />
+    <meta name="author" content="@Localizer["AuthorFullName"]" />
+    <meta name="keywords" content="@Localizer["StaffKeyWords"]" />
+    <meta name="description" content="@Localizer["StaffDescription"]" />
+    <meta name="image" content="http://www.wucsa.com/images/favicon.ico" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://wucsa.com/staff/list" />
+    <meta property="og:title" content="@Localizer["StaffCard"]" />
+    <meta property="og:description" content="@Localizer["StaffDescription"]" />
+    <meta property="og:image" content="http://www.wucsa.com/images/favicon.ico" />
+
+    <meta name="twitter:card" content="@Localizer["StaffCard"]" />
+    <meta name="twitter:url" content="http://wucsa.com/staff/list" />
+    <meta name="twitter:title" content="@Localizer["StaffCard"]" />
+    <meta name="twitter:description" content="@Localizer["StaffDescription"]" />
+    <meta name="twitter:creator" content="@Localizer["AuthorFullName"]" />
+    <meta name="twitter:image" content="http://www.wucsa.com/images/favicon.ico" />
 }
 
 @section CSS{
-    <link rel="canonical" href="http://wucsa.com/staff" />
+    <link rel="canonical" href="https://wucsa.com/staff/list" />
     <link rel="stylesheet" href="~/css/staff_style.css" />
 }
 
@@ -22,7 +35,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="breadcrumbs-content">
-                    <h1 class="page-title">@Localizer["Staff & Members"]</h1>
+                    <h1 class="page-title">@Localizer["StaffCard"]</h1>
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a asp-area="" asp-page="/Index">Home</a></li>
@@ -165,9 +178,9 @@
             }
         </div>
         @*<div class="resume-inner">
-            
-        </div>*@
-        
+
+            </div>*@
+
     </div>
 </div>
 

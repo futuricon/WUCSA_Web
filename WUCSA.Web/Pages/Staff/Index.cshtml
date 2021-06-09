@@ -2,23 +2,37 @@
 @model WUCSA.Web.Pages.Staff.IndexModel
 @inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = Localizer["Staff & Members"];
+    string cardInfo = $"{Model.Staff.FirstName} {Model.Staff.LastName} - {ViewData["StaffPosition"]}";
+    ViewData["Title"] = cardInfo;
     Layout = "_Layout";
 }
 
 @section Head {
-    @{ var imgUrl = $"http://wucsa.com{Model.Staff.ProfilePhotoPath}";
+    @{ 
+        var imgUrl = $"http://wucsa.com{Model.Staff.ProfilePhotoPath}";
         var staffUrl = $"http://wucsa.net/staff/{Model.Staff.Slug}";
-        }
+    }
 
     <meta name="staff" content="@Model.Staff.FirstName @Model.Staff.LastName" />
-    <meta name="position" content="@Model.Staff.Position" />
+    <meta name="position" content="@ViewData["StaffPosition"]" />
+
+    <meta name="author" content="@Localizer["AuthorFullName"]" />
+    <meta name="keywords" content="@Model.Staff.FirstName, @Model.Staff.LastName, 
+          @Model.Staff.Position, @Model.Staff.PositionRu, @Model.Staff.PositionUz, @Model.Staff.Location" />
+    <meta name="description" content="@ViewData["StaffDescription"]" />
     <meta name="image" content="@imgUrl" />
-    <meta property="og:site_name" content="WUCSA Staff & Members" />
-    <meta property="og:image" content="@imgUrl" />
+
+    <meta property="og:type" content="website" />
     <meta property="og:url" content="@staffUrl" />
-    <meta name="twitter:description" content="@Model.Staff.Description" />
-    <meta name="twitter:site" content="WUCSA Staff & Members" />
+    <meta property="og:title" content="@cardInfo" />
+    <meta property="og:description" content="@ViewData["StaffDescription"]" />
+    <meta property="og:image" content="@imgUrl" />
+
+    <meta name="twitter:card" content="@cardInfo" />
+    <meta name="twitter:url" content="@staffUrl" />
+    <meta name="twitter:title" content="@cardInfo" />
+    <meta name="twitter:description" content="@ViewData["StaffDescription"]" />
+    <meta name="twitter:creator" content="@Localizer["AuthorFullName"]" />
     <meta name="twitter:image" content="@imgUrl" />
 }
 
@@ -32,11 +46,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="breadcrumbs-content">
-                    <h1 class="page-title">@Localizer["Staff & Members"]</h1>
+                    <h1 class="page-title">@cardInfo</h1>
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a asp-area="" asp-page="/Index">Home</a></li>
-                    <li><a asp-page="/Staff/List">@Localizer["Members"]</a></li>
+                    <li><a asp-page="/Staff/List">@Localizer["Staff & Members"]</a></li>
                     @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                     {
                         <li><a asp-page="/Staff/Edit" asp-route-id="@Model.Staff.Id">@Localizer["Edit this Member"]</a></li>
