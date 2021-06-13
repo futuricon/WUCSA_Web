@@ -4,23 +4,26 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using WUCSA.Core.Entities.UserModel;
 using WUCSA.Core.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace WUCSA.Web.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class ForgotPasswordModel : PageModel
     {
+        private readonly ILogger<ForgotPasswordModel> _logger;
         private readonly UserManager<AppUser> _userManager;
         private readonly IEmailService _service;
 
-        public ForgotPasswordModel(UserManager<AppUser> userManager, IEmailService service)
+        public ForgotPasswordModel(ILogger<ForgotPasswordModel> logger, 
+            UserManager<AppUser> userManager, IEmailService service)
         {
+            _logger = logger;
             _userManager = userManager;
             _service = service;
         }
@@ -39,13 +42,15 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
         {
             if (ModelState.IsValid)
             {
+                _logger.LogInformation("ModelState Is Valid True");
                 var user = await _userManager.FindByEmailAsync(Input.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                if (user == null )
                 {
+                    //|| !(await _userManager.IsEmailConfirmedAsync(user))
                     // Don't reveal that the user does not exist or is not confirmed
                     return RedirectToPage("./ForgotPasswordConfirmation");
                 }
-
+                _logger.LogInformation("User Passed Checking");
                 // For more information on how to enable account confirmation and password reset please 
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -56,6 +61,7 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
                     values: new { area = "Identity", code },
                     protocol: Request.Scheme);
 
+                _logger.LogInformation("(Async) Attempting to send message");
                 await _service.SendAsync(
                     Input.Email,
                     "Reset Password",

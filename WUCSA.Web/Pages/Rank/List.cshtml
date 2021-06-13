@@ -3,17 +3,33 @@
 @inject IViewLocalizer Localizer
 @namespace WUCSA.Models
 
-@{ ViewData["Title"] = Localizer["Ranking"];
-    Layout = "_Layout"; }
+@{ 
+    ViewData["Title"] = Localizer["RankTitle"];
+    Layout = "_Layout";
+}
 
 @section Head {
-    <meta name="author" content="WUCSA" />
-    <meta name="description" content="@Localizer["WUCSA official Ranking"]" />
-    <meta name="keywords" content="WUCSA, Ranking, Rank" />
+    <meta name="author" content="@Localizer["AuthorFullName"]" />
+    <meta name="keywords" content="@Localizer["RankKeyWords"]" />
+    <meta name="description" content="@Localizer["RankDescription"]" />
+    <meta name="image" content="http://www.wucsa.com/images/favicon.ico" />
+    
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="@ViewData["RankListUrl"]" />
+    <meta property="og:title" content="@Localizer["RankTitle"]" />
+    <meta property="og:description" content="@Localizer["RankDescription"]" />
+    <meta property="og:image" content="http://www.wucsa.com/images/favicon.ico" />
+    
+    <meta name="twitter:card" content="@Localizer["RankCard"]" />
+    <meta name="twitter:url" content="@ViewData["RankListUrl"]" />
+    <meta name="twitter:title" content="@Localizer["RankTitle"]" />
+    <meta name="twitter:description" content="@Localizer["RankDescription"]" />
+    <meta name="twitter:creator" content="@Localizer["AuthorFullName"]" />
+    <meta name="twitter:image" content="http://www.wucsa.com/images/favicon.ico" />
 }
 
 @section CSS {
-    <link rel="canonical" href="http://wucsa.com/rank/list/world/man" />
+    <link rel="canonical" href="https://wucsa.com/rank/list/world/man" />
     <link rel="stylesheet" href="~/css/rank_style.css" />
 }
 
@@ -22,11 +38,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="breadcrumbs-content">
-                    <h1 class="page-title">@Localizer["Ranking List"]</h1>
+                    <h1 class="page-title">@Localizer["RankCard"]</h1>
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a asp-page="/Index">@Localizer["Home"]</a></li>
-                    <li><a asp-page="Rank/List" asp-route-loc="World" asp-route-gender="Man">@Localizer["Ranking List"]</a></li>
+                    <li><a asp-page="Rank/List" asp-route-loc="World" asp-route-gender="Man">@Localizer["Ranking"]</a></li>
                     @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                     {
                         <li>
@@ -112,7 +128,7 @@
                         </div>
                         <div class="rank-button">
                             <ul>
-                                <li><a asp-page="/Rank/Index" asp-route-slug="@rank.Slug">@Localizer["More"]</a></li>
+                                <li><a asp-page="/Rank/Index" asp-route-loc="@ViewData["ThisLocation"]" asp-route-gender="@ViewData["ThisGender"]" asp-route-slug="@rank.Slug">@Localizer["More"]</a></li>
                             </ul>
                         </div>
                     </div>

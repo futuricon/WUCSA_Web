@@ -4,7 +4,7 @@ namespace WUCSA.Core.Interfaces
 {
     public interface IEmailService
     {
-        void Send(string to, string subject, string html);
+        Task Send(string to, string subject, string html);
         Task SendAsync(string to, string subject, string html);
         Task SendTGAsync(string msg);
         Task SendToAllTGAsync(string msg);

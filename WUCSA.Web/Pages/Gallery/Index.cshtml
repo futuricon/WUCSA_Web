@@ -5,17 +5,32 @@
 @inject IViewLocalizer Localizer
 @inject UserManager<AppUser> UserManager
 @{
-    ViewData["Title"] = Localizer["Gallery"];
+    ViewData["Title"] = $"{Localizer["Gallery"]} - {Localizer["WUCSA"]}";
     Layout = "_Layout";
 }
 
 @section Head {
-    <meta name="author" content="WUCSA" />
-    <meta name="description" content="WUCSA official gallery" />
-    <meta name="keywords" content="WUCSA, gallery" />
+    <meta name="author" content="@Localizer["AuthorFullName"]" />
+    <meta name="keywords" content="@Localizer["MediaKeyWords"]" />
+    <meta name="description" content="@Localizer["MediaDescription"]" />
+    <meta name="image" content="http://www.wucsa.com/images/favicon.ico" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://wucsa.com/gallery" />
+    <meta property="og:title" content="@Localizer["Gallery"]} - @Localizer["WUCSA"]" />
+    <meta property="og:description" content="@Localizer["MediaDescription"]" />
+    <meta property="og:image" content="http://www.wucsa.com/images/favicon.ico" />
+
+    <meta name="twitter:card" content="@Localizer["MediaCard"]" />
+    <meta name="twitter:url" content="http://wucsa.com/gallery" />
+    <meta name="twitter:title" content="@Localizer["Gallery"]} - @Localizer["WUCSA"]" />
+    <meta name="twitter:description" content="@Localizer["MediaDescription"]" />
+    <meta name="twitter:creator" content="@Localizer["AuthorFullName"]" />
+    <meta name="twitter:image" content="http://www.wucsa.com/images/favicon.ico" />
 }
 
 @section CSS {
+    <link rel="canonical" href="https://wucsa.com/gallery" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
     <link rel="stylesheet" href="~/css/gallery_style.css" />
 }
@@ -25,7 +40,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="breadcrumbs-content">
-                    <h1 class="page-title">@Localizer["Gallery"]</h1>
+                    <h1 class="page-title">@Localizer["MediaCard"]</h1>
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a asp-page="/Index">@Localizer["Home"]</a></li>
@@ -95,8 +110,8 @@
 
                                                     @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                                                     {
-                                                        <li><a asp-page="/Gallery/Edit" asp-route-id="@media.Id"><i class="lni lni-pencil"></i>&nbsp;Edit</a></li>
-                                                        <li><a asp-page="/Gallery/Delete" asp-route-id="@media.Id" class="del-btn"><i class="lni lni-trash"></i>&nbsp;Delete</a></li>
+                                                        <li><a asp-page="/Gallery/Edit" asp-route-id="@media.Id"><i class="lni lni-pencil"></i>&nbsp;@Localizer["Edit"]</a></li>
+                                                        <li><a asp-page="/Gallery/Delete" asp-route-id="@media.Id" class="del-btn"><i class="lni lni-trash"></i>&nbsp;@Localizer["Delete"]</a></li>
                                                     }
                                                 }
                                             </ul>
@@ -111,7 +126,7 @@
                 </div>
                 <div class="pagination center">
                     <ul class="pagination-list">
-                        <pagination class="mx-auto" page-index="@Model.Medias.PageIndex" total-pages="@Model.Medias.TotalPages" page-path="./gallery" base-url="/Gallery/List" />
+                        <pagination class="mx-auto" page-index="@Model.Medias.PageIndex" total-pages="@Model.Medias.TotalPages" page-path="./gallery" base-url="/Gallery" />
                     </ul>
                 </div>
             </div>
@@ -126,7 +141,7 @@
                     </div> -->
 
                     <div class="widget categories-widget">
-                        <h5 class="widget-title"><span>Sort By</span></h5>
+                        <h5 class="widget-title"><span>@Localizer["Sort By"]</span></h5>
                         <ul class="custom">
                             <li>
                                 <a asp-page="/Gallery/Index" asp-route-sortBy="Latest" asp-route-tag="@ViewData["tagData"]">@Localizer["Latest"]</a>

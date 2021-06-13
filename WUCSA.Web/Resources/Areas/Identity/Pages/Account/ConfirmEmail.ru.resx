@@ -117,31 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Add new History Page" xml:space="preserve">
-    <value>Добавить новую Страницу Истории</value>
+  <data name="Confirm email" xml:space="preserve">
+    <value>Подтвердить Email</value>
   </data>
-  <data name="AuthorFullName" xml:space="preserve">
-    <value>Усманов Фахриддин</value>
-  </data>
-  <data name="Edit this History Page" xml:space="preserve">
-    <value>Редактировать эту Страницу Истории</value>
-  </data>
-  <data name="Empty" xml:space="preserve">
-    <value>Пусто</value>
-  </data>
-  <data name="History" xml:space="preserve">
-    <value>История</value>
-  </data>
-  <data name="History of WUCSA" xml:space="preserve">
-    <value>История WUCSA</value>
-  </data>
-  <data name="HistoryCard" xml:space="preserve">
-    <value>История Всемирной Ассоциации Боевых Систем Усманова</value>
-  </data>
-  <data name="HistoryDescription" xml:space="preserve">
-    <value>18 ноября 2019 года Мировая Ассоциация Боевых Систем Усманова  был одобрен Международной ассоциацией боевых искусств со штаб-квартирой в Германии и основан основателем ...</value>
-  </data>
-  <data name="HistoryKeyWords" xml:space="preserve">
-    <value>wucsa, World, Usmanov`s, Combat, Systems, Association, Фахриддин, Усманов, Демонстрация, легкий контакт, полный контакт A, полный контакт B, нокдаун A, нокдаун B, боевая борьба, Ножевой бой, короткий меч Чамбара, длинный меч Чамбара, Муайборан, международный, Айкидо, Федерация</value>
+  <data name="Go To Home" xml:space="preserve">
+    <value>На Главную</value>
   </data>
 </root>

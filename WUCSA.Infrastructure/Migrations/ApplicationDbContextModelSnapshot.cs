@@ -731,14 +731,17 @@ namespace WUCSA.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(400)")
                         .HasMaxLength(400);
 
                     b.Property<string>("DescriptionRu")
+                        .IsRequired()
                         .HasColumnType("nvarchar(400)")
                         .HasMaxLength(400);
 
                     b.Property<string>("DescriptionUz")
+                        .IsRequired()
                         .HasColumnType("nvarchar(400)")
                         .HasMaxLength(400);
 

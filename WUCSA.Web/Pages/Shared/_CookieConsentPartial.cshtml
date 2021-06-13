@@ -34,7 +34,8 @@
             var button = document.querySelector("#cookieCons button[data-cookie-string]");
             button.addEventListener("click", function (event) {
                 document.cookie = button.dataset.cookieString;
-                document.getElementById("cookieCons").style.display = "none !important";
+                //document.getElementById("cookieCons").style.display = "none !important";
+                $('#cookieCons').hide();
             }, false);
         })();
     </script>

@@ -2,15 +2,34 @@
 @model WUCSA.Web.Pages.Rank.IndexModel
 @inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = Localizer["Ranking"];
+    ViewData["Title"] = $"{ViewData["RankTitle"].ToString()} - {Localizer["RankTitle"].Value}";
     Layout = "_Layout";
 }
 
 @section Head {
-    <meta name="twitter:site" content="WUCSA" />
-    <meta name="description" content="WUCSA official ranking" />
-    <meta name="keywords" content="WUCSA, rank" />
+    @{
+        var imgUrl = $"http://www.wucsa.com/images/favicon.ico";
+        var rankUrl = ViewData["RankUrl"];
+    }
+    <meta name="author" content="@Localizer["AuthorFullName"]" />
+    <meta name="keywords" content="@Localizer["RankKeyWords"], " />
+    <meta name="description" content="@ViewData["RankDescription"]" />
+    <meta name="image" content="@imgUrl" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="@rankUrl" />
+    <meta property="og:title" content="@ViewData["RankTitle"]" />
+    <meta property="og:description" content="@ViewData["RankDescription"]" />
+    <meta property="og:image" content="@imgUrl" />
+
+    <meta name="twitter:card" content="@Localizer["RankCard"]" />
+    <meta name="twitter:url" content="@rankUrl" />
+    <meta name="twitter:title" content="@ViewData["RankTitle"]" />
+    <meta name="twitter:description" content="@ViewData["RankDescription"]" />
+    <meta name="twitter:creator" content="@Localizer["AuthorFullName"]" />
+    <meta name="twitter:image" content="@imgUrl" />
 }
+
 @section CSS {
     <link rel="stylesheet" href="~/css/rank_style.css" />
 }
@@ -21,16 +40,16 @@
             <div class="col-12">
                 <div class="breadcrumbs-content">
                     <h1 class="page-title">
-                        @Localizer["Ranking"]
+                        @ViewData["RankTitle"]
                     </h1>
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a asp-area="" asp-page="/Index">@Localizer["Home"]</a></li>
-                    <li><a asp-page="/Rank/List" asp-route-loc="world" asp-route-gender="men">@Localizer["Rank List"]</a></li>
+                    <li><a asp-page="/Rank/List" asp-route-loc="world" asp-route-gender="men">@Localizer["Ranking"]</a></li>
                     @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                     {
                         <li>
-                            <a asp-page="/RankParticipant/Create" asp-route-id="@Model.Rank.Id" >@Localizer["Add new Ranking List"]</a>
+                            <a asp-page="/RankParticipant/Create" asp-route-id="@Model.Rank.Id">@Localizer["Add new Ranking List"]</a>
                         </li>
                     }
                 </ul>
@@ -39,7 +58,7 @@
     </div>
 </div>
 
-<div class="rank-details section-rank pb-50">
+<div class="rank-details section-rank pt-50 pb-50">
     <div class="container">
         <div class="row mb-n5">
 
@@ -167,8 +186,8 @@
                                         </div>
                                     }
                                 </div>
-                                @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin")) 
-                                { 
+                                @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                                {
                                     <div class="actionBtn">
                                         <ul>
                                             <li><i class="lni lni-pencil"></i><a asp-page="/RankParticipant/Edit" asp-route-rankId="@Model.Rank.Id" asp-route-rankPartId="@rankParticipant.Id"> @Localizer["Edit"]</a></li>
@@ -180,7 +199,7 @@
                         }
 
                     </div>
-                    
+
                 </div>
             </div>
 
@@ -202,22 +221,22 @@
                     </div>
 
                     @*<div class="sidebar-widget">
-                        <div class="inner">
-                            <h6 class="title">Instagram</h6>
-                            <div id="pixlee_container"></div>
-                            <script type="text/javascript">
-                                window.PixleeAsyncInit = function () {
-                                    Pixlee.init({
-                                        apiKey: 'ploM-QKD99wEZtxbFXVa'
-                                    });
-                                    Pixlee.addSimpleWidget({
-                                        widgetId: '32803'
-                                    });
-                                };
-                            </script>
-                            <script src="//instafeed.assets.pxlecdn.com/assets/pixlee_widget_1_0_0.js"></script>
-                        </div>
-                    </div>*@
+                            <div class="inner">
+                                <h6 class="title">Instagram</h6>
+                                <div id="pixlee_container"></div>
+                                <script type="text/javascript">
+                                    window.PixleeAsyncInit = function () {
+                                        Pixlee.init({
+                                            apiKey: 'ploM-QKD99wEZtxbFXVa'
+                                        });
+                                        Pixlee.addSimpleWidget({
+                                            widgetId: '32803'
+                                        });
+                                    };
+                                </script>
+                                <script src="//instafeed.assets.pxlecdn.com/assets/pixlee_widget_1_0_0.js"></script>
+                            </div>
+                        </div>*@
 
                 </div>
             </div>

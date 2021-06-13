@@ -21,7 +21,10 @@
                     @if (User.IsInRole("SuperAdmin"))
                     {
                         <li><a asp-page="/Admin/StaticPages/Create">@Localizer["Add new Privacy Page"]</a></li>
-                        <li><a asp-page="/Admin/StaticPages/Edit" asp-route-id="@Model.Blog.Id">@Localizer["Edit this Privacy Page"]</a></li>
+                        @if (Model.Blog != null) 
+                        {
+                            <li><a asp-page="/Admin/StaticPages/Edit" asp-route-id="@Model.Blog.Id">@Localizer["Edit this Privacy Page"]</a></li> 
+                        }                            
                     }
                 </ul>
             </div>

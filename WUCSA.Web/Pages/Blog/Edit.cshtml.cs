@@ -50,6 +50,15 @@ namespace WUCSA.Web.Pages.Blog
                 Tags = Tag.JoinTags(blog.BlogTags.Select(i => i.Tag))
             };
 
+            ViewData.Add("toolbar", new[]
+            {
+                "Bold", "Italic", "Underline", "StrikeThrough",
+                "FontName", "FontSize", "FontColor", "BackgroundColor", "|",
+                "Formats", "Alignments", "OrderedList", "UnorderedList",
+                "Outdent", "Indent", "|", "CreateTable", "CreateLink", "Image", "|",
+                "ClearFormat", "SourceCode", "FullScreen", "|", "Undo", "Redo"
+            });
+
             return Page();
         }
 
@@ -73,7 +82,7 @@ namespace WUCSA.Web.Pages.Blog
 
             if (Input.UploadCoverPhoto != null && Input.UploadCoverPhoto.Length > 6)
             {
-                Input.Blog.CoverPhotoPath = _imageHelper.UploadCoverImage(Input.UploadCoverPhoto, $"{Input.Blog.Id}_blog_cover", "post_imgs");
+                blog.CoverPhotoPath = _imageHelper.UploadCoverImage(Input.UploadCoverPhoto, $"{Input.Blog.Id}_blog_cover", "post_imgs");
             }
 
             await _blogRepository.UpdateTagsAsync(blog, false, tags);

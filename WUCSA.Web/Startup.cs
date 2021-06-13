@@ -21,6 +21,8 @@ using Microsoft.AspNetCore.Localization.Routing;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Syncfusion.Licensing;
+using Serilog;
+using System;
 
 namespace WUCSA.Web
 {
@@ -75,6 +77,12 @@ namespace WUCSA.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.Configure<SecurityStampValidatorOptions>(options =>
+            {
+                // enables immediate logout, after updating the user's stat.
+                options.ValidationInterval = TimeSpan.Zero;
+            });
+
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<ImageHelper>();
             services.AddScoped<PDFFileHelper>();
@@ -117,6 +125,8 @@ namespace WUCSA.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseSerilogRequestLogging(); // serilog
+
             app.UseRouting();
             var localizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value;
             app.UseRequestLocalization(localizationOptions);
@@ -155,6 +165,9 @@ namespace WUCSA.Web
                 options.User.RequireUniqueEmail = true;
                 options.SignIn.RequireConfirmedAccount = true;
                 options.SignIn.RequireConfirmedEmail = true;
+                options.Lockout.AllowedForNewUsers = true;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 3;
             });
 
             services.AddAuthentication()

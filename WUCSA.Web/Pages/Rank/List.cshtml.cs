@@ -38,19 +38,22 @@ namespace WUCSA.Web.Pages.Rank
         {
             RCName = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.UICulture.Name;
             
-            var rankLoc = RouteData.Values["loc"].ToString();
-            var rankGen = RouteData.Values["gender"].ToString();
-            BasePath = $"{rankLoc}/{rankGen}";
+            var rankLoc = RouteData.Values["loc"].ToString().ToLower();
+            var rankGen = RouteData.Values["gender"].ToString().ToLower();
+            BasePath = $"list/{rankLoc}/{rankGen}";
             GetGenderOptions(rankGen);
             GetLocationOptions(rankLoc);
 
             var ranks = (await _rankRepository.GetListAsync<Core.Entities.RankModel.Rank>())
-                .Where(i => i.RankLocation.ToString().ToLower() == rankLoc.ToLower()
+                .Where(i => i.RankLocation.ToString().ToLower() == rankLoc
                 && i.RankParticipants.Where(z => z.Gender.ToString().ToLower() == rankGen) != null
                 && i.IsDeleted == false)
                 .OrderByDescending(i => i.RankDate); // debug this !!!
 
             Ranks = PaginatedList<Core.Entities.RankModel.Rank>.Create(ranks, pageIndex, 6);
+            ViewData["RankListUrl"] = $"http://wucsa.com/rank/list/{loc}/{gender}";
+            ViewData["ThisLocation"] = rankLoc;
+            ViewData["ThisGender"] = rankGen;
             return Page();
         }
         

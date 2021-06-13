@@ -175,7 +175,8 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account.Manage
                 null,
                 new { userId = user.Id, code },
                 Request.Scheme);
-
+            
+            var test = HtmlEncoder.Default.Encode(callbackUrl);
             await _emailSender.SendAsync(
                 user.Email,
                 "Confirm your email wucsa.com",

@@ -29,12 +29,17 @@
     
     function printDetails(e) {
         var culture = this.text;
-        if (segments.length > 2) {
+        if (segments[1].length == 2) {
             segments[1] = culture;
             location.href = segments.join('/');
-        } else {
+        }
+        else {
             location.href = '/' + culture + location.pathname;
         }
+        //if (segments.length > 2) {
+        //    segments[1] = culture;
+        //    location.href = segments.join('/');
+        
     }
 </script>
 

@@ -153,6 +153,9 @@
   <data name="StaffKeyWords" xml:space="preserve">
     <value>wucsa, World, Usmanov`s, Combat, Systems, Association, Бой, Системы, Ассоциация, Фахриддин, Усманов, Персонал, Члены, Международный, Айкидо, Федерация, Участники, Представители</value>
   </data>
+  <data name="StaffTitle" xml:space="preserve">
+    <value>Сотрудники и Представители - Всемирная Ассоциация Боевых Систем Усманова</value>
+  </data>
   <data name="There are no any Staff yet" xml:space="preserve">
     <value>Персоналов пока нет</value>
   </data>

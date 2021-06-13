@@ -3,8 +3,6 @@
 @inject IViewLocalizer Localizer
 @{ ViewData["Title"] = Localizer["Sign Up"]; }
 
-
-
 <section class="log-in-us section mb-30">
     <div class="container">
         <div class="col-10 mx-auto mt-50">
@@ -15,7 +13,7 @@
                             <div class="row">
                                 <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl"  method="post">
                                     <div class="heading">
-                                        <h3>@Localizer["Associate your "] @Model.LoginProvider @Localizer["account"].</h3>
+                                        <h3>@Localizer["Associate your"] @Model.LoginProvider @Localizer["account"].</h3>
                                         <p>
                                             @Localizer["You've successfully authenticated with"] <strong>@Model.LoginProvider</strong>.
                                             @Localizer["Please enter an email address for this site below and click the Register button to finish logging in."]

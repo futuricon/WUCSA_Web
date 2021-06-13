@@ -570,7 +570,6 @@
                     color: #fff;
                     border-radius: 4px;
                     font-size: 13px;
-                    text-transform: capitalize
                 }
 
                     .latest-event .single-event .event-button ul li a:hover {
@@ -629,7 +628,6 @@
                 color: var(--main-blue-color);
                 padding: 5px 10px;
                 border-radius: 3px;
-                text-transform: capitalize
             }
 
                 .latest-news-area .single-news .content-body .meta-details ul li:last-child {
@@ -702,7 +700,6 @@
 
 .single-news .button .btn {
     display: inline-block;
-    text-transform: capitalize;
     font-size: 14px;
     font-weight: 500;
     padding: 10px 20px;
@@ -752,7 +749,7 @@
             bottom: -36px;
             height: 200px;
             width: 200px;
-            background-image: url(assets/images/gal/patern2.png);
+            background-image: url(../images/hero/patern2.png);
             background-repeat: no-repeat;
             z-index: -1
         }
@@ -873,7 +870,6 @@
 .our-gallery .content-right h2 {
     font-size: 38px;
     line-height: 45px;
-    text-transform: capitalize;
     position: relative;
     font-weight: 700
 }
@@ -882,7 +878,6 @@
     font-size: 23px;
     margin-bottom: 50px;
     line-height: 45px;
-    text-transform: capitalize;
     position: relative;
     font-weight: 700
 }

@@ -7,75 +7,83 @@ using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 using System;
 using Telegram.Bot.Types.Enums;
+using Microsoft.Extensions.Logging;
+using System.Net;
 
 namespace WUCSA.Infrastructure.Services
 {
     public class EmailService : IEmailService
     {
+        private readonly ILogger<EmailService> _logger;
         private readonly IConfiguration _config;
 
-        public EmailService(IConfiguration configuration)
+        public EmailService(ILogger<EmailService> logger, IConfiguration configuration)
         {
+            _logger = logger;
             _config = configuration;
         }
 
-        public void Send(string to, string subject, string html)
+        public async Task Send(string to, string subject, string html)
         {
+            string smtp_account = _config.GetSection("SMTPConfig:Username").Value;
+            string smtp_password = _config.GetSection("SMTPConfig:Password").Value;
+            string smtp_reciever = to;
 
-            const string SmtpFrom = "sport.wucsa@gmail.com";
-            const string SmtpHost = "smtp.gmail.com";
-            const int SmtpPort = 465;
-            const string SmtpUser = "sport.wucsa@gmail.com";
-            string SmtpPass = _config.GetSection("SMTPConfig:Password").Value;
+            var from_email = new System.Net.Mail.MailAddress(smtp_account);
+            var to_emal = new System.Net.Mail.MailAddress(smtp_reciever);
+            var message = new System.Net.Mail.MailMessage(from_email, to_emal);
+            message.Subject = subject;
+            message.Body = html;
+
+            var smtp = new System.Net.Mail.SmtpClient("smtp.yandex.ru", 465)
+            {
+                EnableSsl = true,
+                DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(smtp_account, smtp_password)
+            };
 
             try
             {
-                // create message
-                var email = new MimeMessage();
-                email.From.Add(MailboxAddress.Parse(SmtpFrom));
-                email.To.Add(MailboxAddress.Parse(to));
-                email.Subject = subject;
-                email.Body = new TextPart(TextFormat.Html) { Text = html };
-
-                // send email
-                using var smtp = new SmtpClient();
-                smtp.Connect(SmtpHost, SmtpPort, SecureSocketOptions.SslOnConnect);
-                smtp.Authenticate(SmtpUser, SmtpPass);
-                smtp.Send(email);
-                smtp.Disconnect(true);
+                _logger.LogInformation("Try Send Message");
+                await smtp.SendMailAsync(message);
+                _logger.LogInformation("Message sent successfully");
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
-                System.Console.WriteLine(e.InnerException.Message);
+                _logger.LogInformation("Error while sending message:" + e);
+               System.Console.WriteLine(e.InnerException.Message);
             }
         }
 
         public async Task SendAsync(string to, string subject, string html)
         {
-            const string SmtpFrom = "sport.wucsa@gmail.com";
-            const string SmtpHost = "smtp.gmail.com";
+            const string SmtpHost = "smtp.yandex.ru";
             const int SmtpPort = 465;
-            const string SmtpUser = "sport.wucsa@gmail.com";
+            string SmtpUser = _config.GetSection("SMTPConfig:Username").Value;
             string SmtpPass = _config.GetSection("SMTPConfig:Password").Value;
 
             try
             {
                 // create message
                 var email = new MimeMessage();
-                email.From.Add(MailboxAddress.Parse(SmtpFrom));
+                email.From.Add(MailboxAddress.Parse(SmtpUser));
                 email.To.Add(MailboxAddress.Parse(to));
                 email.Subject = subject;
                 email.Body = new TextPart(TextFormat.Html) { Text = html };
 
+                _logger.LogInformation("(Async) Try Send Message");
                 // send email
                 using var smtp = new SmtpClient();
                 await smtp.ConnectAsync(SmtpHost, SmtpPort, SecureSocketOptions.SslOnConnect);
                 await smtp.AuthenticateAsync(SmtpUser, SmtpPass);
                 await smtp.SendAsync(email);
                 await smtp.DisconnectAsync(true);
+                _logger.LogInformation("(Async) Message sent successfully");
             }
             catch (System.Exception e)
             {
+                _logger.LogInformation("(Async) Error while sending message:" + e);
                 System.Console.WriteLine(e.InnerException.Message);
             }
         }

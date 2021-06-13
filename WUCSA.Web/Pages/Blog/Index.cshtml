@@ -1,55 +1,38 @@
 ﻿@page "{slug}"
 @model WUCSA.Web.Pages.Blog.IndexModel
 @inject IViewLocalizer Localizer
-@{ ViewData["Title"] = Model.Blog.Title;
-    Layout = "_Layout"; }
+@{ 
+    var blogTitle = $"{ViewData["BlogTitle"]} - {Localizer["WUCSA"].Value}";
+    ViewData["Title"] = blogTitle;
+    Layout = "_Layout";
+}
 
 @section Head {
-
-    @{
-        string description = Localizer["HistoryCard"].ToString();
-        if (Model.Blog != null)
-        {
-            @switch (Model.RCName)
-            {
-                case "ru":
-                    description = Core.Entities.BlogModel.Blog.GetShortContent(Model.Blog.ContentRu, 200);
-                    break;
-                case "uz":
-                    description = Core.Entities.BlogModel.Blog.GetShortContent(Model.Blog.ContentUz, 200);
-                    break;
-                default:
-                    description = Core.Entities.BlogModel.Blog.GetShortContent(Model.Blog.Content, 200);
-                    break;
-            }
-        }
-    }
     @{
         var imgUrl = $"http://wucsa.com{Model.Blog.CoverPhotoPath}";
         var articleUrl = $"http://wucsa.com/blog/{Model.Blog.Slug}";
-        var shortContent = Core.Entities.BlogModel.Blog.GetShortContent(Model.Blog.Content, 200);
     }
 
-    <meta name="author" content="@Model.Blog.Author" />
-    <meta name="description" content="@shortContent" />
+    <meta name="author" content="@Model.Blog.Author.FirstName @Model.Blog.Author.LastName" />
+    <meta name="description" content="@ViewData["BlogDesription"]" />
     <meta name="keywords" content="@Model.Tags" />
     <meta name="image" content="@imgUrl" />
 
     <meta property="og:url" content="@articleUrl" />
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="@Model.Blog.Title" />
+    <meta property="og:title" content="@ViewData["BlogTitle"]" />
     <meta property="og:site_name" content="WUCSA Blog" />
-    <meta property="og:description" content="@shortContent" />
+    <meta property="og:description" content="@ViewData["BlogDesription"]" />
     <meta property="og:image" content="@imgUrl" />
 
-    <meta property="article:published_time" content="@Model.Blog.PostedDate" />
-    <meta property="article:author" content="@Model.Blog.Author" />
+    <meta property="article:published_time" content="@Model.Blog.PostedDate.ToShortDateString()" />
+    <meta property="article:author" content="@Model.Blog.Author.FirstName @Model.Blog.Author.LastName" />
     <meta property="article:tags" content="@Model.Tags" />
 
-    <meta name="twitter:title" content="@Model.Blog.Title" />
+    <meta name="twitter:title" content="@ViewData["BlogTitle"]" />
     <meta name="twitter:site" content="WUCSA Blog" />
-    <meta name="twitter:description" content="@shortContent" />
-    <meta name="twitter:creator" content="@Model.Blog.Author" />
+    <meta name="twitter:description" content="@ViewData["BlogDesription"]" />
+    <meta name="twitter:creator" content="@Model.Blog.Author.FirstName @Model.Blog.Author.LastName" />
     <meta name="twitter:image" content="@imgUrl" />
 }
 
@@ -62,7 +45,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="breadcrumbs-content">
-                    <h1 class="page-title">@Model.Blog.Title</h1>
+                    <h1 class="page-title">@blogTitle</h1>
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a asp-area="" asp-page="/Index">@Localizer["Home"]</a></li>
@@ -181,10 +164,10 @@
                             </div>
                         </div>
 
-                        @if (Model.Blog.Comments.Count > 0 && Model.Blog.IsCommentsLocked == false)
+                        @if (Model.Blog.IsCommentsLocked == false)
                         {
                             <div class="post-comments">
-                                <h3 class="comment-title"><span>@Model.Blog.Comments.Count @Localizer["comments on this post"]</span></h3>
+                                <h3 class="comment-title"><span>@Model.Blog.Comments.Count @Localizer["Comments on this post"]</span></h3>
                                 <ul class="comments-list">
                                     @foreach (var comment in Model.Comments)
                                     {
@@ -227,7 +210,7 @@
                                             </div>
                                             <div class="col-lg-6 col-12">
                                                 <div class="form-box form-group">
-                                                    <input type="email" asp-for="@Model.CommentAuthorEmail" required class="form-control form-control-custom" placeholder="@Localizer["Your Email"]">
+                                                    <input type="email" asp-for="@Model.CommentAuthorEmail" required class="form-control form-control-custom" placeholder="@Localizer["Your E-mail"]">
                                                     <span class="text-danger" asp-validation-for="@Model.CommentAuthorEmail"></span>
                                                 </div>
                                             </div>
@@ -285,7 +268,7 @@
                                                 <div class="col-12">
                                                     <div class="button">
                                                         <button type="submit" class="send-btn mouse-dir white-bg mb-3">@Localizer["Post Comment"] <span class="dir-part"></span></button>
-                                                        <a href="#respond" onclick="prepToFun()" class="cancel-btn mouse-dir white-bg mb-3">@Localizer["Post Comment"] <span class="dir-part"></span></a>
+                                                        <a href="#respond" onclick="prepToFun()" class="cancel-btn mouse-dir white-bg mb-3">@Localizer["Cancel"] <span class="dir-part"></span></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -332,6 +315,7 @@
     <script>
         var pageIndex = '@ViewData["PageIndex"]';
         var blogSlug = '@ViewData["BlogSlug"]';
+        var uSure = '@Localizer["USure"]';
 
         function appToFun(e) {
             $("#replyCom").appendTo($('#rep-' + e));
@@ -344,7 +328,7 @@
         };
 
         function alertFunc(e) {
-            if (confirm('Are you shure you want delete this comment')) {
+            if (confirm(uSure)) {
                 $('#deleteComForm-'+e).submit();
             } else {
                 return false;

@@ -17,9 +17,12 @@
     {
         <li id="external-logins"><a id="external-login" class="@ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins"><i class="lni lni-enter"></i> @Localizer["External logins"]</a></li>
     }
-    @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+    @if (User.IsInRole("SuperAdmin"))
     {
         <li><a class="@ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication"><i class="lni lni-shield"></i> @Localizer["Two-factor authentication"]</a></li>
     }
-    <li><a class="@ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData"><i class="lni lni-target-customer"></i> @Localizer["Personal data"]</a></li>
+    @if(!User.IsInRole("Admin") && !User.IsInRole("SuperAdmin"))
+    {
+<li><a class="@ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData"><i class="lni lni-target-customer"></i> @Localizer["Personal data"]</a></li>
+    }
 </ul>

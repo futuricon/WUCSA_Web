@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using WUCSA.Core.Entities.UserModel;
+using WUCSA.Core.Interfaces;
 
 namespace WUCSA.Web.Areas.Identity.Pages.Account
 {
@@ -14,10 +15,12 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
     public class ResetPasswordModel : PageModel
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly IEmailService _service;
 
-        public ResetPasswordModel(UserManager<AppUser> userManager)
+        public ResetPasswordModel(UserManager<AppUser> userManager, IEmailService service)
         {
             _userManager = userManager;
+            _service = service;
         }
 
         [BindProperty]
@@ -75,6 +78,10 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
             var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
             if (result.Succeeded)
             {
+                await _service.SendAsync(
+                    Input.Email,
+                    "Reset password",
+                    $"You have successfully reset your password in <a href='http://wucsa.com'>wucsa.com</a><br>Your Password is: {Input.Password}");
                 return RedirectToPage("./ResetPasswordConfirmation");
             }
 

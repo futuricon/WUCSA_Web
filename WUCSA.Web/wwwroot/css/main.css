@@ -1016,7 +1016,6 @@ ol {
   font-size: 35px;
   margin-bottom: 18px;
   line-height: 45px;
-  text-transform: capitalize;
   position: relative;
   font-weight: 700;
   padding-bottom: 14px;
@@ -1212,7 +1211,6 @@ ol {
 /*#region Button*/
 .button .btn {
   display: inline-block;
-  text-transform: capitalize;
   font-size: 14px;
   font-weight: 500;
   padding: 15px 30px;
@@ -1441,7 +1439,6 @@ ol {
   transition: all 0.3s ease-out 0s;
   padding: 30px 0;
   position: relative;
-  text-transform: capitalize;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -1745,7 +1742,6 @@ ol {
   display: block;
   font-size: 14px;
   font-weight: normal;
-  text-transform: capitalize;
   background: transparent;
   border-radius: 3px;
   font-weight: 400;
@@ -2592,7 +2588,7 @@ ol {
 ========================================*/
 /*#region Cookies*/
 .modalx {
-    display: block !important;
+    display: block;
     background-color: #00000082;
     position: fixed;
     top: 0;
@@ -2757,7 +2753,6 @@ ol {
   font-size: 19px;
   font-weight: 600;
   position: relative;
-  text-transform: capitalize;
   margin-bottom: 30px;
   font-weight: 500;
 }

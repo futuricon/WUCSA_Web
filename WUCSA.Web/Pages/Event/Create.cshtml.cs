@@ -90,7 +90,7 @@ namespace WUCSA.Web.Pages.Event
             Input.Event.Author = currentUser;
             await _eventRepository.UpdateSportTypesAsync(Input.Event, false, SelectedStypesId);
             await _eventRepository.AddEventAsync(Input.Event);
-            return RedirectToPage($"/Event/List", new { location = Input.Event.EventLocation});
+            return RedirectToPage($"/Event/", new { slug = Input.Event.Slug});
         }
 
         private async Task GetOptionAsync()

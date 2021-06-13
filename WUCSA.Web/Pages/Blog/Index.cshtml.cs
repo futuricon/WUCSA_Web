@@ -66,6 +66,22 @@ namespace WUCSA.Web.Pages.Blog
             var x = System.Web.HttpUtility.UrlEncode("https://wucsa.com/Blog/"+Blog.Slug);
             ViewData.Add("PageIndex", PageIndex);
             ViewData.Add("BlogSlug", blogSlug);
+
+            switch (RCName.ToLower())
+            {
+                case "ru":
+                    ViewData["BlogTitle"] = Blog.TitleRu;
+                    ViewData["BlogDesription"] = Core.Entities.BlogModel.Blog.GetShortContent(Blog.ContentRu, 250);
+                    break;
+                case "uz":
+                    ViewData["BlogTitle"] = Blog.TitleUz;
+                    ViewData["BlogDesription"] = Core.Entities.BlogModel.Blog.GetShortContent(Blog.ContentUz, 250);
+                    break;
+                default:
+                    ViewData["BlogTitle"] = Blog.Title;
+                    ViewData["BlogDesription"] = Core.Entities.BlogModel.Blog.GetShortContent(Blog.Content, 250);
+                    break;
+            }
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -97,7 +113,7 @@ namespace WUCSA.Web.Pages.Blog
                 comment.AuthorName = CommentAuthorName;
             }
 
-            string TGMsg = $"Hi, {Blog.Author.UserName}.\nThere is new comment in your post {Blog.Title}.\nCheck it out http://wucsa.com/{Blog.Slug}?pageIndex={pageNumber}#{comment.Id}";
+            string TGMsg = $"Hi, {Blog.Author.UserName}.\nThere is new comment in your post {Blog.Title}.\nCheck it out http://wucsa.com/blog/{Blog.Slug}?pageIndex={pageNumber}#{comment.Id}";
 
             await _blogRepository.AddCommentAsync(Blog, comment);
             await _emailService.SendToAllTGAsync(TGMsg);
@@ -136,11 +152,11 @@ namespace WUCSA.Web.Pages.Blog
             //<p>Replied to your comment in this wucsa.com blog <a href='{HtmlEncoder.Default.Encode($"http://wucsa.com/blog/{blog.Slug}?pageIndex={pageNumber}#{commentId}")}'>{blog.Title}</a></p>
             //<br />
             //";
-            var TGMsg = $@"Hi, {blog.Author.UserName}. {commentAuthor} replied to your comment in this wucsa.com post {blog.Title}. Check it out http://wucsa.com/{blog.Slug}?pageIndex={pageNumber}#{commentId}";
+            var TGMsg = $@"Hi, {blog.Author.UserName}. {commentAuthor} replied to your comment in this wucsa.com post {blog.Title}. Check it out http://wucsa.com/blog/{blog.Slug}?pageIndex={pageNumber}#{commentId}";
 
             await _blogRepository.AddReplyToCommentAsync(parentComment, childComment);
             //await _emailService.SendAsync(commentEmail, "Replied to your comment", htmlMsg);
-            await _emailService.SendTGAsync(TGMsg);
+            await _emailService.SendToAllTGAsync(TGMsg);
             return RedirectToPage("", "", new { pageIndex = pageNumber }, commentId);
         }
 

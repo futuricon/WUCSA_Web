@@ -43,6 +43,9 @@ namespace WUCSA.Web.Pages.Event
             {
                 Events = PaginatedList<Core.Entities.EventModel.Event>.Create(sortedEvents.OrderByDescending(i => i.EventDate), pageIndex, 6);
             }
+
+            ViewData["EventListUrl"] = $"http://wucsa.com/event/list/{location}";
+
             return Page();
         }
     }

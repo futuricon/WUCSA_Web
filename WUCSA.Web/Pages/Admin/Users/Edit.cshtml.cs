@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -94,6 +95,13 @@ namespace WUCSA.Web.Pages.Admin.Users
             user.LastName = AppUser.LastName;
             user.IsBlocked = AppUser.IsBlocked;
 
+            if (user.IsBlocked)
+            {
+                var endDate = DateTime.Now.AddMinutes(20);
+                await _userManager.SetLockoutEnabledAsync(user, true);
+                await _userManager.SetLockoutEndDateAsync(user, endDate);
+                await _userManager.UpdateSecurityStampAsync(user);
+            }
             if (IsAdmin)
             {
                 UserRolesName.Add("Admin");

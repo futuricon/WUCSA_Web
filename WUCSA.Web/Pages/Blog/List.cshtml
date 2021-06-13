@@ -3,18 +3,33 @@
 @model WUCSA.Web.Pages.Blog.ListModel
 @namespace WUCSA.Models
 @inject IViewLocalizer Localizer
-@{ 
-    ViewData["Title"] = Localizer["Blog"];
+@{
+    ViewData["Title"] = Localizer["BlogTitle"];
     Layout = "_Layout";
 }
 
 @section Head {
-    <meta name="author" content="WUCSA" />
-    <meta name="description" content="WUCSA official blog" />
-    <meta name="keywords" content="WUCSA, blog" />
+    <meta name="author" content="@Localizer["AuthorFullName"]" />
+    <meta name="keywords" content="@Localizer["BlogKeyWords"]" />
+    <meta name="description" content="@Localizer["BlogDescription"]" />
+    <meta name="image" content="http://www.wucsa.com/images/favicon.ico" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://wucsa.com/blog" />
+    <meta property="og:title" content="@Localizer["BlogTitle"]" />
+    <meta property="og:description" content="@Localizer["BlogDescription"]" />
+    <meta property="og:image" content="http://www.wucsa.com/images/favicon.ico" />
+
+    <meta name="twitter:card" content="@Localizer["BlogCard"]" />
+    <meta name="twitter:url" content="http://wucsa.com/blog" />
+    <meta name="twitter:title" content="@Localizer["BlogTitle"]" />
+    <meta name="twitter:description" content="@Localizer["BlogDescription"]" />
+    <meta name="twitter:creator" content="@Localizer["AuthorFullName"]" />
+    <meta name="twitter:image" content="http://www.wucsa.com/images/favicon.ico" />
 }
 
 @section CSS {
+    <link rel="canonical" href="http://wucsa.com/blog" />
     <link rel="stylesheet" href="~/css/blog_style.css" />
 }
 
@@ -23,18 +38,18 @@
         <div class="row">
             <div class="col-12">
                 <div class="breadcrumbs-content">
-                    <h1 class="page-title">@Localizer["Blog List"]</h1>
+                    <h1 class="page-title">@Localizer["BlogCard"]</h1>
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a asp-page="/Index">@Localizer["Home"]</a></li>
                     <li><a asp-page="/Blog/List">@Localizer["Blog"]</a></li>
-                     @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
-                     {
-                         <li>
+                    @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                    {
+                        <li>
                             <a asp-page="/Blog/Create">@Localizer["Add new Article"]</a>
-                         </li>
-                     }
-                    
+                        </li>
+                    }
+
                 </ul>
             </div>
         </div>
@@ -48,77 +63,77 @@
             <div class="col-lg-8 col-md-7 col-12">
                 <div class="row">
                     @if (!Model.Blogs.Any())
-                    {<h4>@Localizer["There are no any Posts yet"]</h4> }
-                    else
+                    {<h4>@Localizer["There are no any Posts yet"] :D</h4> }
+                else
+                {
+                    foreach (var blog in Model.Blogs)
                     {
-                        foreach (var blog in Model.Blogs)
-                        {
-                            <div class="col-lg-6 col-12">
+                        <div class="col-lg-6 col-12">
 
-                                <div class="single-news wow fadeInUp" data-wow-delay=".3s"
-                                     style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
-                                    <div class="image">
-                                        @if (!string.IsNullOrEmpty(blog.CoverPhotoPath))
-                                        {
-                                            <img class="thumb" src="@blog.CoverPhotoPath" alt="@blog.Title cover photo" /> 
-                                        }
-                                        else
-                                        {
-                                            <img src="~/img/blog_image.png" alt="default cover photo" />
-                                        }
+                            <div class="single-news wow fadeInUp" data-wow-delay=".3s"
+                                 style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
+                                <div class="image">
+                                    @if (!string.IsNullOrEmpty(blog.CoverPhotoPath))
+                                    {
+                                        <img class="thumb" src="@blog.CoverPhotoPath" alt="@blog.Title cover photo" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/img/blog_image.png" alt="default cover photo" />
+                                    }
+                                </div>
+                                <div class="content-body">
+                                    <h4 class="title">
+                                        <a asp-page="/Blog/Index" asp-route-slug="@blog.Slug">
+                                            @switch (Model.RCName)
+                                            {
+                                                case "ru":
+                                                    @blog.TitleRu
+                                                    break;
+                                                case "uz":
+                                                    @blog.TitleUz
+                                                    break;
+                                                default:
+                                                    @blog.Title
+                                                    break;
+                                            }
+                                        </a>
+                                    </h4>
+                                    <div class="meta-details">
+                                        <ul>
+                                            <li><a class="a-none"><i class="lni lni-calendar"></i> @blog.PostedDate.ToString(DateTimeFormatInfo.CurrentInfo.ShortDatePattern)</a></li>
+                                            <li><a class="a-none"><i class="lni lni-eye"></i> @blog.ViewCount</a></li>
+                                            <li><a class="a-none"><i class="lni lni-comments"></i>@blog.Comments.Count</a></li>
+                                        </ul>
                                     </div>
-                                    <div class="content-body">
-                                        <h4 class="title">
-                                            <a asp-page="/Blog/Index" asp-route-slug="@blog.Slug">
-                                                @switch (Model.RCName)
-                                                {
-                                                    case "ru":
-                                                        @blog.TitleRu
-                                                        break;
-                                                    case "uz":
-                                                        @blog.TitleUz
-                                                        break;
-                                                    default: 
-                                                        @blog.Title
-                                                        break;
-                                                }
-                                            </a>
-                                        </h4>
-                                        <div class="meta-details">
-                                            <ul>
-                                                <li><a class="a-none"><i class="lni lni-calendar"></i> @blog.PostedDate.ToString(DateTimeFormatInfo.CurrentInfo.ShortDatePattern)</a></li>
-                                                <li><a class="a-none"><i class="lni lni-eye"></i> @blog.ViewCount</a></li>
-                                                <li><a class="a-none"><i class="lni lni-comments"></i>@blog.Comments.Count</a></li>
-                                            </ul>
-                                        </div>
-                                        <p>
-                                             @switch (Model.RCName)
-                                             {
-                                                 case "ru":
-                                                     @Blog.GetShortContent(blog.ContentRu, 300)
-                                                     break;
-                                                 case "uz":
-                                                     @Blog.GetShortContent(blog.ContentUz, 300)
-                                                     break;
-                                                 default: 
-                                                     @Blog.GetShortContent(blog.Content, 300)
-                                                     break;
-                                             }
-                                        </p>
-                                        <div class="button">
-                                            <a asp-page="/Blog/Index" asp-route-slug="@blog.Slug" class="btn">@Localizer["Read More"]</a>
-                                        </div>
+                                    <p>
+                                        @switch (Model.RCName)
+                                        {
+                                            case "ru":
+                                                @Blog.GetShortContent(blog.ContentRu, 300)
+                                                break;
+                                            case "uz":
+                                                @Blog.GetShortContent(blog.ContentUz, 300)
+                                                break;
+                                            default:
+                                                @Blog.GetShortContent(blog.Content, 300)
+                                                break;
+                                        }
+                                    </p>
+                                    <div class="button">
+                                        <a asp-page="/Blog/Index" asp-route-slug="@blog.Slug" class="btn">@Localizer["Read More"]</a>
                                     </div>
                                 </div>
-
                             </div>
-                        }
+
+                        </div>
                     }
+                }
                 </div>
 
                 <div class="pagination center">
                     <ul class="pagination-list">
-                        <pagination class="mx-auto" page-index="@Model.Blogs.PageIndex" total-pages="@Model.Blogs.TotalPages" page-path="./blog"  base-url="/Blog/List" />
+                        <pagination class="mx-auto" page-index="@Model.Blogs.PageIndex" total-pages="@Model.Blogs.TotalPages" page-path="./List" base-url="/Blog/List" />
                     </ul>
                 </div>
 
@@ -128,15 +143,15 @@
                 <div class="sidebar">
 
                     @*<div class="widget search-widget">
-                        <h5 class="widget-title"><span>@Localizer["Search This Site"]</span></h5>
-                        <form action="#">
-                            <input type="text" asp-for="SearchString" placeholder="@Localizer["Search Here..."]">
-                            <button type="submit"><i class="lni lni-search-alt"></i></button>
-                        </form>
-                    </div>*@
+                            <h5 class="widget-title"><span>@Localizer["Search This Site"]</span></h5>
+                            <form action="#">
+                                <input type="text" asp-for="SearchString" placeholder="@Localizer["Search Here..."]">
+                                <button type="submit"><i class="lni lni-search-alt"></i></button>
+                            </form>
+                        </div>*@
 
                     <div class="widget popular-feeds">
-                        <h5 class="widget-title"><span>@Localizer["Popular Feeds"]</span></h5>
+                        <h5 class="widget-title"><span>@Localizer["Top Articles"]</span></h5>
                         <div class="popular-feed-loop">
                             @foreach (var article in Model.PopularArticles)
                             {
@@ -152,7 +167,7 @@
                                                     case "uz":
                                                         @article.TitleUz
                                                         break;
-                                                    default: 
+                                                    default:
                                                         @article.Title
                                                         break;
                                                 }
@@ -161,7 +176,7 @@
                                         <span class="time"><i class="lni lni-calendar"></i>@article.PostedDate.ToString(DateTimeFormatInfo.CurrentInfo.ShortDatePattern)</span>
                                     </div>
                                 </div>
-                             }
+                            }
 
                         </div>
                     </div>

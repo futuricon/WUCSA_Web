@@ -2,34 +2,34 @@
 @model WUCSA.Web.Pages.SportType.IndexModel
 @inject IViewLocalizer Localizer
 @{
-    string sportName;
-    @switch (Model.RCName)
-    {
-        case "ru":
-            sportName = @Model.SportType.NameRu;
-            break;
-        case "uz":
-            sportName = @Model.SportType.NameUz;
-            break;
-        default:
-            sportName = @Model.SportType.Name;
-            break;
-    }
-    ViewData["Title"] = sportName;
+    var cardTitle = ViewData["SportName"].ToString();
+    ViewData["Title"] = cardTitle;
     Layout = "_Layout";
 }
 
 @section Head {
     @{
-        var typeUrl = $"http://wucsa.net/SportType/{Model.SportType.Slug}";
+        var imgUrl = $"http://www.wucsa.com/images/favicon.ico";
+        var sportUrl = $"http://wucsa.com/SportType/{Model.SportType.Slug}";
     }
-    <meta name="keywords" content="@sportName" />
-    <meta property="og:title" content="@sportName" />
-    <meta property="og:site_name" content="Type of Sport" />
-    <meta property="og:url" content="@typeUrl" />
-    <meta property="article:tags" content="@sportName" />
-    <meta name="twitter:title" content="@sportName" />
-    <meta name="twitter:site" content="WUCSA" />
+
+    <meta name="author" content="@Localizer["AuthorFullName"]" />
+    <meta name="keywords" content="@Localizer["SportKeyWords"], @ViewData["SportName"]" />
+    <meta name="description" content="@ViewData["SportDescription"]" />
+    <meta name="image" content="@imgUrl" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="@sportUrl" />
+    <meta property="og:title" content="@cardTitle" />
+    <meta property="og:description" content="@ViewData["SportDescription"]" />
+    <meta property="og:image" content="@imgUrl" />
+
+    <meta name="twitter:card" content="@cardTitle" />
+    <meta name="twitter:url" content="@sportUrl" />
+    <meta name="twitter:title" content="@cardTitle" />
+    <meta name="twitter:description" content="@ViewData["SportDescription"]" />
+    <meta name="twitter:creator" content="@Localizer["AuthorFullName"]" />
+    <meta name="twitter:image" content="@imgUrl" />
 }
 
 @section CSS {
@@ -42,7 +42,7 @@
             <div class="col-12">
                 <div class="breadcrumbs-content">
                     <h1 class="page-title">
-                        @sportName
+                        @cardTitle
                     </h1>
                 </div>
                 <ul class="breadcrumb-nav">
@@ -67,7 +67,7 @@
                     <div class="type-details">
                         <div class="detail-inner">
                             <h2 class="type-title">
-                                @sportName
+                                @ViewData["SportName"]
                             </h2>
                             <p>
                                 @switch (Model.RCName)

@@ -36,7 +36,23 @@ namespace WUCSA.Web.Pages.Event
                 return NotFound();
             }
 
-            ViewData["key_words"] = string.Join(",", Event.EventSportTypes.Select(i=>i.SportType.Name).ToArray());
+            ViewData["KeyWords"] = string.Join(",", Event.EventSportTypes.Select(i=>i.SportType.Name).ToArray());
+
+            switch (RCName.ToLower())
+            {
+                case "ru":
+                    ViewData["EventTitle"] = Event.TitleRu;
+                    ViewData["EventDescription"] = Core.Entities.EventModel.Event.GetShortContent(Event.DescriptionRu, 200);
+                    break;
+                case "uz":
+                    ViewData["EventTitle"] = Event.TitleUz;
+                    ViewData["EventDescription"] = Core.Entities.EventModel.Event.GetShortContent(Event.DescriptionUz, 200);
+                    break;
+                default:
+                    ViewData["EventTitle"] = Event.Title;
+                    ViewData["EventDescription"] = Core.Entities.EventModel.Event.GetShortContent(Event.Description, 200);
+                    break;
+            }
 
             return Page();
         }

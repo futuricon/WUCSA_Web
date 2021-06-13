@@ -129,4 +129,7 @@
   <data name="StaffKeyWords" xml:space="preserve">
     <value>wucsa, World, Usmanov`s, Combat, Systems, Association, Fakhriddin, Usmanov, Staff, Members, international, Aikido, Federation, Participants</value>
   </data>
+  <data name="StaffTitle" xml:space="preserve">
+    <value>Staff &amp; Members - World Usmanov's Combat Systems Association</value>
+  </data>
 </root>

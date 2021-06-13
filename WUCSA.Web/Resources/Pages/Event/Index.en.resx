@@ -117,40 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Contact Us" xml:space="preserve">
-    <value>Контакты</value>
+  <data name="AuthorFullName" xml:space="preserve">
+    <value>Fakhriddin Usmanov</value>
   </data>
-  <data name="ContactAddressGe" xml:space="preserve">
-    <value>Грузия, город Марнеули, улица Руставели, N 7, квартира N 19</value>
+  <data name="EventCard" xml:space="preserve">
+    <value>Events in the World Usmanov's Combat Systems Association</value>
   </data>
-  <data name="ContactAddressUz" xml:space="preserve">
-    <value>Республика Узбекистан, Ташкентская область, Зангиотинский район, 111817, сельский совет горожан «Ханабад», район Таракиёт, улица Нурли Хаёт 80</value>
+  <data name="EventKeyWords" xml:space="preserve">
+    <value>wucsa, World, Usmanov`s, Combat, Systems, Association, Fakhriddin, Usmanov, international, Aikido, Federation, Sport, Marital Arts, Ranking, Participants, raiting, list, competition, Events,</value>
   </data>
-  <data name="Contacts" xml:space="preserve">
-    <value>Контакты Всемирной Ассоциации Боевых Систем Усманова</value>
-  </data>
-  <data name="Follow Us on" xml:space="preserve">
-    <value>Подпишитесь на нас</value>
-  </data>
-  <data name="Home" xml:space="preserve">
-    <value>Главная</value>
-  </data>
-  <data name="Submit Message" xml:space="preserve">
-    <value>Отправить сообщение</value>
-  </data>
-  <data name="Your Email" xml:space="preserve">
-    <value>Ваш адрес электронной почты</value>
-  </data>
-  <data name="Your Message" xml:space="preserve">
-    <value>Ваше сообщение</value>
-  </data>
-  <data name="Your Name" xml:space="preserve">
-    <value>Ваше имя</value>
-  </data>
-  <data name="Your Phone" xml:space="preserve">
-    <value>Ваш телефон</value>
-  </data>
-  <data name="Your Subject" xml:space="preserve">
-    <value>Вашa тема сообщения</value>
+  <data name="EventTitle" xml:space="preserve">
+    <value>World Usmanov's Combat Systems Association</value>
   </data>
 </root>

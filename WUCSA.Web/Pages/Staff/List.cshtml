@@ -2,7 +2,7 @@
 @model WUCSA.Web.Pages.Staff.ListModel
 @inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = Localizer["StaffCard"];
+    ViewData["Title"] = Localizer["StaffTitle"];
     Layout = "_Layout";
 }
 @section Head {
@@ -13,13 +13,13 @@
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content="http://wucsa.com/staff/list" />
-    <meta property="og:title" content="@Localizer["StaffCard"]" />
+    <meta property="og:title" content="@Localizer["StaffTitle"]" />
     <meta property="og:description" content="@Localizer["StaffDescription"]" />
     <meta property="og:image" content="http://www.wucsa.com/images/favicon.ico" />
 
     <meta name="twitter:card" content="@Localizer["StaffCard"]" />
     <meta name="twitter:url" content="http://wucsa.com/staff/list" />
-    <meta name="twitter:title" content="@Localizer["StaffCard"]" />
+    <meta name="twitter:title" content="@Localizer["StaffTitle"]" />
     <meta name="twitter:description" content="@Localizer["StaffDescription"]" />
     <meta name="twitter:creator" content="@Localizer["AuthorFullName"]" />
     <meta name="twitter:image" content="http://www.wucsa.com/images/favicon.ico" />

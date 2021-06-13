@@ -111,15 +111,15 @@ namespace WUCSA.Web.Pages.Event
             
             if (Input.UploadCoverPhoto != null)
             {
-                Input.Event.CoverPhotoPath = _imageHelper.UploadCoverImage(Input.UploadCoverPhoto, Input.Event.Id, "event_imgs");
+                myEvent.CoverPhotoPath = _imageHelper.UploadCoverImage(Input.UploadCoverPhoto, Input.Event.Id, "event_imgs");
             }
             if (Input.UploadPdfRules != null)
             {
-                Input.Event.RulesFilePath = await _pdfFileHelper.SaveFile(Input.UploadPdfRules, $"{Input.Event.Slug}-Rules", "events");
+                myEvent.RulesFilePath = await _pdfFileHelper.SaveFile(Input.UploadPdfRules, $"{Input.Event.Slug}-Rules", "events");
             }
             if (Input.UploadPdfParts != null)
             {
-                Input.Event.EventPartsFilePath = await _pdfFileHelper.SaveFile(Input.UploadPdfParts, $"{Input.Event.Slug}-Parts", "events");
+                myEvent.EventPartsFilePath = await _pdfFileHelper.SaveFile(Input.UploadPdfParts, $"{Input.Event.Slug}-Parts", "events");
             }
 
             await _eventRepository.UpdateSportTypesAsync(myEvent, true, SelectedStypesId);

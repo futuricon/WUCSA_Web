@@ -4,17 +4,32 @@
 @namespace WUCSA.Models
 @inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = Localizer["Events"];
+    ViewData["Title"] = Localizer["EventTitle"];
     Layout = "_Layout";
 }
 
 @section Head {
-    <meta name="author" content="WUCSA" />
-    <meta name="description" content="WUCSA official blog" />
-    <meta name="keywords" content="WUCSA, blog" />
+    <meta name="author" content="@Localizer["AuthorFullName"]" />
+    <meta name="keywords" content="@Localizer["EventKeyWords"]" />
+    <meta name="description" content="@Localizer["EventDescription"]" />
+    <meta name="image" content="http://www.wucsa.com/images/favicon.ico" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="@ViewData["EventListUrl"]" />
+    <meta property="og:title" content="@Localizer["EventTitle"]" />
+    <meta property="og:description" content="@Localizer["EventDescription"]" />
+    <meta property="og:image" content="http://www.wucsa.com/images/favicon.ico" />
+
+    <meta name="twitter:card" content="@Localizer["EventCard"]" />
+    <meta name="twitter:url" content="@ViewData["EventListUrl"]" />
+    <meta name="twitter:title" content="@Localizer["EventTitle"]" />
+    <meta name="twitter:description" content="@Localizer["EventDescription"]" />
+    <meta name="twitter:creator" content="@Localizer["AuthorFullName"]" />
+    <meta name="twitter:image" content="http://www.wucsa.com/images/favicon.ico" />
 }
 
 @section CSS {
+    <link rel="canonical" href="https://wucsa.com/event/world" />
     <link rel="stylesheet" href="~/css/event_style.css" />
 }
 
@@ -23,11 +38,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="breadcrumbs-content">
-                    <h1 class="page-title">@Localizer["Event List"]</h1>
+                    <h1 class="page-title">@Localizer["EventCard"]</h1>
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a asp-page="/Index">@Localizer["Home"]</a></li>
-                    <li><a asp-page="/Event/List" asp-route-location="World">@Localizer["Event List"]</a></li>
+                    <li><a asp-page="/Event/List" asp-route-location="World">@Localizer["Events"]</a></li>
                     <li>
                         @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                         {
@@ -61,7 +76,7 @@
             <div class="col-lg-8 col-md-7 col-12">
                 <div class="row">
                     @if (!Model.Events.Any())
-                    {<h4>@Localizer["There are no any Events yet"]</h4> }
+                    {<h4>@Localizer["There are no any Events yet"] :D</h4> }
                 else
                 {
                     foreach (var myEvent in Model.Events)
@@ -122,7 +137,7 @@
 
                 <div class="pagination center">
                     <ul class="pagination-list">
-                        <pagination class="mx-auto" page-index="@Model.Events.PageIndex" total-pages="@Model.Events.TotalPages" page-path="@Model.SetClass" base-url="/Event/List"/>
+                        <pagination class="mx-auto" page-index="@Model.Events.PageIndex" total-pages="@Model.Events.TotalPages" page-path="@Model.SetClass" base-url="/Event/List" />
                     </ul>
                 </div>
 

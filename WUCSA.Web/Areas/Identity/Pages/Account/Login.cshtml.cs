@@ -12,6 +12,10 @@ using WUCSA.Core.Entities.UserModel;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Text;
+using WUCSA.Core.Interfaces;
+using System.Text.Encodings.Web;
 
 namespace WUCSA.Web.Areas.Identity.Pages.Account
 {
@@ -23,9 +27,9 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
         private readonly ILogger<LoginModel> _logger;
         private readonly IStringLocalizer<LoginModel> _localizer;
 
-        public LoginModel(SignInManager<AppUser> signInManager, 
-            ILogger<LoginModel> logger,
-            UserManager<AppUser> userManager, IStringLocalizer<LoginModel> Localizer)
+        public LoginModel(SignInManager<AppUser> signInManager,
+            ILogger<LoginModel> logger, UserManager<AppUser> userManager, 
+            IStringLocalizer<LoginModel> Localizer)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -77,6 +81,7 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             returnUrl ??= Url.Content("~/");
 
             // Match input is username or email
@@ -89,7 +94,7 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
                 var re = new Regex(emailRegex);
                 if (!re.IsMatch(Input.Username))
                 {
-                    ModelState.AddModelError("Email", "Email is not valid");
+                    ModelState.AddModelError("Email", _localizer["Email is not valid"]);
                 }
             }
             else
@@ -107,19 +112,29 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
             if (!ModelState.IsValid)
                 return Page();
 
+            bool isBlocked;
             var userName = Input.Username;
             if (userName.IndexOf('@') > -1)
             {
                 var user = await _userManager.FindByEmailAsync(Input.Username);
                 if (user == null)
                 {
-                    ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
                     /*"Invalid login attempt."*/
                     ModelState.AddModelError(string.Empty, _localizer["Invalid login attempt."]);
                     return Page();
                 }
-
+                isBlocked = user.IsBlocked;
                 userName = user.UserName;
+            }
+            else
+            {
+                var user = await _userManager.FindByNameAsync(userName);
+                isBlocked = user.IsBlocked;
+            }
+
+            if (isBlocked)
+            {
+                return RedirectToPage("./Lockout");
             }
 
             var result = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, true);

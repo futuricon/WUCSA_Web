@@ -1,18 +1,33 @@
 ﻿@page
 @model WUCSA.Web.Pages.SportType.ListModel
 @inject IViewLocalizer Localizer
-@{ ViewData["Title"] = Localizer["Types of Sport"];
-    Layout = "_Layout"; }
+@{ 
+    ViewData["Title"] = Localizer["SportTitle"];
+    Layout = "_Layout"; 
+}
 
 @section Head {
-    <meta name="author" content="" />
-    <meta name="description" content="" />
-    <meta name="keywords" content="Types, Sport" />
-    <meta name="image" content="http://www.wucsa.com/" />
+    <meta name="author" content="@Localizer["AuthorFullName"]" />
+    <meta name="keywords" content="@Localizer["SportKeyWords"]" />
+    <meta name="description" content="@Localizer["SportDescription"]" />
+    <meta name="image" content="http://www.wucsa.com/images/favicon.ico" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://wucsa.com/sporttype/list" />
+    <meta property="og:title" content="@Localizer["SportCard"]" />
+    <meta property="og:description" content="@Localizer["SportDescription"]" />
+    <meta property="og:image" content="http://www.wucsa.com/images/favicon.ico" />
+
+    <meta name="twitter:card" content="@Localizer["SportCard"]" />
+    <meta name="twitter:url" content="http://wucsa.com/sporttype/list" />
+    <meta name="twitter:title" content="@Localizer["SportTitle"]" />
+    <meta name="twitter:description" content="@Localizer["SportDescription"]" />
+    <meta name="twitter:creator" content="@Localizer["AuthorFullName"]" />
+    <meta name="twitter:image" content="http://www.wucsa.com/images/favicon.ico" />
 }
 
 @section CSS {
-    <link rel="canonical" href="http://wucsa.com/sporttype" />
+    <link rel="canonical" href="https://wucsa.com/sporttype/list" />
     <link rel="stylesheet" href="~/css/rank_style.css" />
 }
 
@@ -21,11 +36,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="breadcrumbs-content">
-                    <h1 class="page-title">@Localizer["Types of Sport"]</h1>
+                    <h1 class="page-title">@Localizer["SportCard"]</h1>
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a asp-page="/Index">@Localizer["Home"]</a></li>
-                    <li><a href="#">@Localizer["Types of Sport"]</a></li>
+                    <li><a asp-page="/SportType/List">@Localizer["Types of Sport"]</a></li>
                     <li>
                         @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                         {
@@ -43,7 +58,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="section-title">
-                    <h2 class="wow fadeInUp" data-wow-delay=".4s">@Localizer["Choose Sport Type"]</h2>
+                    <h2 class="wow fadeInUp" data-wow-delay=".4s">@Localizer["Choose Type of Sport"]</h2>
                 </div>
             </div>
         </div>

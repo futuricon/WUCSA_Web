@@ -117,19 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AuthorFullName" xml:space="preserve">
-    <value>Fakhriddin Usmanov</value>
+  <data name="If you reset your authenticator key your authenticator app will not work until you reconfigure it." xml:space="preserve">
+    <value>Если вы сбросите ключ аутентификатора, ваше приложение аутентификатора не будет работать, пока вы его не перенастроите.</value>
   </data>
-  <data name="IndexCard" xml:space="preserve">
-    <value>Official website of World Usmanov`s Combat Systems Association</value>
+  <data name="Reset authenticator key" xml:space="preserve">
+    <value>Сбросить ключ аутентификатора</value>
   </data>
-  <data name="IndexDescription" xml:space="preserve">
-    <value>World Usmanov`s Combat Systems Association, Usmanov's  Combat Systems has 11 disciplines, including Demonstration, Light contact, Full contact A, Full contact B, Knockdown A, Knockdown B, Combat wrestling, Knife battle, Chambara short sword, Chambara long sword and Muayboran.</value>
-  </data>
-  <data name="IndexKeyWords" xml:space="preserve">
-    <value>wucsa, World, Usmanov`s, Combat, Systems, Association, Fakhriddin, Usmanov, Demonstration, Light contact, Full contact A, Full contact B, Knockdown A, Knockdown B, Combat wrestling, Knife battle, Chambara short sword, Chambara long sword, Muayboran, international, Aikido, Federation</value>
-  </data>
-  <data name="LegacyOf" xml:space="preserve">
-    <value>Non-Entrepreneurial (Non-Commercial) Legal Entity</value>
+  <data name="This process disables 2FA until you verify your authenticator app. If you do not complete your authenticator app configuration you may lose access to your account." xml:space="preserve">
+    <value>Этот процесс отключает 2FA, пока вы не подтвердите свое приложение для аутентификации. Если вы не завершите настройку приложения для аутентификации, вы можете потерять доступ к своей учетной записи.</value>
   </data>
 </root>

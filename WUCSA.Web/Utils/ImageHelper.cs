@@ -9,17 +9,20 @@ using Devcorner.NIdenticon.BrushGenerators;
 using ImageMagick;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace WUCSA.Web.Utils
 {
     public class ImageHelper
     {
+        private readonly ILogger<ImageHelper> _logger;
         private readonly IWebHostEnvironment _env;
         public const string DefaultUserAvatarPath = "/img/profile_image.png";
         public const string DefaultBlogCoverPhotoPath = "/img/blog_image.png";
 
-        public ImageHelper(IWebHostEnvironment env)
+        public ImageHelper(ILogger<ImageHelper> logger, IWebHostEnvironment env)
         {
+            _logger = logger;
             _env = env;
         }
 
@@ -84,6 +87,8 @@ namespace WUCSA.Web.Utils
         {
             try
             {
+                _logger.LogInformation("Try to UploadCoverImage");
+
                 var fileExtension = Path.GetExtension(image.FileName);
                 var isAnimatedImage = fileExtension != null && fileExtension.ToLower() == ".gif";
                 var imagePath = $"{imageFileName}{fileExtension}";
@@ -99,10 +104,14 @@ namespace WUCSA.Web.Utils
                     magickImage.Write(absolutePath);
                 }
 
+                _logger.LogInformation($"return /img/{subFolder}/{imagePath}");
+
                 return $"/img/{subFolder}/{imagePath}";
             }
             catch (MagickException)
             {
+                _logger.LogInformation("MagickException");
+
                 return DefaultUserAvatarPath;
             }
         }

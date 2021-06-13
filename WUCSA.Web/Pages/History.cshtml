@@ -2,7 +2,7 @@
 @model WUCSA.Web.Pages.HistoryModel
 @inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = Localizer["HistoryCard"];
+    ViewData["Title"] = Localizer["HistoryTitle"];
 }
 @section Head {
 
@@ -13,13 +13,13 @@
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content="http://wucsa.com/history" />
-    <meta property="og:title" content="@Localizer["HistoryCard"]" />
+    <meta property="og:title" content="@Localizer["HistoryTitle"]" />
     <meta property="og:description" content="@Localizer["HistoryDescription"]" />
     <meta property="og:image" content="http://www.wucsa.com/images/favicon.ico" />
 
     <meta name="twitter:card" content="@Localizer["HistoryCard"]" />
     <meta name="twitter:url" content="http://wucsa.com/history" />
-    <meta name="twitter:title" content="@Localizer["HistoryCard"]" />
+    <meta name="twitter:title" content="@Localizer["HistoryTitle"]" />
     <meta name="twitter:description" content="@Localizer["HistoryDescription"]" />
     <meta name="twitter:creator" content="@Localizer["AuthorFullName"]" />
     <meta name="twitter:image" content="http://www.wucsa.com/images/favicon.ico" />
@@ -42,7 +42,10 @@
                     @if (User.IsInRole("SuperAdmin"))
                     {
                         <li><a asp-page="/Admin/StaticPages/Create">@Localizer["Add new History Page"]</a></li>
-                        <li><a asp-page="/Admin/StaticPages/Edit" asp-route-id="@Model.Blog.Id">@Localizer["Edit this History Page"]</a></li>
+                        @if (Model.Blog != null)
+                        {
+                            <li><a asp-page="/Admin/StaticPages/Edit" asp-route-id="@Model.Blog.Id">@Localizer["Edit this History Page"]</a></li>
+                        }
                     }
                 </ul>
             </div>

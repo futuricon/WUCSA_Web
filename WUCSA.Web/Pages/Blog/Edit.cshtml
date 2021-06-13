@@ -37,7 +37,7 @@
                     <input type="hidden" asp-for="Input.Blog.Id" />
                     <div class="single-inner">
                         <div class="grid">
-                            <div class="col-12">
+                            <div class="col-lg-8 col-md-10 col-sm-12">
                                 <div id="uploadBtn" class="button">
                                     <a style="margin-bottom: 2%;" class="btn file-btn">
                                         <span>Choose an image</span>
@@ -72,20 +72,26 @@
                                 <div class="form-group mt-4">
                                     <label asp-for="Input.Blog.Content" class="control-label"></label>
                                     <span asp-validation-for="Input.Blog.Content" class="text-danger"></span>
-                                    <textarea class="richtexteditor" asp-for="Input.Blog.Content" height="300">
-                                    </textarea>
+                                    <ejs-richtexteditor id="rich_texteditor" ejs-for="Input.Blog.Content" height="300">
+                                        <e-richtexteditor-toolbarsettings items="@ViewData["toolbar"]" enableFloating="true">
+                                        </e-richtexteditor-toolbarsettings>
+                                    </ejs-richtexteditor>
                                 </div>
                                 <div class="form-group mt-4">
                                     <label asp-for="Input.Blog.ContentRu" class="control-label"></label>
                                     <span asp-validation-for="Input.Blog.ContentRu" class="text-danger"></span>
-                                    <textarea class="richtexteditor" asp-for="Input.Blog.ContentRu" height="300">
-                                    </textarea>
+                                    <ejs-richtexteditor id="rich_texteditor_ru" ejs-for="Input.Blog.ContentRu" height="300">
+                                        <e-richtexteditor-toolbarsettings items="@ViewData["toolbar"]" enableFloating="true">
+                                        </e-richtexteditor-toolbarsettings>
+                                    </ejs-richtexteditor>
                                 </div>
                                 <div class="form-group mt-4">
                                     <label asp-for="Input.Blog.ContentUz" class="control-label"></label>
                                     <span asp-validation-for="Input.Blog.ContentUz" class="text-danger"></span>
-                                    <textarea class="richtexteditor" asp-for="Input.Blog.ContentUz" height="300">
-                                    </textarea>
+                                    <ejs-richtexteditor id="rich_texteditor_uz" ejs-for="Input.Blog.ContentUz" height="300">
+                                        <e-richtexteditor-toolbarsettings items="@ViewData["toolbar"]" enableFloating="true">
+                                        </e-richtexteditor-toolbarsettings>
+                                    </ejs-richtexteditor>
                                 </div>
                                 <div class="form-group mt-20">
                                     <label asp-for="Input.Tags" class="control-label"></label>

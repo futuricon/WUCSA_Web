@@ -117,13 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ContactAddressGe" xml:space="preserve">
-    <value>Georgia, City Marneuli, Street Rustaveli, N 7, Flat N 19</value>
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить</value>
   </data>
-  <data name="ContactAddressUz" xml:space="preserve">
-    <value>Republic of Uzbekistan, Tashkent region, Zangiota district, 111817, "Khanabad" rural citizens' counsel, Tarakiyot mfy, Nurli Hayot street 80</value>
+  <data name="Deleting this data will permanently remove your account, and this cannot be recovered." xml:space="preserve">
+    <value>Удаление этих данных приведет к удалению вашей учетной записи без возможности восстановления.</value>
   </data>
-  <data name="Contacts" xml:space="preserve">
-    <value>Contacts of World Usmanov's Combat Systems Association</value>
+  <data name="E-mail" xml:space="preserve">
+    <value>Электронная почта</value>
+  </data>
+  <data name="Personal Data" xml:space="preserve">
+    <value>Личные данные</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Телефон</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Имя пользователя</value>
+  </data>
+  <data name="Your account contains personal data that you have given us. This page allows you to delete that data." xml:space="preserve">
+    <value>Ваша учетная запись содержит личные данные, которые вы нам предоставили. Эта страница позволяет вам удалить эти данные.</value>
   </data>
 </root>

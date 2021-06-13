@@ -2,7 +2,7 @@
 @model WUCSA.Web.Pages.ContactModel
 @inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = Localizer["Contacts"];
+    ViewData["Title"] = Localizer["ContactsTitle"];
     Layout = "_Layout";
 }
 
@@ -16,11 +16,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="breadcrumbs-content">
-                    <h1 class="page-title">Contact Us</h1>
+                    <h1 class="page-title">@Localizer["Contact Us"]</h1>
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a asp-area="" asp-page="/Index">@Localizer["Home"]</a></li>
-                    <li><a asp-page="/Contact">@Localizer["Contact Us"]</a></li>
+                    <li><a asp-page="/Contact">@Localizer["Contacts"]</a></li>
                 </ul>
             </div>
         </div>

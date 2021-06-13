@@ -1,74 +1,53 @@
 ﻿@page  "{slug}"
 @model WUCSA.Web.Pages.Event.IndexModel
-
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = Model.Event.Title;
+    ViewData["Title"] = $"{ViewData["EventTitle"].ToString()} - {Localizer["EventTitle"].Value}";
     Layout = "_Layout";
-    string eventName;
-    string eventInfo;
-    @switch (Model.RCName)
-    {
-        case "ru":
-            eventName = @Model.Event.TitleRu;
-            eventInfo = @Model.Event.DescriptionRu;
-            break;
-        case "uz":
-            eventName = @Model.Event.TitleUz;
-            eventInfo = @Model.Event.DescriptionUz;
-            break;
-        default:
-            eventName = @Model.Event.Title;
-            eventInfo = @Model.Event.Description;
-            break;
-    }
 }
+
 @section Head {
-    @{
-        var imgUrl = $"https://wucsa.com{Model.Event.CoverPhotoPath}";
-        var eventUrl = $"http://wucsa.com/Event/{Model.Event.Slug}";
-        var shortContent = Core.Entities.EventModel.Event.GetShortContent(Model.Event.Description, 200);
-    }
+        @{
+            var imgUrl = $"http://wucsa.com{Model.Event.CoverPhotoPath}";
+            var eventUrl = $"http://wucsa.com/event/{Model.Event.Slug}";
+        }
+        <meta name="author" content="@Localizer["AuthorFullName"]" />
+        <meta name="keywords" content="@Localizer["EventKeyWords"], @ViewData["KeyWords"]" />
+        <meta name="description" content="@ViewData["EventDescription"]" />
+        <meta name="image" content="@imgUrl" />
 
-    <meta name="author" content="@Model.Event.Author" />
-    <meta name="description" content="@shortContent" />
-    <meta name="keywords" content="@ViewData["key_words"]" />
-    <meta name="image" content="@imgUrl" />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="@eventUrl" />
+        <meta property="og:title" content="@ViewData["EventTitle"].ToString()" />
+        <meta property="og:description" content="@ViewData["EventDescription"]" />
+        <meta property="og:image" content="@imgUrl" />
 
-    <meta property="og:url" content="@eventUrl" />
-    <meta property="og:type" content="article" />
-    <meta property="og:title" content="@Model.Event.Title" />
-    <meta property="og:site_name" content="WUCSA Blog" />
-    <meta property="og:description" content="@shortContent" />
-    <meta property="og:image" content="@imgUrl" />
-
-    <meta property="article:published_time" content="@Model.Event.PostedDate" />
-    <meta property="article:author" content="@Model.Event.Author" />
-    <meta property="article:tags" content="@ViewData["key_words"]" />
-
-    <meta name="twitter:title" content="@Model.Event.Title" />
-    <meta name="twitter:site" content="WUCSA Event" />
-    <meta name="twitter:description" content="@shortContent" />
-    <meta name="twitter:creator" content="@Model.Event.Author" />
-    <meta name="twitter:image" content="@imgUrl" />
+        <meta name="twitter:card" content="@Localizer["EventCard"]" />
+        <meta name="twitter:url" content="@eventUrl" />
+        <meta name="twitter:title" content="@ViewData["EventTitle"].ToString()" />
+        <meta name="twitter:description" content="@ViewData["EventDescription"]" />
+        <meta name="twitter:creator" content="@Localizer["AuthorFullName"]" />
+        <meta name="twitter:image" content="@imgUrl" />
 }
 
 @section CSS {
     <link rel="stylesheet" href="~/css/event_style.css" />
 }
+
 <div class="breadcrumbs overlay">
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="breadcrumbs-content">
-                    <h1 class="page-title">@eventName</h1>
+                    <h1 class="page-title">@ViewData["EventTitle"].ToString()</h1>
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a asp-area="" asp-page="/Index">Home</a></li>
-                    <li><a asp-page="/Event/List" asp-route-location="World">Event List</a></li>
+                    <li><a asp-page="/Event/List" asp-route-location="World">@Localizer["Events"]</a></li>
                     @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                     {
-                        <li><a asp-page="/Event/Edit" asp-route-id="@Model.Event.Id">Edit this Article</a></li>
-                        <li><a asp-page="/Event/Delete" asp-route-id="@Model.Event.Id">Delete this Article</a></li>
+                        <li><a asp-page="/Event/Edit" asp-route-id="@Model.Event.Id">@Localizer["Edit this Event"]</a></li>
+                        <li><a asp-page="/Event/Delete" asp-route-id="@Model.Event.Id">@Localizer["Delete this Event"]</a></li>
                     }
                 </ul>
             </div>
@@ -82,15 +61,32 @@
             <div class="col-lg-8 col-md-12 col-12">
                 <div class="single-inner">
                     <div class="event-thumbnils">
-                        <img src="assets/images/blog/blog-single.jpg" alt="#">
+                        @if (!string.IsNullOrEmpty(Model.Event.CoverPhotoPath))
+                        {
+                            <img src="@Model.Event.CoverPhotoPath" alt="@Model.Event.Title cover photo" />
+                        }
+                        else
+                        {
+                            <img src="~/img/blog_image.png" alt="default cover photo" />
+                        }
                     </div>
                     <div class="event-details">
                         <div class="detail-inner">
                             <h2 class="event-title">
-                                <a asp-page="/Event/Index" asp-route-slug="@Model.Event.Slug">@eventName</a>
+                                <a asp-page="/Event/Index" asp-route-slug="@Model.Event.Slug">@ViewData["EventTitle"]</a>
                             </h2>
-
-                            <p>@eventInfo</p>
+                            @switch (Model.RCName)
+                            {
+                                case "ru":
+                                    <p>@Model.Event.DescriptionRu</p>
+                                    break;
+                                case "uz":
+                                    <p>@Model.Event.DescriptionUz</p>
+                                    break;
+                                default:
+                                    <p>@Model.Event.Description</p>
+                                    break;
+                            }
                             <h4>Event Date: @Model.Event.EventDate.ToString("dd MMMM, yyyy")</h4>
                             <h4>Location: @Model.Event.Location</h4>
                             <ul class="custom-flex event-meta mb-20">
@@ -120,14 +116,21 @@
                             <div class="event-tags-media">
                                 <div class="event-tags popular-tag-widget mb-xl-40">
                                     <div class="tags">
-                                        <a href="@Model.Event.RulesFilePath"><i class="lni lni-download"></i>&nbsp;&nbsp;Rules</a>
-                                        <a href="@Model.Event.EventPartsFilePath"><i class="lni lni-download"></i>&nbsp;&nbsp;Participants</a>
+                                        @if (Model.Event.RulesFilePath != null)
+                                        {
+                                            <a href="@Model.Event.RulesFilePath"><i class="lni lni-download"></i>&nbsp;&nbsp;@Localizer["Rules (PDF)"]</a>
+                                        }
+                                        
+                                        @if (Model.Event.EventPartsFilePath != null)
+                                        {
+                                            <a href="@Model.Event.EventPartsFilePath"><i class="lni lni-download"></i>&nbsp;&nbsp;@Localizer["Participants (PDF)"]</a>
+                                        }
                                     </div>
                                 </div>
                             </div>
                             <div class="event-tags-media">
                                 <div class="event-social-media">
-                                    <h5 class="share-title">Social Share</h5>
+                                    <h5 class="share-title">@Localizer["Social Share"]</h5>
                                     <ul class="custom-flex">
                                         <li>
                                             <a id="fb-share" href="#">
@@ -135,10 +138,10 @@
                                             </a>
                                         </li>
                                         @*<li>
-                                            <a id="tw-share" href="#">
-                                                <i class="lni lni-twitter-original"></i>
-                                            </a>
-                                        </li>*@
+                                                <a id="tw-share" href="#">
+                                                    <i class="lni lni-twitter-original"></i>
+                                                </a>
+                                            </li>*@
                                         <li>
                                             <a id="tg-share" href="#">
                                                 <i class="lni lni-telegram-original"></i>
@@ -154,7 +157,7 @@
             <aside class="col-lg-4 col-md-12 col-12">
                 <div class="sidebar">
                     <div class="widget popular-feeds">
-                        <h5 class="widget-title"><span>Popular Feeds</span></h5>
+                        <h5 class="widget-title"><span>@Localizer["Top Events"]</span></h5>
                         <div class="popular-feed-loop">
                             @switch (Model.RCName)
                             {
@@ -227,7 +230,7 @@
     </div>
 </section>
 
-@section Scripts { 
+@section Scripts {
     <script>
         $(function () {
             var curentUrl = window.location.href;
@@ -238,4 +241,4 @@
             $('#tg-share').attr("href", tgShareUrl);
         });
     </script>
-} 
+}
