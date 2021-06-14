@@ -117,7 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Add new History Page" xml:space="preserve">
+    <value>Yangi Tarix sahifasini qo'shish</value>
+  </data>
+  <data name="AuthorFullName" xml:space="preserve">
+    <value>Usmanov Faxriddin</value>
+  </data>
+  <data name="Edit this History Page" xml:space="preserve">
+    <value>Ushbu Tarix sahifasini tahrirlash</value>
+  </data>
+  <data name="Empty" xml:space="preserve">
+    <value>Bo'sh</value>
+  </data>
+  <data name="History" xml:space="preserve">
+    <value>Tarix</value>
+  </data>
+  <data name="History of WUCSA" xml:space="preserve">
+    <value>WUCSA Tarixi</value>
+  </data>
+  <data name="HistoryCard" xml:space="preserve">
+    <value>Jahon Usmanov Combat Sistems Assotsiatsiyasi Tarixi</value>
+  </data>
   <data name="HistoryDescription" xml:space="preserve">
     <value>2019 yil 18 noyabrda Shtaʙ kvartirasi Germaniya davlatida joylashgan Xalqaro Yakka kurash jang san'ati assotsiatsiyasi tomonidan, Jaxon Usmanov Kombat Sistems Assotsiatsiya tasdiqlangan va asoschi Usmanov Faxriddin tomonidan asos solingan.</value>
+  </data>
+  <data name="HistoryKeyWords" xml:space="preserve">
+    <value>WUCSA, World , Usmonov's , Combat, Systems,Association, Usmanov, Faxriddin, Ko'rgazmali chiqish , yengil kontakt, ful kontakt A, ful kontakt B, nokdaun A, nokdaun B, Combat kurash, Pichoq jangi, Chambara qisqa qilich, Chambara uzun qilich, Muayboran, xalqaro, Aykido, Federatsiya</value>
+  </data>
+  <data name="HistoryTitle" xml:space="preserve">
+    <value>Tarixi - Jahon Usmanov Combat Sistems Assotsiatsiyasi</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Bosh Sahifa</value>
   </data>
 </root>

@@ -117,7 +117,70 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="All Events" xml:space="preserve">
+    <value>Barcha tadbirlar</value>
+  </data>
+  <data name="All Members" xml:space="preserve">
+    <value>Barcha Xodimlar</value>
+  </data>
+  <data name="All News" xml:space="preserve">
+    <value>Barcha Yangiliklar</value>
+  </data>
+  <data name="AuthorFullName" xml:space="preserve">
+    <value>Usmonov Faxriddin</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Galereya</value>
+  </data>
+  <data name="History of WUCSA" xml:space="preserve">
+    <value>WUCSA Tarixi</value>
+  </data>
+  <data name="Images &amp; Videos" xml:space="preserve">
+    <value>Rasmlar va videolar</value>
+  </data>
+  <data name="IndexCard" xml:space="preserve">
+    <value>Jahon Usmanov Combat Sistems Assotsiatsiyasi rasmiy Veb-sayti</value>
+  </data>
+  <data name="IndexDescription" xml:space="preserve">
+    <value>Jahon Usmanov Combat Sistems Assotsiatsiyasi, Usmonov Combat Sistems 11 yo'nalishni o' zichiga oladi bular  engil kontakt, ful kontakt A, ful kontakt B, nokdaun A, nokdaun B, Combat kurash, pichoq jangi, chambara kalta qilich, chambara uzun qilich va  Muayboran.</value>
+  </data>
+  <data name="IndexKeyWords" xml:space="preserve">
+    <value>WUCSA, World , Usmonov's , Combat, Systems,Association, Usmanov, Faxriddin, Ko'rgazmali chiqish , yengil kontakt, ful kontakt A, ful kontakt B, nokdaun A, nokdaun B, Combat kurash, Pichoq jangi, Chambara qisqa qilich, Chambara uzun qilich, Muayboran, xalqaro, Aykido, Federatsiya</value>
+  </data>
+  <data name="IndexTitle" xml:space="preserve">
+    <value>Jahon Usmanov Combat Sistems Assotsiatsiyasi</value>
+  </data>
+  <data name="Latest Events" xml:space="preserve">
+    <value>So'nggi Voqealar</value>
+  </data>
+  <data name="Latest News &amp; Blog" xml:space="preserve">
+    <value>So'nggi Yangiliklar va Blog</value>
+  </data>
   <data name="LegacyOf" xml:space="preserve">
     <value>Nodavlat Notijorat Tashkiloti</value>
+  </data>
+  <data name="More" xml:space="preserve">
+    <value>Ko'proq</value>
+  </data>
+  <data name="More Images &amp; Videos in our Gallery" xml:space="preserve">
+    <value>Galereyamizdagi boshqa Rasm va Videolar</value>
+  </data>
+  <data name="Our Staff" xml:space="preserve">
+    <value>Bizning Xodimlarimiz</value>
+  </data>
+  <data name="Read More" xml:space="preserve">
+    <value>Davomini o'qish</value>
+  </data>
+  <data name="See More" xml:space="preserve">
+    <value>Ko'proq ko'rish</value>
+  </data>
+  <data name="There are no any Events yet" xml:space="preserve">
+    <value>Hech qanday Tadbir yo'q</value>
+  </data>
+  <data name="There are no any Posts yet" xml:space="preserve">
+    <value>Hech qanday Xabar yo'q</value>
+  </data>
+  <data name="There are no any Staff yet" xml:space="preserve">
+    <value>Hozircha Xodimlar yo'q</value>
   </data>
 </root>

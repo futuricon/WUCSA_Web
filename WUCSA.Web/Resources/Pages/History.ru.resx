@@ -147,4 +147,7 @@
   <data name="HistoryTitle" xml:space="preserve">
     <value>История - Всемирная Ассоциация Боевых Систем Усманова</value>
   </data>
+  <data name="Home" xml:space="preserve">
+    <value>Главная</value>
+  </data>
 </root>

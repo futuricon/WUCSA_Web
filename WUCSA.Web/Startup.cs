@@ -177,14 +177,14 @@ namespace WUCSA.Web
                 options.ClientId = googleAuthNSection["ClientId"];
                 options.ClientSecret = googleAuthNSection["ClientSecret"];
                 options.AccessDeniedPath = "/AccessDeniedPathInfo";
-            })
-            .AddFacebook(options =>
-            {
-                var facebookAuthSection = Configuration.GetSection("Authentication:Facebook");
-                options.AppId = facebookAuthSection["AppId"];
-                options.AppSecret = facebookAuthSection["AppSecret"];
-                options.AccessDeniedPath = "/AccessDeniedPathInfo";
             });
+            //.AddFacebook(options =>
+            //{
+            //    var facebookAuthSection = Configuration.GetSection("Authentication:Facebook");
+            //    options.AppId = facebookAuthSection["AppId"];
+            //    options.AppSecret = facebookAuthSection["AppSecret"];
+            //    options.AccessDeniedPath = "/AccessDeniedPathInfo";
+            //});
         }
        
     }

@@ -97,7 +97,7 @@ namespace WUCSA.Web.Pages.Admin.Users
 
             if (user.IsBlocked)
             {
-                var endDate = DateTime.Now.AddMinutes(20);
+                var endDate = DateTime.Now.AddMinutes(5);
                 await _userManager.SetLockoutEnabledAsync(user, true);
                 await _userManager.SetLockoutEndDateAsync(user, endDate);
                 await _userManager.UpdateSecurityStampAsync(user);

@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="account" xml:space="preserve">
-    <value>учетную запись</value>
+    <value>аккаунт</value>
   </data>
   <data name="Don't have an account?" xml:space="preserve">
     <value>Нет учетной записи?</value>
@@ -136,7 +136,7 @@
     <value>Войдите, используя свою</value>
   </data>
   <data name="Log in with" xml:space="preserve">
-    <value>Зайдите в учетную запись, используя</value>
+    <value>Зайдите через</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>

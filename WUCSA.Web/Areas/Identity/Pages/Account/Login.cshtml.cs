@@ -11,11 +11,6 @@ using Microsoft.Extensions.Logging;
 using WUCSA.Core.Entities.UserModel;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Localization;
-using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.WebUtilities;
-using System.Text;
-using WUCSA.Core.Interfaces;
-using System.Text.Encodings.Web;
 
 namespace WUCSA.Web.Areas.Identity.Pages.Account
 {

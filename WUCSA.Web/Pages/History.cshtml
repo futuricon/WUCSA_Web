@@ -37,7 +37,7 @@
                     <h1 class="page-title">@Localizer["HistoryCard"]</h1>
                 </div>
                 <ul class="breadcrumb-nav">
-                    <li><a asp-area="" asp-page="/Index">Home</a></li>
+                    <li><a asp-area="" asp-page="/Index">@Localizer["Home"]</a></li>
                     <li><a asp-page="/History">@Localizer["History of WUCSA"]</a></li>
                     @if (User.IsInRole("SuperAdmin"))
                     {

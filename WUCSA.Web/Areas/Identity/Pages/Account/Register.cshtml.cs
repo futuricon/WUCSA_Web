@@ -32,7 +32,6 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
         private readonly IEmailService _emailSender;
         private readonly IConfiguration _configuration;
         private readonly ImageHelper _imageHelper;
-        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public RegisterModel(
             UserManager<AppUser> userManager,
@@ -40,8 +39,7 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
             ILogger<RegisterModel> logger,
             IEmailService emailSender, 
             IConfiguration configuration,
-            ImageHelper imageHelper,
-            IWebHostEnvironment webHostEnvironment)
+            ImageHelper imageHelper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -49,7 +47,6 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
             _emailSender = emailSender;
             _configuration = configuration;
             _imageHelper = imageHelper;
-            _webHostEnvironment = webHostEnvironment;
         }
 
         [BindProperty]
@@ -90,7 +87,7 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl ??= Url.Content("~/");
 
             var validCaptcha = await CheckCaptchaResponseAsync();
 
@@ -105,7 +102,7 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
             {
                 
                 var user = new AppUser { UserName = Input.UserName, Email = Input.Email};
-                var profileImage = _imageHelper.GenerateImage($"{user.Id}_profile", "profile_imgs");
+                user.ProfilePhotoPath = _imageHelper.GenerateImage($"{user.Id}_profile", "profile_imgs");
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
@@ -116,7 +113,7 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
+                        values: new { area = "Identity", userId = user.Id, code, returnUrl },
                         protocol: Request.Scheme);
 
                     await _emailSender.SendAsync(Input.Email, "Confirm your email",
@@ -124,7 +121,7 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl });
                     }
                     else
                     {

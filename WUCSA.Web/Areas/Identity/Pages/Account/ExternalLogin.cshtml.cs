@@ -76,6 +76,13 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
+            var xEmail = info.Principal.FindFirstValue(ClaimTypes.Email);
+            var xUser = await _userManager.FindByEmailAsync(xEmail);
+            if (xUser != null && xUser.IsBlocked)
+            {
+                return RedirectToPage("./Lockout");
+            }
+
             // Sign in the user with this external login provider if the user already has a login.
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
             if (result.Succeeded)
@@ -94,10 +101,39 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
                 LoginProvider = info.LoginProvider;
                 if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
                 {
-                    Input = new InputModel
+                    string firstsName = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
+                    string firstName = info.Principal.FindFirstValue(ClaimTypes.GivenName);
+                    string lastName = info.Principal.FindFirstValue(ClaimTypes.Surname);
+                    string email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                    var user = new AppUser
                     {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                        UserName = email,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = email,
+                        EmailConfirmed = true
                     };
+                    user.ProfilePhotoPath = _imageHelper.GenerateImage($"{user.Id}_profile", "profile_imgs");
+
+                    var resultU = await _userManager.CreateAsync(user);
+                    if (resultU.Succeeded)
+                    {
+                        resultU = await _userManager.AddLoginAsync(user, info);
+                        if (resultU.Succeeded)
+                        {
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                            _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+                            return LocalRedirect(returnUrl);
+                        }
+                    }
+                    foreach (var error in resultU.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                    //Input = new InputModel
+                    //{
+                    //    Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                    //};
                 }
                 return Page();
             }
@@ -119,31 +155,15 @@ namespace WUCSA.Web.Areas.Identity.Pages.Account
                 string firstsName = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
                 string firstName = info.Principal.FindFirstValue(ClaimTypes.GivenName);
                 string lastName = info.Principal.FindFirstValue(ClaimTypes.Surname);
-                var profilePhotoPath = info.Principal.FindFirst("image")?.Value;
                 AppUser user;
-                if (profilePhotoPath != null)
+                user = new AppUser
                 {
-                    user = new AppUser
-                    {
-                        UserName = Input.Email,
-                        FirstName = firstName,
-                        LastName = lastName,
-                        ProfilePhotoPath = profilePhotoPath,
-                        Email = Input.Email
-                    };
-                }
-                else
-                {
-                    user = new AppUser
-                    {
-                        UserName = Input.Email,
-                        FirstName = firstName,
-                        LastName = lastName,
-                        Email = Input.Email
-                    };
-                    var profileImage = _imageHelper.GenerateImage($"{user.Id}_profile", "profile_imgs");
-                    user.ProfilePhotoPath = profileImage;
-                }
+                    UserName = Input.Email,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Email = Input.Email
+                };
+                user.ProfilePhotoPath = _imageHelper.GenerateImage($"{user.Id}_profile", "profile_imgs");
                 
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)

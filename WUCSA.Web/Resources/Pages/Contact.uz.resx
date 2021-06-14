@@ -117,7 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Contact Us" xml:space="preserve">
+    <value>Biz bilan bog'lanish</value>
+  </data>
+  <data name="ContactAddressGe" xml:space="preserve">
+    <value>Gruziya, Marneuli shahri, Rustaveli ko'chasi, N 7, 19-xonadon</value>
+  </data>
   <data name="ContactAddressUz" xml:space="preserve">
     <value>O’zbekiston Respublikasi, Toshkent viloyat, Zangiota tumani, 111817, «Xonobod» qfy, Taraqiyot mfy, Nurli xayot ko’chasi 80 uy.</value>
+  </data>
+  <data name="Contacts" xml:space="preserve">
+    <value>Kontaktlar</value>
+  </data>
+  <data name="ContactsTitle" xml:space="preserve">
+    <value>Kontaktlar - Jahon Usmanov Combat Sistems Assotsiatsiyasi</value>
+  </data>
+  <data name="Follow Us on" xml:space="preserve">
+    <value>Bizni kuzatib boring</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Bosh Sahifa</value>
+  </data>
+  <data name="Submit Message" xml:space="preserve">
+    <value>Xabar yuboring</value>
+  </data>
+  <data name="Your Email" xml:space="preserve">
+    <value>Sizning elektron manzilingiz</value>
+  </data>
+  <data name="Your Message" xml:space="preserve">
+    <value>Sizning xabaringiz</value>
+  </data>
+  <data name="Your Name" xml:space="preserve">
+    <value>Sizning ismingiz</value>
+  </data>
+  <data name="Your Phone" xml:space="preserve">
+    <value>Sizning telefoningiz</value>
+  </data>
+  <data name="Your Subject" xml:space="preserve">
+    <value>Sizning xabaringiz mavzusi</value>
   </data>
 </root>
