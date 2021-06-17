@@ -40,6 +40,15 @@ namespace WUCSA.Web.Pages.Admin.StaticPages
                 Tags = Tag.JoinTags(blog.BlogTags.Select(i => i.Tag))
             };
 
+            ViewData.Add("toolbar", new[]
+            {
+                "Bold", "Italic", "Underline", "StrikeThrough",
+                "FontName", "FontSize", "FontColor", "BackgroundColor", "|",
+                "Formats", "Alignments", "OrderedList", "UnorderedList",
+                "Outdent", "Indent", "|", "CreateTable", "CreateLink", "Image", "|",
+                "ClearFormat", "SourceCode", "FullScreen", "|", "Undo", "Redo"
+            });
+
             return Page();
         }
 

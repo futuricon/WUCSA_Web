@@ -50,7 +50,7 @@ namespace WUCSA.Web.Pages.Event
         public List<SelectListItem> OptionsRank { set; get; }
 
         [BindProperty]
-        [Required(ErrorMessage = "Please select Ranking List")]
+        [Required(ErrorMessage = "Please select Sport Types")]
         public string[] SelectedStypesId { get; set; }
         public List<Complex> SportTypes { get; set; }
 
@@ -77,7 +77,7 @@ namespace WUCSA.Web.Pages.Event
 
             SelectedStypesId = myEvent.EventSportTypes.Where(i=>i.SportType.IsDeleted == false).Select(i=>i.SportType.Id).ToArray();
             
-            if (myEvent.Rank.Id != null)
+            if (myEvent.Rank != null)
             {
                 SelectedRankId = myEvent.Rank.Id;
             }
@@ -96,6 +96,12 @@ namespace WUCSA.Web.Pages.Event
             var tempSlug = $"{Input.Event.EventLocation}-{Input.Event.Title}-{Input.Event.EventDate:yyyy-MM-dd}";
 
             var myEvent = await _eventRepository.GetByIdAsync<Core.Entities.EventModel.Event>(Input.Event.Id);
+            var myRank = await _rankRepository.GetByIdAsync<Core.Entities.RankModel.Rank>(SelectedRankId);
+
+            if (myEvent == null)
+            {
+                return NotFound();
+            }
            
             myEvent.Title = Input.Event.Title;
             myEvent.TitleRu = Input.Event.TitleRu;
@@ -108,6 +114,11 @@ namespace WUCSA.Web.Pages.Event
             myEvent.Location = Input.Event.Location;
             myEvent.Author = currentUser;
             myEvent.Slug = tempSlug.Slugify();
+
+            if (myRank != null)
+            {
+                myEvent.Rank = myRank;
+            }
             
             if (Input.UploadCoverPhoto != null)
             {

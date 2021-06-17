@@ -37,8 +37,9 @@
                         <h3>Ranking List information</h3>
                     </div>
                     <form class="form-ad needs-validation" method="post" novalidate>
+                        <input type="hidden" name="rankId" value="@ViewData["RankId"]"/>
                         <div class="row">
-                            <div class="col-lg-6 col-md-6 col-12">
+                            <div class="col-lg-3 col-md-3 col-12">
                                 <div class="form-group">
                                     <label for="validationCustom" class="control-label">Weight Category</label>
                                     <input id="validationCustom" asp-for="Input.RankParticipant.Weight" type="number" class="form-control" required min="1" max="200" />
@@ -47,7 +48,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-12">
+                            <div class="col-lg-4 col-md-4 col-12">
                                 <div class="form-group">
                                     <label asp-for="Input.RankParticipant.Gender" class="control-label"></label>
                                     <select class="select" asp-for="Input.RankParticipant.Gender" asp-items="Html.GetEnumSelectList<Gender>()">
@@ -56,11 +57,20 @@
                                     <span asp-validation-for="Input.RankParticipant.Gender" class="text-danger"></span>
                                 </div>
                             </div>
+                            <div class="col-lg-5 col-md-5 col-12">
+                                <div class="form-group">
+                                    <label class="control-label">Ranking List</label>
+                                    <select class="select" asp-for="SelectedSTypeId" asp-items="@Model.OptionsRank">
+                                        <option value="" selected disabled>@Localizer["Please select Sport Type"]</option>
+                                    </select>
+                                    <span asp-validation-for="SelectedSTypeId" class="text-danger"></span>
+                                </div>
+                            </div>
                         </div>
                         <div id="main_row">
                         </div>
                         <div>
-                            <div class="add-post-btn mt-20">
+                            <div class="add-post-btn mt-20 bordered">
                                 <a type="button" id="btn-add-new" class="btn-added">
                                     <i class="lni lni-add-files"></i> Add New
                                     Participant
@@ -114,7 +124,7 @@
             $("#totalContacts").val(tc)
 
             $("#main_row").append(
-                `<div class="row part_row">
+                `<div class="row part_row bordered mt-20">
                     <h3 class="single-section-title">Participant ${tc}</h3>
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-12">

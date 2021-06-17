@@ -111,7 +111,7 @@ namespace WUCSA.Infrastructure.Repositories
         {
             foreach (var participant in rankParticipant.Participants)
             {
-                await DeleteAsync(participant);
+                _context.Set<Participant>().Remove(participant);
             }
 
             await DeleteAsync(rankParticipant);

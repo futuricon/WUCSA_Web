@@ -23,14 +23,13 @@ namespace WUCSA.Web.Pages.Rank
 
         public async Task<IActionResult> OnGetAsync(string slug)
         {
-            var gender = RouteData.Values["gender"].ToString();
-            var loc = RouteData.Values["loc"].ToString();
+            var location = RouteData.Values["location"].ToString();
             RCName = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.UICulture.Name;
-            ViewData["RankUrl"] = $"http://wucsa.net/staff/{loc}/{gender}/{slug}";
+            ViewData["RankUrl"] = $"http://wucsa.net/staff/{location}/{slug}";
             Rank = await _rankRepository.GetAsync<Core.Entities.RankModel.Rank>(i => i.Slug == slug && i.IsDeleted == false);
             if (Rank == null) { return NotFound(); }
 
-            var rankParticipants = Rank.RankParticipants.Where(i => i.IsDeleted == false && i.Gender.ToString().ToLower() == gender.ToLower()).ToList();
+            var rankParticipants = Rank.RankParticipants.Where(i => i.IsDeleted == false).ToList();
 
             if (rankParticipants.Count > 0)
             {

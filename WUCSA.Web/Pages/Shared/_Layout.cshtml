@@ -76,7 +76,7 @@
                                         </ul>
                                     </li>
                                     <li class="nav-item"><a is-active-page id="header_events_id" asp-page="/Event/List" asp-route-location="World">@Localizer["Events"]</a></li>
-                                    <li class="nav-item"><a is-active-page id="header_ranking_id" asp-page="/Rank/List" asp-route-loc="World" asp-route-gender="Man">@Localizer["Ranking"]</a></li>
+                                    <li class="nav-item"><a is-active-page id="header_ranking_id" asp-page="/Rank/List" asp-route-location="World">@Localizer["Ranking"]</a></li>
                                     <li class="nav-item"><a is-active-page id="header_gallery_id" asp-page="/Gallery/Index">@Localizer["Gallery"]</a></li>
                                     <li class="nav-item"><a is-active-page id="header_blog_id" asp-page="/Blog/List">@Localizer["Blog"]</a></li>
                                     <li class="nav-item"><a is-active-page id="header_contacts_id" asp-page="/Contact">@Localizer["Contact Us"]</a></li>
@@ -107,30 +107,41 @@
         <div class="footer-middle">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-4 col-md-5 col-12">
-                        <!-- Single Widget -->
-                        <div class="f-about single-footer">
-                            <div class="logo">
-                                <a asp-page="/Index"><img src="~/images/logo/logo.svg" alt="Logo"></a>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-12">
+                                <!-- Single Widget -->
+                                <div class="f-about single-footer">
+                                    <h3>World Usmanov's<br>Combat Systems<br>Association</h3>
+                                    <div class="logo">
+                                        <a asp-page="/Index"><img src="~/images/logo/logo.svg" alt="Logo"></a>
+                                    </div>
+                                    <div class="footer-social">
+                                        <ul>
+                                            <li><a href="https://www.facebook.com/sport.wucsa"><i class="lni lni-facebook-original"></i></a></li>
+                                            <li><a href="https://www.instagram.com/sport.wucsa/"><i class="lni lni-instagram-original"></i></a></li>
+                                            <li><a href="https://www.youtube.com/channel/UC0k-nMJi--uT9kK_PNM2x0g"><i class="lni lni-youtube"></i></a></li>
+                                            <li><a href="https://t.me/wucsa"><i class="lni lni-telegram-original"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- End Single Widget -->
                             </div>
-                            <p>World Usmanov's<br>Combat Systems<br>Association</p>
-                            <ul class="contact-address">
-                                <li><span>@Localizer["Address"]:</span>@Localizer["AddressInfo"]</li>
-                                <li><span>@Localizer["Email"]:</span> sport.wucsa@gmail.com</li>
-                                <li><span>@Localizer["Call"]:</span> <a href="tel:+998946842929">+998 (94) 684-29-29</a></li>
-                            </ul>
-                            <div class="footer-social">
-                                <ul>
-                                    <li><a href="https://www.facebook.com/sport.wucsa"><i class="lni lni-facebook-original"></i></a></li>
-                                    <li><a href="https://www.instagram.com/sport.wucsa/"><i class="lni lni-instagram-original"></i></a></li>
-                                    <li><a href="https://www.youtube.com/channel/UCYzKUR7sbhYYFXAV5bA-Juw"><i class="lni lni-youtube"></i></a></li>
-                                    <li><a href="https://t.me/wucsa"><i class="lni lni-telegram-original"></i></a></li>
-                                </ul>
+                            <div class="col-lg-6 col-md-6 col-12">
+                                <!-- Single Widget -->
+                                <div class="f-about single-footer">
+                                    <h3>@Localizer["Contacts"]</h3>
+                                    <ul class="contact-address">
+                                        <li><span>@Localizer["Address"]:</span>@Localizer["AddressInfo"]</li>
+                                        <li><span>@Localizer["Email"]:</span> info@wucsa.com</li>
+                                        <li><span>@Localizer["Call"]:</span> <a href="tel:+998946842929">+998 (94) 684-29-29</a></li>
+                                    </ul>
+                                </div>
+                                <!-- End Single Widget -->
                             </div>
                         </div>
-                        <!-- End Single Widget -->
                     </div>
-                    <div class="col-lg-8 col-md-7 col-12">
+                    <div class="col-lg-6 col-md-6 col-12">
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-12">
                                 <!-- Single Widget -->
@@ -152,7 +163,7 @@
                                     <h3>@Localizer["For Members"]</h3>
                                     <ul>
                                         <li><a asp-page="/Event/List" asp-route-location="World">@Localizer["Events"]</a></li>
-                                        <li><a asp-page="/Rank/List" asp-route-loc="World" asp-route-gender="Man">@Localizer["Ranking"]</a></li>
+                                        <li><a asp-page="/Rank/List" asp-route-location="World">@Localizer["Ranking"]</a></li>
                                         <li><a asp-page="/Staff/List">@Localizer["Staff"]</a></li>
                                         <li><a asp-page="/Staff/List">@Localizer["Members"]</a></li>
                                     </ul>

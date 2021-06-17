@@ -101,7 +101,7 @@ namespace WUCSA.Web.Pages.Rank
 
             await _rankRepository.UpdateSportTypesAsync(rank, true, SelectedStypesId);
             await _rankRepository.UpdateRankAsync(rank);
-            return RedirectToPage("/Rank/List", new { loc = Input.Rank.RankLocation.ToString().ToLower(), gender = "man" });
+            return RedirectToPage("/Rank/Index", new { loc = Input.Rank.RankLocation.ToString().ToLower(), slug = rank.Slug });
         }
 
         private async Task GetOptionAsync()

@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id}"
 @model WUCSA.Web.Pages.RankParticipant.DeleteModel
 
 @{ ViewData["Title"] = "Delete";
@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="breadcrumbs-content">
-                    <h1 class="page-title">Delete Ranking List</h1>
+                    <h1 class="page-title">Delete Ranking Participants</h1>
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a asp-area="" asp-page="/Index">Home</a></li>
@@ -74,7 +74,7 @@
                                     <h3>@Html.DisplayNameFor(model => model.RankParticipant.Rank)</h3>
                                 </div>
                                 <div class="col-lg-9 col-md-9 col-12">
-                                    <h4>@Html.DisplayFor(model => model.RankParticipant.Rank)</h4>
+                                    <h4>@Html.DisplayFor(model => model.RankParticipant.Rank.Title)</h4>
                                 </div>
                             </div>
                         </div>

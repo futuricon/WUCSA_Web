@@ -34,7 +34,7 @@ namespace WUCSA.Infrastructure.Repositories
         {
             foreach (var certificate in staff.Certificates)
             {
-                await DeleteAsync(certificate);
+                _context.Set<Certificate>().Remove(certificate);
             }
             await DeleteAsync(staff);
         }

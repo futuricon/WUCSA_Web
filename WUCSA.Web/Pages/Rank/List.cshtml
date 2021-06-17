@@ -1,4 +1,4 @@
-﻿@page "{loc}/{gender}"
+﻿@page "{location}"
 @model WUCSA.Web.Pages.Rank.ListModel
 @inject IViewLocalizer Localizer
 @namespace WUCSA.Models
@@ -15,13 +15,13 @@
     <meta name="image" content="http://www.wucsa.com/images/favicon.ico" />
     
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="@ViewData["RankListUrl"]" />
+    <meta property="og:url" content="https://wucsa.com/rank/list/@ViewData["ThisLocation"]" />
     <meta property="og:title" content="@Localizer["RankTitle"]" />
     <meta property="og:description" content="@Localizer["RankDescription"]" />
     <meta property="og:image" content="http://www.wucsa.com/images/favicon.ico" />
     
     <meta name="twitter:card" content="@Localizer["RankCard"]" />
-    <meta name="twitter:url" content="@ViewData["RankListUrl"]" />
+    <meta name="twitter:url" content="https://wucsa.com/rank/list/@ViewData["ThisLocation"]" />
     <meta name="twitter:title" content="@Localizer["RankTitle"]" />
     <meta name="twitter:description" content="@Localizer["RankDescription"]" />
     <meta name="twitter:creator" content="@Localizer["AuthorFullName"]" />
@@ -29,7 +29,7 @@
 }
 
 @section CSS {
-    <link rel="canonical" href="https://wucsa.com/rank/list/world/man" />
+    <link rel="canonical" href="https://wucsa.com/rank/list/world" />
     <link rel="stylesheet" href="~/css/rank_style.css" />
 }
 
@@ -42,7 +42,7 @@
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a asp-page="/Index">@Localizer["Home"]</a></li>
-                    <li><a asp-page="Rank/List" asp-route-loc="World" asp-route-gender="Man">@Localizer["Ranking"]</a></li>
+                    <li><a asp-page="Rank/List" asp-route-location="World">@Localizer["Ranking"]</a></li>
                     @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                     {
                         <li>
@@ -58,24 +58,19 @@
 <section class="find-rank rank-list section">
     <div class="container">
         <div class="row">
-            <div class="search-nner">
-                <form method="get">
-                    <div class="row">
-                        <div class="col-lg-5 col-md-5 col-xs-12 mt-15">
-                            <label class="control-label">@Localizer["Location"]</label>
-                            <select class="select" asp-for="SelectedLocation" asp-items="@Model.LocationOptions">
-                            </select>
-                        </div>
-                        <div class="col-lg-5 col-md-5 col-xs-12 mt-15">
-                            <label class="control-label">@Localizer["Gender"]</label>
-                            <select class="select" asp-for="SelectedGender" asp-items="@Model.GenderOptions">
-                            </select>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-xs-12 mt-35 button" style="display: flex; align-items: center;">
-                            <button type="submit" class="btn btn-common float-right">@Localizer["Sort"]</button>
+            <div class="col-12">
+                <div class="select-location">
+                    <div class="inner">
+                        <div class="row col-lg-4 col-md-6 col-12 mx-auto buttonLoc">
+                            <div class="col-xl-auto col-sm-auto col-12 mt-2 mx-auto">
+                                <a asp-page="/Rank/List" asp-route-location="World" class="d-block @(Model.SetClass == "world" ? "setActive" : "setDiactive")">@Localizer["World"]</a>
+                            </div>
+                            <div class="col-xl-auto col-sm-auto col-12 mt-2 mx-auto">
+                                <a asp-page="/Rank/List" asp-route-location="National" class="d-block @(Model.SetClass == "national" ? "setActive" : "setDiactive")">@Localizer["National"]</a>
+                            </div>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
 
             @foreach (var rank in Model.Ranks)
@@ -84,7 +79,7 @@
                     <div class="single-rank">
                         <div class="rank-content">
                             <h4>
-                                <a href="rank-details.html">
+                                <a asp-page="/Rank/Index" asp-route-location="@ViewData["ThisLocation"]" asp-route-slug="@rank.Slug">
                                     @switch (Model.RCName)
                                     {
                                         case "ru":
@@ -128,7 +123,7 @@
                         </div>
                         <div class="rank-button">
                             <ul>
-                                <li><a asp-page="/Rank/Index" asp-route-loc="@ViewData["ThisLocation"]" asp-route-gender="@ViewData["ThisGender"]" asp-route-slug="@rank.Slug">@Localizer["More"]</a></li>
+                                <li><a asp-page="/Rank/Index" asp-route-location="@ViewData["ThisLocation"]" asp-route-slug="@rank.Slug">@Localizer["More"]</a></li>
                             </ul>
                         </div>
                     </div>

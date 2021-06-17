@@ -53,7 +53,8 @@ namespace WUCSA.Web.Pages.RankParticipant
             }
 
             RankParticipant = await _rankRepository.GetByIdAsync<Core.Entities.RankModel.RankParticipant>(id);
-            var prevPath = RankParticipant.Rank.Slug;
+            var slug = RankParticipant.Rank.Slug;
+            var location = RankParticipant.Rank.RankLocation.ToString();
 
             if (User.IsInRole("SuperAdmin"))
             {
@@ -66,7 +67,7 @@ namespace WUCSA.Web.Pages.RankParticipant
             {
                 RankParticipant.IsDeleted = true;
             }
-            return RedirectToPage($"/Rank/Index/{prevPath}/Man");
+            return RedirectToPage($"/Rank/Index", new {location, slug });
         }
     }
 }

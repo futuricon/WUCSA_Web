@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using WUCSA.Core.Entities.StaffModel;
 using WUCSA.Core.Entities.UserModel;
 using WUCSA.Core.Interfaces.Repositories;
@@ -19,8 +22,8 @@ namespace WUCSA.Web.Pages.RankParticipant
 
         public CreateModel(UserManager<AppUser> userManager, IRankRepository rankRepository)
         {
-            _rankRepository = rankRepository;
             _userManager = userManager;
+            _rankRepository = rankRepository;
         }
 
         public class InputModel
@@ -30,8 +33,6 @@ namespace WUCSA.Web.Pages.RankParticipant
 
         [BindProperty]
         public InputModel Input { get; set; }
-
-        private Core.Entities.RankModel.Rank Rank { get; set; }
 
         public int PositionNumber { get; set; }
         public DateTime BirthDate { get; set; }
@@ -43,28 +44,50 @@ namespace WUCSA.Web.Pages.RankParticipant
         public string DescriptionRu { get; set; }
         public string DescriptionUz { get; set; }
 
+        [BindProperty]
+        [Required(ErrorMessage = "Please select type of sport")]
+        public string SelectedSTypeId { set; get; }
+        public List<SelectListItem> OptionsRank { set; get; }
+
         public async Task<IActionResult> OnGetAsync(string id)
         {
-            if (id != null)
+            var rank = await _rankRepository.GetByIdAsync<Core.Entities.RankModel.Rank>(id);
+            if (rank == null)
             {
-                Rank = await _rankRepository.GetByIdAsync<Core.Entities.RankModel.Rank>(id);
+                return NotFound();
             }
+            ViewData["RankId"] = rank.Id;
+            await GetOptionAsync();
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync([Bind(Prefix = "Model")] List<Participant> model, string id)
+        public async Task<IActionResult> OnPostAsync([Bind(Prefix = "Model")] List<Participant> model, string rankId)
         {
-            if (!ModelState.IsValid || model.Count == 0)
+            if (!ModelState.IsValid || model.Count == 0 || rankId == null)
             {
+                await GetOptionAsync();
                 return Page();
             }
-            var rank = await _rankRepository.GetByIdAsync<Core.Entities.RankModel.Rank>(id);
+            var sType = await _rankRepository.GetByIdAsync<Core.Entities.RankModel.SportType>(SelectedSTypeId);
+            var rank = await _rankRepository.GetByIdAsync<Core.Entities.RankModel.Rank>(rankId);
             AppUser currentUser = await _userManager.GetUserAsync(User);
             Input.RankParticipant.Author = currentUser;
-            Input.RankParticipant.Rank = Rank;
+            Input.RankParticipant.SportType = sType;
+            Input.RankParticipant.Rank = rank;
             await _rankRepository.AddRankParticipantAsync(Input.RankParticipant);
             await _rankRepository.UpdateParticipantAsync(Input.RankParticipant, true, model.ToArray());
-            return RedirectToPage("/Rank/Index", new { slug = Rank.Slug, gender = Input.RankParticipant.Gender.ToString(), Weight = Input.RankParticipant.Weight.ToString()});
+            return RedirectToPage("/Rank/Index", new {location = rank.RankLocation.ToString(), slug = rank.Slug });
+        }
+
+        private async Task GetOptionAsync()
+        {
+            var sportTypes = await _rankRepository.GetListAsync<Core.Entities.RankModel.SportType>(i => i.IsDeleted == false);
+
+            OptionsRank = sportTypes.Select(a => new SelectListItem
+            {
+                Value = a.Id,
+                Text = a.Name
+            }).ToList();
         }
     }
 }

@@ -17,11 +17,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="breadcrumbs-content">
-                    <h1 class="page-title">@Localizer["Edit new Article"]</h1>
+                    <h1 class="page-title">@Localizer["Edit this Ranking"]</h1>
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a asp-area="" asp-page="/Index">@Localizer["Home"]</a></li>
-                    <li><a asp-page="/Rank/List">@Localizer["Rank"]</a></li>
+                    <li><a asp-page="/Rank/List" asp-route-location="World">@Localizer["Rank"]</a></li>
                 </ul>
             </div>
         </div>

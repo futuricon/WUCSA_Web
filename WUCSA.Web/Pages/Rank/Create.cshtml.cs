@@ -80,7 +80,7 @@ namespace WUCSA.Web.Pages.Rank
             Input.Rank.Author = currentUser;
             await _rankRepository.UpdateSportTypesAsync(Input.Rank, false, SelectedStypesId);
             await _rankRepository.AddRankAsync(Input.Rank);
-            return RedirectToPage("/Rank/List", new { loc = Input.Rank.RankLocation, gender = "Man"});
+            return RedirectToPage("/Rank/Index", new { location = Input.Rank.RankLocation, slug = Input.Rank.Slug});
         }
 
         //private void GetLocationOptions(string location)

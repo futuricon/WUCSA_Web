@@ -1,4 +1,4 @@
-﻿@page "{loc}/{gender}/{slug}"
+﻿@page "{location}/{slug}"
 @model WUCSA.Web.Pages.Rank.IndexModel
 @inject IViewLocalizer Localizer
 @{
@@ -45,7 +45,7 @@
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a asp-area="" asp-page="/Index">@Localizer["Home"]</a></li>
-                    <li><a asp-page="/Rank/List" asp-route-loc="world" asp-route-gender="men">@Localizer["Ranking"]</a></li>
+                    <li><a asp-page="/Rank/List" asp-route-location="world">@Localizer["Ranking"]</a></li>
                     @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                     {
                         <li>
@@ -62,7 +62,7 @@
     <div class="container">
         <div class="row mb-n5">
 
-            <div class="col-lg-8 col-12">
+            <div class="col-lg-8 col-12 mb-20">
                 <div class="rank-details-inner">
                     <div class="rank-details-head row mx-0">
 
@@ -144,7 +144,7 @@
                                             @rankParticipant.SportType.Name
                                             break;
                                     }
-                                    - @rankParticipant.Weight @Localizer["kg"]
+                                    - @rankParticipant.Weight @Localizer["kg"] - @Localizer[rankParticipant.Gender.ToString()]
                                 </h6>
 
                                 <div class="rank-items">
@@ -191,7 +191,7 @@
                                     <div class="actionBtn">
                                         <ul>
                                             <li><i class="lni lni-pencil"></i><a asp-page="/RankParticipant/Edit" asp-route-rankId="@Model.Rank.Id" asp-route-rankPartId="@rankParticipant.Id"> @Localizer["Edit"]</a></li>
-                                            <li><i class="lni lni-trash"></i><a asp-page="/RankParticipant/Delete" asp-route-rankPartId="@rankParticipant.Id"> @Localizer["Delete"]</a></li>
+                                            <li><i class="lni lni-trash"></i><a asp-page="/RankParticipant/Delete" asp-route-id="@rankParticipant.Id"> @Localizer["Delete"]</a></li>
                                         </ul>
                                     </div>
                                 }
@@ -212,7 +212,10 @@
                             <h6 class="title">Facebook</h6>
                             <div id="fb-root"></div>
                             <script async defer crossorigin="anonymous" src="https://connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v5.0"></script>
-                            <div class="fb-page" data-href="https://www.facebook.com/International-Combat-Aikido-Association-434807793270681/" data-tabs="timeline" data-width="" data-height="" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+                            <div class="fb-page" data-href="https://www.facebook.com/International-Combat-Aikido-Association-434807793270681/"
+                                 data-tabs="timeline" data-width="" data-height=""
+                                 data-small-header="false" data-adapt-container-width="true"
+                                 data-hide-cover="false" data-show-facepile="true">
                                 <blockquote cite="https://www.facebook.com/International-Combat-Aikido-Association-434807793270681/" class="fb-xfbml-parse-ignore">
                                     <a href="https://www.facebook.com/International-Combat-Aikido-Association-434807793270681/">International Combat Aikido Association</a>
                                 </blockquote>

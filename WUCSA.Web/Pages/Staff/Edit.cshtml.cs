@@ -83,6 +83,10 @@ namespace WUCSA.Web.Pages.Staff
                         _imageHelper.DeleteFile(certificate.CertPath);
                         certificate.CertPath = null;
                     }
+                    else if (UploadFiles.Length == 0)
+                    {
+                        continue;
+                    }
                     else if (certificate.CertName.Contains("new") && UploadFiles[counter] != null)
                     {
                         if (certificate.CertPath != null)
@@ -129,7 +133,7 @@ namespace WUCSA.Web.Pages.Staff
 
             await _staffRepository.UpdateCertificatesAsync(staff, false, Certificates);
             await _staffRepository.UpdateStaffAsync(staff);
-            return RedirectToPage("/Staff/Index");
+            return RedirectToPage("/Staff/List");
         }
     }
 }

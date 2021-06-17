@@ -9,11 +9,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="breadcrumbs-content">
-                    <h1 class="page-title">@Localizer["Delete Rank"]</h1>
+                    <h1 class="page-title">@Localizer["Delete Ranking"]</h1>
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a asp-area="" asp-page="/Index">@Localizer["Home"]</a></li>
-                    <li><a asp-page="/Rank/List">@Localizer["Rank"]</a></li>
+                    <li><a asp-page="/Rank/List" asp-route-location="World">@Localizer["Rank"]</a></li>
                 </ul>
             </div>
         </div>
@@ -106,19 +106,6 @@
                             </div>
                             <div class="col-lg-9 col-md-9 col-12">
                                 <h4>@Html.Raw(Model.Rank.DescriptionUz)</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="manage-content">
-                        <div class="row align-items-center justify-content-center">
-                            <div class="col-lg-3 col-md-3 col-12">
-                                <h3>@Html.DisplayNameFor(model => model.Rank.Slug)</h3>
-                            </div>
-                            <div class="col-lg-9 col-md-9 col-12">
-                                <h4>
-                                    https://wucsa.com/blog/
-                                    @Html.DisplayFor(model => model.Rank.Slug)
-                                </h4>
                             </div>
                         </div>
                     </div>

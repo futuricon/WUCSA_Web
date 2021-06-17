@@ -147,6 +147,9 @@
   <data name="Location" xml:space="preserve">
     <value>Локация</value>
   </data>
+  <data name="Man" xml:space="preserve">
+    <value>Мужчиный</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Имя</value>
   </data>
@@ -167,5 +170,8 @@
   </data>
   <data name="RankTitle" xml:space="preserve">
     <value>Всемирная Ассоциация Боевых Систем Усманова</value>
+  </data>
+  <data name="Woman" xml:space="preserve">
+    <value>Женщины</value>
   </data>
 </root>

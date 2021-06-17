@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -26,6 +27,8 @@ namespace WUCSA.Web.Pages.Admin.StaticPages
         public class InputModel
         {
             public Core.Entities.BlogModel.Blog Blog { get; set; }
+
+            [Required(ErrorMessage = "Please add Tags")]
             public string Tags { get; set; }
         }
 

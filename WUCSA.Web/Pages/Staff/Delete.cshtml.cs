@@ -55,11 +55,6 @@ namespace WUCSA.Web.Pages.Staff
 
             Staff = await _staffRepository.GetByIdAsync<Core.Entities.StaffModel.Staff>(id);
 
-            foreach (var certificate in Staff.Certificates)
-            {
-                _imageHelper.DeleteFile(certificate.CertPath);
-            }
-
             if (User.IsInRole("SuperAdmin"))
             {
                 if (Staff != null)
@@ -68,15 +63,15 @@ namespace WUCSA.Web.Pages.Staff
                     {
                         _imageHelper.RemoveImage(certificate.CertPath, "certificate_imgs");
                     }
-                    await _staffRepository.DeleteStaffAsync(Staff);
                     _imageHelper.RemoveImage(Staff.ProfilePhotoPath, "staff_imgs");
+                    await _staffRepository.DeleteStaffAsync(Staff);
                 }
             }
             else
             {
                 Staff.IsDeleted = true;
             }
-            return RedirectToPage("/Staff/Index");
+            return RedirectToPage("/Staff/List");
         }
     }
 }

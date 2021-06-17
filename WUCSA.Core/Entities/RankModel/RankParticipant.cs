@@ -31,8 +31,7 @@ namespace WUCSA.Core.Entities.RankModel
         [Display(Name = "Gender")]
         [EnumDataType(typeof(Gender))]
         public Gender Gender { get; set; }
-
-        [Required(ErrorMessage = "Please select type of sport")]
+        
         public virtual SportType SportType { get; set; }
 
         public virtual AppUser Author { get; set; }

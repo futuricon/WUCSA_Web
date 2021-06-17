@@ -114,6 +114,56 @@
     background: #f6f9fc
 }
 
+    .rank-list .select-location {
+        padding: 40px;
+        border-radius: 6px;
+        border: 1px solid #eee;
+        background-color: #fff;
+        margin-bottom: 30px;
+    }
+
+        .rank-list .select-location .buttonLoc .setActive {
+            display: inline-block;
+            text-transform: capitalize;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 15px 30px;
+            background-color: var(--main-blue-color);
+            color: #fff;
+            border: none;
+            -webkit-transition: 0.5s;
+            transition: 0.5s;
+            border-radius: 4px;
+        }
+
+            .rank-list .select-location .buttonLoc .setActive:hover {
+                background-color: var(--dark-blue-color);
+                color: #fff;
+                -webkit-box-shadow: 0 1rem 3rem rgba(35, 38, 45, 0.15) !important;
+                box-shadow: 0 1rem 3rem rgba(35, 38, 45, 0.15) !important;
+            }
+
+        .rank-list .select-location .buttonLoc .setDiactive {
+            display: inline-block;
+            text-transform: capitalize;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 15px 30px;
+            background-color: var(--main-blue-c-opacity-14);
+            color: var(--main-blue-color);
+            border: none;
+            -webkit-transition: 0.5s;
+            transition: 0.5s;
+            border-radius: 4px;
+        }
+
+            .rank-list .select-location .buttonLoc .setDiactive:hover {
+                background-color: var(--main-blue-color);
+                color: #fff;
+                -webkit-box-shadow: 0 1rem 3rem rgba(35, 38, 45, 0.15) !important;
+                box-shadow: 0 1rem 3rem rgba(35, 38, 45, 0.15) !important;
+            }
+
     .rank-list .single-news {
         margin: 0
     }
@@ -1007,7 +1057,6 @@ ul.custom-flex {
             font-weight: 700;
             color: var(--dark-blue-color);
             display: block;
-            margin-top: 30px;
             margin-bottom: 20px;
         }
 
@@ -1202,4 +1251,10 @@ ul.custom-flex {
     .rank-details .rank-items .manage-content h3 {
         margin: 5px 0;
     }
+}
+
+
+.bordered {
+    border-top: 1px solid #d5d5d5;
+    padding-top: 30px;
 }
