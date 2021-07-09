@@ -27,12 +27,16 @@ namespace WUCSA.Web.Pages.Gallery
         public string[] PopularTags { get; set; }
         public string RCName { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(string sortBy, string tag, int pageIndex = 1)
+        public async Task<IActionResult> OnGetAsync(string sort, string tag, int pageIndex = 1)
         {
             ViewData["tagData"] = tag;
-            ViewData["sortByData"] = sortBy;
+            if (sort == null)
+            {
+                sort = "latest";
+            }
+            
             RCName = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.UICulture.Name;
-            var medias = await GetSortedAsync(sortBy);
+            var medias = await GetSortedAsync(sort);
 
             if (tag != null)
             {
@@ -45,7 +49,8 @@ namespace WUCSA.Web.Pages.Gallery
             {
                 Medias = PaginatedList<Core.Entities.GalleryModel.Media>.Create(medias, pageIndex, 12);
             }
-
+            ViewData["sortByData"] = sort;
+            ViewData["pagePath"] = $"{sort}/{tag}";
             PopularTags = await GetPopularTagsAsync(medias);
             return Page();
         }
@@ -101,7 +106,7 @@ namespace WUCSA.Web.Pages.Gallery
                 switch (sortBy.ToLower())
                 {
                     case "popular":
-                        medias = (await _galleryRepository.GetListAsync<Core.Entities.GalleryModel.Media>()).Where(i => i.IsDeleted == false).OrderByDescending(i => i.LikesCount);
+                        medias = _galleryRepository.GetAll<Core.Entities.GalleryModel.Media>().Where(i => i.IsDeleted == false).OrderByDescending(i => i.LikesCount.Count);
                         break;
                     case "video":
                         medias = (await _galleryRepository.GetListAsync<Core.Entities.GalleryModel.Media>()).Where(i => i.IsDeleted == false && i.MediaType.ToString().ToLower() == "video");

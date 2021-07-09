@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -72,11 +69,11 @@ namespace WUCSA.Web.Pages.Rank
             {
                 if (Rank != null)
                 {
-                    await _rankRepositor.DeleteRankAsync(Rank);
                     if (Rank.RankPartsFilePath != null)
                     {
                         _pdfFileHelper.DeleteFile(Rank.RankPartsFilePath, "ranks");
                     }
+                    await _rankRepositor.DeleteRankAsync(Rank);
                 }
             }
             else
@@ -84,7 +81,7 @@ namespace WUCSA.Web.Pages.Rank
                 Rank.IsDeleted = true;
             }
 
-            return RedirectToPage("/Rank/List");
+            return RedirectToPage("/Rank/List", new { location = "World"});
         }
     }
 }

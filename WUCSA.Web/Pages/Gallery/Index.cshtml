@@ -1,11 +1,11 @@
-﻿@page "{sortBy?}/{tag?}"
+﻿@page "{sort?}/{tag?}"
 @using Core.Entities.GalleryModel
 @model WUCSA.Web.Pages.Gallery.IndexModel
 @namespace WUCSA.Models
 @inject IViewLocalizer Localizer
 @inject UserManager<AppUser> UserManager
 @{
-    ViewData["Title"] = $"{Localizer["Gallery"]} - {Localizer["WUCSA"]}";
+    ViewData["Title"] = $"{Localizer["Gallery"].Value} - {Localizer["WUCSA"].Value}";
     Layout = "_Layout";
 }
 
@@ -126,7 +126,7 @@
                 </div>
                 <div class="pagination center">
                     <ul class="pagination-list">
-                        <pagination class="mx-auto" page-index="@Model.Medias.PageIndex" total-pages="@Model.Medias.TotalPages" page-path="./gallery" base-url="/Gallery" />
+                        <pagination class="mx-auto" page-index="@Model.Medias.PageIndex" total-pages="@Model.Medias.TotalPages" page-path="/gallery/@ViewData["pagePath"]" base-url="/Gallery" />
                     </ul>
                 </div>
             </div>
@@ -144,16 +144,16 @@
                         <h5 class="widget-title"><span>@Localizer["Sort By"]</span></h5>
                         <ul class="custom">
                             <li>
-                                <a asp-page="/Gallery/Index" asp-route-sortBy="Latest" asp-route-tag="@ViewData["tagData"]">@Localizer["Latest"]</a>
+                                <a asp-page="/Gallery/Index" asp-route-sort="Latest" asp-route-tag="@ViewData["tagData"]">@Localizer["Latest"]</a>
                             </li>
                             <li>
-                                <a asp-page="/Gallery/Index" asp-route-sortBy="Popular" asp-route-tag="@ViewData["tagData"]">@Localizer["Popular"]</a>
+                                <a asp-page="/Gallery/Index" asp-route-sort="Popular" asp-route-tag="@ViewData["tagData"]">@Localizer["Popular"]</a>
                             </li>
                             <li>
-                                <a asp-page="/Gallery/Index" asp-route-sortBy="Video" asp-route-tag="@ViewData["tagData"]">@Localizer["Video"]</a>
+                                <a asp-page="/Gallery/Index" asp-route-sort="Video" asp-route-tag="@ViewData["tagData"]">@Localizer["Video"]</a>
                             </li>
                             <li>
-                                <a asp-page="/Gallery/Index" asp-route-sortBy="Images" asp-route-tag="@ViewData["tagData"]">@Localizer["Images"]</a>
+                                <a asp-page="/Gallery/Index" asp-route-sort="Images" asp-route-tag="@ViewData["tagData"]">@Localizer["Images"]</a>
                             </li>
                         </ul>
                     </div>
@@ -162,7 +162,7 @@
                         <div class="tags">
                             @foreach (var tag in Model.PopularTags)
                             {
-                                <a asp-page="/Gallery/Index" asp-route-sortBy="@ViewData["sortByData"]" asp-route-tag="@tag.Trim()">@tag</a>
+                                <a asp-page="/Gallery/Index" asp-route-sort="@ViewData["sortByData"]" asp-route-tag="@tag.Trim()">@tag</a>
                             }
                         </div>
                     </div>

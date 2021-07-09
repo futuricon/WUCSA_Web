@@ -126,6 +126,9 @@
   <data name="Edit this Event" xml:space="preserve">
     <value>Редактировать это Событие</value>
   </data>
+  <data name="Event Date" xml:space="preserve">
+    <value>Дата события</value>
+  </data>
   <data name="EventCard" xml:space="preserve">
     <value>События во Всемирной Ассоциации Боевых Систем Усманова</value>
   </data>
@@ -137,6 +140,9 @@
   </data>
   <data name="EventTitle" xml:space="preserve">
     <value>Всемирная Ассоциация Боевых Систем Усманова</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Место расположения</value>
   </data>
   <data name="Participants (PDF)" xml:space="preserve">
     <value>Участники (PDF)</value>

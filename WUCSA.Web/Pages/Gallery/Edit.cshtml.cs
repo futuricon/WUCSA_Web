@@ -26,7 +26,7 @@ namespace WUCSA.Web.Pages.Gallery
 
         public class InputModel
         {
-            public Core.Entities.GalleryModel.Media Media { get; set; }
+            public Media Media { get; set; }
             public IFormFile UploadPhoto { get; set; }
             public string Tags { get; set; }
         }
@@ -36,7 +36,7 @@ namespace WUCSA.Web.Pages.Gallery
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
-            var media = await _galleryRepository.GetByIdAsync<Core.Entities.GalleryModel.Media>(id);
+            var media = await _galleryRepository.GetByIdAsync<Media>(id);
 
             if (!User.IsInRole("SuperAdmin"))
             {

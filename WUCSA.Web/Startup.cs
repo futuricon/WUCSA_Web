@@ -35,7 +35,6 @@ namespace WUCSA.Web
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             SyncfusionLicenseProvider.RegisterLicense(Configuration.GetSection("SyncfusionLicenseKey").Value);
@@ -97,17 +96,8 @@ namespace WUCSA.Web
             services.AddHttpContextAccessor();
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
             services.AddRouting(options => options.LowercaseUrls = true);
-            //services.AddRazorPages(options =>
-            //{
-                //options.Conventions.AddPageRoute("/Blog/List", "/Blog");
-                //options.Conventions.AddPageRoute("/Staff/List", "/Staff");
-                ////options.Conventions.AddPageRoute("/Rank/List/{loc}/{gender}", "/Rank/{loc}/{gender}");
-                ////options.Conventions.AddPageRoute("/Rank/Index/{loc}/{gender}/{slug}", "/Rank/{loc}/{gender}/{slug}");
-                //options.Conventions.AddPageRoute("/SportType/List", "{culture}/SportType");
-            //});
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -118,7 +108,6 @@ namespace WUCSA.Web
             else
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -178,14 +167,6 @@ namespace WUCSA.Web
                 options.ClientSecret = googleAuthNSection["ClientSecret"];
                 options.AccessDeniedPath = "/AccessDeniedPathInfo";
             });
-            //.AddFacebook(options =>
-            //{
-            //    var facebookAuthSection = Configuration.GetSection("Authentication:Facebook");
-            //    options.AppId = facebookAuthSection["AppId"];
-            //    options.AppSecret = facebookAuthSection["AppSecret"];
-            //    options.AccessDeniedPath = "/AccessDeniedPathInfo";
-            //});
         }
-       
     }
 }

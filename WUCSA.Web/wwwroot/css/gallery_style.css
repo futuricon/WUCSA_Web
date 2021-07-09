@@ -96,12 +96,12 @@ input[type="file"] {
                 }
 
         .latest-news-area .single-news .content-body .title {
-            font-size: 18px;
+            font-size: 14px;
             line-height: 20px;
             margin-bottom: 18px;
             padding-bottom: 15px;
             position: relative;
-            font-weight: 500
+            font-weight: 400
         }
 
             .latest-news-area .single-news .content-body .title::before {

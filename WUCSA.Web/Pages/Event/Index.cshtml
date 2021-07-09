@@ -87,8 +87,8 @@
                                     <p>@Model.Event.Description</p>
                                     break;
                             }
-                            <h4>Event Date: @Model.Event.EventDate.ToString("dd MMMM, yyyy")</h4>
-                            <h4>Location: @Model.Event.Location</h4>
+                            <h4>@Localizer["Event Date"]: @Model.Event.EventDate.ToString("dd MMMM, yyyy")</h4>
+                            <h4>@Localizer["Location"]: @Model.Event.Location</h4>
                             <ul class="custom-flex event-meta mb-20">
                                 @switch (Model.RCName)
                                 {
