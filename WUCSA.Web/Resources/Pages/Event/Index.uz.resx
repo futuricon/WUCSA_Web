@@ -117,10 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AuthorFullName" xml:space="preserve">
+    <value>Usmanov Faxriddin</value>
+  </data>
   <data name="Event Date" xml:space="preserve">
     <value>Tadbir sanasi</value>
   </data>
+  <data name="EventCard" xml:space="preserve">
+    <value>Jahon Usmanov Combat Sistems Assotsiatsiyasining Tadbirlari</value>
+  </data>
+  <data name="EventKeyWords" xml:space="preserve">
+    <value>wucsa, World, Usmanov's, Combat, Systems, Association, Mir, Usmonov, Fight, Systems, Association, Faxriddin, Usmonov, xalqaro, Aykido, Federatsiya, Sport, Jang san'atlari, Ishtirokchilar, reyting, ro'yxat, Voqealar, Chempionatlar, musobaqalar</value>
+  </data>
+  <data name="Events" xml:space="preserve">
+    <value>Tadbirlar</value>
+  </data>
+  <data name="EventTitle" xml:space="preserve">
+    <value>Jahon Usmanov Combat Sistems Assotsiatsiyasining Tadbirlari</value>
+  </data>
   <data name="Location" xml:space="preserve">
     <value>Manzil</value>
+  </data>
+  <data name="Participants (PDF)" xml:space="preserve">
+    <value>Ishtirokchilar (PDF)</value>
+  </data>
+  <data name="Rules (PDF)" xml:space="preserve">
+    <value>Qoidalar (PDF)</value>
+  </data>
+  <data name="Social Share" xml:space="preserve">
+    <value>Social Share</value>
+  </data>
+  <data name="Top Events" xml:space="preserve">
+    <value>Ommabop Tadbirlar</value>
   </data>
 </root>
