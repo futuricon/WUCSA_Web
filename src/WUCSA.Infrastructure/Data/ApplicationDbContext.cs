@@ -22,11 +22,11 @@ namespace WUCSA.Infrastructure.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Server=wpl44.hosting.reg.ru;Database=u1389318_wucsa_db;User Id=u1389318_wucsa_user;Password=Vksuhrob19962514#; MultipleActiveResultSets=true")
-                    .UseLazyLoadingProxies();
-            }
+            //if (!optionsBuilder.IsConfigured)
+            //{
+            //    optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=WUCSA_DB;Trusted_Connection=True;MultipleActiveResultSets=true")
+            //        .UseLazyLoadingProxies();
+            //}
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
