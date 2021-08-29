@@ -53,6 +53,7 @@
 
 <div class="resume section">
     <div class="container">
+        @*Staff*@
         <div class="row">
             <div class="col-12">
                 <div class="section-title">
@@ -66,10 +67,10 @@
             else
             {
                 <div class="col-12">
-                    <div class="row grid">
+                    <div class="row">
                         @foreach (var Staff in Model.Staffs)
                         {
-                            <div class="col-lg-6 col-12 mt-20 grid-item">
+                            <div class="col-lg-4 col-md-6 col-12 mt-20 grid-item">
                                 <div class="inner-content">
                                     @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                                     {
@@ -82,9 +83,10 @@
                                     }
                                     <div class="personal-top-content">
                                         <div class="row">
-                                            <div class="col-lg-5 col-md-5 col-12">
-                                                <div class="name-head">
-                                                    <div class="image">
+                                            <h5 class="title-main align-right">@(new RegionInfo(Staff.CountryCode).EnglishName)&nbsp;&nbsp;<img src="https://www.countryflags.io/@Staff.CountryCode/flat/48.png"></h5>
+                                            <div class="col-12">
+                                                <div class="name-head row justify-content-center">
+                                                    <div class="image col-lg-6">
                                                         <a class="mb-2"><img class="resize-img" src="@Staff.ProfilePhotoPath" alt="@Staff.FirstName @Staff.LastName"></a>
                                                     </div>
                                                     <h4><a class="name">@Staff.FirstName @Staff.LastName</a></h4>
@@ -121,52 +123,60 @@
                                                         {
                                                             <li><a href="@Staff.TelegramUrl"><i class="lni lni-telegram-original"></i></a></li>
                                                         }
+                                                        @if (Staff.Email != null)
+                                                        {
+                                                            <li><a href="mailto:@Staff.Email"><i class="lni lni-envelope"></i></a></li>
+                                                        }
                                                     </ul>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-7 col-md-7 col-12">
+                                            @*<div class="col-lg-7 col-md-7 col-12">
                                                 <div class="content-right">
-                                                    <h5 class="title-main">@(new RegionInfo(Staff.CountryCode).DisplayName)&nbsp;&nbsp;<img src="https://www.countryflags.io/@Staff.CountryCode/flat/48.png"></h5>
-
+                                                   
                                                     <div class="row">
                                                         <div class="single-list col-12">
                                                             <h5 class="title">@Localizer["Address"]</h5>
                                                             <p><a>@Staff.Location</a></p>
                                                         </div>
-                                                        <div class="single-list col-12">
-                                                            <h5 class="title">@Localizer["E-mail"]</h5>
-                                                            <p><a href="mailto:@Staff.Email">@Staff.Email</a></p>
-                                                        </div>
-                                                        <div class="single-list col-12">
-                                                            <h5 class="title">@Localizer["Phone"]</h5>
-                                                            <p><a href="tel:@Staff.PhoneNumber">@Staff.PhoneNumber</a></p>
-                                                        </div>
+                                                        @if(Staff.PhoneNumber != null){
+                                                            <div class="single-list col-12">
+                                                                <h5 class="title">@Localizer["E-mail"]</h5>
+                                                                <p><a href="mailto:@Staff.Email">@Staff.Email</a></p>
+                                                            </div>
+                                                        }
+                                                        @if(Staff.PhoneNumber != null){
+                                                            <div class="single-list col-12">
+                                                                <h5 class="title">@Localizer["Phone"]</h5>
+                                                                <p><a href="tel:@Staff.PhoneNumber">@Staff.PhoneNumber</a></p>
+                                                            </div>
+                                                        }
                                                     </div>
 
                                                 </div>
-                                            </div>
+                                            </div>*@
                                         </div>
                                     </div>
+                                    @*@if(!String.IsNullOrEmpty(Staff.Description)){
+                                        <div class="single-section">
+                                            <h4>@Localizer["Information"]</h4>
+                                            <p class="font-size-4 mb-8">
+                                                @switch (Model.RCName)
+                                                {
+                                                    case "ru":
+                                                        @Staff.DescriptionRu
+                                                        break;
+                                                    case "uz":
+                                                        @Staff.DescriptionUz
+                                                        break;
+                                                    default:
+                                                        @Staff.Description
+                                                        break;
+                                                }
+                                            </p>
+                                        </div>
+                                    }*@
 
-                                    <div class="single-section">
-                                        <h4>@Localizer["Information"]</h4>
-                                        <p class="font-size-4 mb-8">
-                                            @switch (Model.RCName)
-                                            {
-                                                case "ru":
-                                                    @Staff.DescriptionRu
-                                                    break;
-                                                case "uz":
-                                                    @Staff.DescriptionUz
-                                                    break;
-                                                default:
-                                                    @Staff.Description
-                                                    break;
-                                            }
-                                        </p>
-                                    </div>
-
-                                    <div class="button">
+                                    <div class="button mt-3">
                                         <a asp-page="/Staff/Index" asp-route-slug="@Staff.Slug" class="btn">@Localizer["Read More"]</a>
                                     </div>
 
@@ -177,10 +187,140 @@
                 </div>
             }
         </div>
-        @*<div class="resume-inner">
+        @*Members*@
+         <div class="row">
+            <div class="col-12 mt-5">
+                <div class="section-title mt-5">
+                    <h2 class="wow fadeInUp" data-wow-delay=".4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">@Localizer["Our Representatives"]</h2>
+                </div>
+            </div>
+            @if (!Model.Staffs.Any())
+            {
+                <h4 class="empty-title">@Localizer["There are no any Members yet"]</h4>
+            }
+            else
+            {
+                <div class="col-12">
+                    <div class="row">
+                        @foreach (var Member in Model.Members)
+                        {
+                            <div class="col-lg-4 col-md-6 col-12 mt-20 grid-item">
+                                <div class="inner-content">
+                                    @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                                    {
+                                        <div class="meta-details">
+                                            <ul>
+                                                <li><a asp-page="/Staff/Edit" asp-route-id="@Member.Id"><i class="lni lni-pencil"></i>&nbsp;@Localizer["Edit"]</a></li>
+                                                <li><a asp-page="/Staff/Delete" asp-route-id="@Member.Id" class="del-btn"><i class="lni lni-trash"></i>&nbsp;@Localizer["Delete"]</a></li>
+                                            </ul>
+                                        </div>
+                                    }
+                                    <div class="personal-top-content">
+                                        <div class="row">
+                                            <h5 class="title-main align-right">@(new RegionInfo(Member.CountryCode).EnglishName)&nbsp;&nbsp;<img src="https://www.countryflags.io/@Member.CountryCode/flat/48.png"></h5>
+                                            <div class="col-12">
+                                                <div class="name-head row justify-content-center">
+                                                    <div class="image col-lg-6">
+                                                        <a class="mb-2"><img class="resize-img" src="@Member.ProfilePhotoPath" alt="@Member.FirstName @Member.LastName"></a>
+                                                    </div>
+                                                    <h4><a class="name">@Member.FirstName @Member.LastName</a></h4>
+                                                    <p>
+                                                        <a class="deg">
+                                                            @switch (Model.RCName)
+                                                            {
+                                                                case "ru":
+                                                                    @Member.PositionRu
+                                                                    break;
+                                                                case "uz":
+                                                                    @Member.PositionUz
+                                                                    break;
+                                                                default:
+                                                                    @Member.Position
+                                                                    break;
+                                                            }
+                                                        </a>
+                                                    </p>
+                                                    <ul class="social">
+                                                        @if (Member.FacebookUrl != null)
+                                                        {
+                                                            <li><a href="@Member.FacebookUrl"><i class="lni lni-facebook-original"></i></a></li>
+                                                        }
+                                                        @if (Member.InstagramUrl != null)
+                                                        {
+                                                            <li><a href="@Member.InstagramUrl"><i class="lni lni-instagram-original"></i></a></li>
+                                                        }
+                                                        @if (Member.TwitterUrl != null)
+                                                        {
+                                                            <li><a href="@Member.TwitterUrl"><i class="lni lni-twitter-original"></i></a></li>
+                                                        }
+                                                        @if (Member.TelegramUrl != null)
+                                                        {
+                                                            <li><a href="@Member.TelegramUrl"><i class="lni lni-telegram-original"></i></a></li>
+                                                        }
+                                                        @if (Member.Email != null)
+                                                        {
+                                                            <li><a href="mailto:@Member.Email"><i class="lni lni-envelope"></i></a></li>
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            @*<div class="col-lg-7 col-md-7 col-12">
+                                                <div class="content-right">
+                                                   
+                                                    <div class="row">
+                                                        <div class="single-list col-12">
+                                                            <h5 class="title">@Localizer["Address"]</h5>
+                                                            <p><a>@Staff.Location</a></p>
+                                                        </div>
+                                                        @if(Staff.PhoneNumber != null){
+                                                            <div class="single-list col-12">
+                                                                <h5 class="title">@Localizer["E-mail"]</h5>
+                                                                <p><a href="mailto:@Staff.Email">@Staff.Email</a></p>
+                                                            </div>
+                                                        }
+                                                        @if(Staff.PhoneNumber != null){
+                                                            <div class="single-list col-12">
+                                                                <h5 class="title">@Localizer["Phone"]</h5>
+                                                                <p><a href="tel:@Staff.PhoneNumber">@Staff.PhoneNumber</a></p>
+                                                            </div>
+                                                        }
+                                                    </div>
 
-            </div>*@
+                                                </div>
+                                            </div>*@
+                                        </div>
+                                    </div>
+                                    @*@if(!String.IsNullOrEmpty(Member.Description)){
+                                        <div class="single-section">
+                                            <h4>@Localizer["Information"]</h4>
+                                            <p class="font-size-4 mb-8">
+                                                @switch (Model.RCName)
+                                                {
+                                                    case "ru":
+                                                        @Member.DescriptionRu
+                                                        break;
+                                                    case "uz":
+                                                        @Member.DescriptionUz
+                                                        break;
+                                                    default:
+                                                        @Member.Description
+                                                        break;
+                                                }
+                                            </p>
+                                        </div>
+                                    }*@
 
+                                    <div class="button mt-3">
+                                        <a asp-page="/Staff/Index" asp-route-slug="@Member.Slug" class="btn">@Localizer["Read More"]</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 </div>
 
@@ -192,6 +332,9 @@
     <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
     <script>
         $(document).ready(function () {
+            $('.grid').masonry({
+                itemSelector: '.grid-item'
+            });
             resizer();
         });
         window.onresize = function () {
@@ -204,9 +347,6 @@
             $('.resize-img').css("height", cssHeight);
         }
 
-        $('.grid').masonry({
-            itemSelector: '.grid-item'
-        });
-
+        
     </script>
 }

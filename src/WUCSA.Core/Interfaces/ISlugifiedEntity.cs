@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WUCSA.Core.Interfaces
+﻿namespace WUCSA.Core.Interfaces
 {
     public interface ISlugifiedEntity
     {

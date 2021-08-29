@@ -135,6 +135,12 @@
   <data name="Information" xml:space="preserve">
     <value>Ma'lumot</value>
   </data>
+  <data name="Our Members" xml:space="preserve">
+    <value>Bizning a'zolarimiz</value>
+  </data>
+  <data name="Our Staff" xml:space="preserve">
+    <value>Bizning xodimlarimiz</value>
+  </data>
   <data name="Phone" xml:space="preserve">
     <value>Telefon</value>
   </data>

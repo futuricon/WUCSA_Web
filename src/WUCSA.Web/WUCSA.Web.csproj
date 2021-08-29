@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
     <UserSecretsId>aspnet-WUCSA.Web-EF682965-38E2-417F-B5D7-A67CC30D7F7E</UserSecretsId>
   </PropertyGroup>
 

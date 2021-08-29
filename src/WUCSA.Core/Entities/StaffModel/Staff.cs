@@ -24,6 +24,7 @@ namespace WUCSA.Core.Entities.StaffModel
         public string ProfilePhotoPath { get; set; }
 
         [Required(ErrorMessage = "Please select the country of the representative")]
+        [StringLength(5)]
         [Display(Name = "Country")]
         public string CountryCode { get; set; }
 
@@ -52,25 +53,21 @@ namespace WUCSA.Core.Entities.StaffModel
         [Display(Name = "Mansab")]
         public string PositionUz { get; set; }
 
-        [Required(ErrorMessage = "Please enter a representative's address")]
         [StringLength(100, ErrorMessage = "Characters must be less than 400")]
         [Display(Name = "Address")]
         public string Location { get; set; }
 
         [Display(Name = "Date of Birth")]
-        public DateTime BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
 
-        [Required(ErrorMessage = "Please enter some information")]
         [StringLength(400, ErrorMessage = "Characters must be less than 400")]
         [Display(Name = "Description")]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "Пожалуста напишите немного информации")]
         [StringLength(400, ErrorMessage = "Символов должно быть меньше 400")]
         [Display(Name = "Описание")]
         public string DescriptionRu { get; set; }
 
-        [Required(ErrorMessage = "Please enter some information")]
         [StringLength(400, ErrorMessage = "Belgilar 400 dan kam bo'lishi kerak")]
         [Display(Name = "Tavsif")]
         public string DescriptionUz { get; set; }
