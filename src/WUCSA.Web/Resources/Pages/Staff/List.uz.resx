@@ -138,6 +138,9 @@
   <data name="Our Members" xml:space="preserve">
     <value>Bizning a'zolarimiz</value>
   </data>
+  <data name="Our Representatives" xml:space="preserve">
+    <value>Bizning Vakillarimiz</value>
+  </data>
   <data name="Our Staff" xml:space="preserve">
     <value>Bizning xodimlarimiz</value>
   </data>

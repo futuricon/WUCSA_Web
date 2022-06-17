@@ -138,6 +138,9 @@
   <data name="Our Members" xml:space="preserve">
     <value>Наши Представители</value>
   </data>
+  <data name="Our Representatives" xml:space="preserve">
+    <value>Наши Представители</value>
+  </data>
   <data name="Our Staff" xml:space="preserve">
     <value>Наши сотрудники</value>
   </data>

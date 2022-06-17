@@ -135,6 +135,9 @@
   <data name="Edit this Member" xml:space="preserve">
     <value>Ushbu a'zoni tahrirlash</value>
   </data>
+  <data name="Home" xml:space="preserve">
+    <value>Bosh sahifa</value>
+  </data>
   <data name="Phone" xml:space="preserve">
     <value>Telefon</value>
   </data>
