@@ -32,6 +32,7 @@
 
 @section CSS {
     <link rel="stylesheet" href="~/css/event_style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
 }
 
 <div class="breadcrumbs overlay">
@@ -48,6 +49,7 @@
                     {
                         <li><a asp-page="/Event/Edit" asp-route-id="@Model.Event.Id">@Localizer["Edit this Event"]</a></li>
                         <li><a asp-page="/Event/Delete" asp-route-id="@Model.Event.Id">@Localizer["Delete this Event"]</a></li>
+                        <li><a asp-page="/EventFile/List" asp-route-id="@Model.Event.Id">@Localizer["Add Files to this Event"]</a></li>
                     }
                 </ul>
             </div>
@@ -75,19 +77,7 @@
                             <h2 class="event-title">
                                 <a asp-page="/Event/Index" asp-route-slug="@Model.Event.Slug">@ViewData["EventTitle"]</a>
                             </h2>
-                            @switch (Model.RCName)
-                            {
-                                case "ru":
-                                    <p>@Model.Event.DescriptionRu</p>
-                                    break;
-                                case "uz":
-                                    <p>@Model.Event.DescriptionUz</p>
-                                    break;
-                                default:
-                                    <p>@Model.Event.Description</p>
-                                    break;
-                            }
-                            <h4>@Localizer["Event Date"]: @Model.Event.EventDate.ToString("dd MMMM, yyyy")</h4>
+                            <h4>@Localizer["Event Date"]: @Model.Event.EventDate.ToString("dd MMMM, yyyy") - @Model.Event.EventEndDate.ToString("dd MMMM, yyyy")</h4>
                             <h4>@Localizer["Location"]: @Model.Event.Location</h4>
                             <ul class="custom-flex event-meta mb-20">
                                 @switch (Model.RCName)
@@ -112,10 +102,62 @@
                                         break;
                                 }
                             </ul>
+                            @if (Model.PromoVideoUrls != null)
+                            {
+                                foreach (var promUrl in Model.PromoVideoUrls)
+                                {
+                                    <div class="col-12 grid-item">
+                                        <div class="single-news">
+                                            <div class="image">
+                                                <a href="https://www.youtube.com/watch?v=@promUrl" class="glightbox">
+                                                            <i class="lni lni-play play-icon"></i>
+                                                            <img class="thumb" src="https://img.youtube.com/vi/@promUrl/hqdefault.jpg">
+                                                </a>
+                                             </div>
+                                         </div>
+                                   </div>
+                                }
+                            }
+
+                            @switch (Model.RCName)
+                            {
+                                case "ru":
+                                    <p>@Model.Event.DescriptionRu</p>
+                                    break;
+                                case "uz":
+                                    <p>@Model.Event.DescriptionUz</p>
+                                    break;
+                                default:
+                                    <p>@Model.Event.Description</p>
+                                    break;
+                            }
+                            
 
                             <div class="event-tags-media">
                                 <div class="event-tags popular-tag-widget mb-xl-40">
                                     <div class="tags">
+                                            @switch (Model.RCName)
+                                            {
+                                                case "ru":
+                                                    @foreach (var pdfFile in Model.EventFiles)
+                                                    {
+                                                        <a href="@pdfFile.Path"><i class="lni lni-download"></i>&nbsp;&nbsp;@pdfFile.TitleRu</a>
+                                                    }
+                                                    break;
+                                                case "uz":
+                                                    @foreach (var pdfFile in Model.EventFiles)
+                                                    {
+                                                        <a href="@pdfFile.Path"><i class="lni lni-download"></i>&nbsp;&nbsp;@pdfFile.TitleUz</a>
+                                                    }
+                                                    break;
+                                                default:
+                                                    @foreach (var pdfFile in Model.EventFiles)
+                                                    {
+                                                        <a href="@pdfFile.Path"><i class="lni lni-download"></i>&nbsp;&nbsp;@pdfFile.Title</a>
+                                                    }
+                                                    break;
+                                            }
+                                        @*
                                         @if (Model.Event.RulesFilePath != null)
                                         {
                                             <a href="@Model.Event.RulesFilePath"><i class="lni lni-download"></i>&nbsp;&nbsp;@Localizer["Rules (PDF)"]</a>
@@ -124,7 +166,7 @@
                                         @if (Model.Event.EventPartsFilePath != null)
                                         {
                                             <a href="@Model.Event.EventPartsFilePath"><i class="lni lni-download"></i>&nbsp;&nbsp;@Localizer["Participants (PDF)"]</a>
-                                        }
+                                        }*@
                                     </div>
                                 </div>
                             </div>
@@ -231,7 +273,13 @@
 </section>
 
 @section Scripts {
+    <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
     <script>
+        const lightbox = GLightbox({
+            touchNavigation: true,
+            loop: true,
+            autoplayVideos: true
+        });
         $(function () {
             var curentUrl = window.location.href;
             var encodedUrl = encodeURIComponent(curentUrl);

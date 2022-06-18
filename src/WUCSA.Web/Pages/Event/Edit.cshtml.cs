@@ -111,7 +111,9 @@ namespace WUCSA.Web.Pages.Event
             myEvent.DescriptionUz = Input.Event.DescriptionUz;
             myEvent.EventLocation = Input.Event.EventLocation;
             myEvent.EventDate = Input.Event.EventDate;
+            myEvent.EventEndDate = Input.Event.EventEndDate;
             myEvent.Location = Input.Event.Location;
+            myEvent.EventPromoVideo = Input.Event.EventPromoVideo;
             myEvent.Author = currentUser;
             myEvent.Slug = tempSlug.Slugify();
 
@@ -124,14 +126,14 @@ namespace WUCSA.Web.Pages.Event
             {
                 myEvent.CoverPhotoPath = _imageHelper.UploadCoverImage(Input.UploadCoverPhoto, Input.Event.Id, "event_imgs");
             }
-            if (Input.UploadPdfRules != null)
-            {
-                myEvent.RulesFilePath = await _pdfFileHelper.SaveFile(Input.UploadPdfRules, $"{Input.Event.Slug}-Rules", "events");
-            }
-            if (Input.UploadPdfParts != null)
-            {
-                myEvent.EventPartsFilePath = await _pdfFileHelper.SaveFile(Input.UploadPdfParts, $"{Input.Event.Slug}-Parts", "events");
-            }
+            //if (Input.UploadPdfRules != null)
+            //{
+            //    myEvent.RulesFilePath = await _pdfFileHelper.SaveFile(Input.UploadPdfRules, $"{Input.Event.Slug}-Rules", "events");
+            //}
+            //if (Input.UploadPdfParts != null)
+            //{
+            //    myEvent.EventPartsFilePath = await _pdfFileHelper.SaveFile(Input.UploadPdfParts, $"{Input.Event.Slug}-Parts", "events");
+            //}
 
             await _eventRepository.UpdateSportTypesAsync(myEvent, true, SelectedStypesId);
             await _eventRepository.UpdateEventAsync(myEvent);

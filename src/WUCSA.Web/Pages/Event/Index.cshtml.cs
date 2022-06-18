@@ -21,7 +21,9 @@ namespace WUCSA.Web.Pages.Event
         }
 
         public Core.Entities.EventModel.Event Event { get; set; }
+        public List<Core.Entities.EventModel.EventRelatedFile> EventFiles { get; set; }
         public List<Core.Entities.EventModel.Event> LatestEvents { get; set; }
+        public List<string> PromoVideoUrls { get; set; }
         public string RCName { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
@@ -35,6 +37,8 @@ namespace WUCSA.Web.Pages.Event
             {
                 return NotFound();
             }
+
+            EventFiles = Event.EventRelatedFiles.OrderBy(x=>x.OrderNumber).ToList();
 
             ViewData["KeyWords"] = string.Join(",", Event.EventSportTypes.Select(i=>i.SportType.Name).ToArray());
 
@@ -53,8 +57,13 @@ namespace WUCSA.Web.Pages.Event
                     ViewData["EventDescription"] = Core.Entities.EventModel.Event.GetShortContent(Event.Description, 200);
                     break;
             }
+            if (Event.EventPromoVideo != null)
+            {
+                PromoVideoUrls = Event.EventPromoVideo.Split(',').ToList();
+            }
 
             return Page();
         }
     }
 }
+

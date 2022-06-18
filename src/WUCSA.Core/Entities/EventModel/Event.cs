@@ -31,6 +31,9 @@ namespace WUCSA.Core.Entities.EventModel
         [Required(ErrorMessage = "Please enter the event date")]
         public DateTime EventDate { get; set; }
 
+        [Required(ErrorMessage = "Please enter the event end date")]
+        public DateTime EventEndDate { get; set; }
+
         [StringLength(80)]
         public string Slug { get; set; }
 
@@ -78,13 +81,17 @@ namespace WUCSA.Core.Entities.EventModel
         [Display(Name = "Event Location")]
         public string Location { get; set; }
 
+        [Display(Name = "URL of the event video")]
+        public string EventPromoVideo { get; set; }
+
         public virtual ICollection<EventParticipant> EventParticipants { get; set; } = new List<EventParticipant>();
 
         public virtual ICollection<EventSportType> EventSportTypes { get; set; } = new List<EventSportType>();
 
-        public string EventPartsFilePath { get; set; }
+        public virtual ICollection<EventRelatedFile> EventRelatedFiles { get; set; } = new List<EventRelatedFile>();
+        //public string EventPartsFilePath { get; set; }
 
-        public string RulesFilePath { get; set; }
+        //public string RulesFilePath { get; set; }
 
         public bool IsDeleted { get; set; }
 

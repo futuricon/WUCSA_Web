@@ -72,6 +72,9 @@ namespace WUCSA.Core.Entities.StaffModel
         [Display(Name = "Tavsif")]
         public string DescriptionUz { get; set; }
 
+        [Display(Name = "Order Number")]
+        public int OrderNumber { get; set; }
+
         public bool IsMember { get; set; }
 
         [StringLength(50, ErrorMessage = "Characters must be less than 50")]

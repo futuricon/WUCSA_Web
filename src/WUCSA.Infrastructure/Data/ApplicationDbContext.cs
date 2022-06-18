@@ -100,6 +100,12 @@ namespace WUCSA.Infrastructure.Data
                     .WithOne(m => m.Staff);
             });
 
+            builder.Entity<Event>(entity =>
+            {
+                entity.HasMany(m => m.EventRelatedFiles)
+                    .WithOne(m => m.Event);
+            });
+
             builder.Entity<EventParticipant>(entity =>
             {
                 entity.HasMany(m => m.Participants)

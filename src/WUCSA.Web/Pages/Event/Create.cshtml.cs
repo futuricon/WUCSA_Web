@@ -78,19 +78,19 @@ namespace WUCSA.Web.Pages.Event
             {
                 Input.Event.CoverPhotoPath = _imageHelper.UploadCoverImage(Input.UploadCoverPhoto, Input.Event.Id, "event_imgs");
             }
-            if (Input.UploadPdfRules != null)
-            {
-                Input.Event.RulesFilePath = await _pdfFileHelper.SaveFile(Input.UploadPdfRules, $"{Input.Event.Slug}-Rules", "events");
-            }
-            if (Input.UploadPdfParts != null)
-            {
-                Input.Event.EventPartsFilePath = await _pdfFileHelper.SaveFile(Input.UploadPdfParts, $"{Input.Event.Slug}-Parts", "events");
-            }
+            //if (Input.UploadPdfRules != null)
+            //{
+            //    Input.Event.RulesFilePath = await _pdfFileHelper.SaveFile(Input.UploadPdfRules, $"{Input.Event.Slug}-Rules", "events");
+            //}
+            //if (Input.UploadPdfParts != null)
+            //{
+            //    Input.Event.EventPartsFilePath = await _pdfFileHelper.SaveFile(Input.UploadPdfParts, $"{Input.Event.Slug}-Parts", "events");
+            //}
 
             Input.Event.Author = currentUser;
             await _eventRepository.UpdateSportTypesAsync(Input.Event, false, SelectedStypesId);
             await _eventRepository.AddEventAsync(Input.Event);
-            return RedirectToPage($"/Event/", new { slug = Input.Event.Slug});
+            return RedirectToPage($"/Event/Index", new { slug = Input.Event.Slug});
         }
 
         private async Task GetOptionAsync()

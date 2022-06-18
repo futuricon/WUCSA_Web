@@ -1,0 +1,96 @@
+﻿@page
+@using WUCSA.Core.Entities.EventModel
+@model WUCSA.Web.Pages.EventFile.EditModel
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "_Layout";
+}
+
+@section CSS {
+    <link rel="stylesheet" href="~/css/event_style.css" />
+}
+
+<div class="breadcrumbs overlay">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title">Edit Event</h1>
+                </div>
+                <ul class="breadcrumb-nav">
+                    <li><a asp-area="" asp-page="/Index">Home</a></li>
+                    <li><a asp-page="/Event/Index" asp-route-slug="Input.EventFile.Event.Slug">Event</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="section event-single">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-md-12 col-12 mx-auto">
+                <form enctype="multipart/form-data" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Input.EventFile.Id" />
+                    <input type="hidden" asp-for="Input.EventId" />
+                    <div class="single-inner">
+                        
+                       
+                        <div class="event-details mt-30">
+                            <div class="detail-inner row">
+                                
+                                <div class="col-lg-4 col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label class="control-label">@Localizer["PDF File"]</label>
+                                        <div class="button">
+                                            <a style="margin-bottom: 2%;" class="btn file-btn">
+                                                <span>@Localizer["Choose File"]</span>
+                                                <input type="file" asp-for="Input.UploadPdfParts" accept="application/pdf" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Input.EventFile.OrderNumber" class="control-label"></label>
+                                    <input asp-for="Input.EventFile.OrderNumber" class="form-control"/>
+                                    <span asp-validation-for="Input.EventFile.OrderNumber" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Input.EventFile.Title" class="control-label"></label>
+                                    <input asp-for="Input.EventFile.Title" class="form-control" />
+                                    <span asp-validation-for="Input.EventFile.Title" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Input.EventFile.TitleRu" class="control-label"></label>
+                                    <input asp-for="Input.EventFile.TitleRu" class="form-control" />
+                                    <span asp-validation-for="Input.EventFile.TitleRu" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Input.EventFile.TitleUz" class="control-label"></label>
+                                    <input asp-for="Input.EventFile.TitleUz" class="form-control" />
+                                    <span asp-validation-for="Input.EventFile.TitleUz" class="text-danger"></span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label asp-for="Input.EventFile.Path" class="control-label"></label>
+                                    <input asp-for="Input.EventFile.Path" class="form-control" />
+                                    <span asp-validation-for="Input.EventFile.Path" class="text-danger"></span>
+                                </div>
+
+                                <div class="col-4 mx-auto">
+                                    <div class="button form-group mt-4">
+                                        <input type="submit" value="Update" class="btn" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+

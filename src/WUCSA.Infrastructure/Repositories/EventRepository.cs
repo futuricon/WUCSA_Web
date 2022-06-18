@@ -86,5 +86,26 @@ namespace WUCSA.Infrastructure.Repositories
             return verifiedSlug;
         }
 
+        public async Task UpdateEventFileAsync(Event myEvent, EventRelatedFile myFile, bool deleted = false)
+        {
+            var oldFiles = myEvent.EventRelatedFiles.ToList();
+
+            if (deleted)
+            {
+                _context.Set<EventRelatedFile>().Remove(myFile);
+                myEvent.EventRelatedFiles.ToList().Remove(myFile);
+                await UpdateAsync(myEvent);
+                return;
+            }
+            if (!oldFiles.Any(i => i.Id == myFile.Id))
+            {
+                await _context.Set<EventRelatedFile>().AddAsync(myFile);
+                myEvent.EventRelatedFiles.Add(myFile);
+                await UpdateAsync(myEvent);
+                return;
+            }
+
+            await UpdateAsync(myFile);
+        }
     }
 }

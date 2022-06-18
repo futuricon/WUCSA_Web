@@ -73,14 +73,14 @@ namespace WUCSA.Web.Pages.Event
                     {
                         _imageHelper.RemoveImage(Event.CoverPhotoPath, "event_imgs");
                     }
-                    if (Event.RulesFilePath != null)
-                    {
-                        _pdfFileHelper.DeleteFile(Event.RulesFilePath, "events");
-                    }
-                    if (Event.EventPartsFilePath != null)
-                    {
-                        _pdfFileHelper.DeleteFile(Event.EventPartsFilePath, "events");
-                    }
+                    //if (Event.RulesFilePath != null)
+                    //{
+                    //    _pdfFileHelper.DeleteFile(Event.RulesFilePath, "events");
+                    //}
+                    //if (Event.EventPartsFilePath != null)
+                    //{
+                    //    _pdfFileHelper.DeleteFile(Event.EventPartsFilePath, "events");
+                    //}
                     await _eventRepository.DeleteEventAsync(Event);
                 }
             }

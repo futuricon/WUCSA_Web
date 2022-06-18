@@ -9,6 +9,7 @@ namespace WUCSA.Core.Interfaces.Repositories
         Task AddEventAsync(Event myEvent);
         Task UpdateEventAsync(Event myEvent);
         Task DeleteEventAsync(Event myEvent);
+        Task UpdateEventFileAsync(Event myEvent, EventRelatedFile myFile, bool deleted = false);
         Task UpdateSportTypesAsync(Event myEvent, bool saveChanges = true, params string[] sportTypesId);
     }
 }
