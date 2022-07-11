@@ -28,7 +28,7 @@ namespace WUCSA.Web.Pages.Staff
             var staffs = (await _staffRepository.GetListAsync<Core.Entities.StaffModel.Staff>()).Where(i => i.IsDeleted == false && i.IsMember == false);
 
             Members = members.OrderBy(i => i.Location).ToList();
-            Staffs = staffs.OrderBy(i => i.Id).ToList();
+            Staffs = staffs.OrderBy(i => i.OrderNumber).ToList();
 
             return Page();
         }

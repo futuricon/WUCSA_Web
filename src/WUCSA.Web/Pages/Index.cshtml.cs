@@ -45,7 +45,7 @@ namespace WUCSA.Web.Pages
             Events = events.OrderByDescending(i => i.EventDate).Take(3).ToList();
 
             var staffs = (await _staffRepository.GetListAsync<Core.Entities.StaffModel.Staff>()).Where(i => i.IsDeleted == false && i.IsMember == false);
-            Staffs = staffs.OrderBy(i => i.Id).ToList();
+            Staffs = staffs.OrderBy(i => i.OrderNumber).ToList();
 
             return Page();
         }
