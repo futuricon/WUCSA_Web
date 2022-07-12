@@ -119,6 +119,7 @@ namespace WUCSA.Web.Pages.Staff
             staff.TelegramUrl = Input.Staff.TelegramUrl;
             staff.PhoneNumber = Input.Staff.PhoneNumber;
             staff.Email = Input.Staff.Email;
+            staff.OrderNumber = Input.Staff.OrderNumber;
             var slugTitle = $"{Input.Staff.FirstName}_{Input.Staff.LastName}";
             staff.Slug = slugTitle.Slugify();
 
