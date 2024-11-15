@@ -27,6 +27,10 @@ namespace WUCSA.Core.Entities.StaffModel
         [StringLength(5)]
         [Display(Name = "Country")]
         public string CountryCode { get; set; }
+        
+        [StringLength(100)]
+        [Display(Name = "CountryName")]
+        public string CountryName { get; set; }
 
         [Required(ErrorMessage = "Please enter name")]
         [StringLength(40, ErrorMessage = "Characters must be less than 40")]
@@ -38,7 +42,7 @@ namespace WUCSA.Core.Entities.StaffModel
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Required(ErrorMessage = "Please enter a positiron")]
+        [Required(ErrorMessage = "Please enter a position")]
         [StringLength(80, ErrorMessage = "Characters must be less than 80")]
         [Display(Name = "Position")]
         public string Position { get; set; }

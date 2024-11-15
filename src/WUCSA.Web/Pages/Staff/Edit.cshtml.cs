@@ -108,6 +108,7 @@ namespace WUCSA.Web.Pages.Staff
             staff.PositionUz = Input.Staff.PositionUz;
             staff.BirthDate = Input.Staff.BirthDate;
             staff.CountryCode = Input.Staff.CountryCode;
+            staff.CountryName = Input.Staff.CountryName;
             staff.Description = Input.Staff.Description;
             staff.DescriptionRu = Input.Staff.DescriptionRu;
             staff.DescriptionUz = Input.Staff.DescriptionUz;

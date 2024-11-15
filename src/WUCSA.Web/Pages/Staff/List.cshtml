@@ -83,7 +83,14 @@
                                     }
                                     <div class="personal-top-content">
                                         <div class="row">
-                                            <h5 class="title-main align-right">@(new RegionInfo(Staff.CountryCode).EnglishName)&nbsp;&nbsp;<img src="https://flagcdn.com/32x24/@(Staff.CountryCode.ToLower()).png"></h5>
+                                            @if (Staff.CountryCode == "ww")
+                                            {
+                                            <h5 class="title-main align-right">@Staff.CountryName&nbsp;&nbsp;<img src="http://www.wucsa.com/images/32x24/ww.png"></h5>
+                                            }
+                                            else
+                                            {
+                                                <h5 class="title-main align-right">@(new RegionInfo(Staff.CountryCode).EnglishName)&nbsp;&nbsp;<img src="https://flagcdn.com/32x24/@(Staff.CountryCode.ToLower()).png"></h5>
+                                            }
                                             <div class="col-12">
                                                 <div class="name-head row justify-content-center">
                                                     <div class="image col-lg-6">
@@ -217,7 +224,14 @@
                                     }
                                     <div class="personal-top-content">
                                         <div class="row">
-                                            <h5 class="title-main align-right">@(new RegionInfo(Member.CountryCode).EnglishName)&nbsp;&nbsp;<img src="https://flagcdn.com/32x24/@(Member.CountryCode.ToLower()).png"></h5>
+                                            @if (Member.CountryCode == "ww")
+                                            {
+                                                <h5 class="title-main align-right">@Member.CountryName&nbsp;&nbsp;<img src="http://www.wucsa.com/images/32x24/ww.png"></h5>
+                                            }
+                                            else
+                                            {
+                                                <h5 class="title-main align-right">@(new RegionInfo(Member.CountryCode).EnglishName)&nbsp;&nbsp;<img src="https://flagcdn.com/32x24/@(Member.CountryCode.ToLower()).png"></h5>
+                                            }
                                             <div class="col-12">
                                                 <div class="name-head row justify-content-center">
                                                     <div class="image col-lg-6">
