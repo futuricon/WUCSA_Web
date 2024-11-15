@@ -83,7 +83,7 @@
                                     }
                                     <div class="personal-top-content">
                                         <div class="row">
-                                            @if (Staff.CountryCode == "ww")
+                                            @if (Staff.CountryCode.ToLower() == "ww")
                                             {
                                             <h5 class="title-main align-right">@Staff.CountryName&nbsp;&nbsp;<img src="http://www.wucsa.com/images/32x24/ww.png"></h5>
                                             }
@@ -224,7 +224,7 @@
                                     }
                                     <div class="personal-top-content">
                                         <div class="row">
-                                            @if (Member.CountryCode == "ww")
+                                            @if (Member.CountryCode.ToLower() == "ww")
                                             {
                                                 <h5 class="title-main align-right">@Member.CountryName&nbsp;&nbsp;<img src="http://www.wucsa.com/images/32x24/ww.png"></h5>
                                             }

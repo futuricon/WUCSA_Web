@@ -771,6 +771,10 @@ namespace WUCSA.Infrastructure.Migrations
                         .HasColumnType("nvarchar(5)")
                         .HasMaxLength(5);
 
+                    b.Property<string>("CountryName")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(400)")
                         .HasMaxLength(400);
