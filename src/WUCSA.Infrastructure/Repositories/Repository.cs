@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using WUCSA.Core.Entities.StaffModel;
 using WUCSA.Core.Interfaces;
 using WUCSA.Core.Interfaces.Repositories;
 using WUCSA.Infrastructure.Data;
@@ -29,6 +30,11 @@ namespace WUCSA.Infrastructure.Repositories
             return _context.Set<TEntity>().FirstOrDefaultAsync(predicate);
         }
 
+        public virtual Task<TEntity> GetLastStaffOrderNumberAsync<TEntity>() where TEntity : Staff, IEntity<string>
+        {
+            return _context.Set<TEntity>().OrderByDescending(o=>o.OrderNumber).FirstOrDefaultAsync();
+        }
+        
         public virtual Task<List<TEntity>> GetListAsync<TEntity>() where TEntity : class, IEntity<string>
         {
             return _context.Set<TEntity>().ToListAsync();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using WUCSA.Core.Entities.StaffModel;
 
 namespace WUCSA.Core.Interfaces.Repositories
 {
@@ -10,6 +11,7 @@ namespace WUCSA.Core.Interfaces.Repositories
     {
         Task<TEntity> GetByIdAsync<TEntity>(string id) where TEntity : class, IEntity<string>;
         Task<TEntity> GetAsync<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class, IEntity<string>;
+        Task<TEntity> GetLastStaffOrderNumberAsync<TEntity>() where TEntity : Staff, IEntity<string>;
         Task<List<TEntity>> GetListAsync<TEntity>() where TEntity : class, IEntity<string>;
         Task<List<TEntity>> GetListAsync<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class, IEntity<string>;
         IQueryable<TEntity> GetAll<TEntity>(Expression<Func<TEntity, bool>> predicate = null) where TEntity : class, IEntity<string>;

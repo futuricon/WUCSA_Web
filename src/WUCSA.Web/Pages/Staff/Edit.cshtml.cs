@@ -62,17 +62,17 @@ namespace WUCSA.Web.Pages.Staff
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync([Bind(Prefix = "Model")] Certificate[] Certificates, IFormFile[] UploadFiles)
+        public async Task<IActionResult> OnPostAsync([Bind(Prefix = "Model")] Certificate[] certificates, IFormFile[] uploadFiles)
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            if (Certificates.Length > 0)
+            if (certificates.Length > 0)
             {
-                int counter = 0;
-                foreach (var certificate in Certificates)
+                var counter = 0;
+                foreach (var certificate in certificates)
                 {
                     if (certificate.CertName.Contains("null"))
                     {
@@ -87,13 +87,13 @@ namespace WUCSA.Web.Pages.Staff
                     {
                         continue;
                     }
-                    else if (certificate.CertName.Contains("new") && UploadFiles[counter] != null)
+                    else if (certificate.CertName.Contains("new") && uploadFiles[counter] != null)
                     {
                         if (certificate.CertPath != null)
                         {
                             _imageHelper.DeleteFile(certificate.CertPath);
                         }
-                        certificate.CertPath = await _imageHelper.UploadSatffImage(UploadFiles[counter], $"{certificate.Id}_certificate", "certificate_imgs");
+                        certificate.CertPath = await _imageHelper.UploadSatffImage(uploadFiles[counter], $"{certificate.Id}_certificate", "certificate_imgs");
                         certificate.CertName = "old-" + certificate.Id;
                         counter++;
                     }
@@ -133,7 +133,7 @@ namespace WUCSA.Web.Pages.Staff
                 Input.Staff.ProfilePhotoPath = _imageHelper.GenerateImage($"{Input.Staff.Id}_staff_cover", "staff_imgs");
             }
 
-            await _staffRepository.UpdateCertificatesAsync(staff, false, Certificates);
+            await _staffRepository.UpdateCertificatesAsync(staff, false, certificates);
             await _staffRepository.UpdateStaffAsync(staff);
             return RedirectToPage("/Staff/List");
         }
