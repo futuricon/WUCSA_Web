@@ -1,28 +1,40 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="MailKit" Version="2.10.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.9" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.12" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.12">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.12" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.12" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.12">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Telegram.Bot" Version="15.7.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<!-- Почта -->
+		<PackageReference Include="MailKit" Version="4.12.1" />
 
-  <ItemGroup>
-    <ProjectReference Include="..\WUCSA.Core\WUCSA.Core.csproj" />
-  </ItemGroup>
+		<!-- ASP.NET Core Identity + EF Core -->
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore"
+						  Version="8.0.17" />
+		
+		<PackageReference Include="Microsoft.EntityFrameworkCore"
+						  Version="8.0.17" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design"
+						  Version="8.0.17" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies"
+						  Version="8.0.17" />
+
+		<!-- *** PostgreSQL provider вместо SqlServer *** -->
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"
+						  Version="8.0.10" />
+
+		<!-- Инструменты миграций (CLI) -->
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools"
+						  Version="8.0.17" PrivateAssets="all" />
+
+		<!-- Telegram-бот -->
+		<PackageReference Include="Telegram.Bot" Version="22.5.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\WUCSA.Core\WUCSA.Core.csproj" />
+	</ItemGroup>
 
 </Project>

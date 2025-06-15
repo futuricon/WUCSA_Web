@@ -21,11 +21,11 @@ namespace WUCSA.Core.Entities.BlogModel
         public string Content { get; set; }
 
         [StringLength(64, ErrorMessage = "Characters must be less than 64")]
-        public string AuthorName { get; set; }
+        public string? AuthorName { get; set; }
 
         [DataType(DataType.EmailAddress, ErrorMessage = "This is not valid email address")]
         [StringLength(64, ErrorMessage = "Characters must be less than 64")]
-        public string AuthorEmail { get; set; } 
+        public string? AuthorEmail { get; set; } 
 
         public DateTime PostedDate { get; set; } = DateTime.Now;
 
@@ -33,9 +33,9 @@ namespace WUCSA.Core.Entities.BlogModel
 
         public virtual AppUser Author { get; set; }
 
-        public virtual Comment ParentComment { get; set; }
+        public virtual Comment? ParentComment { get; set; }
 
-        public virtual Blog Blog { get; set; }
+        public virtual Blog? Blog { get; set; }
 
         public virtual ICollection<Comment> Replies { get; set; }
     }

@@ -19,14 +19,14 @@ namespace WUCSA.Core.Entities.UserModel
 
         [StringLength(40, ErrorMessage = "Characters must be less than 40")]
         [Display(Name = "Name")]
-        public string FirstName { get; set; }
+        public string? FirstName { get; set; }
 
         [StringLength(40, ErrorMessage = "Characters must be less than 40")]
         [Display(Name = "Last Name")]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
 
         [StringLength(100)]
-        public string ProfilePhotoPath { get; set; }
+        public string? ProfilePhotoPath { get; set; }
 
         [Display(Name = "Is Blocked")]
         public bool IsBlocked { get; set; }

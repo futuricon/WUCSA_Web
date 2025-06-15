@@ -1,4 +1,5 @@
-﻿@inject SignInManager<AppUser> SignInManager
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@inject SignInManager<AppUser> SignInManager
 @inject IViewLocalizer Localizer
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();

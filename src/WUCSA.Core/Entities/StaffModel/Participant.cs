@@ -51,8 +51,8 @@ namespace WUCSA.Core.Entities.StaffModel
         [Display(Name = "Representative from")]
         public string Location { get; set; }
 
-        public virtual EventParticipant EventParticipant { get; set; }
+        public virtual EventParticipant? EventParticipant { get; set; }
 
-        public virtual RankParticipant RankParticipant { get; set; }
+        public virtual RankParticipant? RankParticipant { get; set; }
     }
 }

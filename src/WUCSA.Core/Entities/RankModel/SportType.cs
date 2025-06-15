@@ -46,7 +46,7 @@ namespace WUCSA.Core.Entities.RankModel
         [Display(Name = "Mazmuni")]
         public string DescriptionUz { get; set; }
 
-        public string RulesFilePath { get; set; }
+        public string? RulesFilePath { get; set; }
 
         public virtual ICollection<EventSportType> EventSportTypes { get; set; }
 

@@ -1,38 +1,57 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <LangVersion>latest</LangVersion>
-    <UserSecretsId>aspnet-WUCSA.Web-EF682965-38E2-417F-B5D7-A67CC30D7F7E</UserSecretsId>
-  </PropertyGroup>
+	<!-- ───── Общие настройки ───── -->
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<!-- C# 12 уже по умолчанию, но можно явно: -->
+		<!-- <LangVersion>12.0</LangVersion> -->
+		<UserSecretsId>aspnet-WUCSA.Web-EF682965-38E2-417F-B5D7-A67CC30D7F7E</UserSecretsId>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="wwwroot\mediaUpload\**" />
-    <Content Remove="wwwroot\mediaUpload\**" />
-    <EmbeddedResource Remove="wwwroot\mediaUpload\**" />
-    <None Remove="wwwroot\mediaUpload\**" />
-  </ItemGroup>
+	<!-- ───── Исключения из сборки (оставляем как было) ───── -->
+	<ItemGroup>
+		<Compile Remove="wwwroot\mediaUpload\**" />
+		<Content Remove="wwwroot\mediaUpload\**" />
+		<EmbeddedResource Remove="wwwroot\mediaUpload\**" />
+		<None Remove="wwwroot\mediaUpload\**" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Include="wwwroot\node_modules\lineicons\dist\68caad34b1e80fa12b3a.woff" />
+	  <Content Include="wwwroot\node_modules\lineicons\dist\a9c9056a643325579e2a.ttf" />
+	  <Content Include="wwwroot\node_modules\lineicons\dist\d495aba62101f856c80f.eot" />
+	  <Content Include="wwwroot\node_modules\lineicons\dist\lineicons.css" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="7.23.2.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="3.1.12" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.12" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="3.1.12" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.12" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.12" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.12" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.12" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.12">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
-    <PackageReference Include="NIdenticon" Version="1.4.0" />
-    <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
-    <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
-    <PackageReference Include="SuxrobGM.Sdk" Version="0.3.9" />
-    <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="19.1.0.63" />
+	<!-- ───── NuGet-пакеты ───── -->
+	<ItemGroup>
+		<!-- Графика -->
+		<PackageReference Include="Magick.NET-Q16-AnyCPU" Version="13.10.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.17" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.17" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.17">
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+
+		<!-- Identity -->
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.17" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.17" />
+		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.17" />
+
+		<!-- Аутентификация по внешним провайдерам.
+         В .NET 8 эти пакеты уже лежат в shared-framework, поэтому можно
+         УДАЛИТЬ явные ссылки, если не хотите фиксировать версию.
+         Оставляем пример для Google (версия 8.0.5). -->
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.17" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
+		<PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+
+		<PackageReference Include="NIdenticon" Version="1.5.0" />
+        <PackageReference Include="SuxrobGM.Sdk" Version="0.3.9" />
+        <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="19.1.0.63" />
   </ItemGroup>
 
   <ItemGroup>
@@ -50,6 +69,13 @@
     <Folder Include="wwwroot\pdfFiles\events\" />
     <Folder Include="wwwroot\pdfFiles\sportTypes\" />
     <Folder Include="wwwroot\pdfFiles\ranks\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\node_modules\lineicons\dist\6b042d50787d4a81d659.svg" />
+    <None Include="wwwroot\node_modules\lineicons\dist\9065bfe481020b04b68a.woff2" />
+    <None Include="wwwroot\node_modules\lineicons\dist\bundle.js" />
+    <None Include="wwwroot\node_modules\lineicons\dist\lineicons.js" />
   </ItemGroup>
 
   <ItemGroup>

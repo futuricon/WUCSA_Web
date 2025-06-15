@@ -30,7 +30,7 @@ namespace WUCSA.Core.Entities.StaffModel
         
         [StringLength(100)]
         [Display(Name = "CountryName")]
-        public string CountryName { get; set; }
+        public string? CountryName { get; set; }
 
         [Required(ErrorMessage = "Please enter name")]
         [StringLength(40, ErrorMessage = "Characters must be less than 40")]
@@ -59,22 +59,22 @@ namespace WUCSA.Core.Entities.StaffModel
 
         [StringLength(100, ErrorMessage = "Characters must be less than 400")]
         [Display(Name = "Address")]
-        public string Location { get; set; }
+        public string? Location { get; set; }
 
         [Display(Name = "Date of Birth")]
         public DateTime? BirthDate { get; set; }
 
         [StringLength(400, ErrorMessage = "Characters must be less than 400")]
         [Display(Name = "Description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [StringLength(400, ErrorMessage = "Символов должно быть меньше 400")]
         [Display(Name = "Описание")]
-        public string DescriptionRu { get; set; }
+        public string? DescriptionRu { get; set; }
 
         [StringLength(400, ErrorMessage = "Belgilar 400 dan kam bo'lishi kerak")]
         [Display(Name = "Tavsif")]
-        public string DescriptionUz { get; set; }
+        public string? DescriptionUz { get; set; }
 
         [Display(Name = "Order Number")]
         public int OrderNumber { get; set; }
@@ -83,27 +83,27 @@ namespace WUCSA.Core.Entities.StaffModel
 
         [StringLength(50, ErrorMessage = "Characters must be less than 50")]
         [Display(Name = "Facebook")]
-        public string FacebookUrl { get; set; }
+        public string? FacebookUrl { get; set; }
 
         [StringLength(50, ErrorMessage = "Characters must be less than 50")]
         [Display(Name = "Instagram")]
-        public string InstagramUrl { get; set; }
+        public string? InstagramUrl { get; set; }
 
         [StringLength(50, ErrorMessage = "Characters must be less than 50")]
         [Display(Name = "Twitter")]
-        public string TwitterUrl { get; set; }
+        public string? TwitterUrl { get; set; }
 
         [StringLength(50, ErrorMessage = "Characters must be less than 50")]
         [Display(Name = "Telegram")]
-        public string TelegramUrl { get; set; }
+        public string? TelegramUrl { get; set; }
 
         [StringLength(20, ErrorMessage = "Characters must be less than 20")]
         [Display(Name = "Phone Number")]
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
 
         [StringLength(30, ErrorMessage = "Characters must be less than 30")]
         [Display(Name = "E-mail")]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         public virtual ICollection<Certificate> Certificates { get; set; } = new List<Certificate>();
 

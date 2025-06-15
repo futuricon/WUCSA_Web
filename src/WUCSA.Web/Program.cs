@@ -1,55 +1,150 @@
-using System;
+﻿using System.Globalization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Localization.Routing;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Serilog;
+using Syncfusion.Licensing;
+using WUCSA.Core.Entities.UserModel;
+using WUCSA.Core.Interfaces;
+using WUCSA.Core.Interfaces.Repositories;
 using WUCSA.Infrastructure.Data;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using WUCSA.Infrastructure.Repositories;
+using WUCSA.Infrastructure.Services;
+using WUCSA.Web.Resources;
+using WUCSA.Web.Utils;
+using WUCSA.Web.ViewComponents;
 
-namespace WUCSA.Web
+var builder = WebApplication.CreateBuilder(args);
+
+// ──────────────────── журналирование ───────────────────
+builder.Host.UseSerilog((ctx, lc) => lc.ReadFrom.Configuration(ctx.Configuration));
+
+// ──────────────────── лицензия Syncfusion ───────────────
+SyncfusionLicenseProvider.RegisterLicense(
+    builder.Configuration["SyncfusionLicenseKey"]);
+
+// ──────────────────── Razor Pages + маршрутизация ───────
+builder.Services.AddRazorPages(opt =>
 {
-    public class Program
+    opt.Conventions.Add(new CultureTemplatePageRouteModelConvention());
+})
+.AddViewLocalization()
+.AddDataAnnotationsLocalization(o =>
+{
+    o.DataAnnotationLocalizerProvider = (_, factory) =>
+        factory.Create(typeof(SharedResource));
+});
+
+builder.Services.AddRouting(o => o.LowercaseUrls = true);
+
+// ──────────────────── локализация ───────────────────────
+builder.Services.AddLocalization(opts => opts.ResourcesPath = "Resources");
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supported = new[] { new CultureInfo("en"), new CultureInfo("ru"), new CultureInfo("uz") };
+    options.DefaultRequestCulture = new RequestCulture("en");
+    options.SupportedCultures = supported;
+    options.SupportedUICultures = supported;
+    options.RequestCultureProviders.Insert(0,
+        new RouteDataRequestCultureProvider { Options = options });
+});
+
+// ──────────────────── EF Core + DbContext ───────────────
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(
+            builder.Configuration.GetConnectionString("WUCSA_DB"))
+           .UseLazyLoadingProxies());
+
+// ──────────────────── Identity + аутентификация ─────────
+builder.Services.AddDefaultIdentity<AppUser>()
+    .AddRoles<UserRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.Configure<IdentityOptions>(opt =>
+{
+    opt.Password.RequiredLength = 8;
+    opt.Password.RequireDigit = true;
+    opt.Password.RequireUppercase = false;
+    opt.Password.RequireNonAlphanumeric = false;
+    opt.User.AllowedUserNameCharacters = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789_.-@";
+    opt.User.RequireUniqueEmail = true;
+    opt.SignIn.RequireConfirmedAccount = true;
+    opt.SignIn.RequireConfirmedEmail = true;
+    opt.Lockout.AllowedForNewUsers = true;
+    opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+    opt.Lockout.MaxFailedAccessAttempts = 3;
+});
+
+builder.Services.Configure<SecurityStampValidatorOptions>(o =>
+    o.ValidationInterval = TimeSpan.Zero);
+
+builder.Services.AddAuthentication()
+    .AddGoogle(o =>
     {
-        public static void Main(string[] args)
-        {
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
+        var g = builder.Configuration.GetSection("Authentication:Google");
+        o.ClientId     = g["ClientId"];
+        o.ClientSecret = g["ClientSecret"];
+        o.AccessDeniedPath = "/AccessDeniedPathInfo";
+    });
 
-            Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(configuration)
-                .CreateLogger();
+// ──────────────────── инфраструктурные сервисы ──────────
+builder.Services.AddTransient<IEmailService, EmailService>();
+builder.Services.AddScoped<IRepository, Repository>();
+builder.Services.AddScoped<IBlogRepository, BlogRepository>();
+builder.Services.AddScoped<IEventRepository, EventRepository>();
+builder.Services.AddScoped<IGalleryRepository, GalleryRepository>();
+builder.Services.AddScoped<IRankRepository, RankRepository>();
+builder.Services.AddScoped<IStaffRepository, StaffRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-            try
-            {
-                Log.Information("Application Starting Up");
+builder.Services.AddScoped<ImageHelper>();
+builder.Services.AddScoped<PDFFileHelper>();
+builder.Services.AddHttpContextAccessor();
 
-                var host = CreateHostBuilder(args).Build();
+builder.Services.Configure<CookiePolicyOptions>(o =>
+{
+    o.CheckConsentNeeded       = _ => true;
+    o.MinimumSameSitePolicy    = SameSiteMode.None;
+});
 
-                using var scope = host.Services.CreateScope();
-                var serviceProvider = scope.ServiceProvider;
-                SeedData.Initialize(serviceProvider);
+builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
 
-                host.Run();
-            }
-            catch (Exception ex)
-            {
-                Log.Fatal(ex, "The application failed to start correctly.");
-            }
-            finally
-            {
-                Log.CloseAndFlush();
-            }
-        }
+// ──────────────────── билд ──────────────────────────────
+var app = builder.Build();
 
-        public static IHostBuilder CreateHostBuilder(string[] args)
-        {
-            return Host.CreateDefaultBuilder(args)
-                .UseSerilog()
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                webBuilder.UseStartup<Startup>();
-                });
-        }
-    }
+// ──────────────────── конвейер HTTP ─────────────────────
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    app.UseMigrationsEndPoint();                // замена UseDatabaseErrorPage
 }
+else
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseSerilogRequestLogging();
+
+app.UseRouting();
+
+var locOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value;
+app.UseRequestLocalization(locOptions);
+
+app.UseCookiePolicy();
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapRazorPages();
+
+// ──────────────────── инициализация БД/сидов ────────────
+await using var scope = app.Services.CreateAsyncScope();
+await SeedData.InitializeAsync(scope.ServiceProvider);
+
+app.Run();

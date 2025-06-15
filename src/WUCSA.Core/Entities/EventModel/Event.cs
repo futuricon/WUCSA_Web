@@ -43,7 +43,7 @@ namespace WUCSA.Core.Entities.EventModel
         public virtual AppUser Author { get; set; }
 
         [Display(Name = "Results of the passed event")]
-        public virtual Rank Rank { get; set; }
+        public virtual Rank? Rank { get; set; }
 
         [Required(ErrorMessage = "Please select location")]
         [Display(Name = "Location")]
@@ -82,17 +82,14 @@ namespace WUCSA.Core.Entities.EventModel
         public string Location { get; set; }
 
         [Display(Name = "URL of the event video")]
-        public string EventPromoVideo { get; set; }
+        public string? EventPromoVideo { get; set; }
 
         public virtual ICollection<EventParticipant> EventParticipants { get; set; } = new List<EventParticipant>();
 
         public virtual ICollection<EventSportType> EventSportTypes { get; set; } = new List<EventSportType>();
 
         public virtual ICollection<EventRelatedFile> EventRelatedFiles { get; set; } = new List<EventRelatedFile>();
-        //public string EventPartsFilePath { get; set; }
-
-        //public string RulesFilePath { get; set; }
-
+        
         public bool IsDeleted { get; set; }
 
         public static string GetShortContent(string articleContent, int length)

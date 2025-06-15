@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WUCSA.Core.Entities.UserModel;
@@ -9,7 +7,7 @@ namespace WUCSA.Infrastructure.Data
 {
     public class SeedData
     {
-        public static async void Initialize(IServiceProvider service)
+        public static async Task InitializeAsync(IServiceProvider service)
         {
             await CreateUserRolesAsync(service);
             await AddSuperAdminRoleToSiteOwnerAsync(service);
@@ -29,9 +27,9 @@ namespace WUCSA.Infrastructure.Data
                 {
                     await roleManager.CreateAsync(new UserRole(Role.SuperAdmin));
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    Console.WriteLine(e.InnerException.Message);
+                    Console.WriteLine(ex.InnerException?.Message);
                 }
                 
             }
@@ -62,8 +60,8 @@ namespace WUCSA.Infrastructure.Data
             var userManager = service.GetRequiredService<UserManager<AppUser>>();
             var config = service.GetRequiredService<IConfiguration>();
 
-            var UserAccount = await userManager.FindByNameAsync("Futuricon");
-            if (UserAccount == null)
+            var userAccount = await userManager.FindByNameAsync("Futuricon");
+            if (userAccount == null)
             {
                 try
                 {
@@ -73,27 +71,27 @@ namespace WUCSA.Infrastructure.Data
                         Email = "kudratovsuhrob@gmail.com",
                         EmailConfirmed = true
                     },
-                    config.GetSection("EmailPassword").Value);
+                    config.GetSection("EmailPassword").Value ?? "123456");
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    Console.WriteLine(e.InnerException.Message);
+                    Console.WriteLine(ex.InnerException?.Message);
                 }
                 
             }
 
             try
             {
-                var hasSuperAdminRole = await userManager.IsInRoleAsync(UserAccount, Role.SuperAdmin.ToString());
+                var hasSuperAdminRole = await userManager.IsInRoleAsync(userAccount, Role.SuperAdmin.ToString());
 
                 if (!hasSuperAdminRole)
                 {
-                    await userManager.AddToRoleAsync(UserAccount, Role.SuperAdmin.ToString());
+                    await userManager.AddToRoleAsync(userAccount, Role.SuperAdmin.ToString());
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e.InnerException.Message);
+                Console.WriteLine(ex.InnerException?.Message);
             }
         }
     }

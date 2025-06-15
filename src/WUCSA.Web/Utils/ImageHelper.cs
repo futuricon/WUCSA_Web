@@ -1,15 +1,9 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Devcorner.NIdenticon;
-using Devcorner.NIdenticon.BrushGenerators;
 using ImageMagick;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
+using NIdenticon;
+using NIdenticon.BrushGenerators;
 
 namespace WUCSA.Web.Utils
 {
@@ -26,15 +20,6 @@ namespace WUCSA.Web.Utils
             _env = env;
         }
 
-        /// <summary>
-        /// Upload image file to server
-        /// </summary>
-        /// <param name="image">Image file from form</param>
-        /// <param name="imageFileName">Image file name without extension</param>
-        /// <param name="resizeToQuadratic">Flag that indicates resize image to quadratic proportion</param>
-        /// <param name="resizeToRectangle">Flag that indicates resize image to rectangle proportion</param>
-        /// <returns>Output file path</returns>var g = new IdenticonGenerator();
-        
         private UInt16 GetRandRgbNum()
         {
             return Convert.ToUInt16(new Random().Next(new Random().Next(0, 14), new Random().Next(16, 200)));
@@ -62,22 +47,22 @@ namespace WUCSA.Web.Utils
                 .WithBackgroundColor(Color.White)
                 .WithBrushGenerator(statColor)
                 .WithBlockGenerators(IdenticonGenerator.DefaultBlockGeneratorsConfig);
-            var mybitmap = g.Create(fileName);
+            var myBitmap = g.Create(fileName);
             var imagePath = $"{fileName}{".png"}";
             var absolutePath = Path.Combine(_env.WebRootPath, "img", subFolder, imagePath);
-            mybitmap.Save(absolutePath, ImageFormat.Png);
+            myBitmap.Save(absolutePath, ImageFormat.Png);
             return $"/img/{subFolder}/{imagePath}";
         }
 
         public string UploadPostCoverImage(string base64img, string fileName)
         {
-            Regex regex = new Regex(@"^[\w/\:.-]+;base64,");
+            var regex = new Regex(@"^[\w/\:.-]+;base64,");
             base64img = regex.Replace(base64img, string.Empty);
 
             var imagePath = $"{fileName}{".png"}";
             var absolutePath = Path.Combine(_env.WebRootPath, "img", "profile_imgs", imagePath);
 
-            byte[] imageBytes = Convert.FromBase64String(base64img);
+            var imageBytes = Convert.FromBase64String(base64img);
             File.WriteAllBytes(absolutePath, imageBytes);
 
             return $"/img/profile_imgs/{imagePath}";
@@ -118,7 +103,7 @@ namespace WUCSA.Web.Utils
 
         public static byte[] ImageToByte(Image img)
         {
-            ImageConverter converter = new ImageConverter();
+            var converter = new ImageConverter();
             return (byte[])converter.ConvertTo(img, typeof(byte[]));
         }
 
